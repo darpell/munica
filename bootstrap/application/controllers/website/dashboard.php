@@ -1,0 +1,53 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class Dashboard extends CI_Controller
+{
+	public function __construct()
+	{
+		parent::__construct();
+		//$this->load->model('threshold_model','model');
+	}
+	
+	function index()
+	{
+		$this->load->model('notif');
+		$data['notif_count'] = count($this->notif->getnotifs($this->session->userdata('TPusername')));
+		
+		$this->load->model('master_list_model');
+		$data['hh_num'] = $this->master_list_model->get_hh_count();
+		
+		$this->load->model('user_model');
+		$data['bhw_ctr'] = $this->db->get_where('users', array('user_type' => 'bhw'))->num_rows();
+		$data['mw_ctr'] = $this->db->get_where('users', array('user_type' => 'midwife'))->num_rows();
+		
+		$this->load->view('site/dashboard',$data);
+	}
+	
+	function notifications()
+	{
+		
+	}
+	
+	function cases()
+	{
+		
+	}
+	
+	function general_count()
+	{
+		
+	}
+	
+	function map()
+	{
+		
+	}
+	
+	function distribution()
+	{
+		
+	}
+}
+
+/* End of file dashboard.php */
+/* Location: ./application/controllers/website/cho/dashboard.php */

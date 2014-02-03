@@ -1,0 +1,1 @@
+<script language="javascript" type="text/javascript" src="<?php echo base_url(); ?>application/views/scripts/datetimepicker.js"></script>
