@@ -13,8 +13,8 @@ class Dashboard extends CI_Controller
 		$this->load->model('notif');
 		$data['notif_count'] = count($this->notif->getnotifs($this->session->userdata('TPusername')));
 		
-		$this->load->model('master_list_model');
-		$data['hh_num'] = $this->master_list_model->get_hh_count();
+		$this->load->model('hh_model');
+		$data['hh_num'] = $this->hh_model->get_hh_count();
 		
 		$this->load->model('user_model');
 		$data['bhw_ctr'] = $this->db->get_where('users', array('user_type' => 'bhw'))->num_rows();

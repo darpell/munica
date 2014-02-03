@@ -77,20 +77,6 @@
 				$query->free_result();
 			
 		}
-		
-		function get_hh_count()
-		{
-			$this->db->select('count(*) as total');
-			$this->db->from('household_address');
-				
-			$query = $this->db->get();
-			if ($query->num_rows() > 0)
-			{
-				$row = $query->row_array();
-					
-				return $row['total'];
-			}
-		}
 	}
 
 /* End of master_list_model.php */
