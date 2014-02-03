@@ -31,8 +31,9 @@ body { height:100% }
 			</div>
 			<div class="panel-body">
 				<ul class="nav nav-pills nav-stacked">
-					<li> <a href="#"> Notifications <span class="badge pull-right"> <?= $notif_count?> </span></a> </li>
+					<li> <a href="<?= site_url('website/notifications') ?>"> Notifications <span class="badge pull-right"> <?= $notif_count?> </span></a> </li>
 					<li> <a href=""> Analytics</a> </li>
+					<li> <a href="<?= site_url('website/households') ?>"> Households </a> </li>
 				</ul>
 			</div>
 		</div>
