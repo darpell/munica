@@ -24,7 +24,7 @@ body { height:100% }
 <body onload="initialize()">
 <!-- CONTENT -->
 <div class="col-md-3">		
-		<!-- Notifications -->
+		<!-- Links -->
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<h3 class="panel-title"> Links </h3>
@@ -33,11 +33,11 @@ body { height:100% }
 				<ul class="nav nav-pills nav-stacked">
 					<li> <a href="<?= site_url('website/notifications') ?>"> Notifications <span class="badge pull-right"> <?= $notif_count?> </span></a> </li>
 					<li> <a href=""> Analytics</a> </li>
-					<li> <a href="<?= site_url('website/households') ?>"> Households <span class="badge pull-right"><?= $hh_num ?></span></a> </li>
+					<li> <a href="<?= site_url('website/households/filter_brgys') ?>"> Households <span class="badge pull-right"><?= $hh_num ?></span></a> </li>
 				</ul>
 			</div>
 		</div>
-		<!-- end of Notifications -->
+		<!-- end of Links -->
 		
 		<!-- Cases -->
 		<div class="panel panel-primary">

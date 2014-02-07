@@ -9,10 +9,53 @@ class Households extends CI_Controller
 		$this->load->model('barangay_model');
 	}
 	
-	function index()
+	function filter_brgys()
 	{
 		$data['brgys'] = $this->barangay_model->get_brgys();
-		$this->load->view('site/admin/filter', $data);
+		
+		foreach ($data['brgys'] as $brgy)
+		{
+			 $ca_count[$brgy['barangay']] = $this->model->get_catchment_area($brgy['barangay']);
+		}
+		
+		$data['ca_count'] = $ca_count;
+		
+		$this->load->view('site/admin/brgy_filter', $data);
+	}
+	
+	function filter_CAs($brgy)
+	{
+		$data['brgy'] = $brgy;
+		$data['CAs'] = $this->model->get_catchment_area('LANGKAAN II'); //to fix problem of spacing in URL; "blank space" = %20
+		
+		foreach ($data['CAs'] as $ca)
+		{
+			$hh_count[$ca['bhw_id']] = $this->model->get_households('LANGKAAN II', $ca['bhw_id']);
+		}
+		
+		$data['hh_count'] = $hh_count;
+		
+		$this->load->view('site/admin/ca_filter', $data);
+	}
+	
+	function filter_hh($bhw)
+	{
+		$data['CA'] = $bhw;
+		$data['HHs'] = $this->model->get_households('LANGKAAN II', $data['CA']); //to fix problem of spacing in URL; "blank space" = %20
+		
+		foreach ($data['HHs'] as $hh)
+		{
+			$person_count[$hh['household_id']] = $this->model->get_people($data['CA'], $hh['household_id']);
+		}
+		
+		$data['person_count'] = $person_count;
+		
+		$this->load->view('site/admin/hh_filter', $data);
+	}
+	
+	function get_person()
+	{
+		
 	}
 }
 

@@ -10,7 +10,10 @@ class Barangay_model extends CI_Model
 	
 	function get_brgys($city = FALSE)
 	{
-		$query = $this->db->get('barangay');
+		if ($city != FALSE)
+			$query= $this->db->get_where('barangay', array('city' => $city));
+		else
+			$query = $this->db->get('barangay');
 		
 		return $query->result_array();
 			$query->free_result();
