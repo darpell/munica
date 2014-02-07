@@ -136,7 +136,6 @@ class Mapping extends CI_Model
 					$row->created_on . "&&".
 					$row->last_updated_on . "&&".
 					$row->ls_barangay . "&&".
-					$row->ls_street . "&&".
 					$row->created_by . "%%"  ;
 				}
 				$q->free_result();
