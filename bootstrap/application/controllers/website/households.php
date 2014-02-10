@@ -10,7 +10,7 @@ class Households extends CI_Controller
 	}
 	
 	function filter_brgys()
-	{
+	{		
 		$data['brgys'] = $this->barangay_model->get_brgys();
 		
 		foreach ($data['brgys'] as $brgy)
@@ -26,11 +26,22 @@ class Households extends CI_Controller
 	function filter_CAs($brgy)
 	{
 		$data['brgy'] = $brgy;
-		$data['CAs'] = $this->model->get_catchment_area('LANGKAAN II'); //to fix problem of spacing in URL; "blank space" = %20
+		
+		$config['base_url'] = site_url('website/households/filter_CAs/' . $brgy);
+		$config['total_rows'] = count($this->model->get_catchment_area('LANGKAAN II'));
+		$config['per_page'] = 5;
+		$config['num_links'] = 3;
+		$config['uri_segment'] = 5;
+		
+		$this->pagination->initialize($config);
+		
+		$data['CAs'] = $this->model->get_catchment_area('LANGKAAN II', $config['per_page'], $this->uri->segment(5));
+		
+		$data['links'] = $this->pagination->create_links();
 		
 		foreach ($data['CAs'] as $ca)
 		{
-			$hh_count[$ca['bhw_id']] = $this->model->get_households('LANGKAAN II', $ca['bhw_id']);
+			$hh_count[$ca['bhw_id']] = $this->model->get_households($ca['bhw_id']);
 		}
 		
 		$data['hh_count'] = $hh_count;
@@ -38,14 +49,25 @@ class Households extends CI_Controller
 		$this->load->view('site/admin/ca_filter', $data);
 	}
 	
-	function filter_hh($bhw)
+	function filter_HHs($bhw)
 	{
 		$data['CA'] = $bhw;
-		$data['HHs'] = $this->model->get_households('LANGKAAN II', $data['CA']); //to fix problem of spacing in URL; "blank space" = %20
+		
+		$config['base_url'] = site_url('website/households/filter_HHs/' . $bhw);
+		$config['total_rows'] = count($this->model->get_households($data['CA']));
+		$config['per_page'] = 5;
+		$config['num_links'] = 3;
+		$config['uri_segment'] = 5;
+		
+		$this->pagination->initialize($config);
+		
+		$data['HHs'] = $this->model->get_households($data['CA'], $config['per_page'], $this->uri->segment(5));
+		
+		$data['links'] = $this->pagination->create_links();		
 		
 		foreach ($data['HHs'] as $hh)
 		{
-			$person_count[$hh['household_id']] = $this->model->get_people($data['CA'], $hh['household_id']);
+			$person_count[$hh['household_id']] = $this->model->get_people($hh['household_id']);
 		}
 		
 		$data['person_count'] = $person_count;
@@ -53,9 +75,23 @@ class Households extends CI_Controller
 		$this->load->view('site/admin/hh_filter', $data);
 	}
 	
-	function get_person()
+	function filter_persons($hh)
 	{
+		$data['HH'] = $hh;
 		
+		$config['base_url'] = site_url('website/households/filter_persons/' . $data['HH']);
+		$config['total_rows'] = count($this->model->get_people($data['HH']));
+		$config['per_page'] = 2;
+		$config['num_links'] = 3;
+		$config['uri_segment'] = 5;
+		
+		$this->pagination->initialize($config);
+		
+		$data['persons'] = $this->model->get_people($data['HH'], $config['per_page'], $this->uri->segment(5));
+		
+		$data['links'] = $this->pagination->create_links();
+		
+		$this->load->view('site/admin/person_filter', $data);
 	}
 }
 

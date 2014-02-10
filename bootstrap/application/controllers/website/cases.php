@@ -23,7 +23,7 @@ class Cases extends CI_Controller
 		
 		$this->pagination->initialize($config);
 		
-		$data['cases'] = $this->model->get_suspected_cases($config['per_page'], $this->uri->segment(4));
+		$data['cases'] = $this->model->get_cases('suspected', $config['per_page'], $this->uri->segment(4));
 		$data['links'] = $this->pagination->create_links();
 		
 		$data['type'] = 'Suspected';
@@ -40,7 +40,7 @@ class Cases extends CI_Controller
 		
 		$this->pagination->initialize($config);
 		
-		$data['cases'] = $this->model->get_threatening_cases($config['per_page'], $this->uri->segment(4));
+		$data['cases'] = $this->model->get_cases('threatening', $config['per_page'], $this->uri->segment(4));
 		$data['links'] = $this->pagination->create_links();
 		
 		$data['type'] = 'Threatening';
@@ -57,7 +57,7 @@ class Cases extends CI_Controller
 		
 		$this->pagination->initialize($config);
 		
-		$data['cases'] = $this->model->get_serious_cases($config['per_page'], $this->uri->segment(4));
+		$data['cases'] = $this->model->get_cases('serious', $config['per_page'], $this->uri->segment(4));
 		$data['links'] = $this->pagination->create_links();
 		
 		$data['type'] = 'Serious';
@@ -74,7 +74,7 @@ class Cases extends CI_Controller
 	
 		$this->pagination->initialize($config);
 	
-		$data['cases'] = $this->model->get_hospitalized_cases($config['per_page'], $this->uri->segment(4));
+		$data['cases'] = $this->model->get_cases('hospitalized', $config['per_page'], $this->uri->segment(4));
 		$data['links'] = $this->pagination->create_links();
 	
 		$data['type'] = 'Serious';

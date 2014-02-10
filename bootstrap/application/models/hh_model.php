@@ -21,7 +21,7 @@ class Hh_model extends CI_Model
 		}
 	}
 	
-	function get_catchment_area($brgy = FALSE)
+	function get_catchment_area($brgy = FALSE, $offset = FALSE, $limit = FALSE)
 	{
 		$this->db->from('catchment_area')
 					->join('bhw','catchment_area.bhw_id = bhw.user_username');
@@ -30,35 +30,48 @@ class Hh_model extends CI_Model
 		
 		$this->db->group_by('catchment_area.bhw_id');
 		
+		if ($offset != FALSE && $limit != FALSE)
+			$this->db->limit($offset, $limit);
+		
 		$query = $this->db->get();
 		return $query->result_array();
 			$query->free_result();
 	}
 	
-	function get_households($brgy = FALSE, $bhw = FALSE)
+	function get_households($bhw = FALSE, $offset = FALSE, $limit = FALSE)
 	{
 		$this->db->from('catchment_area')
 					->join('bhw','catchment_area.bhw_id = bhw.user_username');
+		/*
 		if ($brgy != FALSE)
 			$this->db->where('bhw.barangay', $brgy);
+		*/
 		if ($bhw != FALSE)
 			$this->db->where('catchment_area.bhw_id', $bhw);
 		
 		$this->db->group_by('catchment_area.household_id');
 		
+		if ($offset != FALSE && $limit != FALSE)
+			$this->db->limit($offset, $limit);
+		
 		$query = $this->db->get();
 		return $query->result_array();
 			$query->free_result();
 	}
 	
-	function get_people($bhw = FALSE, $hh = FALSE)
+	function get_people($hh = FALSE, $offset = FALSE, $limit = FALSE)
 	{
 		$this->db->from('catchment_area')
 					->join('bhw','catchment_area.bhw_id = bhw.user_username');
-		if ($bhw != FALSE)
-			$this->db->where('catchment_area.bhw_id', $bhw);
+		/*
+			if ($bhw != FALSE)
+				$this->db->where('catchment_area.bhw_id', $bhw);
+		*/
 		if ($hh != FALSE)
 			$this->db->where('catchment_area.household_id', $hh);
+		
+		if ($offset != FALSE && $limit != FALSE)
+			$this->db->limit($offset, $limit);
 		
 		$query = $this->db->get();
 		return $query->result_array();
