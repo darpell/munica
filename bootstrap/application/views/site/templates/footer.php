@@ -19,6 +19,8 @@
         	
         	<div class="col-md-4">
         		<p> Twitter plugin </p>
+        		<p> <?php echo $this->benchmark->elapsed_time() . ' elapsed time';?> </p>
+        		<p> <?php echo $this->benchmark->memory_usage() . ' memory used.';?> </p>
         	</div>
         
         	<div class="col-md-4">
