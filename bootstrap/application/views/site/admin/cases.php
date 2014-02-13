@@ -15,14 +15,14 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th> person_id </th> <th> days_fever </th> <th> suspected_source </th> <th> Status </th>
+					<th> person_id </th> <th> days_fever </th> <th> suspected_source </th> <th> Status </th> <th> Contact Number </th>
 				</tr>
 			<thead>
 			<tbody>
 				<?php foreach ($cases as $case) {?>
 				<tr>
-					<td> <?= $case['person_id'] ?> </td> <td> <?= $case['days_fever'] ?> </td> 
-					<td> <?= $case['suspected_source'] ?> </td> <td> <?= $case['status'] ?> </td>
+					<td> <?= $case['person_first_name'] . ' ' . $case['person_last_name'] ?> </td> <td> <?= $case['days_fever'] ?> </td> 
+					<td> <?= $case['suspected_source'] ?> </td> <td> <?= $case['status'] ?> </td> <td> <?= $case['person_contactno'] ?> </td>
 				</tr>
 				<?php } ?>
 			</tbody>

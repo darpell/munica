@@ -9,12 +9,12 @@
 <div class="col-md-10">
 	<div class="panel panel-primary">
 			<div class="panel-heading">
-				<h3 class="panel-title"> Filter Households under <?= $CA ?></h3>
+				<h3 class="panel-title"> People living in <?= $HH ?></h3>
 			</div>
 			<div class="panel-body">
 				<ul class="nav nav-pills nav-stacked">
-					<?php foreach ($HHs as $hh) { $household = $hh['household_id']; ?>
-					<li> <a href="<?=site_url('website/households/filter_persons/' . $household) ?>"> <<?= $household ?>> Household with <span class="badge"> <?php echo count($person_count[$household]) ?> </span> people </a> </li>
+					<?php foreach ($persons as $person) { $per = $person['person_id']; ?>
+					<li> <a href=""> <?= $person['person_id'] ?> </a> </li>
 					<?php } ?>
 				</ul>
 				<?php echo $links; ?>

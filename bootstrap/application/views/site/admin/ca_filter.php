@@ -14,9 +14,10 @@
 			<div class="panel-body">
 				<ul class="nav nav-pills nav-stacked">
 					<?php foreach ($CAs as $ca) { $bhw = $ca['bhw_id']; ?>
-					<li> <a href="<?=site_url('website/households/filter_hh/' . $bhw) ?>"> <?= $bhw ?> who is responsible for <span class="badge"> <?php echo count($hh_count[$bhw]) ?> </span> Households </a> </li>
+					<li> <a href="<?=site_url('website/households/filter_HHs/' . $bhw) ?>"> <?= $bhw ?> who is responsible for <span class="badge"> <?php echo count($hh_count[$bhw]) ?> </span> Households </a> </li>
 					<?php } ?>
 				</ul>
+				<?php echo $links; ?>
 			</div>
 		</div>
 </div>
