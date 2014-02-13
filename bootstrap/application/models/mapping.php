@@ -318,6 +318,26 @@ class Mapping extends CI_Model
 			return substr($dist,0,-2);
 		}
 		//*
+		function getHouseholds($brgy = null)//all polygons
+		{
+			$this->db->from('household_address');
+			if ($brgy != NULL)
+			{
+				$this->db->join('catchment_area', 'catchment_area.household_id = household_address.household_id');
+				$this->db->join('bhw', 'catchment_area.bhw_id = bhw.user_username');
+				$this->db->where('barangay',$brgy);
+			}
+			else
+			{
+				$this->db->join('catchment_area', 'catchment_area.household_id = household_address.household_id');
+				$this->db->join('bhw', 'catchment_area.bhw_id = bhw.user_username');
+			}
+
+			$query = $this->db->get();
+			return $query->result_array();
+			$query->free_result();
+		}
+		//*/
 	function getPointsOfInterest()//all polygons
 		{	
 			$qString = 'CALL '; 

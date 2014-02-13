@@ -158,7 +158,8 @@ jQuery(document).ready(function(){
 					mapLarvalOverlay(map,document.getElementById('Pdist').value.toString(),Pstr[0],true);
 					mapBarangayOverlay(map,document.getElementById('dataBCount').value.toString(),document.getElementById('dataBAge').value.toString(),str[1],document.getElementById('dataBInfo').value.toString(),false);
 					mapBarangayOverlay(map,document.getElementById('PdataBCount').value.toString(),document.getElementById('PdataBAge2').value.toString(),Pstr[1],document.getElementById('PdataBInfo').value.toString(),true);
-				}
+					mapHousholds(map,barangayCount,barangayAge,datax,barangayInfo) //Denguecase barangay polygon display
+					}
 		  }
 		  else
 		  {
@@ -187,6 +188,25 @@ jQuery(document).ready(function(){
 <input type = 'hidden' id ='PdataBCount' name='PdataBCount' value='<?php echo $Pbcount?>'>
 <input type = 'hidden' id ='Ptype' name='Ptype' value='<?php echo $node_type?>'>
 <input type = 'hidden' id ='Pdist' name='Pdist' value='<?php echo $Pdist?>'>
+
+<?php if ($household != NULL){?>
+<input type="hidden" id="household_length" value="<?php echo count($household); ?>" />
+	<?php for ($ctr = 0; $ctr < count($household); $ctr++) {?>
+		<input type="hidden" id="hs_householdId<?= $ctr ?>" 		value="<?php echo $household[$ctr]['household_id']; ?>"	/>
+		<input type="hidden" id="hs_householdName<?= $ctr ?>" 			value="<?php echo $household[$ctr]['household_name']; ?>"	/>
+		<input type="hidden" id="hs_houseNo<?= $ctr ?>"	value="<?php echo $household[$ctr]['house_no']; ?>"	/>
+		<input type="hidden" id="hs_street<?= $ctr ?>" 			value="<?php echo $household[$ctr]['street']; ?>"			/>
+		<input type="hidden" id="hs_lastVisited<?= $ctr ?>" 			value="<?php echo $household[$ctr]['last_visited']; ?>"			/>
+		<input type="hidden" id="hs_lat<?= $ctr ?>" 		value="<?php echo $household[$ctr]['household_lat']; ?>"	/>
+		<input type="hidden" id="hs_lng<?= $ctr ?>" 			value="<?php echo $household[$ctr]['household_lng']; ?>"		/>
+		<input type="hidden" id="hs_personId<?= $ctr ?>" 		value="<?php echo $household[$ctr]['person_id']; ?>"		/>
+		<input type="hidden" id="hs_bhwId<?= $ctr ?>" 		value="<?php echo $household[$ctr]['bhw_id']; ?>"	/>
+		<input type="hidden" id="hs_userUsername<?= $ctr ?>" 	value="<?php echo $household[$ctr]['user_username']; ?>"	/>
+		<input type="hidden" id="hs_barangay<?= $ctr ?>" 	value="<?php echo $household[$ctr]['barangay']; ?>"	/>
+	<?php }?> 
+	<input type="hidden" id="case_icon" value="<?php echo base_url('/images/arrow.png')?>" />
+	<?php } else { ?> <input type="hidden" id="result_length" value="0" /> <?php } ?>
+
 </form>
 <body onload="load()">
 <?php 
