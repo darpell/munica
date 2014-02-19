@@ -40,10 +40,6 @@ class Master_list extends CI_Controller
 	function add_immediate_case()
 	{			
 		$this->form_validation->set_rules('duration', 'Dengue Fever Duration', 'callback_check_range|required');
-		
-		//$symptoms = $this->input->post('symptoms');
-		
-		//print_r($symptoms);
 				
 		if ($this->form_validation->run() === FALSE)
 		{
@@ -56,8 +52,8 @@ class Master_list extends CI_Controller
 		{
 			$return_data = $this->masterlist->add_immediate_cases();
 
-			$this->add_case_notif('imcase', $this->input->post('person_id'));
-			$this->checkforbounceandred('imcase',$this->input->post('lat'),$this->input->post('lng'));
+			//$this->add_case_notif('imcase', $this->input->post('person_id'));
+			//$this->checkforbounceandred('imcase',$this->input->post('lat'),$this->input->post('lng'));
 
 			if ($return_data[0] == 'suspected')
 				$color = 'YELLOW' ;
@@ -91,6 +87,11 @@ class Master_list extends CI_Controller
 			}
 			$this->load->view('mobile/im_case_success',$data);
 		}
+	}
+	
+	function add_member($hh)
+	{
+		
 	}
 	
 	# TODO
@@ -143,8 +144,8 @@ class Master_list extends CI_Controller
 			// update
 			$return_data = $this->masterlist->update_im();
 			
-			$this->add_case_notif('imcase', $this->input->post('person_id'));
-			$this->checkforbounceandred('imcase',$this->input->post('lat'),$this->input->post('lng'));
+			//$this->add_case_notif('imcase', $this->input->post('person_id'));
+			//$this->checkforbounceandred('imcase',$this->input->post('lat'),$this->input->post('lng'));
 			
 			if ($return_data[0] == 'suspected')
 				$color = 'YELLOW' ;

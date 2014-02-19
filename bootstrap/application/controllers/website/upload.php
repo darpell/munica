@@ -2,23 +2,16 @@
 
 class Upload extends CI_Controller
 {
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model('cases_model','model');
+	}
+	
 	public function index()
 	{
 		$data['error'] = '';
-		$data['values'] = FALSE;
 		$this->load->view('site/admin/upload', $data);
-	}
-	
-	function redirectLogin()
-	{	
-		$this->load->library('mobile_detect');
-		if ($this->mobile_detect->isTablet() || $this->mobile_detect->isMobile())
-		{
-			$this->load->view('mobile/index.php');
-		}
-		elseif ($this->session->userdata('logged_in') != TRUE && $this->session->userdata('TPtype') != 'CHO' ){
-			redirect(substr(base_url(), 0, -1) . '/index.php/login');
-		}
 	}
 	
 	function do_upload()
@@ -77,7 +70,7 @@ class Upload extends CI_Controller
 				$dOnset[]				= $rs_fld[20]->value;
 				$type[]					= $rs_fld[21]->value;
 				$labres[]				= $rs_fld[22]->value;
-				$caseclassifiaction[]	= $rs_fld[23]->value;
+				$caseclassification[]	= $rs_fld[23]->value;
 				$outcome[]				= $rs_fld[24]->value;
 				$regionofDRU[]			= $rs_fld[25]->value;
 				$EPIID[]				= $rs_fld[26]->value;
@@ -109,18 +102,25 @@ class Upload extends CI_Controller
 			{
 				$values[$i] = array(
 							'cr_patient_no'		=> $patientnum[$i],
-							'cr_name'			=> $firstname[$i] . ", ". $familyname[$i],
+							'cr_first_name'		=> $firstname[$i],
+							'cr_last_name'		=> $familyname[$i],
 							'cr_dob'			=> $DOB[$i] ,
 							'cr_address'		=> $street[$i] . " " . $barangay[$i] . " " . $city[$i] . " " . $province[$i] ,
 							'cr_date_onset'		=> $dOnset[$i],
 							'cr_date_of_entry'	=> $dateofentry[$i],
+							'cr_sex'			=> $sex[$i],
+							'cr_barangay'		=> $barangay[$i]
 						);
 			}
 			
 			$data['error'] = '';
 			$data['values'] = $values;
-			$data['count'] = count($patientnum);
-			$this->load->view('site/admin/upload',$data);
+			
+			$data['entry_count'] = count($patientnum);
+			$data['residents'] = $this->model->check_case_resident($values);
+			$data['distribution'] = $this->model->check_gender_distribution($values);
+			
+			$this->load->view('site/admin/upload_confirm',$data);
 			//$this->session->set_userdata('TPuploadvalues', $upload['full_path']);
 			
 			
