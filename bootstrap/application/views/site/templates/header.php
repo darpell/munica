@@ -57,19 +57,21 @@
 	              <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Functions <b class="caret"></b></a>
 	              <ul class="dropdown-menu">
               		<li><?= anchor(site_url('website/upload'),'Upload PIDSR Forms')?></li>
-                	<li><?= anchor(base_url('index.php/case_report/viewCaseReport'),'Update Cases')?></li>
-                	<li><?= anchor(base_url('index.php/larval_survey/viewLarvalReport'),'Update Surveys')?></li>
+                	<li><?= anchor(base_url('index.php/case_report/viewCaseReport'),'View Cases')?></li>
+                	<li><?= anchor(base_url('index.php/larval_survey/viewLarvalReport'),'View Surveys')?></li>
                 	<li class="divider"></li>
                 	<li class="dropdown-header">User Controls</li>
                 	<li><?= anchor(site_url('website/user/add'),'Create User')?></li>
                 	<li><?= anchor(site_url('website/user/get_users'),'View Users')?></li>
                 	<!-- in question  -->
-					<li><?= anchor(base_url('index.php/CHO/'),'View Tasks')?></li>
+						<!-- <li><?php //anchor(base_url('index.php/CHO/'),'View Tasks')?></li>  -->
 					<!-- /end of in question -->
+                	<!-- 
                 	<li class="divider"></li>
                 	<li class="dropdown-header">Mapping Commands</li>
-                	<li><?= anchor(base_url('index.php/addmap'),'Add Polygon')?></li>
-            		<li><?= anchor(base_url('index.php/deletemap'),'Delete Polygon')?></li>
+                	<li><?php //anchor(base_url('index.php/addmap'),'Add Polygon')?></li>
+            		<li><?php //anchor(base_url('index.php/deletemap'),'Delete Polygon')?></li>
+            		 -->
 	              </ul>
 	            </li> <!-- /end of functions -->
                	<?php } ?>

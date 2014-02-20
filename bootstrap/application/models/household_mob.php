@@ -18,6 +18,11 @@ class Household_mob extends CI_Model
 				'last_visited'	=>	date("Y-m-d H:i:s")
 		);
 		$this->db->insert('household_address',$input_data);
+		
+		/*$ca_data = array(
+				'household_id'	=>
+				'person_id'		
+		);*/
 	}
 	
 	function add_member()

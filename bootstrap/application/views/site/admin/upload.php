@@ -14,25 +14,7 @@
 		
 		<!-- Initial Upload -->
 		<!-- /end of Initial Upload -->
-		<!-- Upload Result -->
-			<?php if ($values != FALSE) { ?>
-			<table class="table">
-				<thead>
-					<tr>
-						<th> Patient No. </th> <th> Patient Name </th> <th> Date of birth </th> <th> Address </th> <th> Date onset of illness </th> <th> Date of Entry </th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php for ($ctr=0; $ctr < count($values); $ctr++) {?>
-					<tr>
-						<td> <?php echo $values[$ctr]['cr_patient_no'];?> </td> <td> <?php echo $values[$ctr]['cr_name'];?> </td> <td> <?php echo $values[$ctr]['cr_dob'];?> </td> 
-						<td> <?php echo $values[$ctr]['cr_address'];?> </td> <td> <?php echo $values[$ctr]['cr_date_onset'];?> </td> <td> <?php echo $values[$ctr]['cr_date_of_entry'];?> </td> 
-					</tr>
-					<?php } ?>
-				</tbody>
-			</table>
-			<?php } ?>
-		<!-- /end of Upload Result -->
+		
 		</div>
 		<div class="col-md-4">
 		<!-- Upload Form -->

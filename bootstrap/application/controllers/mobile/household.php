@@ -5,7 +5,7 @@ class Household extends CI_Controller
 	{
 		parent::__construct();
 		// Your own constructor code
-		$this->load->model('household_mob');
+		$this->load->model('household_mob','model');
 	}
 	
 	public function index()
@@ -14,18 +14,14 @@ class Household extends CI_Controller
 	}
 	
 	function add()
-	{
-		$this->form_validation->set_rules('hh_name', 'household name', 'required');
-		$this->form_validation->set_rules('hh_no', 'household number', 'required');
-		$this->form_validation->set_rules('hh_street', 'household street', 'required');
-			
-		if ($this->form_validation->run() == FALSE)
+	{			
+		if ($this->form_validation->run('household') == FALSE)
 		{
 			$this->load->view('mobile/household_form');
 		}
 		else
 		{
-			$this->household_mob->add();
+			$this->model->add();
 			$data['result'] = 'Your entry has been recorded';
 			$this->load->view('mobile/poi_success', $data);
 		}

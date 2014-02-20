@@ -85,8 +85,8 @@
 						
 						<input type="hidden" name="imcase_no" id="imcase_no" value="<?php echo $this->masterlist->get_imcase_no($household_persons[$ctr]['person_id']); ?>"	/>
 						<input type="hidden" name="created_on" id="created_on" value="<?php echo $this->masterlist->get_created_on($household_persons[$ctr]['person_id']); ?>"	/>
-						<input type="hidden" name="lat" id="lat" value="<?php echo $this->masterlist->get_imcase_lat($household_persons[$ctr]['person_id']); ?>"	/>
-						<input type="hidden" name="lng" id="lng" value="<?php echo $this->masterlist->get_imcase_lng($household_persons[$ctr]['person_id']); ?>"	/>
+						<!-- <input type="hidden" name="lat" id="lat" value="<?php //echo $this->masterlist->get_imcase_lat($household_persons[$ctr]['person_id']); ?>"	/>
+						<input type="hidden" name="lng" id="lng" value="<?php //echo $this->masterlist->get_imcase_lng($household_persons[$ctr]['person_id']); ?>"	/> -->
 					<?php } ?>	
 					<ul data-role="listview">
 					

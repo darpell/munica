@@ -25,7 +25,8 @@
 		</ul>
 	-->
 	
-		<ul data-role="listview" data-autodividers="true" data-inset="true" data-count-theme="b">
+		<ul data-role="listview" data-inset="true" data-count-theme="b"> <!-- data-autodividers="true" -->
+			<li data-role="list-divider"> Cases for the past 7 days </li>
 			<li> <a href="<?php echo site_url('mobile/view/hospitalized_cases');?>" data-ajax="false" data-transition="slide"> Hospitalized Cases </a> <span class="ui-li-count"><?php echo $hospitalized_count; ?></span> </li>
 			<li> <a href="<?php echo site_url('mobile/view/serious_cases');?>" data-ajax="false" data-transition="slide"> Serious Cases </a> <span class="ui-li-count"><?php echo $serious_count; ?></span> </li>
         	<li> <a href="<?php echo site_url('mobile/view/suspected_cases');?>" data-ajax="false" data-transition="slide"> Suspected Cases </a> <span class="ui-li-count"><?php echo $suspected_count; ?></span> </li>

@@ -19,33 +19,8 @@ class Dashboard extends CI_Controller
 		$this->load->model('user_model');
 		$data['bhw_ctr'] = $this->db->get_where('users', array('user_type' => 'bhw'))->num_rows();
 		$data['mw_ctr'] = $this->db->get_where('users', array('user_type' => 'midwife'))->num_rows();
-		
+
 		$this->load->view('site/dashboard',$data);
-	}
-	
-	function notifications()
-	{
-		
-	}
-	
-	function cases()
-	{
-		
-	}
-	
-	function general_count()
-	{
-		
-	}
-	
-	function map()
-	{
-		
-	}
-	
-	function distribution()
-	{
-		
 	}
 }
 

@@ -10,7 +10,21 @@
 <!-- /end of SCRIPTS -->
 
 </head>
+<script>
+  var median = <?php echo json_encode( $median); ?>;
+  var quartile1 = <?php echo json_encode( $quartile1); ?>;
+  var quartile3 = <?php echo json_encode( $quartile3); ?>;
+  var currentcases = <?php echo json_encode( $currentcases); ?>;
+  for (var i=0;i<currentcases.length;i++)
+  {
+	  currentcases[i] = parseInt(currentcases[i]);
+	  median[i] = parseInt(median[i]);
+	  quartile1[i] = parseInt(quartile1[i]);
+	  quartile3[i] = parseInt(quartile3[i]);
+  }
 
+  
+</script>
 <body>
 <!-- CONTENT -->
 <div class="container">

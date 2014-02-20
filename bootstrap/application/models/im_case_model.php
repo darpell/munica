@@ -458,6 +458,13 @@ class Im_case_model extends CI_Model
 			//$this->db->where('imcase_no',$this->input->post('imcase_no'));
 				//$this->db->update('immediate_cases, $data','imcase_no = ' . $this->input->post('imcase_no'));
 		}
+		
+	function get_case_count($type)
+	{
+		$this->db->get_where('');
+		
+		
+	}
 }
 
 /* End of im_case_model.php */
