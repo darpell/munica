@@ -41,7 +41,8 @@ class Hh_model extends CI_Model
 	function get_households($bhw = FALSE, $offset = FALSE, $limit = FALSE)
 	{
 		$this->db->from('catchment_area')
-					->join('bhw','catchment_area.bhw_id = bhw.user_username');
+					->join('bhw','catchment_area.bhw_id = bhw.user_username')
+					->join('household_address', 'household_address.household_id = catchment_area.household_id');
 		/*
 		if ($brgy != FALSE)
 			$this->db->where('bhw.barangay', $brgy);
@@ -62,7 +63,8 @@ class Hh_model extends CI_Model
 	function get_people($hh = FALSE, $offset = FALSE, $limit = FALSE)
 	{
 		$this->db->from('catchment_area')
-					->join('bhw','catchment_area.bhw_id = bhw.user_username');
+					->join('bhw','catchment_area.bhw_id = bhw.user_username')
+					->join('master_list', 'master_list.person_id = catchment_area.person_id');
 		/*
 			if ($bhw != FALSE)
 				$this->db->where('catchment_area.bhw_id', $bhw);
@@ -75,6 +77,14 @@ class Hh_model extends CI_Model
 		
 		$query = $this->db->get();
 		return $query->result_array();
+		$query->free_result();
+	}
+	
+	function get_person($id)
+	{
+		$query = $this->db->get_where('master_list', array('person_id' => $id));
+		
+		return $query->row_array();
 		$query->free_result();
 	}
 }

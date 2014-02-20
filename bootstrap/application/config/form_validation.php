@@ -130,6 +130,24 @@ $config = array(
 					
 					),
 		
+				'household' => array(
+									array(
+											'field' => 'hh_name',
+											'label' => 'household name',
+											'rules' => 'required'
+											),
+									array(
+											'field' => 'hh_no',
+											'label' => 'household number',
+											'rules' => 'required'
+									),
+									array(
+											'field' => 'hh_street',
+											'label' => 'household street',
+											'rules' => 'required'
+									)
+							),
+		
                  'email' => array(
                                     array(
                                             'field' => 'emailaddress',

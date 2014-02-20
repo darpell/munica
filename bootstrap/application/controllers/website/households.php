@@ -25,17 +25,17 @@ class Households extends CI_Controller
 	
 	function filter_CAs($brgy)
 	{
-		$data['brgy'] = $brgy;
+		$data['brgy'] = str_replace('%20',' ',$brgy);
 		
 		$config['base_url'] = site_url('website/households/filter_CAs/' . $brgy);
-		$config['total_rows'] = count($this->model->get_catchment_area('LANGKAAN II'));
+		$config['total_rows'] = count($this->model->get_catchment_area($data['brgy']));
 		$config['per_page'] = 5;
 		$config['num_links'] = 3;
 		$config['uri_segment'] = 5;
 		
 		$this->pagination->initialize($config);
 		
-		$data['CAs'] = $this->model->get_catchment_area('LANGKAAN II', $config['per_page'], $this->uri->segment(5));
+		$data['CAs'] = $this->model->get_catchment_area($data['brgy'], $config['per_page'], $this->uri->segment(5));
 		
 		$data['links'] = $this->pagination->create_links();
 		
@@ -92,6 +92,13 @@ class Households extends CI_Controller
 		$data['links'] = $this->pagination->create_links();
 		
 		$this->load->view('site/admin/person_filter', $data);
+	}
+	
+	function view_person($id)
+	{
+		$data['person'] = $this->model->get_person($id);
+		
+		$this->load->view('site/admin/person', $data);
 	}
 }
 

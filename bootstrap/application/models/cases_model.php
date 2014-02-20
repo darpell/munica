@@ -18,6 +18,65 @@ class Cases_model extends CI_Model
 		return $query->result_array();
 		$query->free_result();
 	}
+	
+	function check_case_resident($hosp_cases)
+	{
+		$this->db->from('immediate_cases')
+				->join('master_list', 'immediate_cases.person_id = master_list.person_id');
+		
+		$query = $this->db->get();
+		$brgy_cases = $query->result_array();
+		
+		$matching_cases = array();
+		
+		for ($ctr = 0; $ctr < count($hosp_cases); $ctr++)
+		{
+			for ($brgy_ctr = 0; $brgy_ctr < count($brgy_cases); $brgy_ctr++)
+			{
+				if(strcasecmp($hosp_cases[$ctr]['cr_first_name'], $brgy_cases[$brgy_ctr]['person_first_name']) == 0)
+					if(strcasecmp($hosp_cases[$ctr]['cr_last_name'], $brgy_cases[$brgy_ctr]['person_last_name']) == 0)
+						if(strcasecmp($hosp_cases[$ctr]['cr_sex'], $brgy_cases[$brgy_ctr]['person_sex']) == 0)
+							if(strcasecmp( date('Y-m-d', strtotime($hosp_cases[$ctr]['cr_dob'])), $brgy_cases[$brgy_ctr]['person_dob']) == 0)
+								$matching_cases[$ctr] = $brgy_cases[$brgy_ctr];
+			}
+		}
+		return $matching_cases;
+	}
+	
+	function check_gender_distribution($hosp_cases)
+	{
+		$male = 0;
+		$female = 0;
+		
+		for($ctr = 0; $ctr < count($hosp_cases); $ctr++)
+		{
+			if (strcasecmp($hosp_cases[$ctr]['cr_sex'],'M') == 0)
+				$male += 1;
+			if (strcasecmp($hosp_cases[$ctr]['cr_sex'],'F') == 0)
+				$female += 1;
+		}
+		$distribution = array(
+							'male'=> $male, 
+							'female' => $female
+						);
+		
+		return $distribution;
+	}
+	
+	function check_barangay_count($hosp_cases)
+	{
+		$barangay_ctr = array();
+		for($ctr = 0; $ctr < count($hosp_cases); $ctr++)
+		{
+			if ($hosp_cases[$ctr]['cr_barangay']);
+		}
+		
+	}
+	
+	function check_if_hospitalized()
+	{
+		
+	}
 }
 
 

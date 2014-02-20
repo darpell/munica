@@ -97,26 +97,29 @@ function load() {
 		zoom: 14,
 		mapTypeId: 'roadmap'
 	});
-	mapPointsOfInterest(map);
-    	
-	if(document.getElementById('type').value.toString()=="larvalpositive")
+	
+	
+	if(document.getElementById('getLarva').value.toString()=="1")
     {
-        mapLarvalOverlay(map,document.getElementById('dist').value,document.getElementById("data").value,false);
+        mapLarvalOverlay(map,document.getElementById('dist').value,document.getElementById("Larva").value,false);
     }
-	else if(document.getElementById('type').value.toString()=="denguecase")
+	if(document.getElementById('getBb').value.toString()=="1")
 	{
-		mapBarangayOverlay(map,document.getElementById('dataBCount').value.toString(),document.getElementById('dataBAge').value.toString(),document.getElementById('data').value.toString(),document.getElementById('dataBInfo').value.toString(),false);
-    }
+		mapBarangayOverlay(map,document.getElementById('dataBCount').value.toString(),document.getElementById('dataBAge').value.toString(),document.getElementById('Bb').value.toString(),document.getElementById('dataBInfo').value.toString(),false);
+    }	
+	if(document.getElementById('getPoi').value.toString()=="1")
+    {
+		mapPointsOfInterest(map);
+    }/*
 	else
 	{
-    	//*Data handler, SPLITTER
+    	//Data handler, SPLITTER
 		var str = document.getElementById('data').value.toString();
 		str = str.split("%&");
-		//-------------------*/
 		
 		mapLarvalOverlay(map,document.getElementById('dist').value.toString(),str[0],false);
 		mapBarangayOverlay(map,document.getElementById('dataBCount').value.toString(),document.getElementById('dataBAge2').value.toString(),str[1],document.getElementById('dataBInfo').value.toString(),false);
-	}
+	}//*/
 }
   function doNothing() {}
 
@@ -131,35 +134,36 @@ jQuery(document).ready(function(){
 			  var map = new google.maps.Map(document.getElementById("map"), {
 					center: new google.maps.LatLng(14.301716, 120.942506),
 					zoom: 14,
-					mapTypeId: 'hybrid'
+					mapTypeId: 'roadmap'
 				});
-				mapPointsOfInterest(map);
-			    	
-				if(document.getElementById('type').value.toString()=="larvalpositive")
+				
+				
+				if(document.getElementById('getLarva').value.toString()=="1")
 			    {
-					mapLarvalOverlay(map,document.getElementById('dist').value,document.getElementById("data").value,false);
-			        mapLarvalOverlay(map,document.getElementById('Pdist').value,document.getElementById("Pdata").value,true);
+				    mapLarvalOverlay(map,document.getElementById('Pdist').value,document.getElementById("PLarva").value,true);
+			        mapLarvalOverlay(map,document.getElementById('dist').value,document.getElementById("Larva").value,false);
 			    }
-				else if(document.getElementById('type').value.toString()=="denguecase")
+				if(document.getElementById('getBb').value.toString()=="1")
 				{
-					mapBarangayOverlay(map,document.getElementById('dataBCount').value.toString(),document.getElementById('dataBAge').value.toString(),document.getElementById('data').value.toString(),document.getElementById('dataBInfo').value.toString(),false);
-					mapBarangayOverlay(map,document.getElementById('PdataBCount').value.toString(),document.getElementById('PdataBAge2').value.toString(),document.getElementById('Pdata').value.toString(),document.getElementById('PdataBInfo').value.toString(),true);
+					mapBarangayOverlay(map,document.getElementById('dataBCount').value.toString(),document.getElementById('dataBAge').value.toString(),document.getElementById('Bb').value.toString(),document.getElementById('dataBInfo').value.toString(),false);
+			    }	
+				if(document.getElementById('getPoi').value.toString()=="1")
+			    {
+					mapPointsOfInterest(map);
 			    }
-				else
 				{
-			    	//*Data handler, SPLITTER
+			    	/*Data handler, SPLITTER
 					var str = document.getElementById('data').value.toString();
 					str = str.split("%&");
 					var Pstr = document.getElementById('Pdata').value.toString();
 					Pstr = Pstr.split("%&");
-					//-------------------*/
 					
 					mapLarvalOverlay(map,document.getElementById('dist').value.toString(),str[0],false);
 					mapLarvalOverlay(map,document.getElementById('Pdist').value.toString(),Pstr[0],true);
 					mapBarangayOverlay(map,document.getElementById('dataBCount').value.toString(),document.getElementById('dataBAge').value.toString(),str[1],document.getElementById('dataBInfo').value.toString(),false);
-					mapBarangayOverlay(map,document.getElementById('PdataBCount').value.toString(),document.getElementById('PdataBAge2').value.toString(),Pstr[1],document.getElementById('PdataBInfo').value.toString(),true);
-					mapHousholds(map,barangayCount,barangayAge,datax,barangayInfo) //Denguecase barangay polygon display
-					}
+					//mapBarangayOverlay(map,document.getElementById('PdataBCount').value.toString(),document.getElementById('PdataBAge2').value.toString(),Pstr[1],document.getElementById('PdataBInfo').value.toString(),true);
+					mapHousholds(map,barangayCount,barangayAge,datax,barangayInfo) //Denguecase barangay polygon display//*/
+				}
 		  }
 		  else
 		  {
@@ -169,15 +173,27 @@ jQuery(document).ready(function(){
 	});
 </script>
 </head>
-<form>
-<input type = 'hidden' id ='data' name='data' value='<?php echo $nodes?>'>
+<input type = 'hidden' id ='getLarva' name='getLarva' value='<?php echo $getLarva?>'>
+<input type = 'hidden' id ='getDengue' name='getDengue' value='<?php echo $getDengue?>'>
+<input type = 'hidden' id ='getPoi' name='getPoi' value='<?php echo $getPoI?>'>
+<input type = 'hidden' id ='getHouseholds' name='getHouseholds' value='<?php echo $getHouseholds?>'>
+<input type = 'hidden' id ='getBb' name='getBb' value='<?php echo $getBB?>'>
+
 <input type = 'hidden' id ='dataBInfo' name='dataBInfo' value='<?php echo $binfo?>'>
 <input type = 'hidden' id ='dataBAge' name='dataBAge' value='<?php echo $table1?>'>
 <input type = 'hidden' id ='dataBAge2' name='dataBAge2' value='<?php echo $bage?>'>
 <input type = 'hidden' id ='dataBCount' name='dataBCount' value='<?php echo $bcount?>'>
 <input type = 'hidden' id ='type' name='type' value='<?php echo $node_type?>'>
+<input type = 'hidden' id ='Larva' name='Larva' value='<?php echo $larval?>'>
+<input type = 'hidden' id ='Dengue' name='Dengue' value='<?php echo $dengue?>'>
+<input type = 'hidden' id ='Household' name='Household' value='<?php echo $household?>'>
+<input type = 'hidden' id ='Bb' name='Bb' value='<?php echo $bb?>'>
+<input type = 'hidden' id ='type' name='type' value='<?php echo $node_type?>'>
 <input type = 'hidden' id ='dist' name='dist' value='<?php echo $dist?>'>
 <input type = 'hidden' id ='weather' name='weather' value='<?php echo $weather?>'>
+
+<input type = 'hidden' id ='PLarva' name='PLarva' value='<?php echo $Plarval?>'>
+<input type = 'hidden' id ='Pdist' name='Pdist' value='<?php echo $Pdist?>'>
 
 <input type = 'hidden' id ='interest' name='interest' value='<?php echo $interest?>'>
 
@@ -187,25 +203,57 @@ jQuery(document).ready(function(){
 <input type = 'hidden' id ='PdataBAge2' name='PdataBAge2' value='<?php echo $Pbage?>'>
 <input type = 'hidden' id ='PdataBCount' name='PdataBCount' value='<?php echo $Pbcount?>'>
 <input type = 'hidden' id ='Ptype' name='Ptype' value='<?php echo $node_type?>'>
-<input type = 'hidden' id ='Pdist' name='Pdist' value='<?php echo $Pdist?>'>
+<input type = 'hidden' id ='PDengue' name='PDengue' value='<?php echo $Pdengue?>'>
 
-<?php if ($household != NULL){?>
-<input type="hidden" id="household_length" value="<?php echo count($household); ?>" />
+<?php print_r($household);?>
+<?php if ($household != 0){?>
+<input type="hidden" id="hs_length" value="<?php echo count($household); ?>" />
 	<?php for ($ctr = 0; $ctr < count($household); $ctr++) {?>
-		<input type="hidden" id="hs_householdId<?= $ctr ?>" 		value="<?php echo $household[$ctr]['household_id']; ?>"	/>
-		<input type="hidden" id="hs_householdName<?= $ctr ?>" 			value="<?php echo $household[$ctr]['household_name']; ?>"	/>
-		<input type="hidden" id="hs_houseNo<?= $ctr ?>"	value="<?php echo $household[$ctr]['house_no']; ?>"	/>
+		<input type="hidden" id="hs_householdId<?= $ctr ?>" 		value="<?php echo $household[$ctr]['householdID']; ?>"	/>
+		<input type="hidden" id="hs_householdName<?= $ctr ?>" 			value="<?php echo $household[$ctr]['houseName']; ?>"	/>
+		<input type="hidden" id="hs_houseNo<?= $ctr ?>"	value="<?php echo $household[$ctr]['houseNo']; ?>"	/>
 		<input type="hidden" id="hs_street<?= $ctr ?>" 			value="<?php echo $household[$ctr]['street']; ?>"			/>
-		<input type="hidden" id="hs_lastVisited<?= $ctr ?>" 			value="<?php echo $household[$ctr]['last_visited']; ?>"			/>
-		<input type="hidden" id="hs_lat<?= $ctr ?>" 		value="<?php echo $household[$ctr]['household_lat']; ?>"	/>
-		<input type="hidden" id="hs_lng<?= $ctr ?>" 			value="<?php echo $household[$ctr]['household_lng']; ?>"		/>
-		<input type="hidden" id="hs_personId<?= $ctr ?>" 		value="<?php echo $household[$ctr]['person_id']; ?>"		/>
-		<input type="hidden" id="hs_bhwId<?= $ctr ?>" 		value="<?php echo $household[$ctr]['bhw_id']; ?>"	/>
-		<input type="hidden" id="hs_userUsername<?= $ctr ?>" 	value="<?php echo $household[$ctr]['user_username']; ?>"	/>
-		<input type="hidden" id="hs_barangay<?= $ctr ?>" 	value="<?php echo $household[$ctr]['barangay']; ?>"	/>
+		<input type="hidden" id="hs_lastVisited<?= $ctr ?>" 			value="<?php echo $household[$ctr]['lastVisited']; ?>"			/>
+		<input type="hidden" id="hs_lat<?= $ctr ?>" 		value="<?php echo $household[$ctr]['householdLat']; ?>"	/>
+		<input type="hidden" id="hs_lng<?= $ctr ?>" 			value="<?php echo $household[$ctr]['householdLng']; ?>"		/>
+		<input type="hidden" id="hs_personId<?= $ctr ?>" 		value="<?php echo $household[$ctr]['personID']; ?>"		/>
+		<input type="hidden" id="hs_bhwId<?= $ctr ?>" 		value="<?php echo $household[$ctr]['bhwID']; ?>"	/>
+		<input type="hidden" id="hs_userUsername<?= $ctr ?>" 	value="<?php echo $household[$ctr]['bhwUsername']; ?>"	/>
+		<input type="hidden" id="hs_barangay<?= $ctr ?>" 	value="<?php echo $household[$ctr]['householdBarangay']; ?>"	/>
 	<?php }?> 
-	<input type="hidden" id="case_icon" value="<?php echo base_url('/images/arrow.png')?>" />
-	<?php } else { ?> <input type="hidden" id="result_length" value="0" /> <?php } ?>
+	<input type="hidden" id="hs_icon" value="<?php echo base_url('/images/arrow.png')?>" />
+	<?php } else { ?> <input type="hidden" id="hs_length" value="0" /> <?php } ?>
+	
+<?php if ($dengue != 0){?>
+<input type="hidden" id="dg_length" value="<?php echo count($dengue); ?>" />
+	<?php for ($ctr = 0; $ctr < count($dengue); $ctr++) {?>	
+		<input type="hidden" id="dg_caseNo<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['caseNo']; ?>"	/>
+		<input type="hidden" id="dg_personID<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['personID']; ?>"	/>
+		<input type="hidden" id="dg_hasMusclePain<?= $ctr ?>" 		value="<?php echo $dengue[$ctr]['hasMusclePain']; ?>"	/>
+		<input type="hidden" id="dg_hasJointPain<?= $ctr ?>" 		value="<?php echo $dengue[$ctr]['hasJointPain']; ?>"	/>
+		<input type="hidden" id="dg_hasHeadache<?= $ctr ?>" 		value="<?php echo $dengue[$ctr]['hasHeadache']; ?>"	/>
+		<input type="hidden" id="dg_hasBleeding<?= $ctr ?>" 		value="<?php echo $dengue[$ctr]['hasBleeding']; ?>"	/>
+		<input type="hidden" id="dg_hasRashes<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['hasRashes']; ?>"	/>
+		<input type="hidden" id="dg_daysFever<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['daysFever']; ?>"	/>
+		<input type="hidden" id="dg_createdOn<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['createdOn']; ?>"	/>
+		<input type="hidden" id="dg_lastUpdatedOn<?= $ctr ?>" 		value="<?php echo $dengue[$ctr]['lastUpdatedOn']; ?>"	/>
+		<input type="hidden" id="dg_suspectedSource<?= $ctr ?>" 	value="<?php echo $dengue[$ctr]['suspectedSource']; ?>"	/>
+		<input type="hidden" id="dg_remarks<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['remarks']; ?>"	/>
+		<input type="hidden" id="dg_status<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['status']; ?>"	/>
+		<input type="hidden" id="dg_householdID<?= $ctr ?>" 		value="<?php echo $dengue[$ctr]['householdID']; ?>"	/>
+		<input type="hidden" id="dg_personID<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['personID']; ?>"	/>
+		<input type="hidden" id="dg_bhwID<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['bhwID']; ?>"	/>
+		<input type="hidden" id="dg_householdName<?= $ctr ?>" 		value="<?php echo $dengue[$ctr]['householdName']; ?>"	/>
+		<input type="hidden" id="dg_houseNo<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['houseNo']; ?>"	/>
+		<input type="hidden" id="dg_street<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['street']; ?>"	/>
+		<input type="hidden" id="dg_lastVisited<?= $ctr ?>" 		value="<?php echo $dengue[$ctr]['lastVisited']; ?>"	/>
+		<input type="hidden" id="dg_lat<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['lat']; ?>"	/>
+		<input type="hidden" id="dg_lng<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['lng']; ?>"	/>
+		<input type="hidden" id="dg_bhwName<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['bhwName']; ?>"	/>
+		<input type="hidden" id="dg_barangay<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['barangay']; ?>"	/>
+	<?php }?> 
+	<input type="hidden" id="dg_icon" value="<?php echo base_url('/images/arrow.png')?>" />
+	<?php } else { ?> <input type="hidden" id="dg_length" value="0" /> <?php } ?>
 
 </form>
 <body onload="load()">
@@ -263,7 +311,7 @@ jQuery(document).ready(function(){
 	    <div id="map" style="width: 100%%; height: 600px"></div>
 	</td>
 	<td style="width:40%; height:200px">
-		<form action="" method='post' onsubmit='return confirm("Sure?")'>
+		<form action="" method='post'>
 		<label style="color:red"><?php echo form_error('NDtype-ddl'); ?></label>
 		<div id="info" class="info">
 		<i>(Today is <?php echo date('F d, Y');?>)</i>
@@ -279,6 +327,52 @@ jQuery(document).ready(function(){
 			"larvalpositive"=>"Larval overlay"
 		);
 		echo form_dropdown('NDtype-ddl', $options, $node_type);
+		echo "<br/>";
+		$cboxDengue = array(
+				'name'        => 'cboxDengue',
+				'id'          => 'cboxDengue',
+				'value'       => 'denguecase',
+				'checked'     => $getDengue,
+				'style'       => 'margin:10px',
+		);
+		echo form_checkbox($cboxDengue);
+		echo "Dengue Nodes<br/>";
+		$cboxLarva = array(
+				'name'        => 'cboxLarva',
+				'id'          => 'cboxLarva',
+				'value'       => 'larvalpositive',
+				'checked'     => $getLarva,
+				'style'       => 'margin:10px',
+		);
+		echo form_checkbox($cboxLarva);
+		echo "Larva Nodes<br/>";
+		$cboxPoI = array(
+				'name'        => 'cboxPoI',
+				'id'          => 'cboxPoI',
+				'value'       => 'pointsofinterest',
+				'checked'     => $getPoI,
+				'style'       => 'margin:10px',
+		);
+		echo form_checkbox($cboxPoI);
+		echo "Points of Interest<br/>";
+		$cboxHouseholds = array(
+				'name'        => 'cboxHouseholds',
+				'id'          => 'cboxHouseholds',
+				'value'       => 'Households',
+				'checked'     => $getHouseholds,
+				'style'       => 'margin:10px',
+		);
+		echo form_checkbox($cboxHouseholds);
+		echo "Households<br/>";
+		$cboxBarangayBoundaries = array(
+				'name'        => 'cboxBB',
+				'id'          => 'cboxBB',
+				'value'       => 'barangayboundaries',
+				'checked'     => $getBB,
+				'style'       => 'margin:10px',
+		);
+		echo form_checkbox($cboxBarangayBoundaries);
+		echo "Barangay Boundaries<br/>";
 		?></h4></div>
 		
 		
@@ -354,41 +448,6 @@ jQuery(document).ready(function(){
 		echo $this->table->generate($table2);
 		?>
 	</div>
-	</td>
-</tr>
-<tr>
-	<td>
-		<table>
-		<tr>
-		<td>
-			<h5>Legend</h5>
-		</td>
-		</tr>
-		<tr>
-		<td><img border="0" src="http://maps.google.com/mapfiles/marker.png"></td>
-		<td>Larval sampling, current search data. Bounces when 25% of all nodes returned by the search is within 50 meters or if 50% are within 200 meters.</td>
-		</tr>	
-		<tr>
-			<td><img border="0" src="http://maps.google.com/mapfiles/ms/micons/ltblue-dot.png"></td>
-			<td>"Old" Larval sampling. Same as previous, but uses old search data. <i>(Optionally activated)</i></td>
-		</tr>	
-		<tr>
-			<td><img border="0" src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=S|FF0000|000000"></td>
-			<td>Point of interest. Possible source of Mosquitoes.</td>
-		</tr>	
-		<tr>
-			<td><img border="0" src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=R|FF0000|000000"></td>
-			<td>Point of interest. Possible risk area susceptible to Mosquito bites.</td>
-		</tr>	
-		<tr>
-			<td><img border="0" src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=4|ff776b"></td>
-			<td>Barangay marker, number is the amount of dengue cases for the period. Commonly located at the center of the barangay boundary. For irregularly shaped barangays, the location may vary.</td>
-		</tr>
-		<tr>
-			<td><img border="0" src="http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=4|8FD8D8"></td>
-			<td>"Old" Barangay Marker. Same as previous, but uses old search data. Located beside Barangay Marker <i>(Optionally activated)</i></td>
-		</tr>
-		</table>
 	</td>
 </tr>
 </table>

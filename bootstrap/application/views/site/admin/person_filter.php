@@ -13,8 +13,8 @@
 			</div>
 			<div class="panel-body">
 				<ul class="nav nav-pills nav-stacked">
-					<?php foreach ($persons as $person) { $per = $person['person_id']; ?>
-					<li> <a href=""> <?= $person['person_id'] ?> </a> </li>
+					<?php foreach ($persons as $person) { $per = $person['person_id']; $name = $person['person_first_name'] . ' ' . $person['person_last_name']; ?>
+					<li> <a href="<?=site_url('website/households/view_person/' . $per) ?>"> <?php echo $name; ?> </a> </li>
 					<?php } ?>
 				</ul>
 				<?php echo $links; ?>
