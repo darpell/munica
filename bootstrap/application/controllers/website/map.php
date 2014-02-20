@@ -12,10 +12,15 @@ class Map extends CI_Controller
 	public function view()
 	{
 		$data['node_type'] = $this->input->post('NDtype-ddl');
-
 		$data['title'] = 'View map';
 		//scripts if none keep ''
 		$data['script'] = 'view_casereport';
+		
+		$getLarva=False;
+		$getDengue=False;
+		$getPoI=False;
+		$getHouseholds=False;
+		$getBB=False;
 				
 		/** Validation rules could be seen at application/config/form_validation.php **/
 		//*
@@ -27,11 +32,38 @@ class Map extends CI_Controller
 					$date1=$this->input->post('YearStart-ddl').'-'.$this->input->post('MonthStart-ddl').'-'.'01';
 					$date2=$this->input->post('YearEnd-ddl').'-'.$this->input->post('MonthEnd-ddl').'-'.'01';
 					$date2=date('Y-m-t', strtotime($date2));
+					
+					if ($this->input->post('cboxLarva'))
+					{
+						$getLarva=True; echo $getLarva;
+					}
+					if ($this->input->post('cboxDengue'))
+					{
+						$getDengue=True; echo $getDengue;
+					}
+					if ($this->input->post('cboxPoI'))
+					{
+						$getPoI=True; echo $getPoI;
+					}
+					if ($this->input->post('cboxHouseholds'))
+					{
+						$getHouseholds=True; echo $getHouseholds;
+					}
+					if ($this->input->post('cboxBB'))
+					{
+						$getBB=True; echo $getBB;
+					}
 				}
 				else
 				{
 					$date1=date('Y-m-01');
 					$date2=date('Y-m-t');
+					$getLarva=False;
+					$getDengue=False;
+					$getPoI=False;
+					$getHouseholds=False;
+					$getBB=True;
+					
 				}
 				
 				//*DATE MANIPULATION BEGINS HERE
@@ -73,14 +105,37 @@ class Map extends CI_Controller
 
 				//echo $dateData2['date1']." to ".$dateData2['date2']." : ";
 				//echo $dateData1['date1']." to ".$dateData1['date2'];
-								
+				
+				$data['getLarva'] = $getLarva;
+				$data['getDengue'] = $getDengue;
+				$data['getPoI'] = $getPoI;
+				$data['getHouseholds'] = $getHouseholds;
+				$data['getBB'] = $getBB;
+				$data['brgy']=null;
+				$values = $this->Mapping->mapByType($data);
+				
 				//*CURRENT DATE INTERVAL DATA EXTRACTION
-				$data['nodes'] = $this->Mapping->mapByType($data);
-				$data['bage'] = $this->Mapping->getBarangayAges2($dateData1);
-				$data['binfo'] = $this->Mapping->getBarangayInfo($dateData1);
-				$data['bcount'] = $this->Mapping->getBarangayCount($dateData1);
-				$data['dist'] = $this->Mapping->calculateDistanceFormula($dateData1);
-				$data['household'] = $this->Mapping->getHouseholds();
+				$data['larval'] = $values['larvalValues'];
+				$data['dengue'] = $values['dengueValues'];
+				$data['poi'] = $values['poiValues'];
+				$data['household'] = $values['householdValues'];
+				$data['bb'] = $values['bbValues'];
+				if($getBB)
+				{
+					$data['bcount'] = $this->Mapping->getBarangayCount($dateData1);
+					$data['bage'] = $this->Mapping->getBarangayAges2($dateData1);
+					$data['binfo'] = $this->Mapping->getBarangayInfo($dateData1);
+				}
+				else
+				{
+					$data['bcount'] = 0;
+					$data['bage'] = 0;
+					$data['binfo'] = 0;
+				}
+				if($getLarva)
+					$data['dist'] = $this->Mapping->calculateDistanceFormula($dateData1);
+				else
+					$data['dist'] = 0;
 				//$data['weather'] = $this->Mapping->weatherMapping($dateData1);
 				//*/
 
@@ -90,19 +145,44 @@ class Map extends CI_Controller
 				$data['cdate2']=$dateData1['date2'];
 				$data['pdate1']=$dateData2['date1'];
 				$data['pdate2']=$dateData2['date2'];
+				$values = $this->Mapping->mapByType($data);
 				
 				//*PREVIOUS DATE INTERVAL DATA EXTRACTION
-				$data['Pnodes'] = $this->Mapping->mapByType($data);
+				$data['Plarval'] = $values['larvalValues'];
+				$data['Pdengue'] = $values['dengueValues'];
+				$data['Phousehold'] = $values['householdValues'];
+				//$data['Pnodes'] = $this->Mapping->mapByType($data);
+				if($getBB)
+				{
+					$data['Pbcount'] = $this->Mapping->getBarangayCount($dateData1);
+					$data['Pbage'] = $this->Mapping->getBarangayAges2($dateData1);
+					$data['Pbinfo'] = $this->Mapping->getBarangayInfo($dateData1);
+					$data['table1'] = $this->Mapping->getBarangayAges($dateData1);
+					$data['table2'] = $this->Mapping->getBarangayAges($dateData2);
+				}
+				else
+				{
+					$data['Pbcount'] = 0;
+					$data['Pbage'] = 0;
+					$data['Pbinfo'] = 0;
+					$data['table1'] = 0;
+					$data['table2'] = 0;
+				}
+				if($getLarva)
+					$data['Pdist'] = $this->Mapping->calculateDistanceFormula($dateData1);
+				else
+					$data['Pdist'] = 0;/*
 				$data['Pbage'] = $this->Mapping->getBarangayAges2($dateData2);
 				$data['Pbinfo'] = $this->Mapping->getBarangayInfo($dateData2);
 				$data['Pbcount'] = $this->Mapping->getBarangayCount($dateData2);
 				$data['Pdist'] = $this->Mapping->calculateDistanceFormula($dateData2);
 				//*/
 				//-------------------*/
-
-				$data['interest'] = $this->Mapping->getPointsOfInterest();
-				$data['table1'] = $this->Mapping->getBarangayAges($dateData1);
-				$data['table2'] = $this->Mapping->getBarangayAges($dateData2);
+				if($getPoI)
+					$data['interest'] = $this->Mapping->getPointsOfInterest($getPoI);
+				else
+					$data['interest'] =0;
+				
 				//$data['test'] = $this->Mapping->getBarangayAgesS($data);
 							
 				$this->load->library('table');
