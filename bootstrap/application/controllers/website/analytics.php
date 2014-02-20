@@ -11,253 +11,25 @@ class Analytics extends CI_Controller
 	
 	function index()
 	{
-		
-		//timeseriesallcases
-		$data['cases'] = $this->Analytics_model->get_all_cases_count();
-		//timeseriesalllarval
-		$data['larval']= $this->Analytics_model->get_all_larval_count();
-		//areacasesand larval
-
-		if ($data['cases']['yearstart']<=$data['larval']['yearstart'])
-		{	$data['caseandlarval']['yearstart'] = $data['cases']['yearstart'];
-			
-
-			for($i=$data['caseandlarval']['yearstart'];$i<=DATE('Y');$i++)
-			{
-				for ($s= 1;$s<=12;$s++)
-				{
-					$data['caseandlarval'][$i][$s]=0;
-				}
-			}
-			for($i=$data['larval']['yearstart'];$i<=DATE('Y');$i++)
-			{
-			for ($s= 1;$s<=12;$s++)
-			{
-			$data['caseandlarval'][$i][$s] += $data['larval'][$i][$s];
-			}
-			}
-		}
-		
-		else
-		{	$data['caseandlarval']['yearstart'] = $data['larval']['yearstart'];		
-
-			for($i=$data['caseandlarval']['yearstart'];$i<=DATE('Y');$i++)
-			{
-				for ($s= 1;$s<=12;$s++)
-				{
-				$data['caseandlarval'][$i][$s]=0;
-				}
-			}
-			for($i=$data['cases']['yearstart'];$i<=DATE('Y');$i++)
-			{
-				for ($s= 1;$s<=12;$s++)
-				{
-					$data['caseandlarval'][$i][$s] += $data['cases'][$i][$s];
-				}
-			}
-		}
-		
-		$data['caseandlarval']['count'] = '';
-		for($i=$data['caseandlarval']['yearstart'];$i<=DATE('Y');$i++)
-		{
-		for ($s= 1;$s<=12;$s++)
-		{
-		$data['caseandlarval']['count']  .= $data['caseandlarval'][$i][$s] . ',';
-		}
-		}
-		
-		//combocases
-		$casereportANDimmecase = $this->Analytics_model->get_all_cases_data('2000-01-01', '2013-12-31');
-		$brgys = $this->Analytics_model->get_barangays();
-		
-		for ($i = 0; $i < 4; $i++)
-		{
-			$brgycount[$i]= 0;
-			for ($s = 0; $s < 6; $s++)
-			{
-			$agegroup[$i][$s]= 0;
-			$fatality[$s] = 0;
-			}
-			$median[$i] = null;
-			
-		}
-		
-		
-		if ($casereportANDimmecase['casereport'] != null)
-		{	
-			
-			foreach ($casereportANDimmecase['casereport'] as $row)
-			{	// barangay count
-				for ($i = 0; $i < count($brgys); $i++)
-				{
-					if ($row['cr_barangay'] == $brgys[$i])
-					{
-						$brgycount[$i] += 1;
-
-					
-					
-					//agegroup
-					if($row['cr_age'] == 0){
-						$agegroup[$i][0] += 1;
-						if($row['cr_outcome'] == 'D')  $fatality[0] += 1 ;
-					}
-					else if ($row['cr_age'] >= 1 && $row['cr_age'] <= 10 ){
-						$agegroup[$i][1] += 1;
-						if($row['cr_outcome'] == 'D')  $fatality[1] += 1 ;
-					}
-					else if ($row['cr_age'] >= 11 && $row['cr_age'] <= 20 ){
-						$agegroup[$i][2] += 1;
-						if($row['cr_outcome'] == 'D')  $fatality[2] += 1 ;
-					}
-					else if ($row['cr_age'] >= 21 && $row['cr_age'] <= 30 ){
-						$agegroup[$i][3] += 1;
-						if($row['cr_outcome'] == 'D')  $fatality[3] += 1 ;
-					}
-					else if ($row['cr_age'] >= 31 && $row['cr_age'] <= 40 ){
-						$agegroup[$i][4] += 1;
-						if($row['cr_outcome'] == 'D')  $fatality[4] += 1 ;
-					}
-					else{
-						$agegroup[$i][5] += 1;
-						if($row['cr_outcome'] == 'D')  $fatality[5] += 1 ;
-					}
-					}
-					
-				}
-				
-			}
-			
-		}
-		if ($casereportANDimmecase['immecase'] != null)
-		{
-				
-			foreach ($casereportANDimmecase['immecase'] as $row)
-			{	
-				$age = $this->compute_age($row['person_dob']);
-				// barangay count
-				for ($i = 0; $i < count($brgys); $i++)
-				{
-					if ($row['barangay'] == $brgys[$i])
-					{
-					$brgycount[$i] += 1;
-					
-					
-				
-							//agegroup
-							if($age == 0)
-							$agegroup[$i][0] += 1;
-							else if ($age >= 1 && $age <= 10 )
-							$agegroup[$i][1] += 1;
-							else if ($age >= 11 && $age <= 20 )
-							$agegroup[$i][2] += 1;
-							else if ($age >= 21 && $age <= 30 )
-							$agegroup[$i][3] += 1;
-							else if ($age >= 31 && $age <= 40 )
-							$agegroup[$i][4] += 1;
-							else
-							$agegroup[$i][5] += 1;
-							
-					}
-									
-				}
-		
-			}
-					
-		}
-
-		for ($i = 0; $i < 4; $i++)
-		{
-			$median[$i] = $this->calculate_median($agegroup[$i]);
-		}
-
-		$data['brgys'] = $brgys;
-		$data['agegroup'] = $agegroup;
-		$data['brgycount'] = $brgycount;
-		
-		//fatality rate  --agegroup computation must be included
-		for ($i=0; $i<6; $i++)
-		{
-			$agegroupsum[$i] = 0;
-		}
-		for($i=0;$i<count($brgys);$i++)
-		{
-			$agegroupsum[0] += $agegroup[$i][0];
-			$agegroupsum[1] += $agegroup[$i][1];
-			$agegroupsum[2] += $agegroup[$i][2];
-			$agegroupsum[3] += $agegroup[$i][3];
-			$agegroupsum[4] += $agegroup[$i][4];
-			$agegroupsum[5] += $agegroup[$i][5];
-		}
-		
-		for($i=0; $i<count($fatality);$i++)
-		{
-			$fatality[$i]= round($fatality[$i] / $agegroupsum[$i],2);
-		}
-		$data['fatality'] = $fatality; 
-		
-		// population demographics
-		
-		$temp= $this->Analytics_model->get_all_person_data();
-		$brgys = $this->Analytics_model->get_barangays();
-
-		
-		for ($i = 0; $i < 4; $i++)
-		{
-			
-		$population['brgy_count'][$i]= 0;
-			for ($s = 0; $s < 6; $s++)
-			{
-			$population['agegroup'][$i][$s]= 0;
-			}
-			
-		}
-		
-		foreach ($temp as $row)
-		{	// barangay count
-		for ($i = 0; $i < count($brgys); $i++)
-		{
-			$age = $this->compute_age($row['person_dob']);
-			
-				if ($row['barangay'] == $brgys[$i])
-				{
-				$population['brgy_count'][$i] += 1;
-					
-					//agegroup
-					if($age == 0){
-						$population['agegroup'][$i][0] += 1;
-					
-					}
-					else if ($age >= 1 && $age <= 10 ){
-						$population['agegroup'][$i][1] += 1;
-				
-					}
-					else if ($age>= 11 && $age <= 20 ){
-						$population['agegroup'][$i][2] += 1;
-					
-					}
-					else if ($age >= 21 && $age<= 30 ){
-						$population['agegroup'][$i][3] += 1;
-					
-					}
-					else if ($age>= 31 && $age <= 40 ){
-						$population['agegroup'][$i][4] += 1;
-	
-					}
-					else{
-						$population['agegroup'][$i][5] += 1;
-						
-					}
-				}
-						
-			}
-		
-		}
-		$data['brgys'] = $brgys;
-		$data['population'] = $population;
-		
-		
+		$data['cases']= $this->Analytics_model->get_summary_count((int)date("W"));
 		
 		$this->load->view('site/analytics',$data);
+	}
+	function setfilter()
+	{
+	
+		$this->session->set_userdata('datefrom', $this->input->post('datepicker'));
+		$this->session->set_userdata('dateto', $this->input->post('datepicker2'));
+		 	
+		redirect($this->input->post('url'), 'refresh');  
+	}
+	function resetfilter()
+	{
+	
+		$this->session->unset_userdata('datefrom');
+		$this->session->unset_userdata('dateto');
+	
+		redirect($this->input->post('url'), 'refresh');
 	}
 	
 	function calculate_median($arr) {
@@ -294,8 +66,33 @@ class Analytics extends CI_Controller
 	}
 	function case_demographics()
 	{
-		//combocases
-		$casereportANDimmecase = $this->Analytics_model->get_all_cases_data('2000-01-01', '2013-12-31');
+		$data['dateto'] = '';
+		$data['datefrom'] = '';
+		
+		$this->form_validation->set_rules('datepicker', 'Date from', 'required');
+		$this->form_validation->set_rules('datepicker2', 'Date to', 'required');
+		
+		if ($this->form_validation->run('') == FALSE)
+		{
+			
+			$casereportANDimmecase = $this->Analytics_model->get_all_cases_data('2000-01-01', '2013-12-31');
+		}
+		else
+		{
+			$data['datefrom'] = $this->input->post('datepicker');
+			$data['dateto'] = $this->input->post('datepicker2');
+			
+			$temp= explode ('/', $data['datefrom']);
+			$temp = $temp[2].'/'.$temp[0].'/'.$temp[1];
+			
+			$temp2= explode ('/', $data['dateto']);
+			$temp2 = $temp2[2].'/'.$temp2[0].'/'.$temp2[1];
+			
+			$casereportANDimmecase = $this->Analytics_model->get_all_cases_data($temp, $temp2);
+			
+		}
+		
+		
 		$brgys = $this->Analytics_model->get_barangays();
 		
 		for ($i = 0; $i < 4; $i++)
@@ -322,32 +119,30 @@ class Analytics extends CI_Controller
 							{
 							$brgycount[$i] += 1;
 		
-								
-								
 							//agegroup
 							if($row['cr_age'] == 0){
 							$agegroup[$i][0] += 1;
-									if($row['cr_outcome'] == 'D')  $fatality[0] += 1 ;
-									}
-											else if ($row['cr_age'] >= 1 && $row['cr_age'] <= 10 ){
-													$agegroup[$i][1] += 1;
-													if($row['cr_outcome'] == 'D')  $fatality[1] += 1 ;
-													}
-													else if ($row['cr_age'] >= 11 && $row['cr_age'] <= 20 ){
-															$agegroup[$i][2] += 1;
-															if($row['cr_outcome'] == 'D')  $fatality[2] += 1 ;
-															}
-															else if ($row['cr_age'] >= 21 && $row['cr_age'] <= 30 ){
-															$agegroup[$i][3] += 1;
-																	if($row['cr_outcome'] == 'D')  $fatality[3] += 1 ;
+							if($row['cr_outcome'] == 'D')  $fatality[0] += 1 ;
+							}
+							else if ($row['cr_age'] >= 1 && $row['cr_age'] <= 10 ){
+							$agegroup[$i][1] += 1;
+							if($row['cr_outcome'] == 'D')  $fatality[1] += 1 ;
+							}
+							else if ($row['cr_age'] >= 11 && $row['cr_age'] <= 20 ){
+							$agegroup[$i][2] += 1;
+							if($row['cr_outcome'] == 'D')  $fatality[2] += 1 ;
+							}
+							else if ($row['cr_age'] >= 21 && $row['cr_age'] <= 30 ){
+							$agegroup[$i][3] += 1;
+							if($row['cr_outcome'] == 'D')  $fatality[3] += 1 ;
 							}
 							else if ($row['cr_age'] >= 31 && $row['cr_age'] <= 40 ){
-															$agegroup[$i][4] += 1;
-															if($row['cr_outcome'] == 'D')  $fatality[4] += 1 ;
-															}
-															else{
-															$agegroup[$i][5] += 1;
-															if($row['cr_outcome'] == 'D')  $fatality[5] += 1 ;
+							$agegroup[$i][4] += 1;
+							if($row['cr_outcome'] == 'D')  $fatality[4] += 1 ;
+							}
+							else{
+							$agegroup[$i][5] += 1;
+							if($row['cr_outcome'] == 'D')  $fatality[5] += 1 ;
 		}
 		}
 			
@@ -415,11 +210,14 @@ class Analytics extends CI_Controller
 			$agegroupsum[3] += $agegroup[$i][3];
 			$agegroupsum[4] += $agegroup[$i][4];
 			$agegroupsum[5] += $agegroup[$i][5];
-			}
+		}
 		
 			for($i=0; $i<count($fatality);$i++)
 			{
+			if($agegroupsum[$i] > 0)
 			$fatality[$i]= round($fatality[$i] / $agegroupsum[$i],2);
+			else
+			$fatality[$i]=0;
 			}
 			$data['fatality'] = $fatality;
 			

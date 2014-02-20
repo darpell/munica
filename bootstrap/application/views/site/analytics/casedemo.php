@@ -22,7 +22,7 @@ body { height:100% }
 <body onload="initialize()">
 <!-- CONTENT -->
 
-<?php  $this->load->view('/site/analytics/analyticslinks');?>
+<?php  $data['title'] = 'home'; $this->load->view('/site/analytics/analyticslinks',$data);?>
 <div class="col-md-9">
 		
 	<!-- combo chart for dengue cases -->

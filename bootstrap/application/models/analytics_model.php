@@ -271,6 +271,76 @@
 			$q->free_result();
 			return $data;
 		}
+		function get_summary_count($weekno , $brgy = null)
+		{
+			for($i = $weekno-4; $i<=$weekno; $i++)
+			{
+				for($s = date('Y')-5; $s<=date('Y'); $s++)
+				{
+				$data[$s][$i] = 0;
+				}
+				$average[$i] = 0;  
+			}
+			if($brgy == null){
+			$where = "count(cr_barangay) as patientcount ,YEAR(cr_date_onset) as caseyear,   
+						WEEK(cr_date_onset) as caseweek 
+						FROM (`case_report_main`)
+						WHERE WEEK(`cr_date_onset`) between ".$weekno."-4 AND ".$weekno." AND
+						(YEAR(`cr_date_onset`) between ".date('Y')."-5 AND  ".date('Y').") 
+						GROUP BY YEAR(`cr_date_onset`),WEEK(`cr_date_onset`)
+					";
+			}
+			$this->db->select($where,false);
+			$q = $this->db->get();
+			if($q->num_rows() > 0)
+			{
+				foreach ($q->result() as $row)
+				{
+					$data[$row->caseyear][$row->caseweek]=$row->patientcount;
+					if($row->caseyear != date('Y'))
+					$average[$row->caseweek] += $row->patientcount;
+				}
+				
+			}
+			$q->free_result();
+			if($brgy == null){
+			$where = "count(imcase_no) as patientcount ,YEAR(created_on) as caseyear,   
+						WEEK(created_on) as caseweek
+						FROM (`immediate_cases`)
+						JOIN `master_list` ON `master_list`.`person_id` = `immediate_cases`.`person_id`
+						JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
+						JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username`
+						JOIN `household_address` ON `catchment_area`.`household_id` = `household_address`.`household_id`
+			
+						WHERE WEEK(`created_on`) between ".$weekno."-4 AND ".$weekno." AND
+						(YEAR(`created_on`) between ".date('Y')."-5 AND  ".date('Y').")
+						GROUP BY YEAR(`created_on`),WEEK(`created_on`)
+					";
+			}
+			$this->db->select($where,false);
+			$q = $this->db->get();
+			if($q->num_rows() > 0)
+			{
+				foreach ($q->result() as $row)
+				{	
+					$data[$row->caseyear][$row->caseweek] +=$row->patientcount;
+					if($row->caseyear != date('Y'))
+					$average[$row->caseweek] += $row->patientcount;
+				}
+			}
+			$q->free_result();
+			
+			for($i = $weekno-4; $i<=$weekno; $i++)
+			{
+				 $average[$i] = round($average[$i]/5,0) ;
+				 $average[$i].' ';
+			}
+			$data['average'] = $average;
+			
+			
+			return $data;
+		}
+
 		
 	}
 
