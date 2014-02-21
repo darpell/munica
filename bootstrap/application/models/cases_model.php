@@ -19,6 +19,18 @@ class Cases_model extends CI_Model
 		$query->free_result();
 	}
 	
+	#TODO
+	function get_case($person_id)
+	{
+		$this->db->from('immediate_cases')
+				->join('master_list', 'immediate_cases.person_id = master_list.person_id')
+				->where('person_id');
+		
+		$query = $this->db->get();
+		$brgy_cases = $query->row_array();
+			$query->free_result();
+	}
+	
 	function check_case_resident($hosp_cases)
 	{
 		$this->db->from('immediate_cases')

@@ -21,7 +21,7 @@
 			<tbody>
 				<?php foreach ($cases as $case) {?>
 				<tr>
-					<td> <?= $case['person_first_name'] . ' ' . $case['person_last_name'] ?> </td> <td> <?= $case['days_fever'] ?> </td> 
+					<td> <a href="<?= site_url('website/cases/view_person/' . $case['person_id']) ?>"><?= $case['person_first_name'] . ' ' . $case['person_last_name'] ?> </a> </td> <td> <?= $case['days_fever'] ?> </td> 
 					<td> <?= $case['suspected_source'] ?> </td> <td> <?= $case['status'] ?> </td> <td> <?= $case['person_contactno'] ?> </td>
 				</tr>
 				<?php } ?>
