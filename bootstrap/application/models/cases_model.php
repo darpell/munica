@@ -63,6 +63,7 @@ class Cases_model extends CI_Model
 		return $distribution;
 	}
 	
+	#TODO for upload
 	function check_barangay_count($hosp_cases)
 	{
 		$barangay_ctr = array();
@@ -76,6 +77,16 @@ class Cases_model extends CI_Model
 	function check_if_hospitalized()
 	{
 		
+	}
+	
+	function add_case($header,$cases)
+	{
+		$this->db->insert('case_report_header',$header);
+		
+		for ($ctr = 0; $ctr < count($cases); $ctr++)
+		{
+			$this->db->insert('case_report_main',$cases[$ctr]);
+		}
 	}
 }
 

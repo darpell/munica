@@ -21,6 +21,7 @@
         		<p> Twitter plugin </p>
         		<p> <?php echo $this->benchmark->elapsed_time() . ' elapsed time';?> </p>
         		<p> <?php echo $this->benchmark->memory_usage() . ' memory used.';?> </p>
+        		<p> <?php echo date('Ymd-gis'); ?></p>
         	</div>
         
         	<div class="col-md-4">
