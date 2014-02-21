@@ -40,9 +40,14 @@ class Mapping extends CI_Model
 			return $data;
 		}
 	function mapByType($data)
-		{
-			if($data['node_type']=="larvalpositive")
-			{		
+		{//print_r($data);
+			$returnValues['larvalValues'] =0;
+			$returnValues['dengueValues'] =0;
+			$returnValues['poiValues'] =0;
+			$returnValues['householdValues'] =0;
+			$returnValues['bbValues'] =0;
+			if($data['getLarva'])
+			{
 				$qString = 'CALL '; 
 				$qString .= "view_larval_nodes('"; // name of stored procedure
 				$qString .= 
@@ -53,11 +58,11 @@ class Mapping extends CI_Model
 				$q = $this->db->query($qString);
 				//*
 				if($q->num_rows() > 0) 
-				{	$data = "";
+				{	$temp = "";
 					foreach ($q->result() as $row) 
 					{
 						//if($row->ls_result=="positive") // disabled for now since only a few (or non) entries would be positive
-						$data .=
+						$temp .=
 						"larvalpositive" . "&&" . 
 						$row->ls_no . "&&" . 
 						$row->ls_lat . "&&" . 
@@ -68,19 +73,17 @@ class Mapping extends CI_Model
 						$row->created_on . "&&".
 						$row->last_updated_on . "&&".
 						$row->ls_barangay . "&&".
-						$row->ls_street . "&&".
 						$row->created_by . "%%"  ;
 					}
 					$q->free_result();
-					return substr($data,0,-2);
+					$returnValues['larvalValues'] = substr($temp,0,-2);
 				}
 				else
 				{
 					$q->free_result();
-					return 0;
 				}
 			}
-			else if($data['node_type']=="denguecase")
+			if($data['getBB'])
 			{
 				$qString = 'CALL '; 
 				$qString .= "get_all_polygon_points ()"; // name of stored procedure
@@ -88,28 +91,106 @@ class Mapping extends CI_Model
 				$q = $this->db->query($qString);
 				//*
 				if($q->num_rows() > 0) 
-				{	$data2 = "";
+				{	$temp = "";
 					foreach ($q->result() as $row) 
-					{
-						
-							$data2 .=
+					{	
+							$temp .=
 							$row->polygon_ID . "&&" . 
 							$row->point_lat . "&&" . 
 							$row->point_lng . "&&" . 
 							$row->polygon_name . "%%" ;
 					}
-					
-					$q->free_result();
-					return substr($data2,0,-2);
+					$returnValues['bbValues'] =  substr($temp,0,-2);
 				}
-				else
-				{
-					$q->free_result();
-					return 0;
-				}
-				
+				$q->free_result();
 			}
-			else
+			if($data['getDengue'])
+			{
+				$this->db->from('immediate_cases');
+				$this->db->join('catchment_area', 'catchment_area.person_id = immediate_cases.person_id');
+				$this->db->join('household_address', 'household_address.household_id = catchment_area.household_id');
+				$this->db->join('bhw', 'bhw.user_username = catchment_area.bhw_id');
+				if ($data['brgy'] != NULL)
+				{
+					$where = "barangay=";
+					foreach($data['brgy'] as $varr)
+					{
+						$where .= $varr." OR ";
+					}
+					$this->db->where(substr($where,0,-2));
+				}	
+				$q = $this->db->get();
+				if($q->num_rows() > 0) 
+				{	$tempest;
+					foreach ($q->result() as $row) 
+					{
+						$tempest[]=array(//*
+								'caseNo'=> $row->imcase_no,
+								'personID'=> $row->person_id,
+								'hasMusclePain'=> $row->has_muscle_pain,
+								'hasJointPain'=> $row->has_joint_pain,
+								'hasHeadache'=> $row->has_headache,
+								'hasBleeding'=> $row->has_bleeding,
+								'hasRashes'=> $row->has_rashes,
+								'daysFever'=> $row->days_fever,
+								'createdOn'=> $row->created_on,
+								'lastUpdatedOn'=> $row->last_updated_on,
+								'suspectedSource'=> $row->suspected_source,
+								'remarks'=> $row->remarks,
+								'status'=> $row->status,
+								'householdID'=> $row->household_id,
+								'personID'=> $row->person_id,
+								'bhwID'=> $row->bhw_id,
+								'householdName'=> $row->household_name,
+								'houseNo'=> $row->house_no,
+								'street'=> $row->street,
+								'lastVisited'=> $row->last_visited,
+								'lat'=> $row->household_lat,
+								'lng'=> $row->household_lng,
+								'bhwName'=> $row->user_username,
+								'barangay'=> $row->barangay
+								//*/
+						);
+					}
+					$returnValues['dengueValues'] =  $tempest;
+				}
+				$q->free_result();
+			}
+			if ($data['getHouseholds'])//all polygons
+			{
+				$this->db->from('household_address');
+				$this->db->join('catchment_area', 'catchment_area.household_id = household_address.household_id');
+				$this->db->join('bhw', 'catchment_area.bhw_id = bhw.user_username');
+				if ($data['brgy'] != NULL)
+				{
+					$this->db->where('barangay',$brgy);
+				}
+				$q = $this->db->get();
+				if($q->num_rows() > 0) 
+				{	$tempall;
+					foreach ($q->result() as $row) 
+					{
+						$tempall[]=array(//*
+								'householdID'=> $row->household_id,
+								'houseName'=> $row->household_name,
+								'houseNo'=> $row->house_no,
+								'street'=> $row->street,
+								'lastVisited'=> $row->last_visited,
+								'householdLat'=> $row->household_lat,
+								'householdLng'=> $row->household_lng,
+								'personID'=> $row->person_id,
+								'bhwID'=> $row->bhw_id,
+								'bhwUsername'=> $row->user_username,
+								'householdBarangay'=> $row->barangay
+								//*/
+						);
+					}
+					$returnValues['householdValues'] =  $tempall;
+				}
+				$q->free_result();
+			}
+			return $returnValues;
+			/*else
 			{
 				//QUERY LARVAL INFORMATION
 				$qString = 'CALL ';
@@ -317,66 +398,54 @@ class Mapping extends CI_Model
 			}
 			return substr($dist,0,-2);
 		}
-		//*
-		function getHouseholds($brgy = null)//all polygons
+		/*
+	function getHouseholds($brgy = null)//all polygons
 		{
-			$this->db->from('household_address');
-			if ($brgy != NULL)
-			{
-				$this->db->join('catchment_area', 'catchment_area.household_id = household_address.household_id');
-				$this->db->join('bhw', 'catchment_area.bhw_id = bhw.user_username');
-				$this->db->where('barangay',$brgy);
-			}
-			else
-			{
-				$this->db->join('catchment_area', 'catchment_area.household_id = household_address.household_id');
-				$this->db->join('bhw', 'catchment_area.bhw_id = bhw.user_username');
-			}
-
-			$query = $this->db->get();
-			return $query->result_array();
-			$query->free_result();
 		}
 		//*/
-	function getPointsOfInterest()//all polygons
+	function getPointsOfInterest($d)//all polygons
 		{	
-			$qString = 'CALL '; 
-			$qString .= "view_PoI_nodes()"; // name of stored procedure
-			
-			$q = $this->db->query($qString);
-			//*
-			$data="";
-			if($q->num_rows() > 0) 
-			{	
-				foreach ($q->result() as $row) 
-				{
-					if($row->node_type==0)
-					{
-						$temp="Potential Source Area <br/><i>(Commonly bodies of water or abandoned areas)</i>";
-					}
-					else
-					{
-						$temp="Potential Risk Area <br/><i>(Commonly areas with high population density or traffic)</i>";
-					}
-					$data .=
-					$row->node_name . "&&" . 
-					$row->node_lat . "&&" . 
-					$row->node_lng . "&&" . 
-					$temp . "&&" . 
-					$row->node_notes . "&&" . 
-					$row->node_barangay . "&&" .
-					$row->node_city . "&&" . 
-					$row->node_addedOn . "&&" . 
-					$row->node_type . "%%" ;
-				}
-				
-				$q->free_result();
-				return substr($data,0,-2);
-			}
-			else
+			if($d)
 			{
-				$q->free_result();
-				return 0;
+
+				$qString = 'CALL ';
+				$qString .= "view_PoI_nodes()"; // name of stored procedure
+					
+				$q = $this->db->query($qString);
+				//*
+				$data="";
+				if($q->num_rows() > 0)
+				{
+					foreach ($q->result() as $row)
+					{
+						if($row->node_type==0)
+						{
+							$temp="Potential Source Area <br/><i>(Commonly bodies of water or abandoned areas)</i>";
+						}
+						else
+						{
+							$temp="Potential Risk Area <br/><i>(Commonly areas with high population density or traffic)</i>";
+						}
+						$data .=
+						$row->node_name . "&&" .
+						$row->node_lat . "&&" .
+						$row->node_lng . "&&" .
+						$temp . "&&" .
+						$row->node_notes . "&&" .
+						$row->node_barangay . "&&" .
+						$row->node_city . "&&" .
+						$row->node_addedOn . "&&" .
+						$row->node_type . "%%" ;
+					}
+				
+					$q->free_result();
+					return substr($data,0,-2);
+				}
+				else
+				{
+					$q->free_result();
+					return 0;
+				}
 			}
 		}
 		//*/
