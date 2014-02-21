@@ -17,13 +17,13 @@
 						<td> Status: </td> <td> <?= $person['status']?> </td>
 					</tr>
 					<tr>
-						<td> First encoded on: </td> <td> <?= $person['created_on'] ?> </td>
+						<td> First encoded on: </td> <td> <?= date('d/m/Y',strtotime($person['created_on'])) ?> </td>
 					</tr>
 					<tr>
-						<td> Last updated on: </td> <td> <?= $person['last_updated_on'] ?> </td>
+						<td> Last updated on: </td> <td> <?= date('d/m/Y',strtotime($person['last_updated_on'])) ?> </td>
 					</tr>
 					<tr>
-						<td> Suspected Source" </td> <td> <?= $person['suspected_source']?> </td>
+						<td> Suspected Source: </td> <td> <?= $person['suspected_source']?> </td>
 					</tr>
 					<tr>
 						<td> Remarks: </td> <td> <?= $person['remarks'] ?> </td>
@@ -38,7 +38,7 @@
 						<td> Contact No: </td> <td> <?= $person['person_contactno'] ?> </td>
 					</tr>
 					<tr>
-						<td> Date of Birth: </td> <td> <?= $person['person_dob'] ?> </td>
+						<td> Date of Birth: </td> <td> <?= date('d/m/Y',strtotime($person['person_dob'])) ?> </td>
 					</tr>
 					<tr>
 						<td> Marital Status: </td> <td> <?= $person['person_marital'] ?> </td>

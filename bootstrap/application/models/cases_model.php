@@ -24,10 +24,12 @@ class Cases_model extends CI_Model
 	{
 		$this->db->from('immediate_cases')
 				->join('master_list', 'immediate_cases.person_id = master_list.person_id')
-				->where('person_id');
+				->where('immediate_cases.person_id',$person_id)
+				->order_by('imcase_no','desc')
+				->limit('1');
 		
 		$query = $this->db->get();
-		$brgy_cases = $query->row_array();
+		return $query->row_array();
 			$query->free_result();
 	}
 	
