@@ -13,6 +13,10 @@ class Analytics extends CI_Controller
 	{
 		$data['cases']= $this->Analytics_model->get_summary_count((int)date("W"));
 		
+		$data['larval']= $this->Analytics_model->get_larval_count((int)date("W"));
+		
+		print_r($data['cases']['deaths']);
+		$data['barangay'] = $this->Analytics_model->get_barangays();
 		$this->load->view('site/analytics',$data);
 	}
 	function setfilter()
@@ -191,11 +195,22 @@ class Analytics extends CI_Controller
 			for ($i = 0; $i < 4; $i++)
 			{
 			$median[$i] = $this->calculate_median($agegroup[$i]);
-		}
+			}
 		
 		$data['brgys'] = $brgys;
 		$data['agegroup'] = $agegroup;
 		$data['brgycount'] = $brgycount;
+		
+		$data['brgy_max'] = null;
+		$tempcount = 0;
+		for($i=0;$i<count($brgys);$i++)
+		{
+		if($brgycount[$i] > $tempcount)
+			{
+			$tempcount = $brgycount[$i];
+			$data['brgy_max'] = $i;
+			}
+		}
 		
 		//fatality rate  --agegroup computation must be included
 				for ($i=0; $i<6; $i++)
@@ -211,16 +226,30 @@ class Analytics extends CI_Controller
 			$agegroupsum[4] += $agegroup[$i][4];
 			$agegroupsum[5] += $agegroup[$i][5];
 		}
-		
+		$data['deaths'] = 0;
+		$data['max_fatality'] = 0;
+		$data['max_fatality_group'] = null;
 			for($i=0; $i<count($fatality);$i++)
 			{
+			$data['deaths'] += $fatality[$i];
+			
 			if($agegroupsum[$i] > 0)
 			$fatality[$i]= round($fatality[$i] / $agegroupsum[$i],2);
 			else
 			$fatality[$i]=0;
+			
+			if($fatality[$i] > $data['max_fatality'] )
+			{
+				$data['max_fatality'] = $fatality[$i];
+				$data['max_fatality_group'] = $i;
+			}
+			
 			}
 			$data['fatality'] = $fatality;
+			$data['casereportANDimmecase'] = $casereportANDimmecase;
 			
+			
+		
 			
 			$this->load->view('site/analytics/casedemo',$data);
 	}

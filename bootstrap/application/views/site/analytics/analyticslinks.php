@@ -41,11 +41,11 @@ $( "#datepicker2" ).datepicker();
 				<ul class="nav nav-pills nav-stacked">
 				
 				<label style="color:red"><?php echo form_error('datepicker'); ?></label>
-				 <li>Date From: <input type="text" name="datepicker" id="datepicker" 
+				 <li>Date From: <input type="text" name="datepicker" id="datepicker" readonly=true
 				 value ="<?php echo $datefrom;?>"></li>
 
 				 <label style="color:red"><?php echo form_error('datepicker2'); ?></label>
-				 <li>Date To: <input type="text"  name="datepicker2" id="datepicker2" 
+				 <li>Date To: <input type="text"  name="datepicker2" id="datepicker2" readonly=true
 				 value ="<?php echo $dateto;?>"></li>
 				  <br />
 				  <input type= "hidden" name="url" value = "<?php echo current_url()?>" />
