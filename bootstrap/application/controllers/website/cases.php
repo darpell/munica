@@ -16,7 +16,7 @@ class Cases extends CI_Controller
 	function view_suspected()
 	{
 		$config['base_url'] = site_url('website/cases/view_suspected');
-		$config['total_rows'] = $this->db->get_where('immediate_cases',array('status' => 'suspected'))->num_rows();
+		$config['total_rows'] = $this->db->get_where('active_cases',array('status' => 'suspected'))->num_rows();
 		$config['per_page'] = 5;
 		$config['num_links'] = 3;
 		$config['uri_segment'] = 4;
@@ -33,7 +33,7 @@ class Cases extends CI_Controller
 	function view_threatening()
 	{
 		$config['base_url'] = site_url('website/cases/view_threatening');
-		$config['total_rows'] = $this->db->get_where('immediate_cases',array('status' => 'threatening'))->num_rows();
+		$config['total_rows'] = $this->db->get_where('active_cases',array('status' => 'threatening'))->num_rows();
 		$config['per_page'] = 5;
 		$config['num_links'] = 3;
 		$config['uri_segment'] = 4;
@@ -50,7 +50,7 @@ class Cases extends CI_Controller
 	function view_serious()
 	{
 		$config['base_url'] = site_url('website/cases/view_serious');
-		$config['total_rows'] = $this->db->get_where('immediate_cases',array('status' => 'serious'))->num_rows();
+		$config['total_rows'] = $this->db->get_where('active_cases',array('status' => 'serious'))->num_rows();
 		$config['per_page'] = 5;
 		$config['num_links'] = 3;
 		$config['uri_segment'] = 4;
@@ -67,7 +67,7 @@ class Cases extends CI_Controller
 	function view_hospitalized()
 	{
 		$config['base_url'] = site_url('website/cases/view_hospitalized');
-		$config['total_rows'] = $this->db->get_where('immediate_cases',array('status' => 'hospitalized'))->num_rows();
+		$config['total_rows'] = $this->db->get_where('active_cases',array('status' => 'hospitalized'))->num_rows();
 		$config['per_page'] = 5;
 		$config['num_links'] = 3;
 		$config['uri_segment'] = 4;

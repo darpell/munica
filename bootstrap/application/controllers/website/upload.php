@@ -142,7 +142,8 @@ class Upload extends CI_Controller
 			$data['values'] = $values;
 			
 			$data['entry_count'] = count($patientnum);
-			$data['residents'] = $this->model->check_case_resident($values);
+			$data['residents'] = $this->model->get_case_resident($values);
+			$data['active_cases'] = $this->model->check_if_active($values);
 			$data['distribution'] = $this->model->check_gender_distribution($values);
 			
 			$this->session->set_userdata('TPuploadPath', $upload['full_path']);
@@ -273,57 +274,6 @@ class Upload extends CI_Controller
 		{
 			$this->session->unset_userdata('TPuploadvalues');
 		 	redirect('/website/upload');
-		}
-	}
-	
-	function add_case_notif($type,$id,$barangay)
-	{
-		if ($type == 'imcase')
-		{//chance to person_id
-			$msg = 'New Immediate Case:';
-		}
-		else if($type == 'invcase')
-		{//change to patient_no'
-			$msg = 'Plotted Uninvestigated Case:';
-		}
-		else if($type == 'newcase')
-		{//change to patient_no'
-		$msg = 'New Dengue Case Reported:';
-		}
-	
-		$midwife = $this->notif->get_midwife_by_barangay($barangay);
-		$personid = $id;
-		$data2 = array(
-				'notif_type' => 1,
-				'notification' => $msg,
-				'unique_id' => $type.'-'.$personid,
-				'notif_viewed' => 'N',
-				'notif_createdOn' => Date('Y-m-d'),
-				'notif_user' => $midwife,
-		);
-		$this->notif->addnotif($data2);
-	}
-	function check_prev_case_notif($bgy)
-	{
-		$barangay =  $bgy;
-		$data = $this->masterlist->get_cases($barangay);
-		$midwife = $this->notif->get_midwife_by_barangay($barangay);
-		if(($data[date('Y')] > $data[date('Y')-1]))
-		{
-			$id='highcase-'.date('Y-m');
-			if ($this->notif->checknotifexist($id,$midwife))
-			{
-				$data2 = array(
-						'notif_type' => 2,
-						'notification' => 'current number of dengue cases exceeded the previous cases from last year',
-						'unique_id' => $id,
-						'notif_viewed' => 'N',
-						'notif_createdOn' => Date('Y-m-d'),
-						'notif_user' => $midwife,
-	
-				);
-				$this->notif->addnotif($data2);
-			}
 		}
 	}
 }
