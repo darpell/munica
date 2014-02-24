@@ -4,12 +4,12 @@
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3&sensor=true"></script>
 <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-<script src="<?= base_url('/scripts/mapping/OverlappingMarkerSpiderfier.js') ?>"></script>
-<script src="<?= base_url('/scripts/mapping/larvaloverlay.js') ?>"></script>
-<script src="<?= base_url('/scripts/mapping/dengueoverlay.js') ?>"></script>
-<script src="<?= base_url('/scripts/mapping/householdoverlay.js') ?>"></script>
-<script src="<?= base_url('/scripts/mapping/generalmappingtools.js') ?>"></script>
-<script src="<?= base_url('/scripts/mapping/barangayoverlay.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('scripts/mapping/OverlappingMarkerSpiderfier.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('scripts/mapping/generalmappingtools.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('scripts/mapping/barangayoverlay.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('scripts/mapping/larvaloverlay.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('scripts/mapping/dengueoverlay.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('scripts/mapping/householdoverlay.js') ?>"></script>
 <script type="text/javascript">
 	google.load('visualization', '1.1', {packages: ['controls','corechart']});
 </script>
@@ -106,11 +106,13 @@ function load() {
         mapLarvalOverlay(map,document.getElementById('dist').value,document.getElementById("Larva").value,false);
     }
 	if(document.getElementById('getBb').value.toString()=="1")
-	{alert("Alert BB!");
-		mapBarangayOverlay(map,document.getElementById('dataBCount').value.toString(),document.getElementById('dataBAge').value.toString(),document.getElementById('Bb').value.toString(),document.getElementById('dataBInfo').value.toString(),false);
+	{
+		//alert("Alert BB!");
+		mapBarangayOverlay(map);
 	}
 	if(document.getElementById('getDengue').value.toString()=="1")
-    {alert("Alert DG!");
+    {
+	    //alert("Alert DG!");
 		mapDengueOverlay(map);
     }
 	if(document.getElementById('getPoi').value.toString()=="1")
@@ -156,7 +158,7 @@ jQuery(document).ready(function(){
 			    }
 				if(document.getElementById('getBb').value.toString()=="1")
 				{
-					mapBarangayOverlay(map,document.getElementById('dataBCount').value.toString(),document.getElementById('dataBAge').value.toString(),document.getElementById('Bb').value.toString(),document.getElementById('dataBInfo').value.toString(),false);
+					mapBarangayOverlay(map);
 			    }	
 				if(document.getElementById('getPoi').value.toString()=="1")
 			    {
@@ -180,7 +182,7 @@ jQuery(document).ready(function(){
 		  }
 		  else
 		  {
-			  load();
+			  //load();
 		  }
 	  });
 	});
@@ -200,7 +202,18 @@ jQuery(document).ready(function(){
 <input type = 'hidden' id ='Larva' name='Larva' value='<?php echo $larval?>'>
 <input type = 'hidden' id ='Dengue' name='Dengue' value='<?php echo $dengue?>'>
 <input type = 'hidden' id ='Household' name='Household' value='<?php echo $household?>'>
-<input type = 'hidden' id ='Bb' name='Bb' value='<?php echo $bb?>'>
+
+<?php if ($bb != 0){?>
+<input type="hidden" id="bb_length" value="<?php echo count($bb); ?>" />
+	<?php for ($ctr = 0; $ctr < count($bb); $ctr++) {?>
+		<input type="hidden" id="bb_polyName<?= $ctr ?>" 	value="<?php echo $bb[$ctr]['pName']; ?>"	/>
+		<input type="hidden" id="bb_polyID<?= $ctr ?>" 		value="<?php echo $bb[$ctr]['pID']; ?>"	/>
+		<input type="hidden" id="bb_polyLat<?= $ctr ?>"		value="<?php echo $bb[$ctr]['pLat']; ?>"	/>
+		<input type="hidden" id="bb_polyLng<?= $ctr ?>" 	value="<?php echo $bb[$ctr]['pLng']; ?>"			/>
+	<?php }?> 
+	<input type="hidden" id="bb_icon" value="<?php echo base_url('/images/arrow.png')?>" />
+	<?php } else { ?> <input type="hidden" id="bb_length" value="0" /> <?php } ?>
+	
 <input type = 'hidden' id ='type' name='type' value='<?php echo $node_type?>'>
 <input type = 'hidden' id ='dist' name='dist' value='<?php echo $dist?>'>
 

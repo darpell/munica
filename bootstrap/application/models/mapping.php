@@ -85,22 +85,30 @@ class Mapping extends CI_Model
 			}
 			if($data['getBB'])
 			{
-				$qString = 'CALL '; 
-				$qString .= "get_all_polygon_points ()"; // name of stored procedure
-				
-				$q = $this->db->query($qString);
-				//*
-				if($q->num_rows() > 0) 
-				{	$temp = "";
-					foreach ($q->result() as $row) 
-					{	
-							$temp .=
-							$row->polygon_ID . "&&" . 
-							$row->point_lat . "&&" . 
-							$row->point_lng . "&&" . 
-							$row->polygon_name . "%%" ;
+				$this->db->from('map_polygons');
+				if ($data['brgy'] != NULL)
+				{
+					$where = "polygon_name=";
+					foreach($data['brgy'] as $varr)
+					{
+						$where .= $varr." OR ";
 					}
-					$returnValues['bbValues'] =  substr($temp,0,-2);
+					$this->db->where(substr($where,0,-3));
+				}
+				$q = $this->db->get();
+				//*if($q->num_rows() > 0) 
+				{	$temper;
+					foreach ($q->result() as $row) 
+					{
+						$temper[]=array(//*
+								'pName'=> $row->polygon_name,
+								'pID'=> $row->polygon_ID,
+								'pLat'=> $row->point_lat,
+								'pLng'=> $row->point_lng
+								//*/
+						);
+					}
+					$returnValues['bbValues'] =  $temper;
 				}
 				$q->free_result();
 			}
@@ -118,7 +126,7 @@ class Mapping extends CI_Model
 					{
 						$where .= $varr." OR ";
 					}
-					$this->db->where(substr($where,0,-2));
+					$this->db->where(substr($where,0,-3));
 				}	
 				$q = $this->db->get();
 				if($q->num_rows() > 0) 
@@ -171,7 +179,12 @@ class Mapping extends CI_Model
 				$this->db->join('master_list', 'master_list.person_id = catchment_area.person_id');
 				if ($data['brgy'] != NULL)
 				{
-					$this->db->where('barangay',$brgy);
+					$where = "barangay=";
+					foreach($data['brgy'] as $varr)
+					{
+						$where .= $varr." OR ";
+					}
+					$this->db->where(substr($where,0,-3));
 				}
 				$q = $this->db->get();
 				if($q->num_rows() > 0) 
