@@ -21,6 +21,21 @@ class Hh_model extends CI_Model
 		}
 	}
 	
+	function get_cases($bhw = FALSE, $hh_id = FALSE)
+	{
+		$this->db->from('active_cases')
+					->join('catchment_area','active_cases.person_id = catchment_area.person_id');
+		
+		if ($bhw != FALSE)
+			$this->db->where('bhw_id',$bhw);
+		if ($hh_id != FALSE)
+			$this->db->where('household_id',$hh_id);
+		
+		$query = $this->db->get();
+		return $query->result_array();
+		$query->free_result();
+	}
+	
 	function get_catchment_area($brgy = FALSE, $offset = FALSE, $limit = FALSE)
 	{
 		$this->db->from('catchment_area')

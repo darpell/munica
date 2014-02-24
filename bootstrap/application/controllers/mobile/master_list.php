@@ -8,16 +8,16 @@ class Master_list extends CI_Controller
 		$this->load->model('master_list_model','masterlist');
 		$this->load->model('midwife');
 		$this->load->model('notif');
+		
+		$this->load->model('hh_model','model');
 	}
 	
 	function index()
 	{
-		//$data['result'] = '';
-		//$data['tasks'] = $this->tasks->get_tasks($this->session->userdata('TPusername'));
-		//$this->load->view('mobile/tasks.php', $data);
+		//$data['subjects'] = $this->masterlist->get_households($this->session->userdata('TPusername'));
 		
-		//$data['subjects'] = $this->masterlist->get_list($this->session->userdata('TPusername'));
-		$data['subjects'] = $this->masterlist->get_households($this->session->userdata('TPusername'));
+		$data['subjects'] = $this->model->get_households($this->session->userdata('TPusername'));
+		//$data['cases'] = $this->model->get_cases();
 		$this->load->view('mobile/master_list', $data);
 	}
 

@@ -11,6 +11,7 @@ class Dashboard extends CI_Controller
 	function index()
 	{
 		$this->load->model('notif');
+		$this->notif->check_on_hospitalized_cases();		
 		$data['notif_count'] = count($this->notif->getnotifs($this->session->userdata('TPusername')));
 		
 		$this->load->model('hh_model');
