@@ -4,10 +4,12 @@
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3&sensor=true"></script>
 <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-<script src="<?= base_url('scripts/mapping/OverlappingMarkerSpiderfier.js') ?>"></script>
-<script src="<?= base_url('scripts/mapping/larvaloverlay.js') ?>"></script>
-<script src="<?= base_url('scripts/mapping/generalmappingtools.js') ?>"></script>
-<script src="<?= base_url('scripts/mapping/barangayoverlay.js') ?>"></script>
+<script src="<?= base_url('/scripts/mapping/OverlappingMarkerSpiderfier.js') ?>"></script>
+<script src="<?= base_url('/scripts/mapping/larvaloverlay.js') ?>"></script>
+<script src="<?= base_url('/scripts/mapping/dengueoverlay.js') ?>"></script>
+<script src="<?= base_url('/scripts/mapping/householdoverlay.js') ?>"></script>
+<script src="<?= base_url('/scripts/mapping/generalmappingtools.js') ?>"></script>
+<script src="<?= base_url('/scripts/mapping/barangayoverlay.js') ?>"></script>
 <script type="text/javascript">
 	google.load('visualization', '1.1', {packages: ['controls','corechart']});
 </script>
@@ -104,13 +106,22 @@ function load() {
         mapLarvalOverlay(map,document.getElementById('dist').value,document.getElementById("Larva").value,false);
     }
 	if(document.getElementById('getBb').value.toString()=="1")
-	{
+	{alert("Alert BB!");
 		mapBarangayOverlay(map,document.getElementById('dataBCount').value.toString(),document.getElementById('dataBAge').value.toString(),document.getElementById('Bb').value.toString(),document.getElementById('dataBInfo').value.toString(),false);
-    }	
+	}
+	if(document.getElementById('getDengue').value.toString()=="1")
+    {alert("Alert DG!");
+		mapDengueOverlay(map);
+    }
 	if(document.getElementById('getPoi').value.toString()=="1")
     {
 		mapPointsOfInterest(map);
-    }/*
+    }
+	if(document.getElementById('getHouseholds').value.toString()=="1")
+    {
+		mapHouseholdOverlay(map);
+    }
+    /*
 	else
 	{
     	//Data handler, SPLITTER
@@ -150,8 +161,11 @@ jQuery(document).ready(function(){
 				if(document.getElementById('getPoi').value.toString()=="1")
 			    {
 					mapPointsOfInterest(map);
+			    }	
+				if(document.getElementById('getHouseholds').value.toString()=="1")
+			    {
+					mapHouseholdOverlay(map);
 			    }
-				{
 			    	/*Data handler, SPLITTER
 					var str = document.getElementById('data').value.toString();
 					str = str.split("%&");
@@ -163,7 +177,6 @@ jQuery(document).ready(function(){
 					mapBarangayOverlay(map,document.getElementById('dataBCount').value.toString(),document.getElementById('dataBAge').value.toString(),str[1],document.getElementById('dataBInfo').value.toString(),false);
 					//mapBarangayOverlay(map,document.getElementById('PdataBCount').value.toString(),document.getElementById('PdataBAge2').value.toString(),Pstr[1],document.getElementById('PdataBInfo').value.toString(),true);
 					mapHousholds(map,barangayCount,barangayAge,datax,barangayInfo) //Denguecase barangay polygon display//*/
-				}
 		  }
 		  else
 		  {
@@ -190,14 +203,13 @@ jQuery(document).ready(function(){
 <input type = 'hidden' id ='Bb' name='Bb' value='<?php echo $bb?>'>
 <input type = 'hidden' id ='type' name='type' value='<?php echo $node_type?>'>
 <input type = 'hidden' id ='dist' name='dist' value='<?php echo $dist?>'>
-<input type = 'hidden' id ='weather' name='weather' value='<?php echo $weather?>'>
 
 <input type = 'hidden' id ='PLarva' name='PLarva' value='<?php echo $Plarval?>'>
 <input type = 'hidden' id ='Pdist' name='Pdist' value='<?php echo $Pdist?>'>
 
 <input type = 'hidden' id ='interest' name='interest' value='<?php echo $interest?>'>
 
-<input type = 'hidden' id ='Pdata' name='Pdata' value='<?php echo $Pnodes?>'>
+<!-- <input type = 'hidden' id ='Pdata' name='Pdata' value='<?php// echo $Pnodes?>'> -->
 <input type = 'hidden' id ='PdataBInfo' name='PdataBInfo' value='<?php echo $Pbinfo?>'>
 <input type = 'hidden' id ='PdataBAge' name='PdataBAge' value='<?php echo $table2?>'>
 <input type = 'hidden' id ='PdataBAge2' name='PdataBAge2' value='<?php echo $Pbage?>'>
@@ -205,21 +217,24 @@ jQuery(document).ready(function(){
 <input type = 'hidden' id ='Ptype' name='Ptype' value='<?php echo $node_type?>'>
 <input type = 'hidden' id ='PDengue' name='PDengue' value='<?php echo $Pdengue?>'>
 
-<?php print_r($household);?>
 <?php if ($household != 0){?>
 <input type="hidden" id="hs_length" value="<?php echo count($household); ?>" />
 	<?php for ($ctr = 0; $ctr < count($household); $ctr++) {?>
-		<input type="hidden" id="hs_householdId<?= $ctr ?>" 		value="<?php echo $household[$ctr]['householdID']; ?>"	/>
-		<input type="hidden" id="hs_householdName<?= $ctr ?>" 			value="<?php echo $household[$ctr]['houseName']; ?>"	/>
-		<input type="hidden" id="hs_houseNo<?= $ctr ?>"	value="<?php echo $household[$ctr]['houseNo']; ?>"	/>
+		<input type="hidden" id="hs_householdId<?= $ctr ?>" 	value="<?php echo $household[$ctr]['householdID']; ?>"	/>
+		<input type="hidden" id="hs_householdName<?= $ctr ?>" 	value="<?php echo $household[$ctr]['houseName']; ?>"	/>
+		<input type="hidden" id="hs_houseNo<?= $ctr ?>"			value="<?php echo $household[$ctr]['houseNo']; ?>"	/>
 		<input type="hidden" id="hs_street<?= $ctr ?>" 			value="<?php echo $household[$ctr]['street']; ?>"			/>
-		<input type="hidden" id="hs_lastVisited<?= $ctr ?>" 			value="<?php echo $household[$ctr]['lastVisited']; ?>"			/>
-		<input type="hidden" id="hs_lat<?= $ctr ?>" 		value="<?php echo $household[$ctr]['householdLat']; ?>"	/>
+		<input type="hidden" id="hs_lastVisited<?= $ctr ?>"	 	value="<?php echo $household[$ctr]['lastVisited']; ?>"			/>
+		<input type="hidden" id="hs_lat<?= $ctr ?>" 			value="<?php echo $household[$ctr]['householdLat']; ?>"	/>
 		<input type="hidden" id="hs_lng<?= $ctr ?>" 			value="<?php echo $household[$ctr]['householdLng']; ?>"		/>
 		<input type="hidden" id="hs_personId<?= $ctr ?>" 		value="<?php echo $household[$ctr]['personID']; ?>"		/>
-		<input type="hidden" id="hs_bhwId<?= $ctr ?>" 		value="<?php echo $household[$ctr]['bhwID']; ?>"	/>
-		<input type="hidden" id="hs_userUsername<?= $ctr ?>" 	value="<?php echo $household[$ctr]['bhwUsername']; ?>"	/>
-		<input type="hidden" id="hs_barangay<?= $ctr ?>" 	value="<?php echo $household[$ctr]['householdBarangay']; ?>"	/>
+		<input type="hidden" id="hs_bhwId<?= $ctr ?>" 			value="<?php echo $household[$ctr]['bhwID']; ?>"	/>
+		<input type="hidden" id="hs_userUsername<?= $ctr ?>"	value="<?php echo $household[$ctr]['bhwUsername']; ?>"	/>
+		<input type="hidden" id="hs_barangay<?= $ctr ?>" 		value="<?php echo $household[$ctr]['householdBarangay']; ?>"	/>
+		<input type="hidden" id="hs_fname<?= $ctr ?>" 			value="<?php echo $household[$ctr]['personFName']; ?>"	/>
+		<input type="hidden" id="hs_lname<?= $ctr ?>" 			value="<?php echo $household[$ctr]['personLName']; ?>"	/>
+		<input type="hidden" id="hs_dob<?= $ctr ?>" 			value="<?php echo $household[$ctr]['personDoB']; ?>"	/>
+		<input type="hidden" id="hs_sex<?= $ctr ?>" 			value="<?php echo $household[$ctr]['personSex']; ?>"	/>
 	<?php }?> 
 	<input type="hidden" id="hs_icon" value="<?php echo base_url('/images/arrow.png')?>" />
 	<?php } else { ?> <input type="hidden" id="hs_length" value="0" /> <?php } ?>
@@ -251,6 +266,12 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="dg_lng<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['lng']; ?>"	/>
 		<input type="hidden" id="dg_bhwName<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['bhwName']; ?>"	/>
 		<input type="hidden" id="dg_barangay<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['barangay']; ?>"	/>
+		<input type="hidden" id="dg_fName<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['fName']; ?>"	/>
+		<input type="hidden" id="dg_lName<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['lName']; ?>"	/>
+		<input type="hidden" id="dg_dob<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['dob']; ?>"	/>
+		<input type="hidden" id="dg_sex<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['sex']; ?>"	/>
+		<input type="hidden" id="dg_guardian<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['guardian']; ?>"	/>
+		<input type="hidden" id="dg_contact<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['contact']; ?>"	/>
 	<?php }?> 
 	<input type="hidden" id="dg_icon" value="<?php echo base_url('/images/arrow.png')?>" />
 	<?php } else { ?> <input type="hidden" id="dg_length" value="0" /> <?php } ?>

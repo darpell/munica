@@ -35,23 +35,23 @@ class Map extends CI_Controller
 					
 					if ($this->input->post('cboxLarva'))
 					{
-						$getLarva=True; echo $getLarva;
+						$getLarva=True;
 					}
 					if ($this->input->post('cboxDengue'))
 					{
-						$getDengue=True; echo $getDengue;
+						$getDengue=True;
 					}
 					if ($this->input->post('cboxPoI'))
 					{
-						$getPoI=True; echo $getPoI;
+						$getPoI=True;
 					}
 					if ($this->input->post('cboxHouseholds'))
 					{
-						$getHouseholds=True; echo $getHouseholds;
+						$getHouseholds=True;
 					}
 					if ($this->input->post('cboxBB'))
 					{
-						$getBB=True; echo $getBB;
+						$getBB=True;
 					}
 				}
 				else

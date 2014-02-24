@@ -110,6 +110,7 @@ class Mapping extends CI_Model
 				$this->db->join('catchment_area', 'catchment_area.person_id = immediate_cases.person_id');
 				$this->db->join('household_address', 'household_address.household_id = catchment_area.household_id');
 				$this->db->join('bhw', 'bhw.user_username = catchment_area.bhw_id');
+				$this->db->join('master_list', 'master_list.person_id = catchment_area.person_id');
 				if ($data['brgy'] != NULL)
 				{
 					$where = "barangay=";
@@ -148,7 +149,13 @@ class Mapping extends CI_Model
 								'lat'=> $row->household_lat,
 								'lng'=> $row->household_lng,
 								'bhwName'=> $row->user_username,
-								'barangay'=> $row->barangay
+								'barangay'=> $row->barangay,
+								'fName'=> $row->person_first_name,
+								'lName'=> $row->person_last_name,
+								'dob'=> $row->person_dob,
+								'sex'=> $row->person_sex,
+								'guardian'=> $row->person_guardian,
+								'contact'=> $row->person_contactno
 								//*/
 						);
 					}
@@ -161,6 +168,7 @@ class Mapping extends CI_Model
 				$this->db->from('household_address');
 				$this->db->join('catchment_area', 'catchment_area.household_id = household_address.household_id');
 				$this->db->join('bhw', 'catchment_area.bhw_id = bhw.user_username');
+				$this->db->join('master_list', 'master_list.person_id = catchment_area.person_id');
 				if ($data['brgy'] != NULL)
 				{
 					$this->db->where('barangay',$brgy);
@@ -181,7 +189,11 @@ class Mapping extends CI_Model
 								'personID'=> $row->person_id,
 								'bhwID'=> $row->bhw_id,
 								'bhwUsername'=> $row->user_username,
-								'householdBarangay'=> $row->barangay
+								'householdBarangay'=> $row->barangay,
+								'personFName'=> $row->person_first_name,
+								'personLName'=> $row->person_last_name,
+								'personDoB'=> $row->person_dob,
+								'personSex'=> $row->person_sex
 								//*/
 						);
 					}
@@ -323,7 +335,7 @@ class Mapping extends CI_Model
 				$ctr++;
 			}
 		}
-		echo ($data);
+		//echo ($data);
 		return substr($data,0,-2);
 	}
 	function calculateDistanceFormula($data)
@@ -486,13 +498,12 @@ class Mapping extends CI_Model
 					$row->cr_age . "%%" ;
 				}
 				$q->free_result();
-				return substr($data,0,-2);
 			}
 			else
 			{
 				$q->free_result();
-				return substr($data,0,-2);
 			}
+			return substr($data,0,-2);
 			//*/
 		}
 		function getBarangayAges($data2)
@@ -536,7 +547,7 @@ class Mapping extends CI_Model
 			else
 			{
 				$q->free_result();
-				return $data;
+				return "";
 			}
 			//*/
 		}
@@ -688,8 +699,8 @@ class Mapping extends CI_Model
 					}
 				}
 			}
-			echo count($arr1)." ";
-			echo count($arr2)." ";
+			//echo count($arr1)." ";
+			//echo count($arr2)." ";
 			for($i=0; $i<count($arr1); $i++)
 			{
 				//ROW CREATION

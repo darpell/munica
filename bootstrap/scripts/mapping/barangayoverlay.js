@@ -1,10 +1,10 @@
 function mapBarangayOverlay(map,barangayCount,barangayAge,datax,barangayInfo,isOld) //Denguecase barangay polygon display
 {
-	//*DECLARATION OF VALUES AND CONTAINERS
+	/*DECLARATION OF VALUES AND CONTAINERS
 	var x1=999;
 	var x2=-999;
 	var y1=999;
-	var y2=-999;
+	var y2=-999;//*/
 	var currPoly = 1;
 	var latLng = [];
 	var nodeInfoCounter=0;
