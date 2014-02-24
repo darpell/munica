@@ -1,4 +1,6 @@
 $(function () {
+	if(fatality != 'null')
+{
         $('#fatalityrate').highcharts({
             chart: {
                 type: 'column',
@@ -48,5 +50,6 @@ $(function () {
                 }
             }]
         });
+}
     });
     

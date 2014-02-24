@@ -19,6 +19,20 @@ class Cases_model extends CI_Model
 		$query->free_result();
 	}
 	
+	#TODO
+	function get_case($person_id)
+	{
+		$this->db->from('immediate_cases')
+				->join('master_list', 'immediate_cases.person_id = master_list.person_id')
+				->where('immediate_cases.person_id',$person_id)
+				->order_by('imcase_no','desc')
+				->limit('1');
+		
+		$query = $this->db->get();
+		return $query->row_array();
+			$query->free_result();
+	}
+	
 	function check_case_resident($hosp_cases)
 	{
 		$this->db->from('immediate_cases')
@@ -63,6 +77,7 @@ class Cases_model extends CI_Model
 		return $distribution;
 	}
 	
+	#TODO for upload
 	function check_barangay_count($hosp_cases)
 	{
 		$barangay_ctr = array();
@@ -76,6 +91,16 @@ class Cases_model extends CI_Model
 	function check_if_hospitalized()
 	{
 		
+	}
+	
+	function add_case($header,$cases)
+	{
+		$this->db->insert('case_report_header',$header);
+		
+		for ($ctr = 0; $ctr < count($cases); $ctr++)
+		{
+			$this->db->insert('case_report_main',$cases[$ctr]);
+		}
 	}
 }
 

@@ -28,6 +28,15 @@ body { height:100% }
 			<div class="panel-heading">
 				<h3 class="panel-title"> Total Larval Count </h3>
 			</div>
+			
+				<center>
+			 <fieldset  style="width: 50%;">
+			 <legend>Summary</legend>
+			<p>The most number of Larval Breeding spots reported was <b><?php echo $larval['max'] ?></b>.</p>
+			<p>During the <b>Year <?php echo $larval['max_year'] ?> Month <?php echo $larval['max_mon'] ?></b></p>
+			 </fieldset>
+			 </center>
+			 
 			<div class="panel-body">
 				<div id="timeserieslarval" style="min-width: 310px; height: 400px; margin: 0 auto"> graph of distribution </div>
 			</div>

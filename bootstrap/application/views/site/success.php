@@ -1,13 +1,11 @@
 <!-- HEADER -->
-<?php $this->load->view('/site/templates/header');?>
+<?php $data['title'] = 'Success'; $this->load->view('/site/templates/header',$data);?>
 
 </head>
 <body>
 <!-- CONTENT -->
-	<!-- Custom styles for this template -->
-    <link href="<?php echo base_url('style/css/jumbotron.css'); ?>" rel="stylesheet">
     
-    <div class="alert alert-danger"> <?php var_dump($values); ?> </div>
+    <div class="alert"> <?php echo $result; ?> </div>
       
 <!-- FOOTER -->
 <?php $this->load->view('/site/templates/footer');?>

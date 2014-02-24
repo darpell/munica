@@ -30,6 +30,13 @@ body { height:100% }
 			<div class="panel-heading">
 				<h3 class="panel-title"> Total Case Count </h3>
 			</div>
+			<center>
+			 <fieldset  style="width: 50%;">
+			 <legend>Summary</legend>
+			<p>The most number of cases reported was <b><?php echo $cases['max'] ?> cases</b>.</p>
+			<p>During the <b>Year <?php echo $cases['max_year'] ?> Month <?php echo $cases['max_mon'] ?></b></p>
+			 </fieldset>
+			 </center>
 			<div class="panel-body">
 				<div id="timeseriescases" style="min-width: 310px; height: 400px; margin: 0 auto"> graph of distribution </div>
 			</div>

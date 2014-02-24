@@ -18,8 +18,10 @@
 		}
 		function get_all_cases_count($brgy = null)
 		{	
+			
 			$where = "MIN(YEAR(cr_date_onset)) as yearmin
-			FROM (`case_report_main`) ";
+			FROM (`case_report_main`) 
+					WHERE YEAR(cr_date_onset) < ".date('Y')."";
 			$this->db->select($where);
 			$q = $this->db->get();
 			if($q->num_rows() > 0)
@@ -45,6 +47,7 @@
 			$where = "count(cr_barangay) as patientcount ,YEAR(cr_date_onset) as caseyear,   
 					Month(cr_date_onset) as casemonth 
 					FROM (`case_report_main`)
+					WHERE YEAR(`cr_date_onset`) < ".date('Y')."
 					GROUP BY YEAR(`cr_date_onset`),MONTH(`cr_date_onset`)";
 			$this->db->select($where);
 			$q = $this->db->get();
@@ -66,7 +69,8 @@
 				JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id` 
 				JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username` 
 				JOIN `household_address` ON `catchment_area`.`household_id` = `household_address`.`household_id` 
-				GROUP BY   YEAR( created_on ) ,MONTH( created_on )";
+				WHERE YEAR(created_on) < ".date('Y')."
+				GROUP BY   YEAR(created_on) ,MONTH(created_on)";
 			$this->db->select($where);
 			$q = $this->db->get();
 			$yearstart= 0;
@@ -125,12 +129,25 @@
 				$q->free_result();
 					
 			}
+			$data['max'] = 0;
+			$data['max_mon']=null;
+			$data['max_year']=null;
+			
 			$data['casecount'] = '';
 			for($i=$data['yearstart'];$i<=DATE('Y');$i++)
 			{
 			for ($s= 1;$s<=12;$s++)
 			{
 			$data['casecount'] .= $data[$i][$s] . ',';
+			
+			if($data[$i][$s] >=$data['max'] )
+			{
+				$data['max'] = $data[$i][$s];
+				$data['max_mon']=$s;
+				$data['max_year']=$i;
+			}
+			
+			
 			}
 			}
 			
@@ -180,7 +197,8 @@
 		function get_all_larval_count($brgy = null)
 		{
 			$where = "MIN(YEAR(created_on)) as yearmin
-			FROM (`ls_report`) ";
+			FROM (`ls_report`)
+			WHERE YEAR(created_on) < ".date('Y')." ";
 			$this->db->select($where);
 			$q = $this->db->get();
 			if($q->num_rows() > 0)
@@ -206,6 +224,7 @@
 			$where = "count(ls_no) as count ,YEAR(created_on) as caseyear,
 				Month(created_on) as casemonth
 				FROM (`ls_report`)
+				WHERE YEAR(created_on) < ".date('Y')."
 				GROUP BY YEAR(`created_on`),MONTH(`created_on`)";
 			$this->db->select($where);
 			$q = $this->db->get();
@@ -226,7 +245,7 @@
 				$where = "count(ls_no) as count ,YEAR(created_on) as caseyear,
 				Month(created_on) as casemonth
 				FROM (`ls_report`)
-				WHERE ls_barangay ='".$brgy."'
+				WHERE YEAR(created_on) < ".date('Y')." AND ls_barangay ='".$brgy."'
 				GROUP BY YEAR(`created_on`),MONTH(`created_on`)";
 				$this->db->select($where);
 				$q = $this->db->get();
@@ -241,14 +260,25 @@
 				}
 				$q->free_result();
 			}
+			$data['max'] = 0;
+			$data['max_mon']=null;
+			$data['max_year']=null;
 			$data['larvalcount'] = '';
 			for($i=$data['yearstart'];$i<=DATE('Y');$i++)
 			{
 			for ($s= 1;$s<=12;$s++)
-			{
+				{
 				$data['larvalcount'] .= $data[$i][$s] . ',';
+				
+				if($data[$i][$s]>=$data['max'])
+				{
+					$data['max'] = $data[$i][$s];
+					$data['max_mon']=$s;
+					$data['max_year']=$i;
 				}
+				
 				}
+			}
 							
 			return $data;
 							
@@ -271,6 +301,163 @@
 			$q->free_result();
 			return $data;
 		}
+		function get_summary_count($weekno , $brgy = null)
+		{
+			$brgys = $this->get_barangays();
+			
+			$data['total'] = 0;
+			for($i = $weekno-4; $i<=$weekno; $i++)
+			{
+				for($s = date('Y')-5; $s<=date('Y'); $s++)
+				{
+				$data[$s][$i] = 0;
+					foreach($brgys as $row)
+					{
+					$data[$row][$s][$i]=0;
+					}
+				
+				}
+				
+				
+				$average[$i] = 0;  
+			}
+			if($brgy == null){
+			$where = "count(cr_barangay) as patientcount ,YEAR(cr_date_onset) as caseyear,   
+						WEEK(cr_date_onset) as caseweek, cr_barangay
+						FROM (`case_report_main`)
+						WHERE WEEK(`cr_date_onset`) between ".$weekno."-4 AND ".$weekno." AND
+						(YEAR(`cr_date_onset`) between ".date('Y')."-5 AND  ".date('Y').") 
+						GROUP BY YEAR(`cr_date_onset`),WEEK(`cr_date_onset`), cr_barangay
+					";
+			}
+			$this->db->select($where,false);
+			$q = $this->db->get();
+			if($q->num_rows() > 0)
+			{
+				foreach ($q->result() as $row)
+				{
+					$data[$row->caseyear][$row->caseweek] +=$row->patientcount;
+					if($row->caseyear != date('Y'))
+					$average[$row->caseweek] += $row->patientcount;
+					else
+					$data['total'] += $row->patientcount;
+					
+					foreach($brgys as $temp)
+					{
+						if($temp == $row->cr_barangay)
+						{
+							$data[$temp][$row->caseyear][$row->caseweek] += $row->patientcount;
+						}
+					}
+					
+				}
+				
+			}
+			$q->free_result();
+			if($brgy == null){
+			$where = "count(imcase_no) as patientcount ,YEAR(created_on) as caseyear,   
+						WEEK(created_on) as caseweek,barangay
+						FROM (`immediate_cases`)
+						JOIN `master_list` ON `master_list`.`person_id` = `immediate_cases`.`person_id`
+						JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
+						JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username`
+						JOIN `household_address` ON `catchment_area`.`household_id` = `household_address`.`household_id`
+			
+						WHERE WEEK(`created_on`) between ".$weekno."-4 AND ".$weekno." AND
+						(YEAR(`created_on`) between ".date('Y')."-5 AND  ".date('Y').")
+						GROUP BY YEAR(`created_on`),WEEK(`created_on`),barangay
+					";
+			}
+			$this->db->select($where,false);
+			$q = $this->db->get();
+			if($q->num_rows() > 0)
+			{
+				foreach ($q->result() as $row)
+				{	
+					$data[$row->caseyear][$row->caseweek] +=$row->patientcount;
+					if($row->caseyear != date('Y'))
+					$average[$row->caseweek] += $row->patientcount;
+					else
+						$data['total'] += $row->patientcount;
+					foreach($brgys as $temp)
+					{
+						if($temp == $row->barangay)
+						{
+							$data[$temp][$row->caseyear][$row->caseweek] += $row->patientcount;
+						}
+					}
+				}
+			}
+			$q->free_result();
+			
+			$data['deaths'] = 0;
+			
+			if($brgy == null){
+				$where = "count(cr_barangay) as patientcount ,YEAR(cr_date_onset) as caseyear,
+						WEEK(cr_date_onset) as caseweek, cr_barangay
+						FROM (`case_report_main`)
+						WHERE WEEK(`cr_date_onset`) between ".$weekno."-4 AND ".$weekno." AND
+						(YEAR(`cr_date_onset`) =  ".date('Y').") AND cr_outcome = 'D'
+						GROUP BY YEAR(`cr_date_onset`),WEEK(`cr_date_onset`), cr_barangay
+					";
+			}
+			$this->db->select($where,false);
+			$q = $this->db->get();
+			if($q->num_rows() > 0)
+			{
+				foreach ($q->result() as $row)
+				{
+					$data['deaths'] +=$row->patientcount;
+				}
+			
+			}
+			
+			for($i = $weekno-4; $i<=$weekno; $i++)
+			{
+				 $average[$i] = round($average[$i]/5,0) ;
+				 $average[$i].' ';
+			}
+			$data['average'] = $average;
+			
+			
+			return $data;
+		}
+		function get_larval_count($weekno)
+		{	
+			$brgys = $this->get_barangays();
+			for($i = $weekno-4; $i<=$weekno; $i++)
+			{
+				$data[$i] = 0;
+			}
+			foreach ($brgys as $row)
+			{
+				
+				for($i = $weekno-4; $i<=$weekno; $i++)
+				{
+				$data[$row][$i] = 0;
+				}
+			} 
+			
+			$where = "count(ls_no) as count ,WEEK(created_on) as caseweek, ls_barangay FROM (`ls_report`)
+				WHERE WEEK(`created_on`) between ".$weekno."-4 AND ".$weekno." AND
+				(YEAR(`created_on`) = ".date('Y').")
+				GROUP BY WEEK(created_on), ls_barangay";
+			$this->db->select($where);
+			$q = $this->db->get();
+			$yearstart= 0;
+			if($q->num_rows() > 0)
+			{
+				foreach ($q->result() as $row)
+				{
+				$data[$row->caseweek] += $row->count;
+				$data[$row->ls_barangay][$row->caseweek] += $row->count;
+				}
+			}
+			
+			$q->free_result();
+			return $data;
+		}
+
 		
 	}
 

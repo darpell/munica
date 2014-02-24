@@ -81,6 +81,12 @@ class Cases extends CI_Controller
 		$this->load->view('site/admin/cases',$data);
 	}
 	
+	function view_person($id)
+	{
+		$data['person'] = $this->model->get_case($id);
+		
+		$this->load->view('site/admin/case',$data);
+	}
 }
 
 /* End of file cases.php */

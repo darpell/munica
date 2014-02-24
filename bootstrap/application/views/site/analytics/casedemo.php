@@ -22,7 +22,7 @@ body { height:100% }
 <body onload="initialize()">
 <!-- CONTENT -->
 
-<?php  $this->load->view('/site/analytics/analyticslinks');?>
+<?php  $data['title'] = 'home'; $this->load->view('/site/analytics/analyticslinks',$data);?>
 <div class="col-md-9">
 		
 	<!-- combo chart for dengue cases -->
@@ -30,15 +30,46 @@ body { height:100% }
 			<div class="panel-heading">
 				<h3 class="panel-title"> Case Demographics </h3>
 			</div>
+			<?php if ($casereportANDimmecase['casereport'] != null OR $casereportANDimmecase['immecase'] != null )
+			{?>
+			<center>
+			 <fieldset  style="width: 50%;">
+			 <legend>Summary</legend>
+			<p>Most cases reported was at  <b><?php echo $brgys[$brgy_max]; ?></b></p>
+			<p>The number of deaths reported was <b><?php echo $deaths; ?> cases</b>.</p>
+			 </fieldset>
+			 </center>
+			 
 			<div class="panel-body">
 				<div id="combocases" style="min-width: 310px; height: 400px; margin: 0 auto"> graph of distribution </div>
 			</div>
 		</div>
+		<?php if($max_fatality > 0 ){
+				$age = '';
+				switch ($max_fatality_group)
+				{
+					case '0': $age = 'Below 1'; break;
+					case '1': $age = '1-10'; break;
+					case '2': $age = '11-20'; break;
+					case '3': $age = '21-30'; break;
+					case '4': $age = '31-40'; break;
+					case '5': $age = '>40'; break;
+				}
+				
+				?>
 	<!-- fatality rate -->
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<h3 class="panel-title"> Case Fatality </h3>
 			</div>
+				<center>
+			 <fieldset  style="width: 50%;">
+			 <legend>Summary</legend>
+			
+			<p>The Highest Fatality Rate is <b><?php echo $max_fatality*100; ?> Percent</b> for age group <?php echo $age;?>.</p>
+			
+			 </fieldset>
+			 </center>
 			<div class="panel-body">
 				<div id="fatalityrate" style="min-width: 310px; height: 400px; margin: 0 auto"> graph of distribution </div>
 			</div>
@@ -46,16 +77,28 @@ body { height:100% }
 		
 	
 <script>
-
+	
   <!-- combo chart -->
-  var brgycount = <?php echo json_encode($brgycount); ?>;
-  var agegroup = <?php echo json_encode($agegroup); ?>;
-  var brgys = <?php echo json_encode($brgys); ?>;
+  var brgycount = <?php  if ($casereportANDimmecase['casereport'] != null OR $casereportANDimmecase['immecase'] != null )
+			echo json_encode($brgycount); else echo json_encode('null') ?>;
+  var agegroup = <?php if ($casereportANDimmecase['casereport'] != null OR $casereportANDimmecase['immecase'] != null )
+			echo json_encode($agegroup); else echo json_encode('null')?>;
+  var brgys = <?php if ($casereportANDimmecase['casereport'] != null OR $casereportANDimmecase['immecase'] != null )
+			echo json_encode($brgys); else echo json_encode('null')?>;
 
   <!-- fatality rate --->
-  var fatality = <?php echo json_encode($fatality); ?>;
+  var fatality = <?php if ($casereportANDimmecase['casereport'] != null OR $casereportANDimmecase['immecase'] != null )
+			echo json_encode($fatality);  else echo json_encode('null')?>;
 </script>
 	<!-- end of Graph -->
+	 <?php }?>
+		<?php } else {?>
+		<center>
+			 <fieldset  style="width: 50%;">
+			 <legend>No Cases Found</legend>
+			 </fieldset>
+			 </center>
+		<?php }?>
 </div>      
 <!-- FOOTER -->
 <?php $this->load->view('/site/templates/footer');?>

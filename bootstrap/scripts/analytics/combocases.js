@@ -1,4 +1,6 @@
 $(function () {
+if(brgycount != 'null')
+{
 	var arragegroup = new Array();
 	for (var i=0;i<agegroup[0].length;i++)
 	{
@@ -96,5 +98,7 @@ $(function () {
                 }
             }]
         });
+}
+
     });
     
