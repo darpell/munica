@@ -100,7 +100,6 @@ function load() {
 		mapTypeId: 'roadmap'
 	});
 	
-	
 	if(document.getElementById('getLarva').value.toString()=="1")
     {
         mapLarvalOverlay(map,document.getElementById('dist').value,document.getElementById("Larva").value,false);

@@ -423,6 +423,42 @@ class Mapping extends CI_Model
 			}
 			return substr($dist,0,-2);
 		}
+	function compareArraysDistanceFormula($arr1, $arr2)
+		{
+			$retVal=array();
+			$retChild=array();
+			$arr1length=count($arr1);
+			$arr2length=count($arr2);
+			for($i=0;$i<=$arr1length-1;$i++)
+			{
+				$amount200a=0;
+				$lat_a = $arr1[$i]['lat'] * PI()/180;
+				$long_a = $arr1[$i]['lng'] * PI()/180;
+				for($_i=0;$_i<$arr2length;$_i++)
+				{
+					$distance=0;
+					//echo "Comparing ".$data[$i][0]." and ".$data[$_i][0]." ";
+				    $lat_b = $arr2[$_i]['lat'] * PI()/180;
+				    $long_b = $arr2[$_i]['lng'] * PI()/180;
+				    $distance =
+				    	acos(
+				        	sin($lat_a) * sin($lat_b) +
+				            cos($lat_a) * cos($lat_b) * cos($long_b - $long_a)
+				        ) * 6371;
+				    $distance*=1000;
+                	if ($distance<=200)
+					{
+						$retChild[]=$arr2[$_i];
+					}
+					else 
+					{
+						$retChild[]=0;
+					}
+				}
+				$retVal[]=$retChild;
+			}
+		return $retVal;
+		}
 		/*
 	function getHouseholds($brgy = null)//all polygons
 		{
