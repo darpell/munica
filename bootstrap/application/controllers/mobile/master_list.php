@@ -14,79 +14,21 @@ class Master_list extends CI_Controller
 	
 	function index()
 	{
-		//$data['subjects'] = $this->masterlist->get_households($this->session->userdata('TPusername'));
-		
 		$data['subjects'] = $this->model->get_households($this->session->userdata('TPusername'));
-		//$data['cases'] = $this->model->get_cases();
 		$this->load->view('mobile/master_list', $data);
 	}
 
 	function view_household($household_id)
 	{
-		$data['household_persons'] = $this->masterlist->get_households($this->session->userdata('TPusername'),$household_id);
+		$data['hh'] = $this->model->get_household($household_id);
+		$data['household_persons'] = $this->model->get_people($household_id);
 		$this->load->view('mobile/master_list_view', $data);
 	}
 	
-	function view_person()
+	function view_person($person_id)
 	{
-		$param = $this->uri->uri_to_assoc(3);
-		$household_id = $param['household'];
-		$person_id = $param['person'];
-		
-		$data['household_persons'] = $this->masterlist->get_households($this->session->userdata('TPusername'),$household_id,$person_id);
+		$data['person'] = $this->model->get_person($person_id);
 		$this->load->view('mobile/person_details_view', $data);
-	}
-	
-	function add_immediate_case()
-	{			
-		$this->form_validation->set_rules('duration', 'Dengue Fever Duration', 'callback_check_range|required');
-				
-		if ($this->form_validation->run() === FALSE)
-		{
-			//redirect(uri_string(),'refresh');
-			//var_dump($_POST['household_id']);
-			$this->view_person();
-			//$this->view_person();//$this->load->view('mobile/view/household/' . $this->input->post('household_id') . '/person/' . $this->input->post('person_id'), $data);
-		}
-		else
-		{
-			$return_data = $this->masterlist->add_immediate_cases();
-
-			//$this->add_case_notif('imcase', $this->input->post('person_id'));
-			//$this->checkforbounceandred('imcase',$this->input->post('lat'),$this->input->post('lng'));
-
-			if ($return_data[0] == 'suspected')
-				$color = 'YELLOW' ;
-			else if ($return_data[0] == 'threatening')
-				$color = 'ORANGE' ;
-			else if ($return_data[0] == 'serious')
-				$color = 'RED' ;
-			
-			if ($return_data[0] != null || $return_data[0] != "")
-			{
-				$data['result'] = "<label style=\"color:" . $color . "\">[" . strtoupper($return_data[0]) . 
-				" CASE] </label>Please give your contact details and/or the brgy contact no and tell 
-				the person and/or the people living in the same household to contact you 
-				immediately if the patient condition worsens.";
-				
-				if (in_array('Bleeding',$return_data[1]) || in_array('Rashes',$return_data[1]))
-					$data['treatment'] = "Please ask the patient to have a check up to in the Barangay Health Center or at a nearby hospital due to bleeding and/or rashes.";
-				else if (in_array('Headache',$return_data[1]) || in_array('Muscle Pain',$return_data[1]) || in_array('Joint Pain',$return_data[1]))
-				{
-					$data['treatment'] = "Pain Relievers (for muscle pain, joint pain, and severe headache)
-											Acetaminophen (Tylenol), codeine, or analgesics. 
-											Avoid using ibuprofen, naproxen and aspirin as they might increase bleeding problems.";
-				}
-				else
-					$data['treatment'] = "Please continue monitoring the fever.";
-			}
-			else
-			{
-				$data['result'] = 'Your entry has been recorded';
-				$data['treatment'] = "Please continue monitoring the fever.";
-			}
-			$this->load->view('mobile/im_case_success',$data);
-		}
 	}
 	
 	function add_member($hh)
@@ -181,24 +123,7 @@ class Master_list extends CI_Controller
 			$this->load->view('mobile/im_case_success',$data);
 		}
 	}
-	
-	public function check_range($num)
-	{
-		if ($num <= 0)
-		{
-			$this->form_validation->set_message('check_range', 'The %s field could not be less than nor equal to 0');
-			return FALSE;
-		}
-		else if ($num > 20)
-		{
-			$this->form_validation->set_message('check_range', 'The %s field could not more than 20');
-			return FALSE;
-		}
-		else
-		{
-			return TRUE;
-		}
-	}
+
 	
 	function add_case_notif($type,$id)
 	{

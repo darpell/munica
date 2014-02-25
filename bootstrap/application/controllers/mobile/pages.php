@@ -1,6 +1,15 @@
 <?php
 class Pages extends CI_Controller 
 {
+	
+	function __construct()
+	{
+		parent::__construct();
+		// Your own constructor code
+		$this->load->model('active_case_model','ac');
+		$this->load->model('larval_mapping');
+	}
+	
 	public function view($page)
 	{
 		$this->load->library('mobile_detect');
@@ -11,15 +20,13 @@ class Pages extends CI_Controller
 			{
 				if ($this->session->userdata('TPusername') != null)
 				{
-					//$this->load->model('tasks_model');
-					$this->load->model('larval_mapping');
-					$this->load->model('immediate_case_model');
-					$data['suspected_count'] = $this->immediate_case_model->get_suspected_count($this->session->userdata('TPusername'));;
-					$data['serious_count'] = $this->immediate_case_model->get_serious_count($this->session->userdata('TPusername'));
-					$data['hospitalized_count'] = $this->immediate_case_model->get_hospitalized_count($this->session->userdata('TPusername'));
-					$data['last_visit'] = $this->larval_mapping->get_last_visit($this->session->userdata('TPusername'));
-					//$data['task_count'] = $this->tasks_model->get_count_unaccomplished($this->session->userdata('TPusername'));
-					$data['result'] = '';
+					$data['suspected_count'] 	= $this->ac->get_cases($this->session->userdata('TPusername'), 'suspected');
+					$data['threatening_count']	= $this->ac->get_cases($this->session->userdata('TPusername'), 'threatening');
+					$data['serious_count'] 		= $this->ac->get_cases($this->session->userdata('TPusername'), 'serious');
+					$data['hospitalized_count'] = $this->ac->get_cases($this->session->userdata('TPusername'), 'hospitalized');
+					$data['last_visit'] 		= $this->larval_mapping->get_last_visit($this->session->userdata('TPusername'));
+					//$data['task_count'] 		= $this->tasks_model->get_count_unaccomplished($this->session->userdata('TPusername'));
+					$data['result'] 			= '';
 					$this->load->view('mobile/home',$data);
 				}
 				else

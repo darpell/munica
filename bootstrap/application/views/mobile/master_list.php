@@ -33,7 +33,7 @@
 								</span> active case/s in <?= $subjects[$ctr]['household_name']; ?>
 							</li>
 					<?php } ?>
-					<li> <a href="<?php echo site_url('mobile/household/' . $subjects[$ctr]['household_id']);?>" data-ajax="false" data-transition="slide">
+					<li> <a href="<?php echo site_url('mobile/master_list/view_household/' . $subjects[$ctr]['household_id']);?>" data-ajax="false" data-transition="slide">
 						<?php echo $subjects[$ctr]['household_name']; ?> <!-- Household No. e.g. "Blk 2" --> located at
 						<?php echo $subjects[$ctr]['house_no']; ?>, <!-- Household No. e.g. "Blk 2" --> 
 						<?php echo $subjects[$ctr]['street']; ?> <!-- Street -->
