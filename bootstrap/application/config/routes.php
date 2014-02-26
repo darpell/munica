@@ -52,7 +52,7 @@ $route['mobile/page/master_list'] = 'mobile/master_list';
 $route['mobile/page/master_list/(:any)'] = 'mobile/master_list/$1';
 
 // Mob Households
-$route['mobile/page/addhh'] = 'mobile/household/add';
+$route['mobile/page/addhh'] = 'mobile/master_list/add';
 $route['mobile/household/(:num)/new_mem'] = 'mobile/household/add_mem_index';
 
 $route['mobile/page/new_poi'] = 'mobile/poi/add';

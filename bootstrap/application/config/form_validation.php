@@ -147,6 +147,48 @@ $config = array(
 											'rules' => 'required'
 									)
 							),
+				'new_member'	=> array(
+										array(
+											'field' => 'hh_fname',
+											'label' => 'first name',
+											'rules' => 'required'
+										),
+										array(
+												'field' => 'hh_lname',
+												'label' => 'last name',
+												'rules' => 'required'
+										),
+										array(
+												'field' => 'hh_dob',
+												'label' => 'date of birth',
+												'rules' => 'required'
+										),
+										array(
+												'field' => 'hh_gender',
+												'label' => 'gender',
+												'rules' => 'required'
+										),
+										array(
+												'field' => 'hh_marital',
+												'label' => 'marital status',
+												'rules' => 'required'
+										),
+										array(
+												'field' => 'hh_nationality',
+												'label' => 'nationality',
+												'rules' => 'required'
+										),
+										array(
+												'field' => 'hh_blood',
+												'label' => 'blood type',
+												'rules' => 'required'
+										),
+										array(
+												'field' => 'hh_contact',
+												'label' => 'contact number',
+												'rules' => 'required'
+										)
+						),
 		
 				'poi'		=> array(
 								array(

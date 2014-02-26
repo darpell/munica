@@ -10,9 +10,9 @@
     </div><!-- /header -->
     <div data-role="content">
     
-		<form id="hh_mem_form" action="" method="post" data-ajax="false">
+		<form id="add_member" action="" method="post" data-ajax="false">
 			
-			<p><?php echo $household_id; ?>	</p>
+			<input type="hidden" name="household_id" value="<?= $household_id; ?>" />
 			
 			<!-- first_name -->
 			<label for="hh_fname"> First Name: </label>

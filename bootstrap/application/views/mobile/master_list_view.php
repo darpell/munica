@@ -12,16 +12,8 @@
 		</div>
 		<div data-role="content">
 			
-			<?php for ($ctr = 0; $ctr < count($household_persons); $ctr++) {?>
-					<input type="hidden" id="household_id_<?= $ctr ?>" 		value="<?php echo $household_persons[$ctr]['household_id']; ?>"	/>
-					<input type="hidden" id="person_id_<?= $ctr ?>" 		value="<?php echo $household_persons[$ctr]['person_id']; ?>"	/>
-			<?php } ?>
-			
 			<ul data-role="listview" data-filter="true" data-inset="true" data-split-icon="check" data-split-theme="d">
-				<!-- <li> <?php //echo $test; ?></li> -->
-				<?php for ($ctr = 0; $ctr < count($household_persons); $ctr++) {?>
-					<li><!-- <a href="<?php echo site_url('mobile/household/'. $household_persons[$ctr]['household_id'] .'/new_mem');?>" data-ajax="false" data-transition="slide"> Add New Member </a>--></li>
-				<?php $ctr+= count($household_persons);} ?>
+				<li><a href="<?php echo site_url('mobile/master_list/add_member/' . $hh_id);?>" data-ajax="false" data-transition="slide"> Add New Member </a></li>
 				<?php 
 				for ($ctr = 0; $ctr < count($household_persons); $ctr++) 
 				{

@@ -28,7 +28,7 @@
 		<ul data-role="listview" data-inset="true" data-count-theme="b"> <!-- data-autodividers="true" -->
 			<li data-role="list-divider"> Cases for the past 7 days </li>
 			<li> <a href="<?php echo site_url('mobile/monitored_cases/view_cases/suspected');?>" data-ajax="false" data-transition="slide"> Suspected Cases </a> <span class="ui-li-count"><?= count($suspected_count); ?></span> </li>
-			<li> <a href="<?php echo site_url('mobile/monitored_cases/view_cases/threatening');?>" data-ajax="false" data-transition="slide"> Threatening Cases </a> <span class="ui-li-count"><?= count($suspected_count); ?></span> </li>
+			<li> <a href="<?php echo site_url('mobile/monitored_cases/view_cases/threatening');?>" data-ajax="false" data-transition="slide"> Threatening Cases </a> <span class="ui-li-count"><?= count($threatening_count); ?></span> </li>
 			<li> <a href="<?php echo site_url('mobile/monitored_cases/view_cases/serious');?>" data-ajax="false" data-transition="slide"> Serious Cases </a> <span class="ui-li-count"><?= count($serious_count); ?></span> </li>
 			<li> <a href="<?php echo site_url('mobile/monitored_cases/view_cases/hospitalized');?>" data-ajax="false" data-transition="slide"> Hospitalized Cases </a> <span class="ui-li-count"><?= count($hospitalized_count); ?></span> </li>
         	<!-- <li> <a href="<?php //echo site_url('mobile/page/point_of_interest');?>" data-ajax="false" data-transition="slide"> Add Source/Risk Area </a> </li>

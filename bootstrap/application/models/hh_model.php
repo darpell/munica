@@ -7,6 +7,17 @@ class Hh_model extends CI_Model
 		parent::__construct();
 	}
 	
+	function add_ca($hh_id, $person_id)
+	{
+		$input_data = array(
+				'household_id'	=> $hh_id,
+				'person_id'		=> $person_id,
+				'bhw_id'		=> $this->session->userdata('TPusername'),
+		);
+	
+		$this->db->insert('catchment_area',$input_data);
+	}
+	
 	function add_household()
 	{
 		$input_data = array(
@@ -19,15 +30,12 @@ class Hh_model extends CI_Model
 		);
 		$this->db->insert('household_address',$input_data);
 	
-		$this->add_hh_member();
+		$hh_id = $this->db->insert_id();
 		
-		/*$ca_data = array(
-		 'household_id'	=>
-				'person_id'
-		);*/
+		$this->add_hh_member($hh_id);
 	}
 	
-	function add_hh_member()
+	function add_hh_member($hh_id)
 	{
 		$input_data = array(
 				'person_first_name'	=>	$this->input->post('hh_fname'),
@@ -38,16 +46,26 @@ class Hh_model extends CI_Model
 				'person_nationality'=>	$this->input->post('hh_nationality'),
 				'person_blood_type'	=>	$this->input->post('hh_blood'),
 				'person_guardian'	=>	$this->input->post('hh_guardian'),
-				'person_adu'		=>	'alive',
+				'person_adu'		=>	'Alive',
 				'person_contactno'	=>	$this->input->post('hh_contact')
 		);
 		$this->db->insert('master_list',$input_data);
+		
+		$person_id = $this->db->insert_id();
+		
+		$this->add_ca($hh_id,$person_id);
 	}
 	
-	function get_hh_count()
+	function get_hh_count($user = FALSE)
 	{
 		$this->db->select('count(*) as total');
 		$this->db->from('household_address');
+		
+		if ($user != NULL)
+		{
+			$this->db->join('catchment_area','household_address.household_id = catchment_area.household_id');
+			$this->db->where('bhw_id',$user);
+		}
 	
 		$query = $this->db->get();
 		if ($query->num_rows() > 0)

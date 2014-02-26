@@ -74,6 +74,58 @@ class Cases extends CI_Controller
 			return TRUE;
 		}
 	}
+	
+	function edit_immediate_case()
+	{
+		// form validate
+		$this->form_validation->set_rules('duration', 'Dengue Fever Duration', 'callback_check_range|required');
+	
+		if ($this->form_validation->run() === FALSE)
+		{
+			$this->view_edit_person();
+		}
+		else
+		{
+			// update
+			$return_data = $this->masterlist->update_im();
+				
+			//$this->add_case_notif('imcase', $this->input->post('person_id'));
+			//$this->checkforbounceandred('imcase',$this->input->post('lat'),$this->input->post('lng'));
+				
+			if ($return_data[0] == 'suspected')
+				$color = 'YELLOW' ;
+			else if ($return_data[0] == 'threatening')
+				$color = 'ORANGE' ;
+			else if ($return_data[0] == 'serious')
+				$color = 'RED' ;
+				
+			// redirect to person_edit_details_view
+			if ($return_data[0] != null || $return_data[0] != "")
+			{
+				$data['result'] = "<label style=\"color:" . $color . "\">[" . strtoupper($return_data[0]) .
+				" CASE] </label>Please give your contact details and/or the brgy contact no and tell
+				the person and/or the people living in the same household to contact you
+				immediately if the patient condition worsens.";
+	
+				if (in_array('Bleeding',$return_data[1]) || in_array('Rashes',$return_data[1]))
+					$data['treatment'] = "Please ask the patient to have a check up to in the Barangay Health Center or at a nearby hospital due to bleeding and/or rashes.";
+				else if (in_array('Headache',$return_data[1]) || in_array('Muscle Pain',$return_data[1]) || in_array('Joint Pain',$return_data[1]))
+				{
+					$data['treatment'] = "Treat with pain relievers like
+											Acetaminophen (Tylenol), codeine, or analgesics. <br/>
+											Avoid using ibuprofen, naproxen and aspirin as they might cause bleeding problems.";
+				}
+				else
+					$data['treatment'] = "Please continue monitoring the fever.";
+			}
+			else
+			{
+				$data['result'] = 'Your entry has been recorded';
+				$data['treatment'] = "Please continue monitoring the fever.";
+			}
+			$this->load->view('mobile/im_case_success',$data);
+		}
+	}
 }
 
 /* End of file mobile/case.php */
