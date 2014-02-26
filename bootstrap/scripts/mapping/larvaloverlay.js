@@ -84,54 +84,40 @@ function mapLarvalOverlay(map,distance,datax,isOld) //Larvalpositive nodes displ
     	var html = "<b>Larval Survey Report #: </b>" + refNumber[i] +" <i>("+createdOn[i]+")</i>"
     	+ " <br/>" + "<b>Tracking #: </b>" + dist[i][0]
     	+ " <br/>" + "<b>Larval positives (LP) within: </b>"
-    	+ " <br/>" + "<b>200m:</b>" + amount50a+" ("+ amount50p+"% of displayed LP)"
-    	+ " <br/>" + "<b>50m:</b>" + amount200a+" ("+ amount200p+"% of displayed LP)"
+    	+ " <br/>" + "<b>200m:</b>" + amount200a+" ("+ amount200p+"% of displayed LP)"
+    	+ " <br/>" + "<b>50m:</b>" + amount50a+" ("+ amount50p+"% of displayed LP)"
     	+ "<br/><br/>" + "<b>Household: </b>" + household[i]+" ("+ householdcount+" of "+ household.length +" total occurrences, "+householdpercent.toFixed(2)+"%)"
     	+ " <br/>" + "<b>Container: </b>" + container[i]+" ("+ containercount+" of "+ container.length +" total occurances, "+containerpercent.toFixed(2)+"%)";
 
-		html=html+"<br/><br/><b>Location: </b>Barangay "+lbarangay[i]+", "+lstreet[i]+" Street."
+		html+="<br/><br/><b>Location: </b>Barangay "+lbarangay[i]+", "+lstreet[i]+" Street."
     	+ " <br/>" + "<b>Amount per barangay: </b>" + amt
     	+ " <br/>" + "<b>Amount total: </b>" + container.length
 		+ "<br/>" + "<i>Created on "+createdOn[i]
 		+ " last updated on "+updatedOn[i]+"</i>";
    		//var icon = customIcons[type] || {};
-   		var bounce;
-   		if((amount50p>=5)||(amount200p>=15))
-  			bounce = 1;
-  		else
-  			bounce = null;
   		var image = null;
-  		var circle = null;
-		if(isOld)
-		{
-	 		createMarker(map,point,image,html,bounce,true,false);
-	 		circle = new google.maps.Circle({
-				center:point,
-				radius:200,
-				strokeColor:"#66CCCC",
-				strokeOpacity:0.7,
-				strokeWeight:1,
-				fillColor:"#66CCCC",
-				fillOpacity:0.05,
-				clickable:false
-			});
-		}
-		else
-		{
-	 		createMarker(map,point,image,html,bounce,false,false);
-	 		circle = new google.maps.Circle({
-				center:point,
-				radius:200,
-				strokeColor:"#0000FF",
-				strokeOpacity:0.7,
-				strokeWeight:1,
-				fillColor:"#0000FF",
-				fillOpacity:0.05,
-				clickable:false
-			});
-		}
-			
-		circle.setMap(map); 
+  		var sColor="#0000FF";
+  		var fColor="#0000FF";
+  		if((amount50p>0)||(amount200p>0))
+   		{//alert("!");
+	   		if(isOld)
+	   		{
+	   			sColor="#66CCCC";
+	   			fColor="#66CCCC";
+	   		}
+	   		circle = new google.maps.Circle({
+					center:point,
+   					radius:200,
+   					strokeColor:sColor,
+   					strokeOpacity:0.7,
+   					strokeWeight:1,
+   					fillColor:fColor,
+   					fillOpacity:0.05,
+   					clickable:false
+   				});
+			circle.setMap(map);
+   		} 
+	 	createMarker(map,point,image,html,null,isOld,false);
 	}
 }
 	

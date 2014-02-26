@@ -58,24 +58,5 @@ function createMarker(map,point,image,info,bounce,isOld,isPoI,RiskOrSource)
 	});
 }
 
-function mapPointsOfInterest(googleMap)
-{
-	var tempo=splitter(document.getElementById("interest").value.toString());
-	var length=tempo.length;
-	for(var i=0;i<length;i++)
-	{
-		var tempoagain;
-		var point = new google.maps.LatLng(tempo[i][1],tempo[i][2]);
-		var html = "<b>"+tempo[i][0]+"</b><br/>"+tempo[i][3]+"<br/><br/><b>Location:</b> "+tempo[i][6]+" City, Barangay "+tempo[i][5]+"<br/><br/><b>Notes:</b> "+tempo[i][4]+"<br/><br/><i>Added on "+tempo[i][7]+"</i>";
-		if(tempo[i][8]==0)
-		{
-			tempoagain="S";
-		}
-		else
-		{
-			tempoagain="R";
-		}
-		createMarker(googleMap,point,null,html,false,false,true,tempoagain);
-	}
-}
+
 
