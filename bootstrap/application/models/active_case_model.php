@@ -205,14 +205,8 @@ class Active_case_model extends CI_Model
 							$level = 'suspected';
 							
 						$this->db->set('status',$level);
-						// end status
 							
 						$this->db->insert('active_cases', $data);
-							
-						//$this->db->where('imcase_no',$this->input->post('imcase_no'));
-						//$this->db->update('immediate_cases, $data','imcase_no = ' . $this->input->post('imcase_no'));
-	
-						// updates last_visited_on at `household_address`
 						$hh = array(
 								'last_visited' => date('Y-m-d')
 						);

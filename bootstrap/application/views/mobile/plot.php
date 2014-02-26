@@ -123,12 +123,11 @@ function initialize(){
 			
 				<!-- type -->
 				<label> Type: </label>
-				<fieldset data-role="controlgroup" data-mini="true" data-type="horizontal">
+				<fieldset data-role="controlgroup" data-mini="true">
 						<label style="color:red"><?php echo form_error('TPtype-txt_r'); ?></label>
 				    	<label> <input name="TPtype-rd" type="radio" value="0" checked="checked" /> Source Area </label>
-				
 						<label> <input name="TPtype-rd" type="radio" value="1"  /> Risk Area </label>
-					</fieldset>
+				</fieldset>
 					<!-- /type -->
 					
 				<!-- remarks -->
