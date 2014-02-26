@@ -90,10 +90,6 @@ class Cases extends CI_Controller
 		{
 			// update
 			$return_data = $this->model->update_im($imcase);
-				
-			//$this->add_case_notif('imcase', $this->input->post('person_id'));
-			//$this->checkforbounceandred('imcase',$this->input->post('lat'),$this->input->post('lng'));
-				
 			if ($return_data[0] == 'suspected')
 				$color = 'YELLOW' ;
 			else if ($return_data[0] == 'threatening')
