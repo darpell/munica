@@ -5,70 +5,19 @@ class Monitored_cases extends CI_Controller
 	{
 		parent::__construct();
 		// Your own constructor code
-		$this->load->model('immediate_case_model','ic');
+		$this->load->model('active_case_model','model');
 	}
 	
-	function serious_cases()
+	function view_cases($status)
 	{
-		//echo 'Hello World!';
-		
-		
-		$data['cases'] = $this->ic->get_serious_imcases($this->session->userdata('TPusername'));
-		$this->load->view('mobile/serious_cases', $data);
-		
-		/*
-		 * $data['result'] = '';
-		 * $data['tasks'] = $this->tasks->get_tasks($this->session->userdata('TPusername'));
-		 * $this->load->view('mobile/tasks.php', $data);
-		 */
+		$data['cases'] = $this->model->get_cases($this->session->userdata('TPusername'),$status);
+		$this->load->view('mobile/cases', $data);
 	}
 	
-	function view_serious_case_details($imcase_no)
+	function view_case($imcase)
 	{
-		$data['cases'] = $this->ic->get_case_details($imcase_no);
-		$this->load->view('mobile/imcase_details', $data);
-	}
-	
-	function suspected_cases()
-	{
-		//echo 'Hello World!';
-	
-	
-		$data['cases'] = $this->ic->get_suspected_imcases($this->session->userdata('TPusername'));
-		$this->load->view('mobile/suspected_cases', $data);
-	
-		/*
-		 * $data['result'] = '';
-		* $data['tasks'] = $this->tasks->get_tasks($this->session->userdata('TPusername'));
-		* $this->load->view('mobile/tasks.php', $data);
-		*/
-	}
-	
-	function view_suspected_case_details($imcase_no)
-	{
-		$data['cases'] = $this->ic->get_case_details($imcase_no);
-		$this->load->view('mobile/imcase_details', $data);
-	}
-	
-	function hospitalized_cases()
-	{
-		//echo 'Hello World!';
-	
-	
-		$data['cases'] = $this->ic->get_hospitalized_imcases($this->session->userdata('TPusername'));
-		$this->load->view('mobile/hospitalized_cases', $data);
-	
-		/*
-		 * $data['result'] = '';
-		* $data['tasks'] = $this->tasks->get_tasks($this->session->userdata('TPusername'));
-		* $this->load->view('mobile/tasks.php', $data);
-		*/
-	}
-	
-	function view_hospitalized_case_details($imcase_no)
-	{
-		$data['cases'] = $this->ic->get_case_details($imcase_no);
-		$this->load->view('mobile/imcase_details', $data);
+		$data['case'] = $this->model->get_case($imcase);
+		$this->load->view('mobile/case_details', $data);
 	}
 }
 

@@ -33,7 +33,7 @@
 						{
 				?>
 							<li data-theme="d">
-								<a href="<?php echo site_url('mobile/view/household/' . $household_persons[$ctr]['household_id'] . '/hosp/' . $household_persons[$ctr]['person_id']);?>" data-ajax="false" data-transition="slide">
+								<a href="<?php echo site_url('mobile/master_list/view_person/' . $household_persons[$ctr]['person_id']);?>" data-ajax="false" data-transition="slide">
 									<label style="color:GREEN;"> [Hospitalized] </label>
 									<?php echo $household_persons[$ctr]['person_first_name']; ?> <!-- First Name -->
 									<?php echo $household_persons[$ctr]['person_last_name']; ?>, <!-- Last Name --> 

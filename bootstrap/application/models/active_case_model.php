@@ -10,17 +10,33 @@ class Active_case_model extends CI_Model
 	function get_cases($bhw = FALSE, $status = FALSE)
 	{
 		$this->db->from('active_cases')
-				->join('catchment_area','active_cases.person_id = catchment_area.person_id');
+				->join('catchment_area','active_cases.person_id = catchment_area.person_id')
+				->join('master_list','catchment_area.person_id = master_list.person_id');
 		
 		if ($bhw != FALSE)
 			$this->db->where('bhw_id',$bhw);
 		if ($status != FALSE)
 			$this->db->where('status',$status);
 		
+		$this->db->order_by('imcase_no','desc');
+		
 		$query = $this->db->get();
 		return $query->result_array();
 			$query->free_result();
 		
+	}
+	
+	function get_case($imcase)
+	{
+		$this->db->from('active_cases')
+				->join('master_list', 'active_cases.person_id = master_list.person_id')
+				->join('catchment_area','active_cases.person_id = catchment_area.person_id')
+				->join('household_address', 'household_address.household_id = catchment_area.household_id')
+				->where('active_cases.imcase_no',$imcase);
+		
+		$query = $this->db->get();
+		return $query->row_array();
+			$query->free_result();
 	}
 	
 	function check_symptom($person_id, $symptom)

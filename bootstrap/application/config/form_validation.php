@@ -148,28 +148,30 @@ $config = array(
 									)
 							),
 		
-                 'email' => array(
-                                    array(
-                                            'field' => 'emailaddress',
-                                            'label' => 'EmailAddress',
-                                            'rules' => 'required|valid_email'
-                                         ),
-                                    array(
-                                            'field' => 'name',
-                                            'label' => 'Name',
-                                            'rules' => 'required|alpha'
-                                         ),
-                                    array(
-                                            'field' => 'title',
-                                            'label' => 'Title',
-                                            'rules' => 'required'
-                                         ),
-                                    array(
-                                            'field' => 'message',
-                                            'label' => 'MessageBody',
-                                            'rules' => 'required'
-                                         )
-                                    )                          
+				'poi'		=> array(
+								array(
+									'field' => 'TPname-txt_r',
+									'label'	=> 'name',
+									'rules'	=> 'required'
+								),
+								array(
+									'field' => 'TPremarks-txt_r',
+									'label'	=> 'remarks',
+									'rules'	=> 'required'
+								)
+							),
+				'ls_form'	=> array(
+								array(
+									'field' => 'TPcontainer-txt_r',
+									'label'	=> 'container',
+									'rules'	=> 'required'
+								),
+								array(
+									'field' => 'TPhousehold-txt_r',
+									'label'	=> 'household',
+									'rules'	=> 'required'
+						),
+						)                   
                );
 
 /* End of file form_validation.php */
