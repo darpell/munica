@@ -75,19 +75,21 @@ class Cases extends CI_Controller
 		}
 	}
 	
-	function edit_immediate_case()
+	function edit($imcase)
 	{
 		// form validate
 		$this->form_validation->set_rules('duration', 'Dengue Fever Duration', 'callback_check_range|required');
 	
 		if ($this->form_validation->run() === FALSE)
 		{
-			$this->view_edit_person();
+			//$this->view_edit_person();
+			$data['person'] = $this->model->get_case($imcase);
+			$this->load->view('mobile/person_edit_details_view',$data);
 		}
 		else
 		{
 			// update
-			$return_data = $this->masterlist->update_im();
+			$return_data = $this->model->update_im($imcase);
 				
 			//$this->add_case_notif('imcase', $this->input->post('person_id'));
 			//$this->checkforbounceandred('imcase',$this->input->post('lat'),$this->input->post('lng'));

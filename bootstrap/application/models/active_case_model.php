@@ -136,19 +136,19 @@ class Active_case_model extends CI_Model
 	
 	
 	# TODO
-	function update_im()
+	function update_im($imcase)
 	{
-	if ($this->input->post('duration') == '1')
-		$remark = '1st day: ';
+		if ($this->input->post('duration') == '1')
+			$remark = '1st day: ';
 		else if ($this->input->post('duration') == '2')
-		$remark = '2nd day: ';
+			$remark = '2nd day: ';
 		else if ($this->input->post('duration') == '3')
-		$remark = '3rd day: ';
+			$remark = '3rd day: ';
 		else
-		$remark = $this->input->post('duration') . 'th day: ';
+			$remark = $this->input->post('duration') . 'th day: ';
 			
-		$this->db->from('immediate_cases');
-	$this->db->where('imcase_no',$this->input->post('imcase_no'));
+		$this->db->from('active_cases');
+		$this->db->where('imcase_no',$imcase);
 		
 			$query = $this->db->get();
 					$row = $query->row_array();
@@ -158,22 +158,19 @@ class Active_case_model extends CI_Model
 						
 					$data = array(
 							'imcase_no'			=> $this->input->post('imcase_no'),
-						'person_id'			=> $this->input->post('person_id'),
-						'has_muscle_pain'	=> $hmp = ($this->input->post('has_muscle_pain') == 'Y') ? 'Y' : 'N',
+							'person_id'			=> $this->input->post('person_id'),
+							'has_muscle_pain'	=> $hmp = ($this->input->post('has_muscle_pain') == 'Y') ? 'Y' : 'N',
 							'has_joint_pain'	=> $hjp = ($this->input->post('has_joint_pain') == 'Y') ? 'Y' : 'N',
 							'has_headache'		=> $hh = ($this->input->post('has_headache') == 'Y') ? 'Y' : 'N',
-									'has_bleeding'		=> $hb = ($this->input->post('has_bleeding') == 'Y') ? 'Y' : 'N',
-											'has_rashes'		=> $hr = ($this->input->post('has_rashes') == 'Y') ? 'Y' : 'N',
-											'days_fever'		=> $this->input->post('duration'),
-													'suspected_source'	=> $this->input->post('source'),
-													'remarks'			=> $remark . $this->input->post('remarks') . " " . $old_remark,
-			
-													'created_on'		=> $this->input->post('created_on')
-											//'imcase_lat'		=> $this->input->post('lat'),
-											//'imcase_lng'		=> $this->input->post('lng')
+							'has_bleeding'		=> $hb = ($this->input->post('has_bleeding') == 'Y') ? 'Y' : 'N',
+							'has_rashes'		=> $hr = ($this->input->post('has_rashes') == 'Y') ? 'Y' : 'N',
+							'days_fever'		=> $this->input->post('duration'),
+							'suspected_source'	=> $this->input->post('source'),
+							'remarks'			=> $remark . $this->input->post('remarks') . " " . $old_remark,
+							'created_on'		=> $this->input->post('created_on')
 					);
 						
-					$this->db->delete('immediate_cases', array('imcase_no' => $this->input->post('imcase_no')));
+					$this->db->delete('active_cases', array('imcase_no' => $this->input->post('imcase_no')));
 						
 			$this->db->set('last_updated_on', 'NOW()', FALSE);
 		
@@ -210,7 +207,7 @@ class Active_case_model extends CI_Model
 						$this->db->set('status',$level);
 						// end status
 							
-						$this->db->insert('immediate_cases', $data);
+						$this->db->insert('active_cases', $data);
 							
 						//$this->db->where('imcase_no',$this->input->post('imcase_no'));
 						//$this->db->update('immediate_cases, $data','imcase_no = ' . $this->input->post('imcase_no'));

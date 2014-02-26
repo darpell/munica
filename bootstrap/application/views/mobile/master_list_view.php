@@ -17,7 +17,7 @@
 				<?php 
 				for ($ctr = 0; $ctr < count($household_persons); $ctr++) 
 				{
-					$this->load->model('hh_model','model');
+					//$this->load->model('hh_model','model');
 					$active_case = $this->model->check_if_has_fever($household_persons[$ctr]['person_id']);
 					if ($active_case != NULL)
 					{
@@ -48,7 +48,7 @@
 							//$this->masterlist->add_fever_day($household_persons[$ctr]['person_id']);
 				?>
 							<li data-theme="a">
-								<a href="<?php echo site_url('mobile/master_list/view_person/' . $household_persons[$ctr]['person_id']);?>" data-ajax="false" data-transition="slide">
+								<a href="<?php echo site_url('mobile/cases/edit/' . $active_case['imcase_no']);?>" data-ajax="false" data-transition="slide">
 				<?php 
 							if ($active_case['days_fever'] < 3)
 							{

@@ -7,6 +7,14 @@ class Hh_model extends CI_Model
 		parent::__construct();
 	}
 	
+	function check_if_has_fever($person_id)
+	{
+		$query = $this->db->get_where('active_cases',array('person_id' => $person_id));
+	
+		return $query->row_array();
+		$query->free_result();
+	}
+	
 	function add_ca($hh_id, $person_id)
 	{
 		$input_data = array(
@@ -161,14 +169,6 @@ class Hh_model extends CI_Model
 	function get_household($id)
 	{
 		$query = $this->db->get_where('household_address', array('household_id' => $id));
-		
-		return $query->row_array();
-		$query->free_result();
-	}
-	
-	function check_if_has_fever($person_id)
-	{
-		$query = $this->db->get_where('active_cases',array('person_id' => $person_id));
 		
 		return $query->row_array();
 		$query->free_result();
