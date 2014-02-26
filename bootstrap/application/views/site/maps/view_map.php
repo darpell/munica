@@ -10,6 +10,7 @@
 <script type="text/javascript" src="<?= base_url('scripts/mapping/larvaloverlay.js') ?>"></script>
 <script type="text/javascript" src="<?= base_url('scripts/mapping/dengueoverlay.js') ?>"></script>
 <script type="text/javascript" src="<?= base_url('scripts/mapping/householdoverlay.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('scripts/mapping/poioverlay.js') ?>"></script>
 <script type="text/javascript">
 	google.load('visualization', '1.1', {packages: ['controls','corechart']});
 </script>
@@ -116,6 +117,7 @@ function load() {
     }
 	if(document.getElementById('getPoi').value.toString()=="1")
     {
+	    alert("POI");
 		mapPointsOfInterest(map);
     }
 	if(document.getElementById('getHouseholds').value.toString()=="1")
@@ -202,16 +204,47 @@ jQuery(document).ready(function(){
 <input type = 'hidden' id ='Dengue' name='Dengue' value='<?php echo $dengue?>'>
 <input type = 'hidden' id ='Household' name='Household' value='<?php echo $household?>'>
 
+<?php if ($larval != 0){?>
+<input type="hidden" id="ls_length" value="<?php echo count($larval); ?>" />
+	<?php for ($ctr = 0; $ctr < count($larval); $ctr++) {?>
+		<input type="hidden" id="ls_no<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['ls_no']; ?>"	/>
+		<input type="hidden" id="ls_household<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['household']; ?>"	/>
+		<input type="hidden" id="ls_container<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['container']; ?>"	/>
+		<input type="hidden" id="ls_lat<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['lat']; ?>"	/>
+		<input type="hidden" id="ls_lng<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['lng']; ?>"	/>
+		<input type="hidden" id="ls_createdBy<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['createdBy']; ?>"	/>
+		<input type="hidden" id="ls_createdOn<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['createdOn']; ?>"	/>
+		<input type="hidden" id="ls_updatedBy<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['updatedBy']; ?>"	/>
+		<input type="hidden" id="ls_updatedOn<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['updatedOn']; ?>"	/>
+	<?php }?> 
+	<input type="hidden" id="ls_icon" value="<?php echo base_url('/images/arrow.png')?>" />
+	<?php } else { ?> <input type="hidden" id="ls_length" value="0" /> <?php } ?>
+
 <?php if ($bb != 0){?>
 <input type="hidden" id="bb_length" value="<?php echo count($bb); ?>" />
 	<?php for ($ctr = 0; $ctr < count($bb); $ctr++) {?>
 		<input type="hidden" id="bb_polyName<?= $ctr ?>" 	value="<?php echo $bb[$ctr]['pName']; ?>"	/>
 		<input type="hidden" id="bb_polyID<?= $ctr ?>" 		value="<?php echo $bb[$ctr]['pID']; ?>"	/>
-		<input type="hidden" id="bb_polyLat<?= $ctr ?>"		value="<?php echo $bb[$ctr]['pLat']; ?>"	/>
-		<input type="hidden" id="bb_polyLng<?= $ctr ?>" 	value="<?php echo $bb[$ctr]['pLng']; ?>"			/>
+		<input type="hidden" id="bb_polyLat<?= $ctr ?>"		value="<?php echo $bb[$ctr]['lat']; ?>"	/>
+		<input type="hidden" id="bb_polyLng<?= $ctr ?>" 	value="<?php echo $bb[$ctr]['lng']; ?>"			/>
 	<?php }?> 
 	<input type="hidden" id="bb_icon" value="<?php echo base_url('/images/arrow.png')?>" />
 	<?php } else { ?> <input type="hidden" id="bb_length" value="0" /> <?php } ?>
+	
+<?php if ($poi != 0){?>
+<input type="hidden" id="poi_length" value="<?php echo count($poi); ?>" />
+	<?php for ($ctr = 0; $ctr < count($poi); $ctr++) {?>
+		<input type="hidden" id="poi_name<?= $ctr ?>" 	value="<?php echo $poi[$ctr]['name']; ?>"	/>
+		<input type="hidden" id="poi_lat<?= $ctr ?>" 	value="<?php echo $poi[$ctr]['lat']; ?>"	/>
+		<input type="hidden" id="poi_lng<?= $ctr ?>" 	value="<?php echo $poi[$ctr]['lng']; ?>"	/>
+		<input type="hidden" id="poi_notes<?= $ctr ?>" 	value="<?php echo $poi[$ctr]['notes']; ?>"	/>
+		<input type="hidden" id="poi_type<?= $ctr ?>" 	value="<?php echo $poi[$ctr]['type']; ?>"	/>
+		<input type="hidden" id="poi_addedOn<?= $ctr ?>" 	value="<?php echo $poi[$ctr]['addedOn']; ?>"	/>
+		<input type="hidden" id="poi_endDate<?= $ctr ?>" 	value="<?php echo $poi[$ctr]['endDate']; ?>"	/>
+		<input type="hidden" id="poi_barangay<?= $ctr ?>" 	value="<?php echo $poi[$ctr]['barangay']; ?>"	/>
+	<?php }?> 
+	<input type="hidden" id="poi_icon" value="<?php echo base_url('/images/arrow.png')?>" />
+	<?php } else { ?> <input type="hidden" id="poi_length" value="0" /> <?php } ?>
 	
 <input type = 'hidden' id ='type' name='type' value='<?php echo $node_type?>'>
 <input type = 'hidden' id ='dist' name='dist' value='<?php echo $dist?>'>

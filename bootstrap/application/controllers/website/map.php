@@ -145,7 +145,7 @@ class Map extends CI_Controller
 				$data['getPoI'] = $getPoI;
 				$data['getHouseholds'] = $getHouseholds;
 				$data['getBB'] = $getBB;
-				$data['brgy']=null;
+				$data['brgy'][]="SAN AGUSTIN III";//print_r($data['brgy']);
 				$values = $this->Mapping->mapByType($data);
 				
 				//*CURRENT DATE INTERVAL DATA EXTRACTION
