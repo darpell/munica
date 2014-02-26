@@ -47,7 +47,7 @@ class Mapping extends CI_Model
 			$returnValues['householdValues'] =0;
 			$returnValues['bbValues'] =0;
 			if($data['getLarva'])
-			{
+			{/*
 				$where="";
 				$this->db->from('ls_report');
 				if ($data['brgy'] != NULL)
@@ -58,13 +58,13 @@ class Mapping extends CI_Model
 						$where .= $varr."' OR ";
 					}
 					$this->db->where(substr($where,0,-3));
-				}
+				}$this->db->group_by("ls_no"); 
 				$q = $this->db->get();
 				if($q->num_rows() > 0) 
 				{	$tempp;
 					foreach ($q->result() as $row) 
 					{
-						$tempp[]=array(//*
+						$tempp[]=array(
 								'ls_no'=> $row->ls_no,
 								'household'=> $row->ls_household,
 								'container'=> $row->ls_container,
@@ -74,11 +74,44 @@ class Mapping extends CI_Model
 								'createdOn'=> $row->created_on,
 								'updatedBy'=> $row->last_updated_by,
 								'updatedOn'=> $row->last_updated_on
-								//*/
 						);
 					}
 					$returnValues['larvalValues'] =  $tempp;
-				}	
+				}//*/
+				$where;
+				$qString = 'CALL ';
+				$qString .= "view_larval_nodes('"; // name of stored procedure
+				$qString .=
+				//variables needed by the stored procedure
+				$data['date1']. "','".
+				$data['date2']. "'". ")";
+				
+				$q = $this->db->query($qString);
+				//*
+				if($q->num_rows() > 0)
+				{	$temp = "";
+				foreach ($q->result() as $row)
+				{
+					//if($row->ls_result=="positive") // disabled for now since only a few (or non) entries would be positive
+					$temp .=
+					"larvalpositive" . "&&" .
+					$row->ls_no . "&&" .
+					$row->ls_lat . "&&" .
+					$row->ls_lng . "&&" .
+					$row->ls_household . "&&" .
+					$row->ls_container . "&&".
+					$row->created_on . "&&".
+					$row->last_updated_on . "&&".
+					$row->ls_barangay . "&&".
+					$row->created_by . "%%"  ;
+				}
+				$q->free_result();
+				$returnValues['larvalValues'] = substr($temp,0,-2);
+				}
+				else
+				{
+					$q->free_result();
+				}
 			}
 			if($data['getBB'])
 			{
@@ -341,7 +374,7 @@ class Mapping extends CI_Model
 			{	
 				foreach ($q->result() as $row) 
 				{
-					$data[$ctr][0] =$row->tracking_number;
+					$data[$ctr][0] =$row->ls_no;
 					$data[$ctr][1] =$row->ls_lat;
 					$data[$ctr][2] =$row->ls_lng;
 					$ctr++;

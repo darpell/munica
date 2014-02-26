@@ -22,14 +22,14 @@ function mapLarvalOverlay(map,distance,datax,isOld) //Larvalpositive nodes displ
 			refNumber[i] = data[i][1];
 			lat[i] = data[i][2];
 			lng[i] = data[i][3];
-			id[i]=data[i][4];
-			household[i]=data[i][5];
-			container[i]=data[i][6];
-			createdOn[i]=data[i][7];
-			updatedOn[i]=data[i][8];
-			lbarangay[i]=data[i][9];
-			lstreet[i]=data[i][10];
-			createdBy[i]=data[i][11];
+			//id[i]=data[i][4];
+			household[i]=data[i][4];
+			container[i]=data[i][5];
+			createdOn[i]=data[i][6];
+			updatedOn[i]=data[i][7];
+			lbarangay[i]=data[i][8];
+			lstreet[i]=data[i][9];
+			createdBy[i]=data[i][10];
 		}//alert(lat);
 		
 	var tempArrz=countInstances(lbarangay);
@@ -43,7 +43,7 @@ function mapLarvalOverlay(map,distance,datax,isOld) //Larvalpositive nodes displ
 	    for(var _i=0; _i < data.length; _i++)
 	    {
 		    //alert("Comparing "+id[i]+" to "+dist[_i][0]);
-		    if(id[i]===dist[_i][0])
+		    if(refNumber[i]===dist[_i][0])
 		    {
 		    	 amount50a=dist[_i][1];
 				 amount50p=dist[_i][2];
