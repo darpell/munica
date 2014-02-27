@@ -3,6 +3,9 @@
 
 </head>
 <body>
+<style>
+td { font-weight:bold }
+</style>
 <!-- CONTENT -->
 <!-- Filters -->
 <div class="container">
@@ -14,7 +17,7 @@
 			<div class="panel-body">
 				<table class="table">
 					<tr>
-						<td> Status: </td> <td> <?= $person['status']?> </td>
+						<td> Status: </td> <td> <?= ucfirst($person['status']) ?> </td>
 					</tr>
 					<tr>
 						<td> First encoded on: </td> <td> <?= date('d/m/Y',strtotime($person['created_on'])) ?> </td>
@@ -39,6 +42,9 @@
 					</tr>
 					<tr>
 						<td> Date of Birth: </td> <td> <?= date('d/m/Y',strtotime($person['person_dob'])) ?> </td>
+					</tr>
+					<tr>
+						<td> Lives in: </td> <td> <?= $person['household_name']?> at <?= $person['house_no']?> <?= $person['street']?> </td>
 					</tr>
 					<tr>
 						<td> Marital Status: </td> <td> <?= $person['person_marital'] ?> </td>

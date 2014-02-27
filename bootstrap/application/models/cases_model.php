@@ -17,11 +17,13 @@ class Cases_model extends CI_Model
 		}
 		}
 	
-	function get_cases($type, $offset = FALSE, $limit = FALSE)
+	function get_cases($type = FALSE, $offset = FALSE, $limit = FALSE)
 	{
 		$this->db->from('active_cases')
-					->join('master_list','active_cases.person_id = master_list.person_id')
-					->where('status',$type);
+					->join('master_list','active_cases.person_id = master_list.person_id');
+		
+		if ($type != FALSE)
+			$this->db->where('status',$type);
 		if ($offset != FALSE && $limit != FALSE)
 			$this->db->limit($offset,$limit);
 		
@@ -30,12 +32,12 @@ class Cases_model extends CI_Model
 		$query->free_result();
 	}
 	
-	#TODO
-	function get_case($person_id)
+	#TODO subject for deletion due to duplicate entr in active_case_model
+	function get_case($imcase)
 	{
 		$this->db->from('active_cases')
 				->join('master_list', 'active_cases.person_id = master_list.person_id')
-				->where('active_cases.person_id',$person_id)
+				->where('active_cases.imcase_no',$imcase)
 				->order_by('imcase_no','desc')
 				->limit('1');
 		

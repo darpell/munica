@@ -32,10 +32,25 @@ class Active_case_model extends CI_Model
 				->join('master_list', 'active_cases.person_id = master_list.person_id')
 				->join('catchment_area','active_cases.person_id = catchment_area.person_id')
 				->join('household_address', 'household_address.household_id = catchment_area.household_id')
-				->where('active_cases.imcase_no',$imcase);
+				->where('active_cases.imcase_no',$imcase)
+				->order_by('imcase_no','desc')
+				->limit('1');
 		
 		$query = $this->db->get();
 		return $query->row_array();
+			$query->free_result();
+	}
+	
+	function get_symptom($symptom, $status = FALSE)
+	{
+		$this->db->from('active_cases')
+				->where($symptom,'Y');
+		
+		if ($status != FALSE)
+			$this->db->where('status',$status);
+		
+		$query = $this->db->get();
+		return $query->result_array();
 			$query->free_result();
 	}
 	
@@ -57,6 +72,26 @@ class Active_case_model extends CI_Model
 		}
 		else
 			return FALSE;
+	}
+	
+	function check_gender_distribution($cases)
+	{
+		$male = 0;
+		$female = 0;
+	
+		for($ctr = 0; $ctr < count($cases); $ctr++)
+		{
+		if (strcasecmp($cases[$ctr]['person_sex'],'M') == 0)
+		$male += 1;
+		if (strcasecmp($cases[$ctr]['person_sex'],'F') == 0)
+				$female += 1;
+		}
+		$distribution = array(
+				'male'=> $male,
+				'female' => $female
+						);
+	
+		return $distribution;
 	}
 	
 	function add_case()
