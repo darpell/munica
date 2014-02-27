@@ -24,6 +24,25 @@ body { height:100% }
 <?php  $this->load->view('/site/analytics/analyticslinks');?>
 <div class="col-md-9">
 
+	<?php 
+	
+					$month = '';
+					switch ($cases['max_mon'])
+					{
+						case '1': $month = 'JAN'; break;
+						case '2': $month = 'FEB'; break;
+						case '3': $month = 'MAR'; break;
+						case '4': $month = 'APR'; break;
+						case '5': $month = 'MAY'; break;
+						case '6': $month = 'JUN'; break;
+						case '7': $month = 'JUL'; break;
+						case '8': $month = 'AUG'; break;
+						case '9': $month = 'SEP'; break;
+						case '10': $month = 'OCT'; break;
+						case '11': $month = 'NOV'; break;
+						case '12': $month = 'DEC'; break;
+					}
+		?>
 		
 	<!-- Graph timeseriescases -->
 		<div class="panel panel-primary">
@@ -34,7 +53,13 @@ body { height:100% }
 			 <fieldset  style="width: 50%;">
 			 <legend>Summary</legend>
 			<p>The most number of cases reported was <b><?php echo $cases['max'] ?> cases</b>.</p>
-			<p>During the <b>Year <?php echo $cases['max_year'] ?> Month <?php echo $cases['max_mon'] ?></b></p>
+			<p>During the <b> <?php echo $month; ?> <?php echo $cases['max_year'] ?>.</b></p>
+			 <p>Resulting in <b> deaths at <?php foreach ($death as $row)
+			 {
+			 	echo "<br />" . $row['cr_barangay'] . " : " . $row['deaths']; 
+			 }
+			 	?></b></p>
+			 
 			 </fieldset>
 			 </center>
 			<div class="panel-body">
@@ -51,6 +76,15 @@ body { height:100% }
   for (var i=0;i<cases.length;i++)
   {
 	  cases[i] = parseInt(cases[i]);
+  }
+
+  var dyearstart = parseInt(<?php echo json_encode($deathcount['yearstart']); ?>);
+  var deathcount = <?php echo json_encode($deathcount['count']); ?>;
+  deathcount = deathcount.split(",");
+  deathcount.pop();
+  for (var i=0;i<deathcount.length;i++)
+  {
+	  deathcount[i] = parseInt(deathcount[i]);
   }
   
 </script>

@@ -30,12 +30,48 @@ body { height:100% }
 			</div>
 			<center>
 			 <fieldset  style="width: 50%;">
+			 <?php 
+	
+					$month = '';
+					switch ($larval['max_mon'])
+					{
+						case '1': $month = 'JAN'; break;
+						case '2': $month = 'FEB'; break;
+						case '3': $month = 'MAR'; break;
+						case '4': $month = 'APR'; break;
+						case '5': $month = 'MAY'; break;
+						case '6': $month = 'JUN'; break;
+						case '7': $month = 'JUL'; break;
+						case '8': $month = 'AUG'; break;
+						case '9': $month = 'SEP'; break;
+						case '10': $month = 'OCT'; break;
+						case '11': $month = 'NOV'; break;
+						case '12': $month = 'DEC'; break;
+					}
+					
+					$month2 = '';
+					switch ($cases['max_mon'])
+					{
+						case '1': $month = 'JAN'; break;
+						case '2': $month = 'FEB'; break;
+						case '3': $month = 'MAR'; break;
+						case '4': $month = 'APR'; break;
+						case '5': $month = 'MAY'; break;
+						case '6': $month = 'JUN'; break;
+						case '7': $month = 'JUL'; break;
+						case '8': $month = 'AUG'; break;
+						case '9': $month = 'SEP'; break;
+						case '10': $month = 'OCT'; break;
+						case '11': $month = 'NOV'; break;
+						case '12': $month = 'DEC'; break;
+					}
+		?>
 			 <legend>Summary</legend>
 			<p>The most number of cases reported was <b><?php echo $cases['max'] ?> cases</b>.</p>
-			<p>During the <b>Year <?php echo $cases['max_year'] ?> Month <?php echo $cases['max_mon'] ?></b></p>
+			<p>During the <b> <?php echo $month2; ?> <?php echo $cases['max_year'] ?>.</b></p>
 			<br />
 			<p>The most number of Larval Breeding spots reported was <b><?php echo $larval['max'] ?></b>.</p>
-			<p>During the <b>Year <?php echo $larval['max_year'] ?> Month <?php echo $larval['max_mon'] ?></b></p>
+			<p>During the <b> <?php echo $month; ?> <?php echo $larval['max_year'] ?>.</b></p>
 			 </fieldset>
 			 </center>
 			<div class="panel-body">

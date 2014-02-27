@@ -80,6 +80,7 @@ class Analytics extends CI_Controller
 		{
 			
 			$casereportANDimmecase = $this->Analytics_model->get_all_cases_data('2000-01-01', '2013-12-31');
+			$data['deathcount'] = $this->Analytics_model->get_death_count_daterange('2000-01-01', '2013-12-31');
 		}
 		else
 		{
@@ -93,8 +94,10 @@ class Analytics extends CI_Controller
 			$temp2 = $temp2[2].'/'.$temp2[0].'/'.$temp2[1];
 			
 			$casereportANDimmecase = $this->Analytics_model->get_all_cases_data($temp, $temp2);
+			$data['deathcount'] = $this->Analytics_model->get_death_count_daterange($temp, $temp2);
 			
 		}
+		
 		
 		
 		$brgys = $this->Analytics_model->get_barangays();
@@ -228,7 +231,7 @@ class Analytics extends CI_Controller
 		}
 		$data['deaths'] = 0;
 		$data['max_fatality'] = 0;
-		$data['max_fatality_group'] = null;
+		$data['max_fatality_group'] = '';
 			for($i=0; $i<count($fatality);$i++)
 			{
 			$data['deaths'] += $fatality[$i];
@@ -319,6 +322,9 @@ class Analytics extends CI_Controller
 	function totalcasecount()
 	{
 		$data['cases'] = $this->Analytics_model->get_all_cases_count();
+		$data['death'] = $this->Analytics_model->get_death_count($data['cases']['max_mon'],$data['cases']['max_year']);
+		$data['deathcount'] = $this->Analytics_model->get_all_death_count();
+			
 		$this->load->view('site/analytics/timeseriesCase',$data);
 	}
 	function totallarvalcount()

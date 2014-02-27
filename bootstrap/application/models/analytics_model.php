@@ -33,7 +33,6 @@
 			}
 			$q->free_result();
 			
-			
 			for($i=$data['yearstart'];$i<=DATE('Y');$i++)
 			{
 				for ($s= 1;$s<=12;$s++)
@@ -62,10 +61,10 @@
 			}
 			$q->free_result();
 			
-			$where = "count(imcase_no) as patientcount ,YEAR(immediate_cases.created_on) as caseyear,
-				Month(immediate_cases.created_on) as casemonth 
-				FROM (`immediate_cases`) 
-				JOIN `master_list` ON `master_list`.`person_id` = `immediate_cases`.`person_id` 
+			$where = "count(imcase_no) as patientcount ,YEAR(active_cases.created_on) as caseyear,
+				Month(active_cases.created_on) as casemonth 
+				FROM (`active_cases`) 
+				JOIN `master_list` ON `master_list`.`person_id` = `active_cases`.`person_id` 
 				JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id` 
 				JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username` 
 				JOIN `household_address` ON `catchment_area`.`household_id` = `household_address`.`household_id` 
@@ -106,10 +105,10 @@
 				}
 				$q->free_result();
 					
-				$where = "count(imcase_no) as patientcount ,YEAR(immediate_cases.created_on) as caseyear,
-				Month(immediate_cases.created_on) as casemonth
-				FROM (`immediate_cases`)
-				JOIN `master_list` ON `master_list`.`person_id` = `immediate_cases`.`person_id`
+				$where = "count(imcase_no) as patientcount ,YEAR(active_cases.created_on) as caseyear,
+				Month(active_cases.created_on) as casemonth
+				FROM (`active_cases`)
+				JOIN `master_list` ON `master_list`.`person_id` = `active_cases`.`person_id`
 				JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
 				JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username`
 				JOIN `household_address` ON `catchment_area`.`household_id` = `household_address`.`household_id`
@@ -151,8 +150,118 @@
 			}
 			}
 			
+			return $data;	
+		}
+		function get_all_death_count()
+		{
+			$where = "MIN(YEAR(cr_date_onset)) as yearmin
+			FROM (`case_report_main`)
+					WHERE YEAR(cr_date_onset) < ".date('Y')."";
+			$this->db->select($where);
+			$q = $this->db->get();
+			if($q->num_rows() > 0)
+			{
+				foreach ($q->result() as $row)
+				{
+					$data['yearstart']= $row->yearmin;
+				}
+			}
+			$q->free_result();
+			
+			for($i=$data['yearstart'];$i<=DATE('Y');$i++)
+			{
+			for ($s= 1;$s<=12;$s++)
+			{
+			$data[$i][$s]=0;
+			}
+			}
+			
+			$where = " count(cr_patient_no) as deaths , YEAR(cr_date_onset) as caseyear,
+					Month(cr_date_onset) as casemonth
+					FROM case_report_main
+					WHERE YEAR(`cr_date_onset`) < ".date('Y')."
+					AND cr_outcome = 'D'
+					GROUP BY YEAR(`cr_date_onset`), MONTH(`cr_date_onset`)";
+				
+			$this->db->select($where,false);
+			$q = $this->db->get();
+			$yearstart= 0;
+			if($q->num_rows() > 0)
+			{
+				foreach ($q->result() as $row)
+				{ $x = $row->caseyear;
+				  $y = $row->casemonth;
+					$data[$x][$y] += $row->deaths;
+				}
+			}
+			$data['count'] = '';
+			for($i=$data['yearstart'];$i<=DATE('Y');$i++)
+			{
+				for ($s= 1;$s<=12;$s++)
+				{
+					$data['count'] .= $data[$i][$s] . ',';
+								
+								
+				}
+			}
+				
+			return $data;
+		
+		}
+		function get_death_count($mon,$year)
+		{
+			$where = " count(cr_patient_no) as deaths , cr_barangay FROM (`case_report_main`)
+					WHERE YEAR(cr_date_onset) =".$year." AND MONTH(cr_date_onset) =".$mon."
+					AND cr_outcome = 'D'
+					GROUP BY cr_barangay ";
+			
+			$this->db->select($where,false);
+			$q = $this->db->get();
+			$yearstart= 0;
+			if($q->num_rows() > 0)
+			{
+				$data= $q->result_array();
+			}
 			return $data;
 			
+		}
+		function get_death_count_daterange ($startdate = null,$enddate = null)
+		{
+			if($startdate == null or $enddate == null)
+			{
+				$where = " count(cr_patient_no) as deaths , cr_barangay FROM (`case_report_main`)
+					WHERE  cr_outcome = 'D'
+					GROUP BY cr_barangay ";
+				
+				$this->db->select($where,false);
+				$q = $this->db->get();
+				$yearstart= 0;
+				if($q->num_rows() > 0)
+				{
+					$data= $q->result_array();
+				}
+				else 
+				$data = null;
+			}
+			else
+			{
+			$where = " count(cr_patient_no) as deaths , cr_barangay FROM (`case_report_main`)
+					WHERE cr_date_onset BETWEEN '".$startdate."'  AND '".$enddate."' 
+					AND cr_outcome = 'D'
+					GROUP BY cr_barangay ";
+				
+			$this->db->select($where,false);
+			$q = $this->db->get();
+			$yearstart= 0;
+			if($q->num_rows() > 0)
+			{
+				$data= $q->result_array();
+			}
+			else
+			$data = null;
+			}
+			return $data;
+				
 		}
 		function get_all_cases_data($startdate, $enddate)
 		{
@@ -172,8 +281,8 @@
 			$q->free_result();
 				
 			$where = " *
-				FROM (`immediate_cases`)
-				JOIN `master_list` ON `master_list`.`person_id` = `immediate_cases`.`person_id`
+				FROM (`active_cases`)
+				JOIN `master_list` ON `master_list`.`person_id` = `active_cases`.`person_id`
 				JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
 				JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username`
 				JOIN `household_address` ON `catchment_area`.`household_id` = `household_address`.`household_id`
@@ -357,8 +466,8 @@
 			if($brgy == null){
 			$where = "count(imcase_no) as patientcount ,YEAR(created_on) as caseyear,   
 						WEEK(created_on) as caseweek,barangay
-						FROM (`immediate_cases`)
-						JOIN `master_list` ON `master_list`.`person_id` = `immediate_cases`.`person_id`
+						FROM (`active_cases`)
+						JOIN `master_list` ON `master_list`.`person_id` = `active_cases`.`person_id`
 						JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
 						JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username`
 						JOIN `household_address` ON `catchment_area`.`household_id` = `household_address`.`household_id`

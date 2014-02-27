@@ -59,8 +59,14 @@ $(function () {
                 type: 'area',
                 name: 'Cases',
                 pointInterval: 30 * 24 * 3600 * 1000,
-                pointStart: Date.UTC(cyearstart, 0, 01),
+                pointStart: Date.UTC(cyearstart, 01, 01),
                 data: cases
+            },{
+                type: 'area',
+                name: 'Deaths',
+                pointInterval: 30 * 24 * 3600 * 1000,
+                pointStart: Date.UTC(dyearstart, 01, 01),
+                data: deathcount
             }]
         });
     });

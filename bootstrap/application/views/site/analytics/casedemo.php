@@ -5,11 +5,14 @@
 <script src="<?php echo base_url('scripts/highcharts/highcharts.js');?>"></script>
 <script src="<?php echo base_url('scripts/highcharts/modules/data.js');?>"></script>
 <script src="<?php echo base_url('scripts/highcharts/modules/exporting.js');?>"></script>
-
-
+<?php
+if ($casereportANDimmecase['casereport'] != null OR $casereportANDimmecase['immecase'] != null )
+			{ ?>
 <script src="<?php echo base_url('scripts/analytics/combocases.js');?>"></script>
-<script src="<?php echo base_url('scripts/analytics/fatalityrate.js');?>"></script>
-
+<?php if ($max_fatality > 0)
+			{ ?>
+<script src="<?php echo base_url('scripts/analytics/fatalityrate.js');?>"></script> <?php }?>
+<?php }?>
 
 <style>
 html { height:100% }
@@ -36,7 +39,15 @@ body { height:100% }
 			 <fieldset  style="width: 50%;">
 			 <legend>Summary</legend>
 			<p>Most cases reported was at  <b><?php echo $brgys[$brgy_max]; ?></b></p>
-			<p>The number of deaths reported was <b><?php echo $deaths; ?> cases</b>.</p>
+			<p>The number of deaths reported was <b><?php echo $deaths; ?> cases</b>.
+			<b><?php 
+			if($deathcount != null){
+			foreach ($deathcount as $row)
+			 {
+			 	echo "<br />" . $row['cr_barangay'] . " : " . $row['deaths']; 
+			 }
+			 }
+			 ?></b>
 			 </fieldset>
 			 </center>
 			 
@@ -77,7 +88,10 @@ body { height:100% }
 		
 	
 <script>
-	
+var fatality =  <?php echo json_encode($fatality);?>;
+</script>
+<?php }?>
+<script>
   <!-- combo chart -->
   var brgycount = <?php  if ($casereportANDimmecase['casereport'] != null OR $casereportANDimmecase['immecase'] != null )
 			echo json_encode($brgycount); else echo json_encode('null') ?>;
@@ -85,13 +99,11 @@ body { height:100% }
 			echo json_encode($agegroup); else echo json_encode('null')?>;
   var brgys = <?php if ($casereportANDimmecase['casereport'] != null OR $casereportANDimmecase['immecase'] != null )
 			echo json_encode($brgys); else echo json_encode('null')?>;
+  
 
-  <!-- fatality rate --->
-  var fatality = <?php if ($casereportANDimmecase['casereport'] != null OR $casereportANDimmecase['immecase'] != null )
-			echo json_encode($fatality);  else echo json_encode('null')?>;
 </script>
 	<!-- end of Graph -->
-	 <?php }?>
+
 		<?php } else {?>
 		<center>
 			 <fieldset  style="width: 50%;">
