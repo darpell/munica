@@ -15,7 +15,6 @@ class Analytics extends CI_Controller
 		
 		$data['larval']= $this->Analytics_model->get_larval_count((int)date("W"));
 		
-		print_r($data['cases']['deaths']);
 		$data['barangay'] = $this->Analytics_model->get_barangays();
 		$this->load->view('site/analytics',$data);
 	}
