@@ -35,23 +35,23 @@ class Map extends CI_Controller
 					
 					if ($this->input->post('cboxLarva'))
 					{
-						$getLarva=True; echo $getLarva;
+						$getLarva=True;
 					}
 					if ($this->input->post('cboxDengue'))
 					{
-						$getDengue=True; echo $getDengue;
+						$getDengue=True;
 					}
 					if ($this->input->post('cboxPoI'))
 					{
-						$getPoI=True; echo $getPoI;
+						$getPoI=True;
 					}
 					if ($this->input->post('cboxHouseholds'))
 					{
-						$getHouseholds=True; echo $getHouseholds;
+						$getHouseholds=True;
 					}
 					if ($this->input->post('cboxBB'))
 					{
-						$getBB=True; echo $getBB;
+						$getBB=True;
 					}
 				}
 				else
@@ -105,13 +105,47 @@ class Map extends CI_Controller
 
 				//echo $dateData2['date1']." to ".$dateData2['date2']." : ";
 				//echo $dateData1['date1']." to ".$dateData1['date2'];
+				/*
+				$paths1;
+				$paths2;
+				$paths1[]=array(
+						'lat'=> "25.774252",
+						'lng'=> "-80.190262"
+				);
+				$paths1[]=array(
+						'lat'=> "18.466465",
+						'lng'=> "-66.118292"
+				);
+				$paths1[]=array(
+						'lat'=> "32.321384",
+						'lng'=> "-64.75737"
+				);
+				$paths2[]=array(
+						'lat'=> "25.774232",
+						'lng'=> "-80.190242"
+				);
+				$paths2[]=array(
+						'lat'=> "18.436365",
+						'lng'=> "-66.158592"
+				);
+				$paths2[]=array(
+						'lat'=> "33.121384",
+						'lng'=> "-63.65737"
+				);
+				$paths2[]=array(
+						'lat'=> "32.451384",
+						'lng'=> "-64.25737"
+				);
+				print_r($this->Mapping->compareArraysDistanceFormula($paths1,$paths2));//*/
+				
+				
 				
 				$data['getLarva'] = $getLarva;
 				$data['getDengue'] = $getDengue;
 				$data['getPoI'] = $getPoI;
 				$data['getHouseholds'] = $getHouseholds;
 				$data['getBB'] = $getBB;
-				$data['brgy']=null;
+				$data['brgy'][]="SAN AGUSTIN III";//print_r($data['brgy']);
 				$values = $this->Mapping->mapByType($data);
 				
 				//*CURRENT DATE INTERVAL DATA EXTRACTION

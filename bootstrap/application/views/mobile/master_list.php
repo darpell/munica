@@ -18,34 +18,32 @@
 			
 			
 				<!-- <li> <?php //echo $test; ?></li> -->
+				<ul data-role="listview" data-inset="true" data-split-icon="check" data-split-theme="d" data-divider-theme="a" data-filter="true">
 				<?php for ($ctr = 0; $ctr < count($subjects); $ctr++) {?>
-				<ul data-role="listview" data-inset="true" data-split-icon="check" data-split-theme="d" data-divider-theme="a">
-				<li data-role="list-divider"> 
-					<span> 
-						<?php 
-							$this->load->model('master_list_model','masterlist');
-							$fever_count = $this->masterlist->get_fever_count($subjects[$ctr]['household_id']);
+					<?php 
+						$this->load->model('hh_model','model');
+						$fever_count = count($this->model->get_cases($this->session->userdata('TPusername'),$subjects[$ctr]['household_id']));
 							
-							if ($fever_count != NULL)
-								echo $fever_count;
-							else
-								echo '0';
-						?> 
-					</span> identified with fever for the past 7 days</li>
-				<li> <a href="<?php echo site_url('mobile/household/' . $subjects[$ctr]['household_id']);?>" data-ajax="false" data-transition="slide">
-					<?php echo $subjects[$ctr]['household_name']; ?> <!-- Household No. e.g. "Blk 2" --> located at
-					<?php echo $subjects[$ctr]['house_no']; ?>, <!-- Household No. e.g. "Blk 2" --> 
-					<?php echo $subjects[$ctr]['street']; ?> <!-- Street -->
-					<p class="ui-li-aside"> Last Visited On <strong>
-					<?php echo $subjects[$ctr]['last_visited']; ?> <!-- Last Visited On -->
-					</strong></p>
-					</a>
-				</li>
-				
-				
-			</ul>
+						if ($fever_count != NULL || $fever_count != 0)
+						{
+					?>
+							<li data-role="list-divider">
+								<span> 
+									<?= $fever_count ?>
+								</span> active case/s in <?= $subjects[$ctr]['household_name']; ?>
+							</li>
+					<?php } ?>
+					<li> <a href="<?php echo site_url('mobile/master_list/view_household/' . $subjects[$ctr]['household_id']);?>" data-ajax="false" data-transition="slide">
+						<?php echo $subjects[$ctr]['household_name']; ?> <!-- Household No. e.g. "Blk 2" --> located at
+						<?php echo $subjects[$ctr]['house_no']; ?>, <!-- Household No. e.g. "Blk 2" --> 
+						<?php echo $subjects[$ctr]['street']; ?> <!-- Street -->
+						<p class="ui-li-aside"> last visit: <strong>
+						<?php echo date('D, M d Y',strtotime($subjects[$ctr]['last_visited'])); ?> <!-- Last Visited On -->
+						</strong></p>
+						</a>
+					</li>
 				<?php } ?>
-			
+			</ul>
 		</div><!-- /content -->
 	</div><!-- /page-->
 </body>

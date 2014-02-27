@@ -147,29 +147,73 @@ $config = array(
 											'rules' => 'required'
 									)
 							),
+				'new_member'	=> array(
+										array(
+											'field' => 'hh_fname',
+											'label' => 'first name',
+											'rules' => 'required'
+										),
+										array(
+												'field' => 'hh_lname',
+												'label' => 'last name',
+												'rules' => 'required'
+										),
+										array(
+												'field' => 'hh_dob',
+												'label' => 'date of birth',
+												'rules' => 'required'
+										),
+										array(
+												'field' => 'hh_gender',
+												'label' => 'gender',
+												'rules' => 'required'
+										),
+										array(
+												'field' => 'hh_marital',
+												'label' => 'marital status',
+												'rules' => 'required'
+										),
+										array(
+												'field' => 'hh_nationality',
+												'label' => 'nationality',
+												'rules' => 'required'
+										),
+										array(
+												'field' => 'hh_blood',
+												'label' => 'blood type',
+												'rules' => 'required'
+										),
+										array(
+												'field' => 'hh_contact',
+												'label' => 'contact number',
+												'rules' => 'required'
+										)
+						),
 		
-                 'email' => array(
-                                    array(
-                                            'field' => 'emailaddress',
-                                            'label' => 'EmailAddress',
-                                            'rules' => 'required|valid_email'
-                                         ),
-                                    array(
-                                            'field' => 'name',
-                                            'label' => 'Name',
-                                            'rules' => 'required|alpha'
-                                         ),
-                                    array(
-                                            'field' => 'title',
-                                            'label' => 'Title',
-                                            'rules' => 'required'
-                                         ),
-                                    array(
-                                            'field' => 'message',
-                                            'label' => 'MessageBody',
-                                            'rules' => 'required'
-                                         )
-                                    )                          
+				'poi'		=> array(
+								array(
+									'field' => 'TPname-txt_r',
+									'label'	=> 'name',
+									'rules'	=> 'required'
+								),
+								array(
+									'field' => 'TPremarks-txt_r',
+									'label'	=> 'remarks',
+									'rules'	=> 'required'
+								)
+							),
+				'ls_form'	=> array(
+								array(
+									'field' => 'TPcontainer-txt_r',
+									'label'	=> 'container',
+									'rules'	=> 'required'
+								),
+								array(
+									'field' => 'TPhousehold-txt_r',
+									'label'	=> 'household',
+									'rules'	=> 'required'
+						),
+						)                   
                );
 
 /* End of file form_validation.php */

@@ -47,36 +47,66 @@ class Mapping extends CI_Model
 			$returnValues['householdValues'] =0;
 			$returnValues['bbValues'] =0;
 			if($data['getLarva'])
-			{
-				$qString = 'CALL '; 
+			{/*
+				$where="";
+				$this->db->from('ls_report');
+				if ($data['brgy'] != NULL)
+				{
+					$where = "ls_barangay ='";
+					foreach($data['brgy'] as $varr)
+					{
+						$where .= $varr."' OR ";
+					}
+					$this->db->where(substr($where,0,-3));
+				}$this->db->group_by("ls_no"); 
+				$q = $this->db->get();
+				if($q->num_rows() > 0) 
+				{	$tempp;
+					foreach ($q->result() as $row) 
+					{
+						$tempp[]=array(
+								'ls_no'=> $row->ls_no,
+								'household'=> $row->ls_household,
+								'container'=> $row->ls_container,
+								'lat'=> $row->ls_lat,
+								'lng'=> $row->ls_lng,
+								'createdBy'=> $row->created_by,
+								'createdOn'=> $row->created_on,
+								'updatedBy'=> $row->last_updated_by,
+								'updatedOn'=> $row->last_updated_on
+						);
+					}
+					$returnValues['larvalValues'] =  $tempp;
+				}//*/
+				$where;
+				$qString = 'CALL ';
 				$qString .= "view_larval_nodes('"; // name of stored procedure
-				$qString .= 
+				$qString .=
 				//variables needed by the stored procedure
-				$data['date1']. "','". 
+				$data['date1']. "','".
 				$data['date2']. "'". ")";
 				
 				$q = $this->db->query($qString);
 				//*
-				if($q->num_rows() > 0) 
+				if($q->num_rows() > 0)
 				{	$temp = "";
-					foreach ($q->result() as $row) 
-					{
-						//if($row->ls_result=="positive") // disabled for now since only a few (or non) entries would be positive
-						$temp .=
-						"larvalpositive" . "&&" . 
-						$row->ls_no . "&&" . 
-						$row->ls_lat . "&&" . 
-						$row->ls_lng . "&&" . 
-						$row->tracking_number . "&&" . 
-						$row->ls_household . "&&" .
-						$row->ls_container . "&&".
-						$row->created_on . "&&".
-						$row->last_updated_on . "&&".
-						$row->ls_barangay . "&&".
-						$row->created_by . "%%"  ;
-					}
-					$q->free_result();
-					$returnValues['larvalValues'] = substr($temp,0,-2);
+				foreach ($q->result() as $row)
+				{
+					//if($row->ls_result=="positive") // disabled for now since only a few (or non) entries would be positive
+					$temp .=
+					"larvalpositive" . "&&" .
+					$row->ls_no . "&&" .
+					$row->ls_lat . "&&" .
+					$row->ls_lng . "&&" .
+					$row->ls_household . "&&" .
+					$row->ls_container . "&&".
+					$row->created_on . "&&".
+					$row->last_updated_on . "&&".
+					$row->ls_barangay . "&&".
+					$row->created_by . "%%"  ;
+				}
+				$q->free_result();
+				$returnValues['larvalValues'] = substr($temp,0,-2);
 				}
 				else
 				{
@@ -85,39 +115,50 @@ class Mapping extends CI_Model
 			}
 			if($data['getBB'])
 			{
-				$qString = 'CALL '; 
-				$qString .= "get_all_polygon_points ()"; // name of stored procedure
-				
-				$q = $this->db->query($qString);
-				//*
-				if($q->num_rows() > 0) 
-				{	$temp = "";
-					foreach ($q->result() as $row) 
-					{	
-							$temp .=
-							$row->polygon_ID . "&&" . 
-							$row->point_lat . "&&" . 
-							$row->point_lng . "&&" . 
-							$row->polygon_name . "%%" ;
+				$where="";
+				$this->db->from('map_polygons');
+				if ($data['brgy'] != NULL)
+				{
+					$where = "polygon_name ='";
+					foreach($data['brgy'] as $varr)
+					{
+						$where .= $varr."' OR ";
 					}
-					$returnValues['bbValues'] =  substr($temp,0,-2);
+					$this->db->where(substr($where,0,-3));
+				}//print_r($data['brgy'][0]);
+				$q = $this->db->get();
+				if($q->num_rows() > 0) 
+				{	$temper;
+					foreach ($q->result() as $row) 
+					{
+						$temper[]=array(//*
+								'pName'=> $row->polygon_name,
+								'pID'=> $row->polygon_ID,
+								'lat'=> $row->point_lat,
+								'lng'=> $row->point_lng
+								//*/
+						);
+					}
+					$returnValues['bbValues'] =  $temper;
 				}
 				$q->free_result();
 			}
 			if($data['getDengue'])
 			{
-				$this->db->from('immediate_cases');
-				$this->db->join('catchment_area', 'catchment_area.person_id = immediate_cases.person_id');
+				$where="";
+				$this->db->from('active_cases');
+				$this->db->join('catchment_area', 'catchment_area.person_id = active_cases.person_id');
 				$this->db->join('household_address', 'household_address.household_id = catchment_area.household_id');
 				$this->db->join('bhw', 'bhw.user_username = catchment_area.bhw_id');
+				$this->db->join('master_list', 'master_list.person_id = catchment_area.person_id');
 				if ($data['brgy'] != NULL)
 				{
-					$where = "barangay=";
+					$where = "barangay ='";
 					foreach($data['brgy'] as $varr)
 					{
-						$where .= $varr." OR ";
+						$where .= $varr."' OR ";
 					}
-					$this->db->where(substr($where,0,-2));
+					$this->db->where(substr($where,0,-3));
 				}	
 				$q = $this->db->get();
 				if($q->num_rows() > 0) 
@@ -148,7 +189,13 @@ class Mapping extends CI_Model
 								'lat'=> $row->household_lat,
 								'lng'=> $row->household_lng,
 								'bhwName'=> $row->user_username,
-								'barangay'=> $row->barangay
+								'barangay'=> $row->barangay,
+								'fName'=> $row->person_first_name,
+								'lName'=> $row->person_last_name,
+								'dob'=> $row->person_dob,
+								'sex'=> $row->person_sex,
+								'guardian'=> $row->person_guardian,
+								'contact'=> $row->person_contactno
 								//*/
 						);
 					}
@@ -158,12 +205,19 @@ class Mapping extends CI_Model
 			}
 			if ($data['getHouseholds'])//all polygons
 			{
+				$where="";
 				$this->db->from('household_address');
 				$this->db->join('catchment_area', 'catchment_area.household_id = household_address.household_id');
 				$this->db->join('bhw', 'catchment_area.bhw_id = bhw.user_username');
+				$this->db->join('master_list', 'master_list.person_id = catchment_area.person_id');
 				if ($data['brgy'] != NULL)
 				{
-					$this->db->where('barangay',$brgy);
+					$where = "barangay ='";
+					foreach($data['brgy'] as $varr)
+					{
+						$where .= $varr."' OR ";
+					}
+					$this->db->where(substr($where,0,-3));
 				}
 				$q = $this->db->get();
 				if($q->num_rows() > 0) 
@@ -176,12 +230,16 @@ class Mapping extends CI_Model
 								'houseNo'=> $row->house_no,
 								'street'=> $row->street,
 								'lastVisited'=> $row->last_visited,
-								'householdLat'=> $row->household_lat,
-								'householdLng'=> $row->household_lng,
+								'lat'=> $row->household_lat,
+								'lng'=> $row->household_lng,
 								'personID'=> $row->person_id,
 								'bhwID'=> $row->bhw_id,
 								'bhwUsername'=> $row->user_username,
-								'householdBarangay'=> $row->barangay
+								'householdBarangay'=> $row->barangay,
+								'personFName'=> $row->person_first_name,
+								'personLName'=> $row->person_last_name,
+								'personDoB'=> $row->person_dob,
+								'personSex'=> $row->person_sex
 								//*/
 						);
 					}
@@ -189,75 +247,45 @@ class Mapping extends CI_Model
 				}
 				$q->free_result();
 			}
-			return $returnValues;
-			/*else
+			if ($data['getPoI'])//all polygons
 			{
-				//QUERY LARVAL INFORMATION
-				$qString = 'CALL ';
-				$qString .= "view_larval_nodes('"; // name of stored procedure
-				$qString .=
-				//variables needed by the stored procedure
-				$data['date1']. "','".
-				$data['date2']. "'". ")";
-				
-				$q = $this->db->query($qString);
-				//*
-				if($q->num_rows() > 0)
-				{	$data = "";
-				foreach ($q->result() as $row)
+				$where="";
+				$this->db->from('map_nodes');
+				if ($data['brgy'] != NULL)
 				{
-					$data .=
-					"larvalpositive" . "&&" . 
-					$row->ls_no . "&&" . 
-					$row->ls_lat . "&&" . 
-					$row->ls_lng . "&&" . 
-					$row->tracking_number . "&&" . 
-					$row->ls_household . "&&" .
-					$row->ls_container . "&&".
-					$row->created_on . "&&".
-					$row->last_updated_on . "&&".
-					$row->ls_barangay . "&&".
-					$row->created_by . "%%"  ;
+					$where = "node_barangay ='";
+					foreach($data['brgy'] as $varr)
+					{
+						$where .= $varr."' OR ";
+					}
+					$this->db->where(substr($where,0,-3));
+				}
+				$q = $this->db->get();
+				if($q->num_rows() > 0) 
+				{	$temppoi;
+					foreach ($q->result() as $row) 
+					{
+						$temppoi[]=array(//*
+								'name'=> $row->node_name,
+								'lat'=> $row->node_lat,
+								'lng'=> $row->node_lng,
+								'notes'=> $row->node_notes,
+								'type'=> $row->node_type,
+								'addedOn'=> $row->node_addedOn,
+								'endDate'=> $row->node_endDate,
+								'barangay'=> $row->node_barangay
+								//*/
+						);
+					}
+					$returnValues['poiValues'] =  $temppoi;
 				}
 				$q->free_result();
-				$data = substr($data,0,-2);
-				}
-				else
-				{
-					$data = "";
-					$q->free_result();
-					//return null;
-				}
-				
-				//QUERY POLYGON INFORMATION
-				$qString = 'CALL ';
-				$qString .= "get_all_polygon_points ()"; // name of stored procedure
-				
-				$q = $this->db->query($qString);
-				//*
-				$data .= "%&";
-				if($q->num_rows() > 0)
-				{	
-				foreach ($q->result() as $row)
-				{
-				
-					$data .=
-					$row->polygon_ID . "&&" .
-					$row->point_lat . "&&" .
-					$row->point_lng . "&&" .
-					$row->polygon_name . "%%" ;
-				}
-					
-				$q->free_result();
-				}
-				else
-				{
-					$q->free_result();
-					//return null;
-				}
-				return substr($data,0,-2);
 			}
-			//*/
+			if(true)
+			{
+				
+			}
+			return $returnValues;
 		}
 		//*
 	function weatherMapping($data)
@@ -323,7 +351,7 @@ class Mapping extends CI_Model
 				$ctr++;
 			}
 		}
-		echo ($data);
+		//echo ($data);
 		return substr($data,0,-2);
 	}
 	function calculateDistanceFormula($data)
@@ -337,6 +365,8 @@ class Mapping extends CI_Model
 			$data['date2']. "'". ")";
 			
 			$q = $this->db->query($qString);
+			
+			
 			//*
 			$data=[];
 			$ctr=0;
@@ -344,7 +374,7 @@ class Mapping extends CI_Model
 			{	
 				foreach ($q->result() as $row) 
 				{
-					$data[$ctr][0] =$row->tracking_number;
+					$data[$ctr][0] =$row->ls_no;
 					$data[$ctr][1] =$row->ls_lat;
 					$data[$ctr][2] =$row->ls_lng;
 					$ctr++;
@@ -397,6 +427,42 @@ class Mapping extends CI_Model
 				$dist.=$data[$i][0]."&&".$amount200a."&&".$amount200p."&&".$amount50a."&&".$amount50p."%%";
 			}
 			return substr($dist,0,-2);
+		}
+	function compareArraysDistanceFormula($arr1, $arr2)
+		{
+			$retVal=array();
+			$retChild=array();
+			$arr1length=count($arr1);
+			$arr2length=count($arr2);
+			for($i=0;$i<=$arr1length-1;$i++)
+			{
+				$amount200a=0;
+				$lat_a = $arr1[$i]['lat'] * PI()/180;
+				$long_a = $arr1[$i]['lng'] * PI()/180;
+				for($_i=0;$_i<$arr2length;$_i++)
+				{
+					$distance=0;
+					//echo "Comparing ".$data[$i][0]." and ".$data[$_i][0]." ";
+				    $lat_b = $arr2[$_i]['lat'] * PI()/180;
+				    $long_b = $arr2[$_i]['lng'] * PI()/180;
+				    $distance =
+				    	acos(
+				        	sin($lat_a) * sin($lat_b) +
+				            cos($lat_a) * cos($lat_b) * cos($long_b - $long_a)
+				        ) * 6371;
+				    $distance*=1000;
+                	if ($distance<=200)
+					{
+						$retChild[]=$arr2[$_i];
+					}
+					else 
+					{
+						$retChild[]=0;
+					}
+				}
+				$retVal[]=$retChild;
+			}
+		return $retVal;
 		}
 		/*
 	function getHouseholds($brgy = null)//all polygons
@@ -486,13 +552,12 @@ class Mapping extends CI_Model
 					$row->cr_age . "%%" ;
 				}
 				$q->free_result();
-				return substr($data,0,-2);
 			}
 			else
 			{
 				$q->free_result();
-				return substr($data,0,-2);
 			}
+			return substr($data,0,-2);
 			//*/
 		}
 		function getBarangayAges($data2)
@@ -536,7 +601,7 @@ class Mapping extends CI_Model
 			else
 			{
 				$q->free_result();
-				return $data;
+				return "";
 			}
 			//*/
 		}
@@ -688,8 +753,8 @@ class Mapping extends CI_Model
 					}
 				}
 			}
-			echo count($arr1)." ";
-			echo count($arr2)." ";
+			//echo count($arr1)." ";
+			//echo count($arr2)." ";
 			for($i=0; $i<count($arr1); $i++)
 			{
 				//ROW CREATION

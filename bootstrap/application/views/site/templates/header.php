@@ -44,6 +44,7 @@
             	<li><?= anchor(site_url('website/dashboard'),'Dashboard')?></li>
                	<?php }?>
                	<?php if($this->session->userdata('TPtype') == "BHW"){?>
+               	<li><?= anchor(site_url('website/dashboard'),'Dashboard')?></li>
                	<li><?= anchor(base_url('index.php/suggested/'),'Route Information')?></li>
                	<li><?= anchor(base_url('index.php/master_list/view_household_bhw'),'Catchment Area	')?></li>
                	<?php }?>

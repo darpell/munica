@@ -45,49 +45,18 @@ $route['mobile/tasks'] = 'mobile/tasks';
 $route['mobile/tasks/(:any)'] = 'mobile/tasks/view/$1';
 $route['mobile/tasks/done'] = 'mobile/tasks/done';
 $route['mobile/mob_check'] = 'mobile/login/mob_check';
-$route['mobile/page/addls'] = 'user/lsform/addls';
-$route['mobile/page/new_poi'] = 'mobile/poi/add';
-$route['mobile/page/uninvestigated_cases'] = 'mobile/investigate_cases';
-$route['mobile/cases/(:num)'] = 'mobile/investigate_cases/plot/$1';
-$route['mobile/cases/add'] = 'mobile/investigate_cases/add';
-$route['mobile/immediate_case'] = 'mobile/immediate_case';
-$route['mobile/page/case_add'] = 'mobile/immediate_case/add';
-$route['mobile/riskmap_options'] = 'mobile/larval/options';
-$route['mobile/larval_dialog'] = 'mobile/larval/filter_points';
-$route['mobile/case_dialog'] = 'mobile/cases/filterPoints';
+
 $route['mobile/riskmap'] = 'mobile/larval';
 $route['mobile/case_report'] = 'mobile/case_report';
 $route['mobile/page/master_list'] = 'mobile/master_list';
 $route['mobile/page/master_list/(:any)'] = 'mobile/master_list/$1';
-$route['mobile/household/(:num)'] = 'mobile/master_list/view_household/$1';
 
-// Mob Serious Cases
-$route['mobile/view/serious_cases'] = 'mobile/monitored_cases/serious_cases';
-$route['mobile/view/serious_cases/(:num)'] = 'mobile/monitored_cases/view_serious_case_details/$1';
-// Mob Suspected Casses
-$route['mobile/view/suspected_cases'] = 'mobile/monitored_cases/suspected_cases';
-$route['mobile/view/suspected_cases/(:num)'] = 'mobile/monitored_cases/view_suspected_case_details/$1';
-// Mob Hospitalized Casses
-$route['mobile/view/hospitalized_cases'] = 'mobile/monitored_cases/hospitalized_cases';
-$route['mobile/view/hospitalized_cases/(:num)'] = 'mobile/monitored_cases/view_hospitalized_case_details/$1';
 // Mob Households
-$route['mobile/page/addhh'] = 'mobile/household/add';
+$route['mobile/page/addhh'] = 'mobile/master_list/add';
 $route['mobile/household/(:num)/new_mem'] = 'mobile/household/add_mem_index';
 
-$route['mobile/view/person/(:num)'] = 'mobile/master_list/edit_immediate_case/$1'; # DONE
-$route['mobile/view/household/(:num)/case/(:num)'] = 'mobile/master_list/view_edit_person';
-$route['mobile/view/household/(:num)/case/(:num)/edit_case'] = 'mobile/master_list/edit_immediate_case';
-//hospital
-$route['mobile/view/household/(:num)/hosp/(:num)'] = 'mobile/master_list/view_hosp_case';
-$route['mobile/view/household/(:num)/hosp/(:num)/edit_case'] = 'mobile/master_list/edit_hospitalized_case';
-
-$route['mobile/view/household/(:num)/person/(:num)'] = 'mobile/master_list/view_person';
-$route['mobile/view/household/(:num)/person/(:num)/add_im'] = 'mobile/master_list/add_immediate_case';
-$route['mobile/case_report_filter/province'] = 'mobile/case_report/province';
-$route['mobile/case_report_filter/cities'] = 'mobile/case_report/cities';
-$route['mobile/case_report_filter/brgys'] = 'mobile/case_report/brgys';
-$route['mobile/case_report_filter/places'] = 'mobile/case_report/places';
-$route['mobile/case_report_filter/filter_places'] = 'mobile/case_report/filter_places';
+$route['mobile/page/new_poi'] = 'mobile/poi/add';
+$route['mobile/page/addls'] = 'mobile/larval_survey/add';
 
 $route['mobile/logout'] = 'mobile/login/logout';
 

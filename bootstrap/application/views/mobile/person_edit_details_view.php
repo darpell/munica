@@ -3,12 +3,7 @@
 
 <!-- CONTENT -->
 </head> 
-<body onload="initialize()"> 
-
-<!-- load model -->
-<?php 
-	$this->load->model('master_list_model','masterlist');
-?>
+<body>
 <div data-role="page">
 
 	<div data-role="header">
@@ -19,26 +14,22 @@
 
 		
 		<ul data-role="listview" data-inset="true" data-theme="d">
-			
-			<!-- <li> <?php //echo $test; ?></li> -->
-				<?php for ($ctr = 0; $ctr < count($household_persons); $ctr++) {?>
-				
 				<li> Name: 
-					<?php echo $household_persons[$ctr]['person_first_name']; ?> <!-- First Name -->
-					<?php echo $household_persons[$ctr]['person_last_name']; ?> <!-- Last Name --> 
+					<?php echo $person['person_first_name']; ?> <!-- First Name -->
+					<?php echo $person['person_last_name']; ?> <!-- Last Name --> 
 				</li>
 				
 				<li> Civil Status: 
-					<?php echo $household_persons[$ctr]['person_marital'];?> <!-- Civil Status -->
+					<?php echo $person['person_marital'];?> <!-- Civil Status -->
 				</li>
 				
 				<li> Nationality: 
-					<?php echo $household_persons[$ctr]['person_nationality']; ?> <!-- Nationality-->
+					<?php echo $person['person_nationality']; ?> <!-- Nationality-->
 				</li>
 				
 				<li> Age: 
 					<?php //http://stackoverflow.com/questions/11272691/php-data-difference-giving-fatal-error
-						$bday = $household_persons[$ctr]['person_dob']; 
+						$bday = $person['person_dob']; 
 						$today = new DateTime();//date('Y-m-d');
 						$diff = $today->diff(new DateTime($bday));
 						echo $diff->y;
@@ -47,47 +38,39 @@
 				
 				<li> Gender: 
 					<?php 
-						if ($household_persons[$ctr]['person_sex'] == 'M')
+						if ($person['person_sex'] == 'M')
 							echo 'Male';
-						else if ($household_persons[$ctr]['person_sex'] == 'F')
+						else if ($person['person_sex'] == 'F')
 							echo 'Female';
 					?> <!-- Sex -->
 				</li>
 					
 				<li> Blood Type: 
 					<?php 
-						if ($household_persons[$ctr]['person_blood_type'] == NULL || $household_persons[$ctr]['person_blood_type'] == 'null')
+						if ($person['person_blood_type'] == NULL || $person['person_blood_type'] == 'null')
 							echo 'N.A.';
 						else
-							echo $household_persons[$ctr]['person_blood_type'];
+							echo $person['person_blood_type'];
 					?>
 				</li> <!-- Blood Type -->
 				
 				<li>Guardian: 
-					<?php echo $household_persons[$ctr]['person_guardian'];?>
+					<?php echo $person['person_guardian'];?>
 				</li>
-			<?php } ?>
 		</ul>
 		
 		<form name="symptom_form" action="
-			<?php echo site_url('mobile/view/household/' . 
-									$household_persons[0]['household_id'] .
-									'/case/' . $household_persons[0]['person_id']); ?>/edit_case"
+			<?php echo site_url('mobile/cases/edit/' . $person['imcase_no']); ?>/edit_case"
 			method="post" data-ajax="false">
 		
 		<div data-role="collapsible-set" data-theme="b" data-content-theme="d">
 				<div data-role="collapsible">
 					<h2> Still Has Fever?</h2>
-					
-					<?php for ($ctr = 0; $ctr < count($household_persons); $ctr++) {?>
-						<input type="hidden" name="household_id" id="household_id" value="<?php echo $household_persons[$ctr]['household_id']; ?>"	/>
-						<input type="hidden" name="person_id" id="person_id" value="<?php echo $household_persons[$ctr]['person_id']; ?>"	/>
+						<input type="hidden" name="household_id" id="household_id" value="<?php echo $person['household_id']; ?>"	/>
+						<input type="hidden" name="person_id" id="person_id" value="<?php echo $person['person_id']; ?>"	/>
 						
-						<input type="hidden" name="imcase_no" id="imcase_no" value="<?php echo $this->masterlist->get_imcase_no($household_persons[$ctr]['person_id']); ?>"	/>
-						<input type="hidden" name="created_on" id="created_on" value="<?php echo $this->masterlist->get_created_on($household_persons[$ctr]['person_id']); ?>"	/>
-						<!-- <input type="hidden" name="lat" id="lat" value="<?php //echo $this->masterlist->get_imcase_lat($household_persons[$ctr]['person_id']); ?>"	/>
-						<input type="hidden" name="lng" id="lng" value="<?php //echo $this->masterlist->get_imcase_lng($household_persons[$ctr]['person_id']); ?>"	/> -->
-					<?php } ?>	
+						<input type="hidden" name="imcase_no" id="imcase_no" value="<?php echo $person['imcase_no']; ?>"	/>
+						<input type="hidden" name="created_on" id="created_on" value="<?php echo $person['created_on']; ?>"	/>
 					<ul data-role="listview">
 					
 						<li  data-role="fieldcontain">
@@ -95,7 +78,7 @@
 									Other dengue related symptoms:
 									<input type="checkbox" name="has_muscle_pain" id="checkbox-1a" value="Y" 
 										<?php 
-											if ($this->masterlist->check_symptom_if_checked($household_persons[0]['person_id'],'has_muscle_pain')) {
+											if ($person['has_muscle_pain'] == 'Y') {
 										?>
 											checked="checked"
 										<?php } else ; ?>									
@@ -104,7 +87,7 @@
 				
 									<input type="checkbox" name="has_joint_pain" id="checkbox-2a" value="Y" 
 										<?php 
-											if ($this->masterlist->check_symptom_if_checked($household_persons[0]['person_id'],'has_joint_pain')) {
+											if ($person['has_joint_pain'] == 'Y') {
 										?>
 											checked="checked"
 										<?php } else ; ?>
@@ -113,7 +96,7 @@
 									
 									<input type="checkbox" name="has_headache" id="checkbox-3a" value="Y" 
 										<?php 
-											if ($this->masterlist->check_symptom_if_checked($household_persons[0]['person_id'],'has_headache')) {
+											if ($person['has_headache'] == 'Y') {
 										?>
 											checked="checked"
 										<?php } else ; ?>
@@ -122,7 +105,7 @@
 				
 									<input type="checkbox" name="has_rashes" id="checkbox-4a" value="Y" 
 										<?php 
-											if ($this->masterlist->check_symptom_if_checked($household_persons[0]['person_id'],'has_rashes')) {
+											if ($person['has_rashes'] == 'Y') {
 										?>
 											checked="checked"
 										<?php } else ; ?>
@@ -131,7 +114,7 @@
 									
 									<input type="checkbox" name="has_bleeding" id="checkbox-5a" value="Y" 
 										<?php 
-											if ($this->masterlist->check_symptom_if_checked($household_persons[0]['person_id'],'has_bleeding')) {
+											if ($person['has_bleeding'] == 'Y') {
 										?>
 											checked="checked"
 										<?php } else ; ?>
@@ -145,12 +128,12 @@
 						<li data-role="fieldcontain">
 						    <label for="name"> Duration of Fever: </label>
 							<label style="color:red"><?php echo form_error('duration'); ?></label>
-						    <input type="number" name="duration" id="duration" value="<?php echo $this->masterlist->count_fever_day($household_persons[0]['person_id']);// from db?>" min="1" max="20" />
+						    <input type="number" name="duration" id="duration" value="<?php echo $person['days_fever'];// from db?>" min="1" max="20" />
 						</li>
 							
 						<li data-role="fieldcontain">
 						    <label for="name"> Suspected Source: (recent journey, etc.) </label>
-						    <input type="text" name="source" id="source" value="<?php echo $this->masterlist->get_suspected($household_persons[0]['person_id']);// from db ?>" />
+						    <input type="text" name="source" id="source" value="<?php echo $person['suspected_source'];// from db ?>" />
 						</li>
 						
 						<li data-role="fieldcontain">

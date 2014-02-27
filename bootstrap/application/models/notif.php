@@ -35,6 +35,11 @@ class Notif extends CI_Model
 		$this->db->where('notif_id', $id);
 		$this->db->update('notifications', $data);
 	}
+	
+	function check_on_hospitalized_cases()
+	{
+		//$this->db->from();
+	}
 }
 
 	

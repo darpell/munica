@@ -41,6 +41,7 @@
 			<p> There are <span class="badge"> <?= $entry_count ?> </span> cases recorded. </p>
 			<p> <span class="badge"> <?= $distribution['male'] ?> </span> are Male. <span class="badge"> <?= $distribution['female'] ?> </span> are Female. </p>
 			<p> <span class="badge"> <?= count($residents) ?> </span> patient/s is in the master list. </p>
+			<p> <span class="badge"> <?= count($active_cases) ?> </span> captured active case/s in the barangay. </p>
 			<p> <span class="badge"> <?= $entry_count - count($residents) ?> </span> 
 				<?php if ( ($entry_count - count($residents)) > 1 ) echo 'are'; else 'is';?> NOT part of you master list
 			</p>

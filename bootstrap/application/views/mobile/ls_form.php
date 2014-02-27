@@ -165,7 +165,7 @@ function initialize(){
 
 	<!-- container -->
 	<label for="TPcontainer-txt">Type of Container</label>
-	<label style="color:red"><?php echo form_error('TPcontainer-txt'); ?></label>
+	<label style="color:red"><?php echo form_error('TPcontainer-txt_r'); ?></label>
 	<input type="text" name="TPcontainer-txt_r" id="TPcontainer-txt" value="<?php echo set_value('TPcontainer-txt'); ?>" data-mini="true" />
 	<!-- /container -->
 

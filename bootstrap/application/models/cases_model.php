@@ -7,12 +7,23 @@ class Cases_model extends CI_Model
 		parent::__construct();
 	}
 	
-	function get_cases($type, $offset, $limit)
+	function add_case($header,$cases)
 	{
-		$this->db->from('immediate_cases')
-					->join('master_list','immediate_cases.person_id = master_list.person_id')
-					->where('status',$type)
-					->limit($offset,$limit);
+		$this->db->insert('case_report_header',$header);
+	
+		for ($ctr = 0; $ctr < count($cases); $ctr++)
+		{
+		$this->db->insert('case_report_main',$cases[$ctr]);
+		}
+		}
+	
+	function get_cases($type, $offset = FALSE, $limit = FALSE)
+	{
+		$this->db->from('active_cases')
+					->join('master_list','active_cases.person_id = master_list.person_id')
+					->where('status',$type);
+		if ($offset != FALSE && $limit != FALSE)
+			$this->db->limit($offset,$limit);
 		
 		$query = $this->db->get();
 		return $query->result_array();
@@ -22,9 +33,9 @@ class Cases_model extends CI_Model
 	#TODO
 	function get_case($person_id)
 	{
-		$this->db->from('immediate_cases')
-				->join('master_list', 'immediate_cases.person_id = master_list.person_id')
-				->where('immediate_cases.person_id',$person_id)
+		$this->db->from('active_cases')
+				->join('master_list', 'active_cases.person_id = master_list.person_id')
+				->where('active_cases.person_id',$person_id)
 				->order_by('imcase_no','desc')
 				->limit('1');
 		
@@ -33,15 +44,17 @@ class Cases_model extends CI_Model
 			$query->free_result();
 	}
 	
-	function check_case_resident($hosp_cases)
+	/*
+	 * Combo
+	 */
+	
+	function get_case_resident($hosp_cases)
 	{
-		$this->db->from('immediate_cases')
-				->join('master_list', 'immediate_cases.person_id = master_list.person_id');
-		
-		$query = $this->db->get();
+		$query = $this->db->get('master_list');
 		$brgy_cases = $query->result_array();
 		
-		$matching_cases = array();
+		$match_ctr = 0;
+		$match = array();
 		
 		for ($ctr = 0; $ctr < count($hosp_cases); $ctr++)
 		{
@@ -51,11 +64,58 @@ class Cases_model extends CI_Model
 					if(strcasecmp($hosp_cases[$ctr]['cr_last_name'], $brgy_cases[$brgy_ctr]['person_last_name']) == 0)
 						if(strcasecmp($hosp_cases[$ctr]['cr_sex'], $brgy_cases[$brgy_ctr]['person_sex']) == 0)
 							if(strcasecmp( date('Y-m-d', strtotime($hosp_cases[$ctr]['cr_dob'])), $brgy_cases[$brgy_ctr]['person_dob']) == 0)
-								$matching_cases[$ctr] = $brgy_cases[$brgy_ctr];
+							{
+								$match[$match_ctr] = $brgy_cases[$brgy_ctr];
+								$match_ctr++;
+							}
 			}
 		}
-		return $matching_cases;
+		return $match;
 	}
+	
+	function check_if_active($hosp_cases)
+	{
+		$query = $this->db->get('active_cases');
+		$active_cases = $query->result_array();
+		$residents = $this->get_case_resident($hosp_cases);
+		
+		$match_ctr = 0;
+		$match = array();
+		
+		for ($ctr = 0; $ctr < count($residents); $ctr++)
+		{
+			for ($active_ctr = 0; $active_ctr < count($active_cases); $active_ctr++)
+			{
+				if($residents[$ctr]['person_id'] == $active_cases[$active_ctr]['person_id'])
+				{
+					$match[$ctr] = $active_cases[$active_ctr];
+					$match_ctr++;
+				}
+					
+			}
+		}
+		
+		return $match;
+	}
+	
+	function update_to_hospitalized($hosp_cases)
+	{
+		$active_cases = $this->check_if_active($hosp_cases);
+		
+		for ($ctr = 0; $ctr < count($active_cases); $ctr++)
+		{
+			$updated_cases = array(
+								'status' => 'hospitalized'
+							);
+			
+			$this->db->where('person_id',$active_cases[$ctr]['person_id']);
+			$this->db->update('active_cases',$updated_cases);
+		}
+	}
+	
+	/**
+	 * end Combo
+	 */
 	
 	function check_gender_distribution($hosp_cases)
 	{
@@ -84,22 +144,6 @@ class Cases_model extends CI_Model
 		for($ctr = 0; $ctr < count($hosp_cases); $ctr++)
 		{
 			if ($hosp_cases[$ctr]['cr_barangay']);
-		}
-		
-	}
-	
-	function check_if_hospitalized()
-	{
-		
-	}
-	
-	function add_case($header,$cases)
-	{
-		$this->db->insert('case_report_header',$header);
-		
-		for ($ctr = 0; $ctr < count($cases); $ctr++)
-		{
-			$this->db->insert('case_report_main',$cases[$ctr]);
 		}
 	}
 }
