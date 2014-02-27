@@ -53,6 +53,7 @@ class Cases_model extends CI_Model
 		$query = $this->db->get('master_list');
 		$brgy_cases = $query->result_array();
 		
+		$match_ctr = 0;
 		$match = array();
 		
 		for ($ctr = 0; $ctr < count($hosp_cases); $ctr++)
@@ -63,7 +64,10 @@ class Cases_model extends CI_Model
 					if(strcasecmp($hosp_cases[$ctr]['cr_last_name'], $brgy_cases[$brgy_ctr]['person_last_name']) == 0)
 						if(strcasecmp($hosp_cases[$ctr]['cr_sex'], $brgy_cases[$brgy_ctr]['person_sex']) == 0)
 							if(strcasecmp( date('Y-m-d', strtotime($hosp_cases[$ctr]['cr_dob'])), $brgy_cases[$brgy_ctr]['person_dob']) == 0)
-								$match[$ctr] = $brgy_cases[$brgy_ctr];
+							{
+								$match[$match_ctr] = $brgy_cases[$brgy_ctr];
+								$match_ctr++;
+							}
 			}
 		}
 		return $match;
@@ -75,6 +79,7 @@ class Cases_model extends CI_Model
 		$active_cases = $query->result_array();
 		$residents = $this->get_case_resident($hosp_cases);
 		
+		$match_ctr = 0;
 		$match = array();
 		
 		for ($ctr = 0; $ctr < count($residents); $ctr++)
@@ -82,9 +87,14 @@ class Cases_model extends CI_Model
 			for ($active_ctr = 0; $active_ctr < count($active_cases); $active_ctr++)
 			{
 				if($residents[$ctr]['person_id'] == $active_cases[$active_ctr]['person_id'])
+				{
 					$match[$ctr] = $active_cases[$active_ctr];
+					$match_ctr++;
+				}
+					
 			}
 		}
+		
 		return $match;
 	}
 	

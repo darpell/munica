@@ -52,11 +52,6 @@
 			<?php echo form_close(); ?>
 			</div>
 		</div>
-		
-		<div>
-			<?php var_dump($residents); ?>
-		</div>
-		
 </div>
 </div>
 <!-- FOOTER -->
