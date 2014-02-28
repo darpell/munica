@@ -26,6 +26,9 @@ class Dashboard extends CI_Controller
 		$this->load->model('user_model');
 		$data['bhw_ctr'] = $this->db->get_where('users', array('user_type' => 'bhw'))->num_rows();
 		$data['mw_ctr'] = $this->db->get_where('users', array('user_type' => 'midwife'))->num_rows();
+		
+		$this->load->model('map_temp_model','map');
+		$data['poi'] = $this->map->get_map_nodes();
 
 		$this->load->view('site/dashboard',$data);
 	}

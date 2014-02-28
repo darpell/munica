@@ -3,11 +3,35 @@
 
 <!-- ADDITIONAL FILES -->
 
+<script>
+var lat = new Array();
+var lng = new Array();
+var type = new Array();
+var poi_name = new Array();
+var created_on = new Array();
+var notes = new Array();
+var brgy = new Array();
+
+var img_icon = ["<?= base_url('/images/source.png') ?>","<?= base_url('/images/risk.png') ?>"];
+
+<?php for ($poi_ctr = 0; $poi_ctr < count($poi); $poi_ctr++) {?>
+	lat.push("<?php echo $poi[$poi_ctr]['node_lat']?>");
+	lng.push("<?php echo $poi[$poi_ctr]['node_lng']?>");
+	type.push("<?php echo $poi[$poi_ctr]['node_type']?>");
+	poi_name.push("<?php echo $poi[$poi_ctr]['node_name']?>");
+	brgy.push("<?php echo $poi[$poi_ctr]['node_barangay']?>");
+	notes.push("<?php echo $poi[$poi_ctr]['node_notes']?>");
+	created_on.push("<?php echo $poi[$poi_ctr]['node_addedOn']?>");
+<?php } ?>
+</script>
+
 	<!-- Maps -->
 		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3&sensor=true"></script>
-		<script src="<?php echo base_url('scripts/dashboard_s/map.js');?>"></script>
+		<script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
+		<script src="<?= base_url('scripts/OverlappingMarkerSpiderfier.js') ?>"></script>
+		<script src="<?= base_url('scripts/dashboard_s/map.js');?>"></script>
 	<!-- end of Maps -->
-
+		
 <style>
 html { height:100% }
 body { height:100% }
@@ -81,12 +105,26 @@ body { height:100% }
 					<!-- </div> for map -->
 				</div>
 				<div class="col-md-4">
-					Options & Legends 
+					<table class="table">
+						<tr>
+							<th> Symbol </th> <th> Meaning</th>
+						</tr>
+						<tr>
+							<td> <img src="<?= base_url('/images/source.png') ?> ?>" /> </td> <td> Source Area</td>
+						</tr>
+						<tr>
+							<td> <img src="<?= base_url('/images/risk.png') ?> ?>" /> </td> <td> Risk Area</td>
+						</tr>
+					</table>
+					
+					<div>
+						The map data is just a test. The map is too small for nodes. It would be changed to a heat map.
+					</div>
+					
 				</div>
 			</div>
 		</div>
-		<!-- end of Map -->
-
+		<!-- end of Map -->		
 </div>
 </div>
 <!-- FOOTER -->
