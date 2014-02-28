@@ -7,7 +7,7 @@
 <script src="<?php echo base_url('scripts/highcharts/modules/exporting.js');?>"></script>
 <script src="<?php echo base_url('scripts/highcharts/modules/drilldown.js');?>"></script>
 
-<script src="<?php echo base_url('scripts/analytics/summaryCases.js');?>"></script>
+<script src="<?php echo base_url('scripts/analytics/summaryLarval.js');?>"></script>
 
 <style>
 html { height:100% }
@@ -25,31 +25,13 @@ body { height:100% }
 	<!-- combo chart for dengue cases -->
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<h3 class="panel-title"> Case Count </h3>
+				<h3 class="panel-title"> Larval Count </h3>
 			</div>
 			<center>
 			 <fieldset  style="width: 50%;">
 			 <legend>Summary</legend>
 			<p></>A total of <b><?php echo $cases['total'] ?> cases</b> reported for the last 4 weeks.</p>
 			<p></>A total of <b><?php echo $cases['deaths'] ?> deaths</b> reported for the last 4 weeks.</p>
-			<?php if($cases['average'][(int)date('W')] > $cases[date('Y')][(int)date('W')]){?>
-			<p></>The Total Cases for the Week is <b>Below Average</b> with a Difference of <b><?php echo $cases['average'][(int)date('W')] - $cases[date('Y')][(int)date('W')];?> cases.</b></p>
-			<?php }?>
-			<?php if($cases['average'][(int)date('W')] < $cases[date('Y')][(int)date('W')]){?>
-			<p></>The total cases for the Week is <b>Above Average</b> with a Difference of <b><?php echo  $cases[date('Y')][(int)date('W')] - $cases['average'][(int)date('W')] ;?> cases.</b></p>
-			<?php }?>
-			<?php if($cases['average'][(int)date('W')] == $cases[date('Y')][(int)date('W')]){?>
-			<p>The total cases for the Week is <b>equal with the average cases for the week</p>
-			<?php }?>
-			<?php if($cases['average'][(int)date('W')] > $cases[date('Y')-1][(int)date('W')]){?>
-			<p>compared from last year which is <b>Below Average</b> with a Difference of <b><?php echo $cases['average'][(int)date('W')] - $cases[date('Y')-1][(int)date('W')];?> cases.</b></p>
-			<?php }?>
-			<?php if($cases['average'][(int)date('W')] < $cases[date('Y')-1][(int)date('W')]){?>
-			<p>Compared from last year which is <b>Above Average</b> with a Difference of <b><?php echo  $cases[date('Y')-1][(int)date('W')] - $cases['average'][(int)date('W')] ;?> cases.</b></p>
-			<?php }?>
-			<?php if($cases['average'][(int)date('W')] == $cases[date('Y')-1][(int)date('W')]){?>
-			<p>compared from last year which is <b>equal with the average cases for the week</p>
-			<?php }?>
 			 </fieldset>
 			 </center>
 			 

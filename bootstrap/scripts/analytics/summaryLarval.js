@@ -14,7 +14,7 @@ $(function () {
             chart: {
             },
             title: {
-                text: 'Cases Reported Last 4 Weeks'
+                text: 'Larval Surveys Reported Last 4 Weeks'
             },
             xAxis: {
                 categories: ['Week '+ (weekno-4), 'Week '+ (weekno-3), 'Week '+ (weekno-2), 'Week '+ (weekno-1), 'Current Week',]
@@ -34,7 +34,7 @@ $(function () {
             },
             labels: {
                 items: [{
-                    html: 'Geographic Distribution For Current Cases',
+                    html: 'Geographic Distribution For Larval Surveys',
                     style: {
                         left: '40x',
                         top: '-15px',
@@ -50,15 +50,6 @@ $(function () {
                        parseInt(cases[year-1][weekno-2]),
                        parseInt(cases[year-1][weekno-1]),
                        parseInt(cases[year-1][weekno])
-                       ]
-            }, {
-                type: 'column',
-                name: year,
-                data: [parseInt(cases[year][weekno-4]),
-                       parseInt(cases[year][weekno-3]),
-                       parseInt(cases[year][weekno-2]),
-                       parseInt(cases[year][weekno-1]),
-                       parseInt(cases[year][weekno])
                        ]
             }, {
                 type: 'spline',

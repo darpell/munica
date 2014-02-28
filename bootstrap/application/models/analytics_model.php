@@ -529,6 +529,55 @@
 			$data['average'] = $average;
 			
 			
+			if($brgy == null){
+				$where = "*
+						FROM (`active_cases`)
+						JOIN `master_list` ON `master_list`.`person_id` = `active_cases`.`person_id`
+						JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
+						JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username`
+						JOIN `household_address` ON `catchment_area`.`household_id` = `household_address`.`household_id`
+			
+						WHERE WEEK(`created_on`) between ".$weekno."-4 AND ".$weekno." AND
+						(YEAR(`created_on`) = ".date('Y').")
+					";
+			}
+			$this->db->select($where,false);
+			$q = $this->db->get();
+
+			for($i = 0; $i < 5; $i++)
+			{
+				$data['symptoms'][$i]=0;
+			}
+			if($q->num_rows() > 0)
+			{
+				foreach ($q->result() as $row)
+				{
+					if($row->has_muscle_pain == 'Y')
+					{
+						$data['symptoms'][0] += 1;
+					}
+					if($row->has_joint_pain == 'Y')
+					{
+						$data['symptoms'][1] += 1;
+					}
+					if($row->has_headache == 'Y')
+					{
+						$data['symptoms'][2] += 1;
+					}
+					if($row->has_bleeding == 'Y')
+					{
+						$data['symptoms'][3] += 1;
+					}
+					if($row->has_rashes == 'Y')
+					{
+						$data['symptoms'][4] += 1;
+					}
+					
+				}
+			}
+			$q->free_result();
+			
+			
 			return $data;
 		}
 		function get_larval_count($weekno)

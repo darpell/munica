@@ -14,7 +14,6 @@ class Analytics extends CI_Controller
 		$data['cases']= $this->Analytics_model->get_summary_count((int)date("W"));
 		
 		$data['larval']= $this->Analytics_model->get_larval_count((int)date("W"));
-		
 		$data['barangay'] = $this->Analytics_model->get_barangays();
 		$this->load->view('site/analytics',$data);
 	}
@@ -66,6 +65,14 @@ class Analytics extends CI_Controller
 				? ((date("Y") - $birthDate[0]) - 1)
 				: (date("Y") - $birthDate[0]));
 		return $age;
+	}
+	function larval_demographics()
+	{
+		$data['cases']= $this->Analytics_model->get_summary_count((int)date("W"));
+	
+		$data['larval']= $this->Analytics_model->get_larval_count((int)date("W"));
+		$data['barangay'] = $this->Analytics_model->get_barangays();
+		$this->load->view('site/analytics/larvalsummary',$data);
 	}
 	function case_demographics()
 	{
