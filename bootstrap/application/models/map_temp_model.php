@@ -20,6 +20,22 @@ class Map_temp_model extends CI_Model
 		return $query->result_array();
 			$query->free_result();
 	}
+	
+	function get_brgys($brgy = FALSE)
+	{
+		$this->db->from('map_polygons')
+				->join('bhw','map_polygons.polygon_name = bhw.barangay');
+		
+		if ($brgy != FALSE)
+			$this->db->where('bhw.barangay',$brgy);
+		
+		$this->db->group_by('point_no');
+		$this->db->order_by('point_no','asc');
+		
+		$query = $this->db->get();
+		return $query->result_array();
+			$query->free_result();
+	}
 }
 
 /* End of map_temp_model.php */

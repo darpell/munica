@@ -27,8 +27,16 @@ class Dashboard extends CI_Controller
 		$data['bhw_ctr'] = $this->db->get_where('users', array('user_type' => 'bhw'))->num_rows();
 		$data['mw_ctr'] = $this->db->get_where('users', array('user_type' => 'midwife'))->num_rows();
 		
+		// map data
+		$this->load->model('active_case_model','ac');
+		$data['poi'] = $this->ac->get_cases();//$this->map->get_map_nodes();
+		$data['brgy_cases'] = $this->ac->get_cases_per_brgy('san agustin iii');
 		$this->load->model('map_temp_model','map');
-		$data['poi'] = $this->map->get_map_nodes();
+		$data['brgy'] = $this->map->get_brgys('san agustin iii');
+		
+		//$this->load->model('barangay_model','brgy');
+		//$data['brgys'] = $this->brgy->get_brgys('Sampaloc I');
+		// end of map data
 
 		$this->load->view('site/dashboard',$data);
 	}

@@ -6,27 +6,29 @@
 <script>
 var lat = new Array();
 var lng = new Array();
-var type = new Array();
-var poi_name = new Array();
-var created_on = new Array();
-var notes = new Array();
-var brgy = new Array();
-
-var img_icon = ["<?= base_url('/images/source.png') ?>","<?= base_url('/images/risk.png') ?>"];
-
 <?php for ($poi_ctr = 0; $poi_ctr < count($poi); $poi_ctr++) {?>
-	lat.push("<?php echo $poi[$poi_ctr]['node_lat']?>");
-	lng.push("<?php echo $poi[$poi_ctr]['node_lng']?>");
-	type.push("<?php echo $poi[$poi_ctr]['node_type']?>");
-	poi_name.push("<?php echo $poi[$poi_ctr]['node_name']?>");
-	brgy.push("<?php echo $poi[$poi_ctr]['node_barangay']?>");
-	notes.push("<?php echo $poi[$poi_ctr]['node_notes']?>");
-	created_on.push("<?php echo $poi[$poi_ctr]['node_addedOn']?>");
+	lat.push("<?php echo $poi[$poi_ctr]['household_lat']?>");
+	lng.push("<?php echo $poi[$poi_ctr]['household_lng']?>");
 <?php } ?>
+
+var brgy_lat = new Array();
+var brgy_lng = new Array();
+
+<?php for ($brgy_ctr = 0; $brgy_ctr < count($brgy); $brgy_ctr++) {?>
+	brgy_lat.push("<?php echo $brgy[$brgy_ctr]['point_lat']?>");
+	brgy_lng.push("<?php echo $brgy[$brgy_ctr]['point_lng']?>");
+<?php } ?>
+
+var barangay_name = "<?= $brgy[0]['polygon_name']?>";
+var barangay_cases_count = "<?php echo count($brgy_cases); ?>";
+
+//var img_icon = ["<?= base_url('/images/source.png') ?>","<?= base_url('/images/risk.png') ?>"];
+
+
 </script>
 
 	<!-- Maps -->
-		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3&sensor=true"></script>
+		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=visualization&v=3&sensor=true"></script>
 		<script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
 		<script src="<?= base_url('scripts/OverlappingMarkerSpiderfier.js') ?>"></script>
 		<script src="<?= base_url('scripts/dashboard_s/map.js');?>"></script>
@@ -35,6 +37,17 @@ var img_icon = ["<?= base_url('/images/source.png') ?>","<?= base_url('/images/r
 <style>
 html { height:100% }
 body { height:100% }
+#panel {
+        position: absolute;
+        top: 70px;
+        left: 40%;
+        margin-left: -180px;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-color:BLACK;
+      }
 #googleMap { width:700px; height:500px;max-width:100%; max-height:100%; }
 </style>		
 
@@ -97,7 +110,7 @@ body { height:100% }
 	<!-- Map -->
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<h3 class="panel-title"> Map </h3>
+				<h3 class="panel-title"> Case Map </h3>
 			</div>
 			<div class="panel-body">
 				<div class="col-md-8">
@@ -106,21 +119,20 @@ body { height:100% }
 					<!-- </div> for map -->
 				</div>
 				<div class="col-md-4">
-					<table class="table">
-						<tr>
-							<th> Symbol </th> <th> Meaning</th>
-						</tr>
-						<tr>
-							<td> <img src="<?= base_url('/images/source.png') ?> ?>" /> </td> <td> Source Area</td>
-						</tr>
-						<tr>
-							<td> <img src="<?= base_url('/images/risk.png') ?> ?>" /> </td> <td> Risk Area</td>
-						</tr>
-					</table>
-					
+					<h3> Options </h3>
+					<button class="btn btn-default" style="width:150px;" onclick="toggleHeatmap()">Toggle Heatmap</button> <br/>
+					<button class="btn btn-default" style="width:150px;" onclick="changeRadius()">Change radius</button> <br/>
+					<button class="btn btn-default" style="width:150px;" onclick="changeGradient()">Change gradient</button> <br/>
+					<button class="btn btn-default" style="width:150px;" onclick="changeOpacity()">Change opacity</button> <br/>			
+					<br/> <br/>
 					<div>
 						The map data is just a test. The map is too small for nodes. It would be changed to a heat map.
-					</div>
+					</div> <br/>
+					
+					<button onclick="test()"> Test </button>
+					<span id="test"></span>
+					
+					<span> <?php echo count($brgy);//var_dump($brgy);?></span>
 					
 				</div>
 			</div>

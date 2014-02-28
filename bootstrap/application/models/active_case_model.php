@@ -11,7 +11,8 @@ class Active_case_model extends CI_Model
 	{
 		$this->db->from('active_cases')
 				->join('catchment_area','active_cases.person_id = catchment_area.person_id')
-				->join('master_list','catchment_area.person_id = master_list.person_id');
+				->join('master_list','catchment_area.person_id = master_list.person_id')
+				->join('household_address', 'household_address.household_id = catchment_area.household_id');
 		
 		if ($bhw != FALSE)
 			$this->db->where('bhw_id',$bhw);
@@ -24,6 +25,27 @@ class Active_case_model extends CI_Model
 		return $query->result_array();
 			$query->free_result();
 		
+	}
+	
+	function get_cases_per_brgy($brgy = FALSE, $status = FALSE)
+	{
+		$this->db->from('active_cases')
+		->join('catchment_area','active_cases.person_id = catchment_area.person_id')
+		->join('bhw', 'catchment_area.bhw_id = bhw.user_username')
+		->join('master_list','catchment_area.person_id = master_list.person_id')
+		->join('household_address', 'household_address.household_id = catchment_area.household_id');
+	
+		if ($brgy != FALSE)
+			$this->db->where('barangay',$brgy);
+		if ($status != FALSE)
+			$this->db->where('status',$status);
+	
+		$this->db->order_by('imcase_no','desc');
+	
+		$query = $this->db->get();
+		return $query->result_array();
+		$query->free_result();
+	
 	}
 	
 	function get_case($imcase)
