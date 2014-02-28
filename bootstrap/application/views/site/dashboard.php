@@ -53,6 +53,7 @@ body { height:100% }
 				<ul class="nav nav-pills nav-stacked">
 					<li> <a href="<?= site_url('website/notifications') ?>"> Notifications <span class="badge pull-right"> <?= $notif_count?> </span></a> </li>
 					<li> <a href="<?= site_url('website/analytics') ?>"> Analytics</a> </li>
+					<li> <a href="<?= site_url('website/map/view') ?>"> Maps </a> </li>
 					<li> <a href="<?= site_url('website/households/filter_brgys') ?>"> Households <span class="badge pull-right"><?= $hh_num ?></span></a> </li>
 				</ul>
 			</div>
