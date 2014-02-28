@@ -29,16 +29,26 @@ class Dashboard extends CI_Controller
 		
 		// map data
 		$this->load->model('active_case_model','ac');
-		$data['poi'] = $this->ac->get_cases();//$this->map->get_map_nodes();
+		$data['poi'] = $this->ac->get_cases();
 		$data['brgy_cases'] = $this->ac->get_cases_per_brgy('san agustin iii');
 		$this->load->model('map_temp_model','map');
 		$data['brgy'] = $this->map->get_brgys('san agustin iii');
 		
-		//$this->load->model('barangay_model','brgy');
-		//$data['brgys'] = $this->brgy->get_brgys('Sampaloc I');
+		$this->load->model('barangay_model','brgy');
+		$data['brgys'] = $this->brgy->get_brgys();
 		// end of map data
 
 		$this->load->view('site/dashboard',$data);
+	}
+	
+	function map()
+	{
+		$temp = $this->brgy->get_brgys();
+		
+		for ($ctr = 0; $ctr < count($temp); $ctr++)
+		{
+			//$brgys[$temp['barangay']] = ;
+		}
 	}
 }
 

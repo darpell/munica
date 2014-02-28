@@ -245,26 +245,28 @@ class Upload extends CI_Controller
 						'cr_last_name'		=> $familyname[$i],
 						'cr_sex'			=> $sex[$i],
 						'cr_admitted'		=> $admitted[$i],
-						'cr_date_admitted'	=> $dAdmit[$i],
-						'cr_date_onset'		=> $dOnset[$i],
+						'cr_date_admitted'	=> date('Y-m-d',strtotime($dAdmit[$i])),
+						'cr_date_onset'		=> date('Y-m-d',strtotime($dOnset[$i])),
 						'cr_classification'	=> $caseclassification[$i],
 						'cr_type'			=> $type[$i],
 						'cr_outcome'		=> $outcome[$i],
-						'cr_dob'			=> $DOB[$i],
+						'cr_dob'			=> date('Y-m-d',strtotime($DOB[$i])),
 						'cr_street'			=> $street[$i],
 						'cr_barangay'		=> $barangay[$i],
 						'cr_city'			=> $city[$i],
 						'cr_province'		=> $province[$i],
 						'uploaded_by'		=> $this->session->userdata('TPusername'),
-						'created_on'		=> $dateofentry[$i],
+						'created_on'		=> date('Y-m-d',strtotime($dateofentry[$i])),
 						'last_updated_by'	=> $this->session->userdata('TPusername'),
-						'last_updated_on'	=> $dateofentry[$i],
+						'last_updated_on'	=> date('Y-m-d',strtotime($dateofentry[$i])),
 						'cr_age'			=> $ageyears[$i],
-						'date_of_entry'		=> $dateofentry[$i]
+						'date_of_entry'		=> date('Y-m-d',strtotime($dateofentry[$i]))
 					);
 			}
 			
-			$this->model->add_case($header_values,$values);			
+			$this->model->add_case($header_values,$values);
+			$this->model->add_unrecorded_case($values);
+			$this->model->update_to_hospitalized($values);
 			
 			$data['result'] = "You have successfully uploaded " .  count($patientnum) . " cases";
 			
