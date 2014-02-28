@@ -52,9 +52,6 @@
 			<?php echo form_close(); ?>
 			</div>
 		</div>
-		<div>
-			<?php var_dump($active_cases);?>
-		</div>
 </div>
 </div>
 <!-- FOOTER -->

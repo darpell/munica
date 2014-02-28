@@ -11,8 +11,25 @@
 var distribution = new Array();
 distribution[0] = <?= $distribution['male'] ?>;
 distribution[1] = <?= $distribution['female'] ?>;
-var male = new Array(3, 2, 1, 3, 4);
-var female = new Array(2, 3, 5, 7, 6);
+
+// Age Dsitribution
+var male = new Array();
+
+male[0] = <?= $male_age_dist['child'] ?>;
+male[1] = <?= $male_age_dist['adolescent'] ?>;
+male[2] = <?= $male_age_dist['mid'] ?>;
+male[3] = <?= $male_age_dist['old'] ?>;
+male[4] = <?= $male_age_dist['ancient'] ?>;
+
+var female = new Array();
+
+female[0] = <?= $female_age_dist['child'] ?>;
+female[1] = <?= $female_age_dist['adolescent'] ?>;
+female[2] = <?= $female_age_dist['mid'] ?>;
+female[3] = <?= $female_age_dist['old'] ?>;
+female[4] = <?= $female_age_dist['ancient'] ?>;
+//end of Age Distribution
+
 var symp_mp = <?= $symptoms['has_muscle_pain'] ?>;
 var symp_jp = <?= $symptoms['has_joint_pain'] ?>;
 var symp_h = <?= $symptoms['has_headache'] ?>;
@@ -64,7 +81,7 @@ var symp_r = <?= $symptoms['has_rashes'] ?>;
 <!-- Graph -->
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<h3 class="panel-title"> Graph of Suspected Cases</h3>
+				<h3 class="panel-title"> Graph of <?= ucfirst($type) ?> Cases</h3>
 			</div>
 			<div class="panel-body">
 				<div id="graph" style="min-width: 310px; height: 400px; margin: 0 auto"> Graph of Distribution </div>

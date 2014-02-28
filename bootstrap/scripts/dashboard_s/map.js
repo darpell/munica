@@ -100,10 +100,6 @@ function initialize()
 		
 			heatmap.setMap(map);
 }
-function test()
-{
-	document.getElementById("test").innerHTML = triangleCoords.length;
-}
 
 function toggleHeatmap() 
 {

@@ -123,17 +123,7 @@ body { height:100% }
 					<button class="btn btn-default" style="width:150px;" onclick="toggleHeatmap()">Toggle Heatmap</button> <br/>
 					<button class="btn btn-default" style="width:150px;" onclick="changeRadius()">Change radius</button> <br/>
 					<button class="btn btn-default" style="width:150px;" onclick="changeGradient()">Change gradient</button> <br/>
-					<button class="btn btn-default" style="width:150px;" onclick="changeOpacity()">Change opacity</button> <br/>			
-					<br/> <br/>
-					<div>
-						The map data is just a test. The map is too small for nodes. It would be changed to a heat map.
-					</div> <br/>
-					
-					<button onclick="test()"> Test </button>
-					<span id="test"></span>
-					
-					<span> <?php echo count($brgy);//var_dump($brgy);?></span>
-					
+					<button class="btn btn-default" style="width:150px;" onclick="changeOpacity()">Change opacity</button> <br/>					
 				</div>
 			</div>
 		</div>

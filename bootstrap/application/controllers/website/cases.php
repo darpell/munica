@@ -39,6 +39,9 @@ class Cases extends CI_Controller
 		$STATUS = 'suspected';
 		
 		$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases($STATUS));
+		$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'M');
+		$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'F');
+		
 		$data['symptoms'] = array(
 								'has_muscle_pain'	=> count($this->ac->get_symptom('has_muscle_pain', $STATUS)),
 								'has_joint_pain'	=> count($this->ac->get_symptom('has_joint_pain', $STATUS)),
@@ -70,6 +73,9 @@ class Cases extends CI_Controller
 		$STATUS = 'threatening';
 		
 		$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases($STATUS));
+		$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'M');
+		$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'F');
+		
 		$data['symptoms'] = array(
 				'has_muscle_pain'	=> count($this->ac->get_symptom('has_muscle_pain', $STATUS)),
 				'has_joint_pain'	=> count($this->ac->get_symptom('has_joint_pain', $STATUS)),
@@ -101,6 +107,9 @@ class Cases extends CI_Controller
 		$STATUS = 'serious';
 		
 		$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases($STATUS));
+		$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'M');
+		$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'F');
+		
 		$data['symptoms'] = array(
 				'has_muscle_pain'	=> count($this->ac->get_symptom('has_muscle_pain', $STATUS)),
 				'has_joint_pain'	=> count($this->ac->get_symptom('has_joint_pain', $STATUS)),
@@ -132,6 +141,9 @@ class Cases extends CI_Controller
 		$STATUS = 'serious';
 		
 		$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases($STATUS));
+		$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'M');
+		$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'F');
+		
 		$data['symptoms'] = array(
 				'has_muscle_pain'	=> count($this->ac->get_symptom('has_muscle_pain', $STATUS)),
 				'has_joint_pain'	=> count($this->ac->get_symptom('has_joint_pain', $STATUS)),

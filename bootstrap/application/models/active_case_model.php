@@ -116,6 +116,49 @@ class Active_case_model extends CI_Model
 		return $distribution;
 	}
 	
+	function age_distribution($cases, $gender)
+	{
+		$child = 0;
+		$adolescent = 0;
+		$mid = 0;
+		$old = 0;
+		$ancient = 0;		
+		
+		
+		//echo $diff->y;
+		
+		for($ctr = 0; $ctr < count($cases); $ctr++)
+		{
+			if ($cases[$ctr]['person_sex'] == $gender)
+			{
+				$bday = $cases[$ctr]['person_dob'];
+				$today = new DateTime();
+				$diff = $today->diff(new DateTime($bday));
+				
+				if ($diff->y >= 0 && $diff->y <= 20)
+					$child += 1;
+				if ($diff->y >= 21 && $diff->y <= 50)
+					$adolescent += 1;
+				if ($diff->y >= 41 && $diff->y <= 60)
+					$mid += 1;
+				if ($diff->y >= 61 && $diff->y <= 80)
+					$old += 1;
+				if ($diff->y > 80)
+					$ancient += 1;
+			}
+		}
+		
+		$distribution = array(
+				'child' 		=> $child,
+				'adolescent'	=> $adolescent,
+				'mid'			=> $mid,
+				'old'			=> $old,
+				'ancient'		=> $ancient
+		);
+		
+				return $distribution;
+	}
+	
 	function add_case()
 	{
 		if ($this->input->post('duration') == '1')
