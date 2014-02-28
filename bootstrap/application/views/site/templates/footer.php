@@ -3,25 +3,12 @@
 		<!-- Example row of columns -->
 		<div class="row">
         	<div class="col-md-4">
-          		<h4>24 hour customer service</h4>
-				<ul>
-					<li class="phone-num">
-						512-943-1069 <br> 512-943-1068
-					</li>
-					<li class="email">
-						<a href="#">info@WTPcom</a>
-					</li>
-					<li class="address">
-						Dasmarinas City <br> Cavite
-					</li>
-				</ul>
+        	
         	</div>
         	
         	<div class="col-md-4">
-        		<p> Twitter plugin </p>
         		<p> <?php echo $this->benchmark->elapsed_time() . ' elapsed time';?> </p>
         		<p> <?php echo $this->benchmark->memory_usage() . ' memory used.';?> </p>
-        		<p> <?php echo date('Ymd-gis'); ?></p>
         	</div>
         
         	<div class="col-md-4">
