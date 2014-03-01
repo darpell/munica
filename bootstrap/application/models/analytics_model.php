@@ -440,8 +440,13 @@
 			$brgys = $this->get_barangays();
 			
 			$data['total'] = 0;
+			
+			$gender['F'] = 0;
+			$gender['M'] = 0;
+			
 			for($i = $weekno-4; $i<=$weekno; $i++)
 			{
+			
 				for($s = date('Y')-5; $s<=date('Y'); $s++)
 				{
 				$data[$s][$i] = 0;
@@ -453,15 +458,24 @@
 				}
 				
 				
+				for($a = 0; $a < 5; $a ++)
+				{
+					$agegroup[$i][$a] = 0;
+				}
+				
+				
 				$average[$i] = 0;  
 			}
+			
 			if($brgy == null){
 			$where = "count(cr_barangay) as patientcount ,YEAR(cr_date_onset) as caseyear,   
-						WEEK(cr_date_onset) as caseweek, cr_barangay
+						WEEK(cr_date_onset) as caseweek, cr_barangay, cr_age DIV 10 as agegroup, cr_sex
+					
+
 						FROM (`case_report_main`)
 						WHERE WEEK(`cr_date_onset`) between ".$weekno."-4 AND ".$weekno." AND
 						(YEAR(`cr_date_onset`) between ".date('Y')."-5 AND  ".date('Y').") 
-						GROUP BY YEAR(`cr_date_onset`),WEEK(`cr_date_onset`), cr_barangay
+						GROUP BY YEAR(`cr_date_onset`),WEEK(`cr_date_onset`), cr_barangay, agegroup, cr_sex
 					";
 			}
 			$this->db->select($where,false);
@@ -474,8 +488,21 @@
 					if($row->caseyear != date('Y'))
 					$average[$row->caseweek] += $row->patientcount;
 					else
-					$data['total'] += $row->patientcount;
-					
+					{
+						$data['total'] += $row->patientcount;
+						if($row->agegroup < 3)
+						$agegroup[$row->caseweek][$row->agegroup]++;
+						else 
+						$agegroup[$row->caseweek][3]++;
+						
+							if($row->cr_sex == 'F')
+							{
+								$gender['F']++;
+							}
+							else if ($row->cr_sex == 'M'){
+								$gender['M']++;
+							}
+					}
 					foreach($brgys as $temp)
 					{
 						if($temp == $row->cr_barangay)
@@ -484,13 +511,16 @@
 						}
 					}
 					
+					
+					
+					
 				}
 				
 			}
 			$q->free_result();
 			if($brgy == null){
 			$where = "count(imcase_no) as patientcount ,YEAR(created_on) as caseyear,   
-						WEEK(created_on) as caseweek,barangay
+						WEEK(created_on) as caseweek, barangay ,  FLOOR(TIMESTAMPDIFF(YEAR,person_dob,CURDATE())/10) as agegroup, person_sex
 						FROM (`active_cases`)
 						JOIN `master_list` ON `master_list`.`person_id` = `active_cases`.`person_id`
 						JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
@@ -499,8 +529,7 @@
 			
 						WHERE WEEK(`created_on`) between ".$weekno."-4 AND ".$weekno." AND
 						(YEAR(`created_on`) between ".date('Y')."-5 AND  ".date('Y').")
-						GROUP BY YEAR(`created_on`),WEEK(`created_on`),barangay
-					";
+						GROUP BY YEAR(`created_on`),WEEK(`created_on`), barangay,agegroup,person_sex";
 			}
 			$this->db->select($where,false);
 			$q = $this->db->get();
@@ -512,7 +541,22 @@
 					if($row->caseyear != date('Y'))
 					$average[$row->caseweek] += $row->patientcount;
 					else
-						$data['total'] += $row->patientcount;
+					{$data['total'] += $row->patientcount;
+					
+					if($row->agegroup < 3)
+						$agegroup[$row->caseweek][$row->agegroup]++;
+					else
+						$agegroup[$row->caseweek][3]++;
+					
+					if($row->person_sex == 'F')
+					{
+						$gender['F']++;
+					}
+					else if ($row->person_sex == 'M'){
+						$gender['M']++;
+					}
+					
+					}
 					foreach($brgys as $temp)
 					{
 						if($temp == $row->barangay)
@@ -555,7 +599,8 @@
 			
 			
 			
-			
+			$data['gender'] = $gender;
+			$data['agegroup'] = $agegroup;
 			
 			return $data;
 		}

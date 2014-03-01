@@ -154,6 +154,9 @@ var household = <?php echo json_encode($household); ?>;
 
 var barangay = <?php echo json_encode($barangay); ?>;
 
+var agegroup = <?php echo json_encode($cases['agegroup']); ?>;
+var gender = <?php echo json_encode($cases['gender']) ?>;
+
 </script>
 	<!-- end of Graph -->
 </div>      

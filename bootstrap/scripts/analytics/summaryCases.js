@@ -33,18 +33,29 @@ $(function () {
                     }
                     return s;
                 }
-            }/*,
+            },plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        style: {
+                            textShadow: '0 0 3px black, 0 0 3px black'
+                        }
+                    }
+                }
+            },
             labels: {
                 items: [{
-                    html: 'Geographic Distribution For Current Cases',
+                    html: 'Gender Distribution For Current Cases',
                     style: {
                         left: '40x',
                         top: '-15px',
                         color: 'black'
                     }
                 }]
-            }*/,
-            series: [{
+            },
+            series: [/*{
                 type: 'column',
                 name: year-1,
                 data: [parseInt(cases[year-1][weekno-4]),
@@ -53,16 +64,52 @@ $(function () {
                        parseInt(cases[year-1][weekno-1]),
                        parseInt(cases[year-1][weekno])
                        ]
-            }, {
+            },*/ {
                 type: 'column',
-                name: year,
-                data: [parseInt(cases[year][weekno-4]),
-                       parseInt(cases[year][weekno-3]),
-                       parseInt(cases[year][weekno-2]),
-                       parseInt(cases[year][weekno-1]),
-                       parseInt(cases[year][weekno])
+                name: '0-9',
+                data: [parseInt(agegroup[weekno-4][0]),
+                       parseInt(agegroup[weekno-3][0]),
+                       parseInt(agegroup[weekno-2][0]),
+                       parseInt(agegroup[weekno-1][0]),
+                       parseInt(agegroup[weekno][0])
                        ]
             }, {
+	            type: 'column',
+	            name: '10-19',
+	            data: [parseInt(agegroup[weekno-4][1]),
+                       parseInt(agegroup[weekno-3][1]),
+                       parseInt(agegroup[weekno-2][1]),
+                       parseInt(agegroup[weekno-1][1]),
+                       parseInt(agegroup[weekno][1])
+                       ]
+        	}, {
+	            type: 'column',
+	            name: '20-29',
+	            data: [parseInt(agegroup[weekno-4][2]),
+                       parseInt(agegroup[weekno-3][2]),
+                       parseInt(agegroup[weekno-2][2]),
+                       parseInt(agegroup[weekno-1][2]),
+                       parseInt(agegroup[weekno][2])
+                       ]
+        	}, {
+	            type: 'column',
+	            name: '30-39',
+	            data: [parseInt(agegroup[weekno-4][3]),
+                       parseInt(agegroup[weekno-3][3]),
+                       parseInt(agegroup[weekno-2][3]),
+                       parseInt(agegroup[weekno-1][3]),
+                       parseInt(agegroup[weekno][3])
+                       ]
+        	}, {
+	            type: 'column',
+	            name: '40 and Above',
+	            data: [parseInt(agegroup[weekno-4][4]),
+                       parseInt(agegroup[weekno-3][4]),
+                       parseInt(agegroup[weekno-2][4]),
+                       parseInt(agegroup[weekno-1][4]),
+                       parseInt(agegroup[weekno][4])
+                       ]
+        	}, {
                 type: 'spline',
                 name: 'Average Number Of Cases',
                 data: [parseInt(ave[weekno-4]),
@@ -76,26 +123,18 @@ $(function () {
                 	lineColor: Highcharts.getOptions().colors[3],
                 	fillColor: 'white'
                 }
-            }/*,
+            },
             {
                 type: 'pie',
-                name: 'Total consumption',
+                name: 'Gender Distribution',
                 data: [{
-                    name: 'LANGKAAN II',
-                    y: langkaan,
+                    name: 'Male',
+                    y: parseInt(gender['M']),
                     color: Highcharts.getOptions().colors[4] // Jane's color
                 }, {
-                    name: 'SAMPALOC I',
-                    y: sampaloci,
+                    name: 'Female',
+                    y: parseInt(gender['F']),
                     color: Highcharts.getOptions().colors[5] // John's color
-                }, {
-                    name: 'SAN AGUSTIN III',
-                    y: sangustiniii,
-                    color: Highcharts.getOptions().colors[2] // Joe's color
-                }, {
-                    name: 'SAN AGUSTIN I',
-                    y: sangustini,
-                    color: Highcharts.getOptions().colors[3] // Joe's color
                 }],
                 center: [0,10],
                 size: 80,
@@ -103,7 +142,7 @@ $(function () {
                 dataLabels: {
                     enabled: false
                 }
-            }*/
+            }
             ]
         });
         
