@@ -10,6 +10,8 @@ $(function () {
      	sangustiniii +=parseInt(cases['SAN AGUSTIN III'][year][i]);
      	sampaloci +=parseInt(cases['SAMPALOC I'][year][i]);
      }
+     var total = langkaan + sangustini + sangustiniii + sampaloci;
+
         $('#container').highcharts({
             chart: {
             },
@@ -31,7 +33,7 @@ $(function () {
                     }
                     return s;
                 }
-            },
+            }/*,
             labels: {
                 items: [{
                     html: 'Geographic Distribution For Current Cases',
@@ -41,7 +43,7 @@ $(function () {
                         color: 'black'
                     }
                 }]
-            },
+            }*/,
             series: [{
                 type: 'column',
                 name: year-1,
@@ -62,7 +64,7 @@ $(function () {
                        ]
             }, {
                 type: 'spline',
-                name: 'Average',
+                name: 'Average Number Of Cases',
                 data: [parseInt(ave[weekno-4]),
 						 parseInt(ave[weekno-3]),
 						 parseInt(ave[weekno-2]),
@@ -74,7 +76,7 @@ $(function () {
                 	lineColor: Highcharts.getOptions().colors[3],
                 	fillColor: 'white'
                 }
-            },
+            }/*,
             {
                 type: 'pie',
                 name: 'Total consumption',
@@ -95,52 +97,129 @@ $(function () {
                     y: sangustini,
                     color: Highcharts.getOptions().colors[3] // Joe's color
                 }],
-                center: [100, 30],
-                size: 100,
+                center: [0,10],
+                size: 80,
                 showInLegend: false,
                 dataLabels: {
                     enabled: false
                 }
-            }
+            }*/
             ]
         });
         
-       
+        var tempbrands= [];
+        var tempseries= [];
+        var drilldown=[[],[],[],[]];
         
-        $('#container2').highcharts({
+        tempbrands.push({ 
+            name: 'LANGKAAN II', 
+            y: langkaan,
+            drilldown:'LANGKAAN II'
+        });
+        tempbrands.push({ 
+            name: 'SAN AGUSTIN I', 
+            y: sangustini,
+            drilldown:'SAN AGUSTIN I'
+        });
+        tempbrands.push({ 
+            name: 'SAN AGUSTIN III', 
+            y: sangustiniii,
+            drilldown:'SAN AGUSTIN III'
+        });
+        tempbrands.push({ 
+            name: 'SAMPALOC I', 
+            y: sampaloci,
+            drilldown:'SAMPALOC I'
+        });
+       
+        $.each(household, function (key) {
+        	
+        	for(var i = 0; i< barangay.length; i++)
+        	{
+        	if(barangay[i] == household[key]['barangay'])
+        	drilldown[i].push([key,parseInt(household[key]['ctr'])]);
+        	}
+        });
+
+
+     
+        for(var i = 0; i< barangay.length; i++)
+    	{
+        	tempseries.push({
+                name: barangay[i],
+                id: barangay[i],
+                data: drilldown[i]
+            });
+    	}
+     
+        
+        // Create the chart
+        $('#container3').highcharts({
             chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false
+                type: 'pie'
             },
             title: {
-                text: 'Symptoms'
+                text: 'Cases per barangay'
             },
-            tooltip: {
-        	    pointFormat: '{series.name}: <b>{point.y} Cases</b>'
+            subtitle: {
+                text: 'Click the slices to view number people infected in each household'
             },
             plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
+                series: {
                     dataLabels: {
                         enabled: true,
-                        color: '#000000',
-                        connectorColor: '#000000',
-                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                        format: '{point.name} : {point.y}'
                     }
                 }
             },
+
+            tooltip: {
+                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> of total<br/>'
+            }, 
+
             series: [{
-                type: 'pie',
-                name: 'Symptoms',
-                data: [
-                    ['Muscle Pain',   cases['symptoms'][0]],
-                    ['Joint Pain',    cases['symptoms'][1]],
-                    ['Headache',      cases['symptoms'][2]],
-                    ['Bleeding',      cases['symptoms'][3]],
-                    ['Rashes',        cases['symptoms'][4]]
-                ]
-            }]
+                name: 'Barangay',
+                colorByPoint: true,
+                data: tempbrands
+            }],
+            drilldown: {
+                series: tempseries
+            }
         });
+        $('#container4').highcharts({
+            chart: {
+                type: 'pie'
+            },
+            title: {
+                text: 'Cases per barangay'
+            },
+            subtitle: {
+                text: 'Click the slices to view number people infected in each household'
+            },
+            plotOptions: {
+                series: {
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name} : {point.y}'
+                    }
+                }
+            },
+
+            tooltip: {
+                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> of total<br/>'
+            }, 
+
+            series: [{
+                name: 'Barangay',
+                colorByPoint: true,
+                data: tempbrands
+            }],
+            drilldown: {
+                series: tempseries
+            }
+        });
+       
+        
+        
+     
     });

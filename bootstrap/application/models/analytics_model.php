@@ -303,6 +303,31 @@
 			return $data;
 							
 		}
+		function get_household_count($weekno)
+		{
+			$where = " *
+				FROM (`active_cases`)
+				JOIN `master_list` ON `master_list`.`person_id` = `active_cases`.`person_id`
+				JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
+				JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username`
+				JOIN `household_address` ON `catchment_area`.`household_id` = `household_address`.`household_id`
+				WHERE created_on BETWEEN '".$startdate."'  AND '".$enddate."' ";
+			$this->db->select($where , false);
+			$q = $this->db->get();
+		
+			if($q->num_rows() > 0)
+			{
+				$data['immecase'] = $q->result_array();
+			}
+			else
+				$data['immecase'] = null;
+			$q->free_result();
+		
+		
+		
+			return $data;
+				
+		}
 		function get_all_larval_count($brgy = null)
 		{
 			$where = "MIN(YEAR(created_on)) as yearmin
@@ -529,57 +554,41 @@
 			$data['average'] = $average;
 			
 			
-			if($brgy == null){
-				$where = "*
+			
+			
+			
+			return $data;
+		}
+		function get_affected_household($weekno)
+		{
+
+			$where = "barangay,count(household_name) as ctr ,suspected_source, household_name , house_no, street, household_address.household_id as id
 						FROM (`active_cases`)
 						JOIN `master_list` ON `master_list`.`person_id` = `active_cases`.`person_id`
 						JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
 						JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username`
 						JOIN `household_address` ON `catchment_area`.`household_id` = `household_address`.`household_id`
-			
+		
 						WHERE WEEK(`created_on`) between ".$weekno."-4 AND ".$weekno." AND
 						(YEAR(`created_on`) = ".date('Y').")
+						GROUP BY household_name
 					";
-			}
+				
 			$this->db->select($where,false);
 			$q = $this->db->get();
-
-			for($i = 0; $i < 5; $i++)
-			{
-				$data['symptoms'][$i]=0;
-			}
+			
+			$data = null;
+			
+				
 			if($q->num_rows() > 0)
 			{
-				foreach ($q->result() as $row)
-				{
-					if($row->has_muscle_pain == 'Y')
-					{
-						$data['symptoms'][0] += 1;
-					}
-					if($row->has_joint_pain == 'Y')
-					{
-						$data['symptoms'][1] += 1;
-					}
-					if($row->has_headache == 'Y')
-					{
-						$data['symptoms'][2] += 1;
-					}
-					if($row->has_bleeding == 'Y')
-					{
-						$data['symptoms'][3] += 1;
-					}
-					if($row->has_rashes == 'Y')
-					{
-						$data['symptoms'][4] += 1;
-					}
-					
-				}
+				foreach ($q->result_array() as $row)
+				$data[$row['household_name']] = $row;
 			}
 			$q->free_result();
-			
-			
 			return $data;
 		}
+		
 		function get_larval_count($weekno)
 		{	
 			$brgys = $this->get_barangays();

@@ -25,39 +25,38 @@ body { height:100% }
 	<!-- combo chart for dengue cases -->
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<h3 class="panel-title"> Case Count </h3>
+				<h3 class="panel-title"> Case Summary </h3>
 			</div>
-			<center>
-			 <fieldset  style="width: 50%;">
-			 <legend>Summary</legend>
-			<p></>A total of <b><?php echo $cases['total'] ?> cases</b> reported for the last 4 weeks.</p>
-			<p></>A total of <b><?php echo $cases['deaths'] ?> deaths</b> reported for the last 4 weeks.</p>
-			<?php if($cases['average'][(int)date('W')] > $cases[date('Y')][(int)date('W')]){?>
-			<p></>The Total Cases for the Week is <b>Below Average</b> with a Difference of <b><?php echo $cases['average'][(int)date('W')] - $cases[date('Y')][(int)date('W')];?> cases.</b></p>
-			<?php }?>
-			<?php if($cases['average'][(int)date('W')] < $cases[date('Y')][(int)date('W')]){?>
-			<p></>The total cases for the Week is <b>Above Average</b> with a Difference of <b><?php echo  $cases[date('Y')][(int)date('W')] - $cases['average'][(int)date('W')] ;?> cases.</b></p>
-			<?php }?>
-			<?php if($cases['average'][(int)date('W')] == $cases[date('Y')][(int)date('W')]){?>
-			<p>The total cases for the Week is <b>equal with the average cases for the week</p>
-			<?php }?>
-			<?php if($cases['average'][(int)date('W')] > $cases[date('Y')-1][(int)date('W')]){?>
-			<p>compared from last year which is <b>Below Average</b> with a Difference of <b><?php echo $cases['average'][(int)date('W')] - $cases[date('Y')-1][(int)date('W')];?> cases.</b></p>
-			<?php }?>
-			<?php if($cases['average'][(int)date('W')] < $cases[date('Y')-1][(int)date('W')]){?>
-			<p>Compared from last year which is <b>Above Average</b> with a Difference of <b><?php echo  $cases[date('Y')-1][(int)date('W')] - $cases['average'][(int)date('W')] ;?> cases.</b></p>
-			<?php }?>
-			<?php if($cases['average'][(int)date('W')] == $cases[date('Y')-1][(int)date('W')]){?>
-			<p>compared from last year which is <b>equal with the average cases for the week</p>
-			<?php }?>
-			 </fieldset>
-			 </center>
+			
+			<div class="row">
+			<div class="col-md-1">	
+
+				</div>
+				<div class="col-md-4">	
+					<legend><center></>Summary</center></legend>
+					<p></>A total of <b><?php echo $cases['total'] ?> cases</b> reported for the last 4 weeks. Amounting to <b><?php echo round(($cases['total']/$personcount)*100,2)  ?>%</b> of the population of Dasmarinas</p>
+					<p></>A total of <b><?php echo $cases['deaths'] ?> deaths</b> reported for the last 4 weeks.</p>
+					 </fieldset>
+					 <legend><center></>Suspected Sources</center></legend>
+					<?php foreach ($household as $row)
+					{
+						if($row['suspected_source'] != null OR $row['suspected_source'] != '' OR $row['suspected_source'] != 'null')
+						echo '<li>'. $row['suspected_source'].'</li>';
+					}	
+					?>
+					 </fieldset>
+				</div>
+				<div class="col-md-7">	
+					<div id="container3" style="min-width: 210px; height: 300px; margin: 0 auto";align="left"></div>
+				</div>
+			
+			</div>
 			 
 			<div class="panel-body">
 				<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"> graph of distribution </div>
 			
 			
-			
+			<!--  
 	
 			<br />
 			<table class="table" border="1">
@@ -126,15 +125,13 @@ body { height:100% }
 			
 		</table>
 		<br />
+		
+		
 		<div id="container2" style="min-width: 210px; height: 300px; margin: 0 auto";align="left"></div>
-			</div>
-		
+		-->
 		</div>
-	
-		
-		
-		
-		
+			
+</div>
 		
 
 <script>
@@ -148,11 +145,14 @@ year = parseInt(year);
 
 var cases = <?php echo json_encode($cases); ?>;
 
+var personcount = <?php echo json_encode($personcount); ?>;
+personcount = parseInt(personcount);
 
 var ave = <?php echo json_encode($cases['average']); ?>;
 
+var household = <?php echo json_encode($household); ?>;
 
-
+var barangay = <?php echo json_encode($barangay); ?>;
 
 </script>
 	<!-- end of Graph -->
