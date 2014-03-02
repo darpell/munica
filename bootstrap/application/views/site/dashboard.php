@@ -11,16 +11,45 @@ var lng = new Array();
 	lng.push("<?php echo $poi[$poi_ctr]['household_lng']?>");
 <?php } ?>
 
-var brgy_lat = new Array();
-var brgy_lng = new Array();
+var san_agustin_iii = "San Agustin III";
+var san_agustin_iii_cases_count = "<?= count($san_agustin_iii_cases); ?>";
+var san_agustin_iii_lat = new Array();
+var san_agustin_iii_lng = new Array();
 
-<?php for ($brgy_ctr = 0; $brgy_ctr < count($brgy); $brgy_ctr++) {?>
-	brgy_lat.push("<?php echo $brgy[$brgy_ctr]['point_lat']?>");
-	brgy_lng.push("<?php echo $brgy[$brgy_ctr]['point_lng']?>");
+<?php for ($brgy_ctr = 0; $brgy_ctr < count($san_agustin_iii); $brgy_ctr++) {?>
+	san_agustin_iii_lat.push("<?php echo $san_agustin_iii[$brgy_ctr]['point_lat']?>");
+	san_agustin_iii_lng.push("<?php echo $san_agustin_iii[$brgy_ctr]['point_lng']?>");
 <?php } ?>
 
-var barangay_name = "<?= $brgy[0]['polygon_name']?>";
-var barangay_cases_count = "<?php echo count($brgy_cases); ?>";
+var langkaan_ii = "Langkaan II";
+var langkaan_ii_cases_count = "<?= count($langkaan_ii_cases); ?>";
+var langkaan_ii_lat = new Array();
+var langkaan_ii_lng = new Array();
+
+<?php for ($brgy_ctr = 0; $brgy_ctr < count($langkaan_ii); $brgy_ctr++) {?>
+	langkaan_ii_lat.push("<?php echo $langkaan_ii[$brgy_ctr]['point_lat'] ?>");
+	langkaan_ii_lng.push("<?php echo $langkaan_ii[$brgy_ctr]['point_lng'] ?>");
+<?php } ?>
+
+var sampaloc_i = "Sampaloc I";
+var sampaloc_i_cases_count = "<?= count($sampaloc_i_cases); ?>";
+var sampaloc_i_lat = new Array();
+var sampaloc_i_lng = new Array();
+
+<?php for ($brgy_ctr = 0; $brgy_ctr < count($sampaloc_i); $brgy_ctr++) {?>
+	sampaloc_i_lat.push("<?php echo $sampaloc_i[$brgy_ctr]['point_lat'] ?>");
+	sampaloc_i_lng.push("<?php echo $sampaloc_i[$brgy_ctr]['point_lng'] ?>");
+<?php } ?>
+
+var san_agustin_i = "San Agustin I";
+var san_agustin_i_cases_count = "<?= count($san_agustin_i_cases); ?>";
+var san_agustin_i_lat = new Array();
+var san_agustin_i_lng = new Array();
+
+<?php for ($brgy_ctr = 0; $brgy_ctr < count($san_agustin_i); $brgy_ctr++) {?>
+	san_agustin_i_lat.push("<?php echo $san_agustin_i[$brgy_ctr]['point_lat'] ?>");
+	san_agustin_i_lng.push("<?php echo $san_agustin_i[$brgy_ctr]['point_lng'] ?>");
+<?php } ?>
 
 //var img_icon = ["<?= base_url('/images/source.png') ?>","<?= base_url('/images/risk.png') ?>"];
 
@@ -119,16 +148,27 @@ body { height:100% }
 					<!-- </div> for map -->
 				</div>
 				<div class="col-md-4">
-					<h3> Options </h3>
-					<button class="btn btn-default" style="width:150px;" onclick="toggleHeatmap()">Toggle Heatmap</button> <br/>
-					<button class="btn btn-default" style="width:150px;" onclick="changeRadius()">Change radius</button> <br/>
-					<button class="btn btn-default" style="width:150px;" onclick="changeGradient()">Change gradient</button> <br/>
-					<button class="btn btn-default" style="width:150px;" onclick="changeOpacity()">Change opacity</button> <br/>					
+					<div>
+						<h3> Options </h3>
+						<button class="btn btn-default" style="width:150px;" onclick="toggleHeatmap()">Toggle Heatmap</button> <br/>
+						<button class="btn btn-default" style="width:150px;" onclick="changeRadius()">Change radius</button> <br/>
+						<button class="btn btn-default" style="width:150px;" onclick="changeGradient()">Change gradient</button> <br/>
+						<button class="btn btn-default" style="width:150px;" onclick="changeOpacity()">Change opacity</button> <br/>
+					</div>
+						<br/>
+					<div>
+						<h3> Case Count per Barangay </h3>
+						<p> San Agustin III <span class="badge pull-right"> <?= count($san_agustin_iii_cases) ?> </span></p>
+						<p> San Agustin I <span class="badge pull-right"> <?= count($san_agustin_i_cases) ?> </span></p>
+						<p> Langkaan II <span class="badge pull-right"> <?= count($langkaan_ii_cases) ?> </span></p>
+						<p> Sampaloc I <span class="badge pull-right"> <?= count($sampaloc_i_cases) ?> </span></p>
+					</div>				
 				</div>
 			</div>
 		</div>
 		<!-- end of Map -->		
 </div>
+
 </div>
 <!-- FOOTER -->
 <?php $this->load->view('/site/templates/footer');?>

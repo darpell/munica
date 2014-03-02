@@ -1,6 +1,12 @@
 <!-- HEADER -->
 <?php $data['title'] = 'Filter'; $this->load->view('/site/templates/header',$data);?>
 
+<!-- ADDITIONAL FILES -->
+
+
+
+<!-- end of ADDITIONAL FILES -->
+
 </head>
 <body>
 <!-- CONTENT -->

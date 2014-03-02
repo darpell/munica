@@ -7,6 +7,25 @@ class Active_case_model extends CI_Model
 		//load monica database
 	}
 	
+	function search($search_term, $offset = FALSE, $limit = FALSE)
+	{
+		$this->db->from('active_cases')
+				->join('catchment_area','active_cases.person_id = catchment_area.person_id')
+				->join('master_list','catchment_area.person_id = master_list.person_id')
+				->join('household_address', 'household_address.household_id = catchment_area.household_id')
+				->like('person_first_name', $search_term)
+				->or_like('person_last_name', $search_term)
+				->or_like('household_name', $search_term)
+				->or_like('house_no', $search_term);
+		
+		if ($offset != FALSE && $limit != FALSE)
+			$this->db->limit($offset,$limit);
+		
+		$query = $this->db->get();
+		return $query->result_array();
+		$query->free_result();
+	}
+	
 	function get_cases($bhw = FALSE, $status = FALSE)
 	{
 		$this->db->from('active_cases')
@@ -30,10 +49,10 @@ class Active_case_model extends CI_Model
 	function get_cases_per_brgy($brgy = FALSE, $status = FALSE)
 	{
 		$this->db->from('active_cases')
-		->join('catchment_area','active_cases.person_id = catchment_area.person_id')
-		->join('bhw', 'catchment_area.bhw_id = bhw.user_username')
-		->join('master_list','catchment_area.person_id = master_list.person_id')
-		->join('household_address', 'household_address.household_id = catchment_area.household_id');
+				->join('catchment_area','active_cases.person_id = catchment_area.person_id')
+				->join('bhw', 'catchment_area.bhw_id = bhw.user_username')
+				->join('master_list','catchment_area.person_id = master_list.person_id')
+				->join('household_address', 'household_address.household_id = catchment_area.household_id');
 	
 		if ($brgy != FALSE)
 			$this->db->where('barangay',$brgy);

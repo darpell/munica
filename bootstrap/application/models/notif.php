@@ -38,7 +38,10 @@ class Notif extends CI_Model
 	
 	function check_on_hospitalized_cases()
 	{
-		//$this->db->from();
+		$query = $this->db->get_where('active_cases',array('status' => 'hospitalized'));
+		
+		return $query->result_array();
+		$query->free_result();
 	}
 }
 

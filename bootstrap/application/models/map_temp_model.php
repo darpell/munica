@@ -29,7 +29,6 @@ class Map_temp_model extends CI_Model
 		if ($brgy != FALSE)
 			$this->db->where('bhw.barangay',$brgy);
 		
-		$this->db->group_by('point_no');
 		$this->db->order_by('point_no','asc');
 		
 		$query = $this->db->get();

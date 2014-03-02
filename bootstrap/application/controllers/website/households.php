@@ -7,6 +7,7 @@ class Households extends CI_Controller
 		parent::__construct();
 		$this->load->model('hh_model','model');
 		$this->load->model('barangay_model');
+		$this->load->model('active_case_model','ac');
 	}
 	
 	function filter_brgys()
@@ -17,6 +18,8 @@ class Households extends CI_Controller
 		{
 			 $ca_count[$brgy['barangay']] = $this->model->get_catchment_area($brgy['barangay']);
 		}
+		
+		$data['brgy_cases'] = $this->ac->get_cases_per_brgy();
 		
 		$data['ca_count'] = $ca_count;
 		

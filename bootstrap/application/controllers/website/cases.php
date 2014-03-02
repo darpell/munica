@@ -9,9 +9,20 @@ class Cases extends CI_Controller
 		$this->load->model('active_case_model','ac');
 	}
 	
-	function add_case()
+	function search()
 	{
+		$config['base_url'] = site_url('website/cases/search');
+		$config['total_rows'] = 10;//$this->ac->search('%' . $this->input->post('TPsearch-txt') . '%')->num_rows();
+		$config['per_page'] = 5;
+		$config['num_links'] = 3;
+		$config['uri_segment'] = 4;
 		
+		$this->pagination->initialize($config);
+		
+		$data['results'] = $this->ac->search('%' . $this->input->get('TPsearch-txt') . '%', $config['per_page'], $this->uri->segment(4));
+		$data['links'] = $this->pagination->create_links();
+		
+		$this->load->view('site/search_results', $data);
 	}
 	
 	function view_suspected()

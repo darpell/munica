@@ -45,6 +45,30 @@ var symp_r = <?= $symptoms['has_rashes'] ?>;
 <!-- CONTENT -->
 <div class="container">
 <div class="col-md-5">		
+		<!-- Search -->
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title"> <span class="glyphicon glyphicon-search"></span> Search Case </h3>
+			</div>
+			<div class="panel-body">
+				<?php 
+					$attributes = array(
+											'id' 	=> 'TPsearch',
+											'role'	=> 'form'
+										);
+					echo form_open('website/cases/search',$attributes); 
+				?>
+				<!-- First Name -->
+	        	<div class="form-group">
+		        	<input type="text" class="form-control" name="TPsearch-txt" id="TPsearch-txt" placeholder="Search" required autofocus/>
+	        	</div>
+	        	<!-- end of First Name -->
+	        	<div class="form-group"><center><input type="submit" value="Search" class="btn btn-default" /></center></div>
+	        	</form>
+			</div>
+		</div>
+		<!-- end of Search -->
+		
 		<!-- Links -->
 		<div class="panel panel-primary">
 			<div class="panel-heading">
