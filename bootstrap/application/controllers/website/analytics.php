@@ -15,6 +15,14 @@ class Analytics extends CI_Controller
 		
 		$data['larval']= $this->Analytics_model->get_larval_count((int)date("W"));
 		$data['barangay'] = $this->Analytics_model->get_barangays();
+		
+		$data['household']= $this->Analytics_model->get_affected_household((int)date("W"));
+		$temp= $this->Analytics_model->get_all_person_data();
+		$data['personcount']= 0;
+		foreach ($temp as $row)
+		{
+			$data['personcount']++;
+		}
 		$this->load->view('site/analytics',$data);
 	}
 	function setfilter()

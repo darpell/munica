@@ -7,6 +7,10 @@ $( "#datepicker" ).datepicker();
 $( "#datepicker2" ).datepicker();
 });
 </script>
+ 
+
+                
+                
 <div class="col-md-3">		
 		<!-- Filter -->
 		<div class="panel panel-primary">
