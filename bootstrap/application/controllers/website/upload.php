@@ -97,7 +97,7 @@ class Upload extends CI_Controller
 			$rs->Close();
 			$db_connection->Close();
 			
-			$cr_no = date('Ymd-s');
+			$cr_no = date('Ymd-gis');
 			
 			$header_values = array(
 						'cr_no' 		=> $cr_no,
