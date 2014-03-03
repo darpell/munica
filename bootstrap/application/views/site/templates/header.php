@@ -76,8 +76,8 @@
 	              </ul>
 	            </li> <!-- /end of functions -->
                	<?php } ?>
-               	
-               	<!-- reports -->
+               
+               	<!-- reports 
 	            <li class="dropdown">
 	              <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Reports <b class="caret"></b></a>
 	              <ul class="dropdown-menu">
@@ -87,7 +87,8 @@
  					<li><?= anchor(base_url('index.php/CHO/view_dengue_profile'),'Dengue Profile')?></li>
  					<?php } ?>
 	              </ul>
-	            </li> <!-- /end of reports -->            
+	            </li> -->   
+	                   
           </ul>
           
           <!-- if not signed in -->

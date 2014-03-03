@@ -83,6 +83,28 @@
 			}
 			$q->free_result();
 			
+			$where = "count(imcase_no) as patientcount ,YEAR(previous_cases.created_on) as caseyear,
+				Month(previous_cases.created_on) as casemonth
+				FROM (`previous_cases`)
+				JOIN `master_list` ON `master_list`.`person_id` = `previous_cases`.`person_id`
+				JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
+				JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username`
+				JOIN `household_address` ON `catchment_area`.`household_id` = `household_address`.`household_id`
+				WHERE YEAR(created_on) < ".date('Y')."
+				GROUP BY   YEAR(created_on) ,MONTH(created_on)";
+			$this->db->select($where);
+			$q = $this->db->get();
+			$yearstart= 0;
+			if($q->num_rows() > 0)
+			{
+				foreach ($q->result() as $row)
+				{ $x = $row->caseyear;
+				$y = $row->casemonth;
+				$data[$x][$y] += $row->patientcount;
+				}
+			}
+			$q->free_result();
+			
 
 			}
 			else 
@@ -109,6 +131,28 @@
 				Month(active_cases.created_on) as casemonth
 				FROM (`active_cases`)
 				JOIN `master_list` ON `master_list`.`person_id` = `active_cases`.`person_id`
+				JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
+				JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username`
+				JOIN `household_address` ON `catchment_area`.`household_id` = `household_address`.`household_id`
+				WHERE barangay= '". $brgy ."'
+				GROUP BY   YEAR( created_on ) ,MONTH( created_on )";
+				$this->db->select($where);
+				$q = $this->db->get();
+				$yearstart= 0;
+				if($q->num_rows() > 0)
+				{
+					foreach ($q->result() as $row)
+					{ $x = $row->caseyear;
+					$y = $row->casemonth;
+					$data[$x][$y] += $row->patientcount;
+					}
+				}
+				$q->free_result();
+				
+				$where = "count(imcase_no) as patientcount ,YEAR(previous_cases.created_on) as caseyear,
+				Month(active_cases.created_on) as casemonth
+				FROM (`previous_cases`)
+				JOIN `master_list` ON `master_list`.`person_id` = `previous_cases`.`person_id`
 				JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
 				JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username`
 				JOIN `household_address` ON `catchment_area`.`household_id` = `household_address`.`household_id`
@@ -280,6 +324,9 @@
 				$data['casereport'] = null;
 			$q->free_result();
 				
+			
+			$data['immecase'] = null;
+			
 			$where = " *
 				FROM (`active_cases`)
 				JOIN `master_list` ON `master_list`.`person_id` = `active_cases`.`person_id`
@@ -294,8 +341,24 @@
 					{ 
 						$data['immecase'] = $q->result_array();
 					}
-					else
-						$data['immecase'] = null;
+					
+					$q->free_result();
+					
+					$where = " *
+				FROM (`previous_cases`)
+				JOIN `master_list` ON `master_list`.`person_id` = `previous_cases`.`person_id`
+				JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
+				JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username`
+				JOIN `household_address` ON `catchment_area`.`household_id` = `household_address`.`household_id`
+				WHERE created_on BETWEEN '".$startdate."'  AND '".$enddate."' ";
+					$this->db->select($where , false);
+					$q = $this->db->get();
+					
+					if($q->num_rows() > 0)
+					{
+						$data['immecase']=array_merge($data['immecase'],$q->result_array());
+					}
+						
 					$q->free_result();
 						
 		
