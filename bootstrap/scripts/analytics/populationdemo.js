@@ -36,6 +36,13 @@ $(function () {
                         top: '8px',
                         color: 'black'
                     }
+                },{
+                    html: 'Gender Distribution',
+                    style: {
+                        left: '600px',
+                        top: '8px',
+                        color: 'black'
+                    }
                 }]
             },
             series: [{
@@ -90,6 +97,24 @@ $(function () {
                     color: Highcharts.getOptions().colors[3] // Joe's color
                 }],
                 center: [12, 7],
+                size: 100,
+                showInLegend: false,
+                dataLabels: {
+                    enabled: false
+                }
+            },  {
+                type: 'pie',
+                name: 'Gender Distribution',
+                data: [{
+                    name: 'Male',
+                    y: gender['m'],
+                    color: Highcharts.getOptions().colors[0] // Jane's color
+                }, {
+                    name: 'Female',
+                    y: gender['f'],
+                    color: Highcharts.getOptions().colors[1] // John's color
+                }],
+                center: [750, 7],
                 size: 100,
                 showInLegend: false,
                 dataLabels: {

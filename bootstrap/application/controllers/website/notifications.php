@@ -10,6 +10,8 @@ class Notifications extends CI_Controller
 	
 	function index()
 	{
+		//$data['test'] = $this->model->check_on_hospitalized_cases();
+		
 		$data['notifs'] = $this->model->getnotifs($this->session->userdata('TPusername'));
 		$this->load->view('site/admin/notifications',$data);
 	}

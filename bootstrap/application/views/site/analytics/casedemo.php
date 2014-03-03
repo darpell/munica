@@ -99,8 +99,8 @@ var fatality =  <?php echo json_encode($fatality);?>;
 			echo json_encode($agegroup); else echo json_encode('null')?>;
   var brgys = <?php if ($casereportANDimmecase['casereport'] != null OR $casereportANDimmecase['immecase'] != null )
 			echo json_encode($brgys); else echo json_encode('null')?>;
-  
 
+var gender = <?php echo json_encode($gender);?>;
 </script>
 	<!-- end of Graph -->
 

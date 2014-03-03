@@ -9,15 +9,17 @@ class Dashboard extends CI_Controller
 		$this->load->model('barangay_model','brgy');
 		$this->load->model('map_temp_model','map');
 		$this->load->model('active_case_model','ac');
+		$this->load->model('notif');
+		$this->load->model('hh_model');
 	}
 	
 	function index()
 	{
-		$this->load->model('notif');
-		$this->notif->check_on_hospitalized_cases();		
+		if ($this->session->userdata('TPtype') == 'BHW' || $this->session->userdata('TPtype') == 'MIDWIFE')
+			$this->notif->check_on_hospitalized_cases();		
 		$data['notif_count'] = count($this->notif->getnotifs($this->session->userdata('TPusername')));
 		
-		$this->load->model('hh_model');
+		
 		if ($this->session->userdata('TPtype') == 'CHO')
 			$user = FALSE;
 		else if ($this->session->userdata('TPtype') == 'MIDWIFE')

@@ -38,10 +38,29 @@ class Notif extends CI_Model
 	
 	function check_on_hospitalized_cases()
 	{
-		$query = $this->db->get_where('active_cases',array('status' => 'hospitalized'));
+		$date_comp = date('Y-m-d H:i:s',strtotime('-7 days',strtotime(date('Y-m-d H:i:s'))));
 		
-		return $query->result_array();
-		$query->free_result();
+		$this->db->from('active_cases')
+				->join('master_list','active_cases.person_id = master_list.person_id')
+				->join('catchment_area','active_cases.person_id = catchment_area.person_id')
+				->where('status','hospitalized')
+				->where('active_cases.created_on <', $date_comp);
+		
+		$query = $this->db->get()->result_array();
+		
+		for ($ctr = 0; $ctr < count($query); $ctr++)
+		{
+			$notif_input = array(
+					'notif_type'		=> 'update',
+					'notification'		=> 'Please update on' . $query[$ctr]['person_first_name'] . ' ' . $query[$ctr]['person_last_name'] . ' status',
+					'unique_id'			=> 'test',
+					'notif_viewed'		=> 'N',
+					'notif_createdOn'	=> date('Y-m-d H:i:s'),
+					'notif_user'		=> $query[$ctr]['bhw_id']
+					);
+			
+			$this->addnotif($notif_input);
+		}
 	}
 }
 

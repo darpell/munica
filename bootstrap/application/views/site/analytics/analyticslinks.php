@@ -19,8 +19,8 @@ $( "#datepicker2" ).datepicker();
 			</div>
 			<div class="panel-body">
 				<ul class="nav nav-pills nav-stacked">
+					<li><?= anchor(site_url('website/threshold/epidemic_threshold'),'Epidemic Threshold')?></li>
 					<li> <a href="<?= site_url('website/analytics') ?>"> Recent Cases </a> </li>
-					<li> <a href="<?= site_url('website/analytics/larval_demographics') ?>"> Recent Larval Surveys</a> </li>
 					<li> <a href="<?= site_url('website/analytics/totalcasecount') ?>"> Total Case Count </a> </li>
 					<li> <a href="<?= site_url('website/analytics/totallarvalcount') ?>"> Total Larval Count</a> </li>
 					<li> <a href="<?= site_url('website/analytics/totalcaselarvalcount') ?>"> Total Case and Larval Count</a> </li>

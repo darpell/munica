@@ -87,10 +87,10 @@ function initialize()
 		var san_agustin_iii_polygon = new google.maps.Polygon({
 		    paths: san_agustin_iii_coords,
 		    strokeColor: '#FF0000',
-		    strokeOpacity: 0.8,
+		    strokeOpacity: 0.6,
 		    strokeWeight: 2,
 		    fillColor: '#FF0000',
-		    fillOpacity: 0.35
+		    fillOpacity: 0.1
 		  });
 
 		san_agustin_iii_polygon.setMap(map);
@@ -115,10 +115,10 @@ function initialize()
 		var langkaan_ii_polygon = new google.maps.Polygon({
 		    paths: langkaan_ii_coords,
 		    strokeColor: '#FF0000',
-		    strokeOpacity: 0.8,
+		    strokeOpacity: 0.6,
 		    strokeWeight: 2,
 		    fillColor: '#FF0000',
-		    fillOpacity: 0.35
+		    fillOpacity: 0.1
 		  });
 
 		langkaan_ii_polygon.setMap(map);
@@ -143,10 +143,10 @@ function initialize()
 		var sampaloc_i_polygon = new google.maps.Polygon({
 		    paths: sampaloc_i_coords,
 		    strokeColor: '#FF0000',
-		    strokeOpacity: 0.8,
+		    strokeOpacity: 0.6,
 		    strokeWeight: 2,
 		    fillColor: '#FF0000',
-		    fillOpacity: 0.35
+		    fillOpacity: 0.1
 		  });
 
 		sampaloc_i_polygon.setMap(map);
@@ -171,10 +171,10 @@ function initialize()
 		var san_agustin_i_polygon = new google.maps.Polygon({
 		    paths: san_agustin_i_coords,
 		    strokeColor: '#FF0000',
-		    strokeOpacity: 0.8,
+		    strokeOpacity: 0.6,
 		    strokeWeight: 2,
 		    fillColor: '#FF0000',
-		    fillOpacity: 0.35
+		    fillOpacity: 0.1
 		  });
 
 		san_agustin_i_polygon.setMap(map);

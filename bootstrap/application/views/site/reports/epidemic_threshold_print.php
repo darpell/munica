@@ -1,6 +1,3 @@
-<!-- HEADER -->
-<?php $data['title'] = "Epidemic Threshold"; $this->load->view('/site/templates/header',$data);?>
-
 <!-- SCRIPTS -->
 <script src="<?php echo base_url('scripts/highcharts/highcharts.js');?>"></script>
 <script src="<?php echo base_url('scripts/highcharts/modules/data.js');?>"></script>
@@ -28,10 +25,6 @@
 <body>
 <!-- CONTENT -->
 <div class="container">
-
-<FORM>
-<INPUT TYPE="button" onClick="window.print()" value="Print This Page">
-</FORM>
 <div class="panel panel-primary">
 	<div class="panel-heading">
 		<h3 class="panel-title"> Epidemic threshold </h3>
@@ -188,5 +181,6 @@
 	</div>
 </div>
 </div>
-<!-- FOOTER -->
-<?php $this->load->view('/site/templates/footer');?>
+<script>
+window.print();
+</script>

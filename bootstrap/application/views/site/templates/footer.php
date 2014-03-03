@@ -9,7 +9,6 @@
         	<div class="col-md-4">
         		<p> <?php echo $this->benchmark->elapsed_time() . ' elapsed time';?> </p>
         		<p> <?php echo $this->benchmark->memory_usage() . ' memory used.';?> </p>
-        		<p> <?php echo $this->uri->segment(4); ?> </p>
         	</div>
         
         	<div class="col-md-4">
