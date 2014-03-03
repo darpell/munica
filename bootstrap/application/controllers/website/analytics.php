@@ -128,12 +128,22 @@ class Analytics extends CI_Controller
 			
 		}
 		
-		
+		$gender['m'] = 0;
+		$gender['f'] = 0;
 		if ($casereportANDimmecase['casereport'] != null)
 		{
 			
 		foreach ($casereportANDimmecase['casereport'] as $row)
 		{	// barangay count
+			
+			if($row['cr_sex'] == 'M')
+			{
+				$gender['m']++;
+			}
+			else if($row['cr_sex'] == 'F')
+			{
+				$gender['f']++;
+			}
 				for ($i = 0; $i < count($brgys); $i++)
 						{
 						if ($row['cr_barangay'] == $brgys[$i])
@@ -185,7 +195,14 @@ class Analytics extends CI_Controller
 			{
 			$brgycount[$i] += 1;
 				
-				
+			if($row['person_sex'] == 'M')
+			{
+				$gender['m']++;
+			}
+			else if(($row['person_sex'] == 'F'))
+			{
+				$gender['f']++;
+			}	
 		
 			//agegroup
 			if($age == 0)
@@ -265,7 +282,7 @@ class Analytics extends CI_Controller
 			$data['fatality'] = $fatality;
 			$data['casereportANDimmecase'] = $casereportANDimmecase;
 			
-			
+			$data['gender'] = $gender;
 		
 			
 			$this->load->view('site/analytics/casedemo',$data);
@@ -276,7 +293,8 @@ class Analytics extends CI_Controller
 		$temp= $this->Analytics_model->get_all_person_data();
 		$brgys = $this->Analytics_model->get_barangays();
 		
-		
+		$gender['m'] = 0;
+		$gender['f'] = 0;
 		for ($i = 0; $i < 4; $i++)
 		{
 			
@@ -287,9 +305,16 @@ class Analytics extends CI_Controller
 		}
 			
 		}
-		
 		foreach ($temp as $row)
 		{	// barangay count
+		if($row['person_sex'] == 'M')
+		{
+			$gender['m']++;
+		}
+		else if ($row['person_sex'] == 'F')
+		{
+			$gender['f']++;
+		}
 		for ($i = 0; $i < count($brgys); $i++)
 		{
 		$age = $this->compute_age($row['person_dob']);
@@ -330,6 +355,7 @@ class Analytics extends CI_Controller
 		}
 		$data['brgys'] = $brgys;
 			$data['population'] = $population;
+			$data['gender'] = $gender;
 		
 			$this->load->view('site/analytics/populationdemo',$data);
 	}

@@ -38,7 +38,7 @@ body { height:100% }
   <!-- population demographics --->
   var brgys = <?php echo json_encode($brgys); ?>;
   var population = <?php echo json_encode($population); ?>;
-
+  var gender = <?php echo json_encode($gender); ?>;
   
 </script>
 	<!-- end of Graph -->
