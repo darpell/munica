@@ -5,13 +5,11 @@ class Notifications extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('notif','model');
+		$this->load->model('notif_model','model');
 	}
 	
 	function index()
 	{
-		//$data['test'] = $this->model->check_on_hospitalized_cases();
-		
 		$data['notifs'] = $this->model->getnotifs($this->session->userdata('TPusername'));
 		$this->load->view('site/admin/notifications',$data);
 	}

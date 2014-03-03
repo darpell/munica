@@ -53,6 +53,9 @@ class Cases extends CI_Controller
 		$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'M');
 		$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'F');
 		
+		$data['offices'] = $this->ac->check_sources('office',$STATUS);
+		$data['schools'] = $this->ac->check_sources('school',$STATUS);
+		
 		$data['symptoms'] = array(
 								'has_muscle_pain'	=> count($this->ac->get_symptom('has_muscle_pain', $STATUS)),
 								'has_joint_pain'	=> count($this->ac->get_symptom('has_joint_pain', $STATUS)),
@@ -86,6 +89,9 @@ class Cases extends CI_Controller
 		$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases($STATUS));
 		$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'M');
 		$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'F');
+		
+		$data['offices'] = $this->ac->check_sources('office',$STATUS);
+		$data['schools'] = $this->ac->check_sources('school',$STATUS);
 		
 		$data['symptoms'] = array(
 				'has_muscle_pain'	=> count($this->ac->get_symptom('has_muscle_pain', $STATUS)),
@@ -121,6 +127,9 @@ class Cases extends CI_Controller
 		$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'M');
 		$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'F');
 		
+		$data['offices'] = $this->ac->check_sources('office',$STATUS);
+		$data['schools'] = $this->ac->check_sources('school',$STATUS);
+		
 		$data['symptoms'] = array(
 				'has_muscle_pain'	=> count($this->ac->get_symptom('has_muscle_pain', $STATUS)),
 				'has_joint_pain'	=> count($this->ac->get_symptom('has_joint_pain', $STATUS)),
@@ -155,6 +164,9 @@ class Cases extends CI_Controller
 		$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'M');
 		$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'F');
 		
+		$data['offices'] = $this->ac->check_sources('office',$STATUS);
+		$data['schools'] = $this->ac->check_sources('school',$STATUS);
+		
 		$data['symptoms'] = array(
 				'has_muscle_pain'	=> count($this->ac->get_symptom('has_muscle_pain', $STATUS)),
 				'has_joint_pain'	=> count($this->ac->get_symptom('has_joint_pain', $STATUS)),
@@ -176,18 +188,10 @@ class Cases extends CI_Controller
 	
 	function update_to_previous()
 	{
-		/*
-		if ($this->form_validation->run() == FALSE)
-		{
-			redirect($this->input->post('current_url'),'refresh');
-		}
-		else
-		{*/
-			$this->ac->update_to_previous($this->input->post('imcase_no'));
+		$this->ac->update_to_previous($this->input->post('imcase_no'));
 			
-			$data['result'] = $this->input->post('person_name') . '\'s status has been updated.';
-			$this->load->view('site/success',$data);
-		//}
+		$data['result'] = $this->input->post('person_name') . '\'s status has been updated.';
+		$this->load->view('site/success',$data);
 	}
 }
 

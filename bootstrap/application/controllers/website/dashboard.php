@@ -9,15 +9,15 @@ class Dashboard extends CI_Controller
 		$this->load->model('barangay_model','brgy');
 		$this->load->model('map_temp_model','map');
 		$this->load->model('active_case_model','ac');
-		$this->load->model('notif');
+		$this->load->model('notif_model');
 		$this->load->model('hh_model');
 	}
 	
 	function index()
 	{
 		if ($this->session->userdata('TPtype') == 'BHW' || $this->session->userdata('TPtype') == 'MIDWIFE')
-			$this->notif->check_on_hospitalized_cases();		
-		$data['notif_count'] = count($this->notif->getnotifs($this->session->userdata('TPusername')));
+			$this->notif_model->check_on_hospitalized_cases();		
+		$data['notif_count'] = count($this->notif_model->getnotifs($this->session->userdata('TPusername')));
 		
 		
 		if ($this->session->userdata('TPtype') == 'CHO')
@@ -50,28 +50,8 @@ class Dashboard extends CI_Controller
 		
 		$this->load->model('barangay_model','brgy');
 		$data['brgys'] = $this->brgy->get_brgys();
-		// end of map data
-		
-		//$data['coords'] = $this->map();
 
 		$this->load->view('site/dashboard',$data);
-	}
-	
-	function map()
-	{
-		$temp = $this->brgy->get_brgys();
-		$coords = $this->map->get_brgys();
-		
-		for ($ctr = 0; $ctr < count($temp); $ctr++)
-		{
-			for ($coord_ctr = 0; $coord_ctr < count($coords); $coord_ctr++)
-			{
-				$brgys[$temp[$ctr]['barangay']]['lat'][$coord_ctr] = $coords[$coord_ctr]['point_lat'];
-				$brgys[$temp[$ctr]['barangay']]['lng'][$coord_ctr] = $coords[$coord_ctr]['point_lng'];
-			}
-		}
-		
-		return $brgys;
 	}
 }
 
