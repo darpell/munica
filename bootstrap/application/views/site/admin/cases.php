@@ -76,8 +76,8 @@ var symp_r = <?= $symptoms['has_rashes'] ?>;
 			</div>
 			<div class="panel-body">
 				<ul class="nav nav-pills nav-stacked">
-					<li> <a> Office <span class="badge pull-right"> 0 </span></a> </li>
-					<li> <a> School <span class="badge pull-right">0</span></a> </li>
+					<li> <a> Office <span class="badge pull-right"> <?= count($offices) ?> </span></a> </li>
+					<li> <a> School <span class="badge pull-right"> <?= count($schools) ?></span></a> </li>
 				</ul>
 			</div>
 		</div>

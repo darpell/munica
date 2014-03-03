@@ -115,6 +115,20 @@ class Active_case_model extends CI_Model
 			return FALSE;
 	}
 	
+	function check_sources($compare, $status = FALSE)
+	{
+		$this->db->from('active_cases');
+		
+		if ($status != FALSE)
+			$this->db->where('status',$status);
+		
+		$this->db->like('suspected_source',$compare);
+		
+		$query = $this->db->get();
+		return $query->result_array();
+			$query->free_result();
+	}
+	
 	function check_gender_distribution($cases)
 	{
 		$male = 0;
