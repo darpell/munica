@@ -36,10 +36,10 @@
 			<label for="hh_gender"> Gender: </label>
 			<label style="color:red"><?php echo form_error('hh_gender'); ?></label>
 			<fieldset data-role="controlgroup" data-mini="true">
-			    	<input type="radio" name="hh_gender" id="hh_gender-1" value="male" />
+			    	<input type="radio" name="hh_gender" id="hh_gender-1" value="M" />
 			    	<label for="hh_gender-1"> Male </label>
 			
-					<input type="radio" name="hh_gender" id="hh_gender-2" value="female" />
+					<input type="radio" name="hh_gender" id="hh_gender-2" value="F" />
 			    	<label for="hh_gender-2"> Female </label>
 			</fieldset>
 			<!-- /gender -->
