@@ -166,9 +166,8 @@ body { height:100% }
 				</div>
 			</div>
 		</div>
-		<!-- end of Map -->		
+		<!-- end of Map -->
 </div>
-
 </div>
 <!-- FOOTER -->
 <?php $this->load->view('/site/templates/footer');?>

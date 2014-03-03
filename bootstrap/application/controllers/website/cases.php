@@ -173,6 +173,22 @@ class Cases extends CI_Controller
 		
 		$this->load->view('site/admin/case',$data);
 	}
+	
+	function update_to_previous()
+	{
+		/*
+		if ($this->form_validation->run() == FALSE)
+		{
+			redirect($this->input->post('current_url'),'refresh');
+		}
+		else
+		{*/
+			$this->ac->update_to_previous($this->input->post('imcase_no'));
+			
+			$data['result'] = $this->input->post('person_name') . '\'s status has been updated.';
+			$this->load->view('site/success',$data);
+		//}
+	}
 }
 
 /* End of file cases.php */

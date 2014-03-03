@@ -212,8 +212,9 @@ $config = array(
 									'field' => 'TPhousehold-txt_r',
 									'label'	=> 'household',
 									'rules'	=> 'required'
-						),
-						)                   
+								)
+							)
+						              
                );
 
 /* End of file form_validation.php */

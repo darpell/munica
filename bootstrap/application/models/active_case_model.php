@@ -337,6 +337,33 @@ class Active_case_model extends CI_Model
 							
 						return $returning_data;
 	}
+	
+	function update_to_previous($imcase_no)
+	{
+		$query = $this->db->get_where('active_cases',array('imcase_no' => $imcase_no));
+		
+		$case_data = $query->row_array();
+			$query->free_result();
+			
+		$input_data = array(
+					'imcase_no'			=> $imcase_no,
+					'person_id'			=> $case_data['person_id'],
+					'has_muscle_pain'	=> $case_data['has_muscle_pain'],
+					'has_joint_pain'	=> $case_data['has_joint_pain'],
+					'has_headache'		=> $case_data['has_headache'],
+					'has_bleeding'		=> $case_data['has_bleeding'],
+					'has_rashes'		=> $case_data['has_rashes'],
+					'days_fever'		=> $case_data['days_fever'],
+					'suspected_source'	=> $case_data['suspected_source'],
+					'remarks'			=> $this->input->post('remarks') . ' ' . $case_data['remarks'],
+					'created_on'		=> $case_data['created_on'],
+					'last_updated_on'	=> date('Y-m-d H:i:s'),
+					'outcome'			=> $this->input->post('outcome')
+				);
+		
+		$this->db->insert('previous_cases',$input_data);
+		$this->db->delete('active_cases', array('imcase_no' => $imcase_no));
+	}
 }
 
 	
