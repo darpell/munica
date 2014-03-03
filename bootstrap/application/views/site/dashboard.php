@@ -139,7 +139,7 @@ body { height:100% }
 	<!-- Map -->
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<h3 class="panel-title"> Case Map </h3>
+				<h3 class="panel-title"> Case Map of current active cases</h3>
 			</div>
 			<div class="panel-body">
 				<div class="col-md-8">
