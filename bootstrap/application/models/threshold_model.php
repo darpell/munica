@@ -20,6 +20,8 @@ class Threshold_model extends CI_Model
 	
 	function epidemic_threshold($year = FALSE, $month = FALSE, $brgy = FALSE)
 	{
+		$count = 0;
+		
 		$this->db->select('count(cr_barangay) as total_count')
 					->from('case_report_main');
 		
@@ -31,10 +33,52 @@ class Threshold_model extends CI_Model
 		if ($query->num_rows() > 0)
 		{
 			$row = $query->row_array();
-			return $row['total_count'];
+			$count += $row['total_count'];
 		}
-		else
-			return FALSE;
+		$query->free_result();
+		
+		$this->db->select('count(previous_cases.person_id) as total_count')
+		->from('previous_cases');
+		$this->db->join('master_list', 'master_list.person_id = previous_cases.person_id');
+		$this->db->join('catchment_area', 'catchment_area.person_id = previous_cases.person_id');
+		$this->db->join('bhw', 'bhw.user_username = catchment_area.bhw_id');
+		$this->db->join('household_address', 'household_address.household_id = catchment_area.household_id');
+		
+		if ($year != FALSE) $this->db->where('YEAR(created_on) = ' . $year);
+		if ($month != FALSE) $this->db->where('MONTH(created_on) = ' . $month);
+		if ($brgy != FALSE) $this->db->where('cr_barangay = ' . $brgy);
+		
+		$query = $this->db->get();
+		if ($query->num_rows() > 0)
+		{
+			$row = $query->row_array();
+			$count += $row['total_count'];
+		}
+		$query->free_result();
+		
+		$this->db->select('count(active_cases.person_id) as total_count')
+		->from('active_cases');
+		$this->db->join('master_list', 'master_list.person_id = active_cases.person_id');
+		$this->db->join('catchment_area', 'catchment_area.person_id = active_cases.person_id');
+		$this->db->join('bhw', 'bhw.user_username = catchment_area.bhw_id');
+		$this->db->join('household_address', 'household_address.household_id = catchment_area.household_id');
+		
+		if ($year != FALSE) $this->db->where('YEAR(created_on) = ' . $year);
+		if ($month != FALSE) $this->db->where('MONTH(created_on) = ' . $month);
+		if ($brgy != FALSE) $this->db->where('cr_barangay = ' . $brgy);
+		
+		$query = $this->db->get();
+		if ($query->num_rows() > 0)
+		{
+			$row = $query->row_array();
+			$count += $row['total_count'];
+		}
+		$query->free_result();
+		
+		
+		
+		return $count;
+		
 	}
 }
 
