@@ -18,12 +18,15 @@ class Active_case_model extends CI_Model
 				->or_like('household_name', $search_term)
 				->or_like('house_no', $search_term);
 		
+		//if ($status != FALSE)
+		//	$this->db->where('status', $status);
+		
 		if ($offset != FALSE && $limit != FALSE)
-			$this->db->limit($offset,$limit);
+			$this->db->limit($offset, $limit);
 		
 		$query = $this->db->get();
 		return $query->result_array();
-		$query->free_result();
+			$query->free_result();
 	}
 	
 	function get_cases($bhw = FALSE, $status = FALSE)
