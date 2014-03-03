@@ -41,13 +41,17 @@ class Mapping extends CI_Model
 		}
 	function mapByType($data)
 		{//print_r($data);
-			$returnValues['larvalValues'] =0;
-			$returnValues['dengueValues'] =0;
-			$returnValues['poiValues'] =0;
+			$returnValues['larvalValues'] =null;
+			$returnValues['dengueValues'] =null;
+			$returnValues['denguePoIDistanceValues'] =null;
+			$returnValues['dengueLarvalDistanceValues'] =null;
+			$returnValues['poiValues'] =null;
+			$returnValues['poiDistanceValues'] =null;
 			$returnValues['householdValues'] =0;
-			$returnValues['bbValues'] =0;
+			$returnValues['householdDistanceValues'] =null;
+			$returnValues['bbValues'] =null;
 			if($data['getLarva'])
-			{/*
+			{//*
 				$where="";
 				$this->db->from('ls_report');
 				if ($data['brgy'] != NULL)
@@ -75,9 +79,10 @@ class Mapping extends CI_Model
 								'updatedBy'=> $row->last_updated_by,
 								'updatedOn'=> $row->last_updated_on
 						);
-					}
+					}//print_r($tempp);
 					$returnValues['larvalValues'] =  $tempp;
-				}//*/
+					unset($tempp);
+				}/*
 				$where;
 				$qString = 'CALL ';
 				$qString .= "view_larval_nodes('"; // name of stored procedure
@@ -111,7 +116,7 @@ class Mapping extends CI_Model
 				else
 				{
 					$q->free_result();
-				}
+				}//*/
 			}
 			if($data['getBB'])
 			{
@@ -159,7 +164,8 @@ class Mapping extends CI_Model
 						$where .= $varr."' OR ";
 					}
 					$this->db->where(substr($where,0,-3));
-				}	
+				}
+				$this->db->group_by('active_cases.person_id');
 				$q = $this->db->get();
 				if($q->num_rows() > 0) 
 				{	$tempest;
@@ -265,11 +271,19 @@ class Mapping extends CI_Model
 				{	$temppoi;
 					foreach ($q->result() as $row) 
 					{
+						if($row->node_type==0)
+						{
+							$temp="<br/>Potential Source Area <br/><i>(Commonly bodies of water or abandoned areas)</i>";
+						}
+						else
+						{
+							$temp="<br/>Potential Risk Area <br/><i>(Commonly areas with high population density or traffic)</i>";
+						}
 						$temppoi[]=array(//*
 								'name'=> $row->node_name,
 								'lat'=> $row->node_lat,
 								'lng'=> $row->node_lng,
-								'notes'=> $row->node_notes,
+								'notes'=> $row->node_notes."<br/>".$temp,
 								'type'=> $row->node_type,
 								'addedOn'=> $row->node_addedOn,
 								'endDate'=> $row->node_endDate,
@@ -281,13 +295,98 @@ class Mapping extends CI_Model
 				}
 				$q->free_result();
 			}
-			if(true)
+			if($returnValues['dengueValues'] != null)
 			{
-				
+				$temp=null;
+				if($returnValues['poiValues'] != null)
+				{
+					$poi=$this->compareArraysDistanceFormula($returnValues['dengueValues'],$returnValues['poiValues']);
+					$invariant=count($returnValues['dengueValues']);
+					$temparr=null;//print_r($poi);
+					for($i=0;$i < $invariant; $i++)
+					{
+						$temp="0";
+						if($poi[$i] != 0)
+						{
+							$_invariant=count($poi[$i]);
+							$temp="<b>".$_invariant."</b> Points of Interest(s) Detected Nearby.<br/>";
+							for($_i=0;$_i < $_invariant; $_i++)
+							{
+								$temp.=$poi[$i][$_i]['name']."<br/>";
+							}
+						}
+						$temparr[]=$temp;
+						$temp="";
+					}
+					$returnValues['denguePoIDistanceValues']=$temparr;
+					unset($temparr);
+					$poi=null;
+				}
+				if($returnValues['larvalValues'] != null)
+				{
+					$larval=$this->compareArraysDistanceFormula($returnValues['dengueValues'],$returnValues['larvalValues']);
+					$invariant=count($returnValues['dengueValues']);
+					$temparr=null;
+					for($i=0;$i < $invariant; $i++)
+					{
+						$temp="No Larval Positives detected nearby.";
+						if($larval[$i] != 0)
+						{
+							$_invariant=count($larval[$i]);
+							$temp="<b>".$_invariant."</b> Larval Positive(s) Detected Nearby.<br/>";
+							for($_i=0;$_i < $_invariant; $_i++)
+							{
+								$temp.=$larval[$i][$_i]['household']." Household, ".$larval[$i][$_i]['container']."<br/>";
+							}
+						}
+						$temparr[]=$temp;
+						$temp="";
+					}
+					$returnValues['dengueLarvalDistanceValues'][]=$temparr;
+					unset($temparr);
+					$larval=null;
+				}				
 			}
 			return $returnValues;
 		}
-		//*
+	function compareArraysDistanceFormula($arr1, $arr2)
+		{
+			$retVal=array();
+			$arr1length=count($arr1);
+			$arr2length=count($arr2);
+			for($i=0;$i<$arr1length;$i++)
+			{
+				$retChild=null;
+				$amount200a=0;
+				$lat_a = $arr1[$i]['lat'] * PI()/180;
+				$long_a = $arr1[$i]['lng'] * PI()/180;
+				for($_i=0;$_i<$arr2length;$_i++)
+				{
+					$distance=0;
+					//echo "Comparing ".$data[$i][0]." and ".$data[$_i][0]." ";
+				    $lat_b = $arr2[$_i]['lat'] * PI()/180;
+				    $long_b = $arr2[$_i]['lng'] * PI()/180;
+				    $distance =
+				    	acos(
+				        	sin($lat_a) * sin($lat_b) +
+				            cos($lat_a) * cos($lat_b) * cos($long_b - $long_a)
+				        ) * 6371;
+				    $distance*=1000;
+                	if ($distance<=200)
+					{
+						$retChild[]=$arr2[$_i];
+					}
+				}
+				$retVal[]=$retChild;
+				unset($retChild);
+			}//print_r($retVal);
+		return $retVal;
+		}
+		/*
+	function getHouseholds($brgy = null)//all polygons
+		{
+		}
+		//*/
 	function weatherMapping($data)
 	{
 		$qString = 'CALL ';
@@ -428,47 +527,6 @@ class Mapping extends CI_Model
 			}
 			return substr($dist,0,-2);
 		}
-	function compareArraysDistanceFormula($arr1, $arr2)
-		{
-			$retVal=array();
-			$retChild=array();
-			$arr1length=count($arr1);
-			$arr2length=count($arr2);
-			for($i=0;$i<=$arr1length-1;$i++)
-			{
-				$amount200a=0;
-				$lat_a = $arr1[$i]['lat'] * PI()/180;
-				$long_a = $arr1[$i]['lng'] * PI()/180;
-				for($_i=0;$_i<$arr2length;$_i++)
-				{
-					$distance=0;
-					//echo "Comparing ".$data[$i][0]." and ".$data[$_i][0]." ";
-				    $lat_b = $arr2[$_i]['lat'] * PI()/180;
-				    $long_b = $arr2[$_i]['lng'] * PI()/180;
-				    $distance =
-				    	acos(
-				        	sin($lat_a) * sin($lat_b) +
-				            cos($lat_a) * cos($lat_b) * cos($long_b - $long_a)
-				        ) * 6371;
-				    $distance*=1000;
-                	if ($distance<=200)
-					{
-						$retChild[]=$arr2[$_i];
-					}
-					else 
-					{
-						$retChild[]=0;
-					}
-				}
-				$retVal[]=$retChild;
-			}
-		return $retVal;
-		}
-		/*
-	function getHouseholds($brgy = null)//all polygons
-		{
-		}
-		//*/
 	function getPointsOfInterest($d)//all polygons
 		{	
 			if($d)

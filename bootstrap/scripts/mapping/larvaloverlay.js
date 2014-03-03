@@ -1,4 +1,38 @@
-
+function mapLarvalOverlay(map)
+{
+	var ls_length = document.getElementById("ls_length").value.toString();
+	var linfo="";
+	var point;
+	
+	if (ls_length != 0)
+	{//alert(dg_length);
+		
+		var ctr =0;//*
+		while(ctr < ls_length)
+		{
+			//*
+			linfo = "Larval Survey #"+document.getElementById("ls_no"+ctr).value.toString()+"<br/>"
+			+document.getElementById("ls_household"+ctr).value.toString()+" Household<br/>"//+"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("ls_createdBy"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("ls_household"+ctr).value.toString()+" Household<br/>"
+			+"Container: "+document.getElementById("ls_container"+ctr).value.toString()+"<br/>"
+			+"Created by: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("ls_createdBy"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("ls_createdBy"+ctr).value.toString()+"</a><br/>"
+			+"Created on: "+document.getElementById("ls_createdOn"+ctr).value.toString();//*/
+			//alert(ctr);
+			point = new google.maps.LatLng(document.getElementById("ls_lat"+ctr).value.toString(),document.getElementById("ls_lng"+ctr).value.toString());
+			createMarker(map,point,document.getElementById("ls_icon").value.toString(),linfo,null,false,false,false);//*/
+			ctr++;
+		}
+		//var lengthinvariant=dinfo.length;
+		/*
+		alert(dinfo[0]);
+		for (var i=0; i<lengthinvariant; i++)
+		{
+			point = new google.maps.LatLng(dlat[i],dlng[i]);
+			//createMarker(map,point,null,dinfo[i],false,false,false,false);
+		}//*/
+	}
+}
+	
+/*
 var refNumber = new Array();
 //var nodeType = new Array();
 var lat = new Array();
@@ -119,5 +153,5 @@ function mapLarvalOverlay(map,distance,datax,isOld) //Larvalpositive nodes displ
    		} 
 	 	createMarker(map,point,image,html,null,isOld,false);
 	}
-}
+}//*/
 	

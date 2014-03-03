@@ -3,6 +3,7 @@ function mapDengueOverlay(map)
 	var dg_length = document.getElementById("dg_length").value.toString();
 	var dinfo="";
 	var point;
+	var img;
 	
 	if (dg_length != 0)
 	{//alert(dg_length);
@@ -11,8 +12,9 @@ function mapDengueOverlay(map)
 		while(ctr < dg_length)
 		{
 			//*
+			img=document.getElementById("dg_icon1").value.toString();
 			dinfo = ""+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"<br/>"
-				+document.getElementById("dg_householdName"+ctr).value.toString()+" Household<br/>"
+			+"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("dg_householdID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_householdName"+ctr).value.toString()+" Household</a><br/>"//+document.getElementById("dg_householdName"+ctr).value.toString()+" Household<br/>"
 				+document.getElementById("dg_houseNo"+ctr).value.toString()+", "
 				+document.getElementById("dg_street"+ctr).value.toString()+" "
 				+document.getElementById("dg_barangay"+ctr).value.toString()+"<br/>"
@@ -30,11 +32,46 @@ function mapDengueOverlay(map)
 				+"Headache: "+document.getElementById("dg_hasHeadache"+ctr).value.toString()+"<br/>"
 				+"Bleeding: "+document.getElementById("dg_hasBleeding"+ctr).value.toString()+"<br/>"
 				+"Rashes: "+document.getElementById("dg_hasRashes"+ctr).value.toString()+"<br/>"
-				+"BHW in-charge: "+document.getElementById("dg_bhwName"+ctr).value.toString()+"<br/>"
-				+"Last Visit: "+document.getElementById("dg_lastVisited"+ctr).value.toString()+"<br/>";
+				+"BHW in Charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("dg_bhwName"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_bhwName"+ctr).value.toString()+"</a><br/>"//+"BHW in-charge: "+document.getElementById("dg_bhwName"+ctr).value.toString()+"<br/>"
+				+"Last Visit: "+document.getElementById("dg_lastVisited"+ctr).value.toString()+"<br/><br/>";
 			//alert(ctr);
 			point = new google.maps.LatLng(document.getElementById("dg_lat"+ctr).value.toString(),document.getElementById("dg_lng"+ctr).value.toString());
-			createMarker(map,point,null,dinfo,null,false,false,false);//*/
+			if(document.getElementById("dgPoIDistance_length").value.toString() != 0)
+			{
+				if(document.getElementById("dgPoIDistance"+ctr).value.toString() == 0)
+				{
+					dinfo += "No Points of Interests detected nearby.";
+				}
+				else
+				{
+					dinfo += document.getElementById("dgPoIDistance"+ctr).value.toString();
+					var circle = new google.maps.Circle({
+						center:point,
+						radius:200,
+						strokeColor:"#0000FF",
+						strokeOpacity:0.7,
+						strokeWeight:1,
+						fillColor:"#66CCCC",
+						fillOpacity:0.3,
+						clickable:false
+					});
+					circle.setMap(map); 
+				}
+			}
+			//*
+			if(document.getElementById("dg_status"+ctr).value.toString() == "threatening")
+			{
+				img=document.getElementById("dg_icon2").value.toString();
+			}
+			else if(document.getElementById("dg_status"+ctr).value.toString() == "serious")
+			{
+				img=document.getElementById("dg_icon3").value.toString();
+			}
+			else if(document.getElementById("dg_status"+ctr).value.toString() == "hospitalized")
+			{
+				img=document.getElementById("dg_icon4").value.toString();
+			}//*/
+			createMarker(map,point,img,dinfo,null,false,false,false);//*/
 			ctr++;
 		}
 		//var lengthinvariant=dinfo.length;

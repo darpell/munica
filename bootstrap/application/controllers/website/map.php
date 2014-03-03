@@ -7,6 +7,7 @@ class Map extends CI_Controller
 		parent::__construct();
 		$this->load->model('Mapping');
 		$this->load->model('remap_model');
+		$this->load->helper('url');
 	}
 	
 	public function view()
@@ -138,8 +139,9 @@ class Map extends CI_Controller
 				);
 				print_r($this->Mapping->compareArraysDistanceFormula($paths1,$paths2));//*/
 				
-				
-				
+
+				$data['denguePoIDistance'] =null;
+				$data['dengueLarvalDistance'] =null;
 				$data['getLarva'] = $getLarva;
 				$data['getDengue'] = $getDengue;
 				$data['getPoI'] = $getPoI;
@@ -149,11 +151,21 @@ class Map extends CI_Controller
 				$values = $this->Mapping->mapByType($data);
 				
 				//*CURRENT DATE INTERVAL DATA EXTRACTION
-				$data['larval'] = $values['larvalValues'];
+				$data['larval'] = $values['larvalValues'];//print_r($data['larval']);
 				$data['dengue'] = $values['dengueValues'];
 				$data['poi'] = $values['poiValues'];
 				$data['household'] = $values['householdValues'];
 				$data['bb'] = $values['bbValues'];
+				if($values['denguePoIDistanceValues'] != null)
+				{
+					$data['denguePoIDistance'] = $values['denguePoIDistanceValues'];
+					//print_r($data['denguePoIDistance']);
+				}
+				if($values['dengueLarvalDistanceValues'] != null)
+				{
+					$data['dengueLarvalDistance'] = $values['dengueLarvalDistanceValues'];
+					//print_r($data['dengueLarvalDistance']);
+				}
 				if($getBB)
 				{
 					$data['bcount'] = $this->Mapping->getBarangayCount($dateData1);

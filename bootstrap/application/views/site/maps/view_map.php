@@ -52,8 +52,6 @@ xmlhttp.onreadystatechange=function()
 xmlhttp.send(null);
 
 }
-var infoWindow = new google.maps.InfoWindow();
-infoWindow.setOptions({maxWidth:400});
 
 function splitter(str)//Data splitter
 {
@@ -93,6 +91,21 @@ function countInstances(arr) {
 
     return [a, b];
 }
+var infoWindow = new google.maps.InfoWindow();
+infoWindow.setOptions({maxWidth:400});
+
+var centroidMarker;
+
+function setInfo(fMarker,fInfo,fMap) {
+	google.maps.event.addListener(fMarker, 'click', function() {
+		infoWindow.setOptions({content:fInfo});
+		infoWindow.open(fMap, this);
+	});
+}
+
+function createMarker(map,point,image,info,bounce,isOld,isPoI,hasCircle)
+{
+}
 
 function load() {
 	var map = new google.maps.Map(document.getElementById("map"), {
@@ -100,10 +113,47 @@ function load() {
 		zoom: 14,
 		mapTypeId: 'roadmap'
 	});
-	
+	var oms = new OverlappingMarkerSpiderfier(map);
 	if(document.getElementById('getLarva').value.toString()=="1")
     {
-        mapLarvalOverlay(map,document.getElementById('dist').value,document.getElementById("Larva").value,false);
+		var ls_length = document.getElementById("ls_length").value.toString();
+		var linfo="";
+		var point;
+		
+		if (ls_length != 0)
+		{//alert(dg_length);
+			
+			var ctr =0;//*
+			while(ctr < ls_length)
+			{
+				//*
+				linfo = "Larval Survey #"+document.getElementById("ls_no"+ctr).value.toString()+"<br/>"
+				+document.getElementById("ls_household"+ctr).value.toString()+" Household<br/>"//+"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("ls_createdBy"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("ls_household"+ctr).value.toString()+" Household<br/>"
+				+"Container: "+document.getElementById("ls_container"+ctr).value.toString()+"<br/>"
+				+"Created by: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("ls_createdBy"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("ls_createdBy"+ctr).value.toString()+"</a><br/>"
+				+"Created on: "+document.getElementById("ls_createdOn"+ctr).value.toString();//*/
+				//alert(ctr);
+				point = new google.maps.LatLng(document.getElementById("ls_lat"+ctr).value.toString(),document.getElementById("ls_lng"+ctr).value.toString());
+				centroidMarker = new google.maps.Marker({
+					  position: point,
+					  map: map,
+				      icon: document.getElementById("ls_icon").value.toString(),
+					});
+				setInfo(centroidMarker,linfo,map);
+				oms.addMarker(centroidMarker);
+				//createMarker(map,point,document.getElementById("ls_icon").value.toString(),linfo,null,false,false,false);//*/
+				ctr++;
+			}
+			//var lengthinvariant=dinfo.length;
+			/*
+			alert(dinfo[0]);
+			for (var i=0; i<lengthinvariant; i++)
+			{
+				point = new google.maps.LatLng(dlat[i],dlng[i]);
+				//createMarker(map,point,null,dinfo[i],false,false,false,false);
+			}//*/
+		}
+        //mapLarvalOverlay(map,document.getElementById('dist').value,document.getElementById("Larva").value,false);
     }
 	if(document.getElementById('getBb').value.toString()=="1")
 	{
@@ -113,15 +163,136 @@ function load() {
 	if(document.getElementById('getDengue').value.toString()=="1")
     {
 	    //alert("Alert DG!");
-		mapDengueOverlay(map);
+		var dg_length = document.getElementById("dg_length").value.toString();
+		var dinfo="";
+		var point;
+		var img;
+		
+		if (dg_length != 0)
+		{//alert(dg_length);
+			
+			var ctr =0;//*
+			while(ctr < dg_length)
+			{
+				//*
+				img=document.getElementById("dg_icon1").value.toString();
+				dinfo = ""+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"<br/>"
+				+"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("dg_householdID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_householdName"+ctr).value.toString()+" Household</a><br/>"//+document.getElementById("dg_householdName"+ctr).value.toString()+" Household<br/>"
+					+document.getElementById("dg_houseNo"+ctr).value.toString()+", "
+					+document.getElementById("dg_street"+ctr).value.toString()+" "
+					+document.getElementById("dg_barangay"+ctr).value.toString()+"<br/>"
+					+"Birth: "+document.getElementById("dg_dob"+ctr).value.toString()+"<br/>"
+					+"Gender: "+document.getElementById("dg_sex"+ctr).value.toString()+"<br/>"
+					+"Guardian: "+document.getElementById("dg_guardian"+ctr).value.toString()+"<br/>"
+					+"Contact No: "+document.getElementById("dg_contact"+ctr).value.toString()+"<br/><br/>"
+					+"Case Information <br/>"
+					+"Case No: "+document.getElementById("dg_caseNo"+ctr).value.toString()+"<br/>"
+					+"Status: "+document.getElementById("dg_status"+ctr).value.toString()+"<br/>"
+					+"Days Fever: "+document.getElementById("dg_daysFever"+ctr).value.toString()+"<br/>"
+					+"Suspect Source: "+document.getElementById("dg_suspectedSource"+ctr).value.toString()+"<br/>"
+					+"Muscle Pain: "+document.getElementById("dg_hasMusclePain"+ctr).value.toString()+"<br/>"
+					+"Joint Pain: "+document.getElementById("dg_hasJointPain"+ctr).value.toString()+"<br/>"
+					+"Headache: "+document.getElementById("dg_hasHeadache"+ctr).value.toString()+"<br/>"
+					+"Bleeding: "+document.getElementById("dg_hasBleeding"+ctr).value.toString()+"<br/>"
+					+"Rashes: "+document.getElementById("dg_hasRashes"+ctr).value.toString()+"<br/>"
+					+"BHW in Charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("dg_bhwName"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_bhwName"+ctr).value.toString()+"</a><br/>"//+"BHW in-charge: "+document.getElementById("dg_bhwName"+ctr).value.toString()+"<br/>"
+					+"Last Visit: "+document.getElementById("dg_lastVisited"+ctr).value.toString()+"<br/><br/>";
+				//alert(ctr);
+				point = new google.maps.LatLng(document.getElementById("dg_lat"+ctr).value.toString(),document.getElementById("dg_lng"+ctr).value.toString());
+				if(document.getElementById("dgPoIDistance_length").value.toString() != 0)
+				{
+					if(document.getElementById("dgPoIDistance"+ctr).value.toString() == 0)
+					{
+						dinfo += "No Points of Interests detected nearby.";
+					}
+					else
+					{
+						dinfo += document.getElementById("dgPoIDistance"+ctr).value.toString();
+						var circle = new google.maps.Circle({
+							center:point,
+							radius:200,
+							strokeColor:"#0000FF",
+							strokeOpacity:0.7,
+							strokeWeight:1,
+							fillColor:"#66CCCC",
+							fillOpacity:0.3,
+							clickable:false
+						});
+						circle.setMap(map); 
+					}
+				}
+				//*
+				if(document.getElementById("dg_status"+ctr).value.toString() == "threatening")
+				{
+					img=document.getElementById("dg_icon2").value.toString();
+				}
+				else if(document.getElementById("dg_status"+ctr).value.toString() == "serious")
+				{
+					img=document.getElementById("dg_icon3").value.toString();
+				}
+				else if(document.getElementById("dg_status"+ctr).value.toString() == "hospitalized")
+				{
+					img=document.getElementById("dg_icon4").value.toString();
+				}//*/
+				//createMarker(map,point,img,dinfo,null,false,false,false);//*/
+				centroidMarker = new google.maps.Marker({  
+			        position: point,   
+			        map: map,  
+			        icon: img
+			    	});  
+				ctr++;
+				setInfo(centroidMarker,dinfo,map);
+				oms.addMarker(centroidMarker);
+			}
+			//var lengthinvariant=dinfo.length;
+			/*
+			alert(dinfo[0]);
+			for (var i=0; i<lengthinvariant; i++)
+			{
+				point = new google.maps.LatLng(dlat[i],dlng[i]);
+				//createMarker(map,point,null,dinfo[i],false,false,false,false);
+			}//*/
+		}
     }
 	if(document.getElementById('getPoi').value.toString()=="1")
     {
-	    alert("POI");
-		mapPointsOfInterest(map);
+		var poi_length = document.getElementById("poi_length").value.toString();
+		var poiinfo="";
+		var point;
+		var img;
+		
+		if (poi_length != 0)
+		{
+			img=document.getElementById("poi_iconS").value.toString();
+			var ctr =0;//*
+			while(ctr < poi_length)
+			{//*
+				poiinfo = "<b>"+document.getElementById("poi_name"+ctr).value.toString()+"</b><br/>";
+				if(parseInt(document.getElementById("poi_type"+ctr).value.toString()) === 1)
+					{
+						img=document.getElementById("poi_iconR").value.toString();//poiinfo +="SOURCE AREA<br/><br/>"poi_iconS;
+					}
+					//poiinfo +="RISK AREA<br/><br/>";//*/
+				poiinfo +=document.getElementById("poi_barangay"+ctr).value.toString()+"<br/>";
+				poiinfo +=document.getElementById("poi_notes"+ctr).value.toString()+"<br/>";
+				
+				//alert(ctr);
+				point = new google.maps.LatLng(document.getElementById("poi_lat"+ctr).value.toString(),document.getElementById("poi_lng"+ctr).value.toString());
+				//createMarker(map,point,img,poiinfo,null,false,false,false);//*/
+				centroidMarker = new google.maps.Marker({
+					  position: point,
+					  map: map,
+				      icon: img
+					});
+				setInfo(centroidMarker,poiinfo,map);
+				oms.addMarker(centroidMarker);
+				ctr++;
+				poiinfo="";
+			}
+		}
     }
 	if(document.getElementById('getHouseholds').value.toString()=="1")
-    {
+    {//alert("Household");
 		mapHouseholdOverlay(map);
     }
     /*
@@ -154,8 +325,9 @@ jQuery(document).ready(function(){
 				
 				if(document.getElementById('getLarva').value.toString()=="1")
 			    {
-				    mapLarvalOverlay(map,document.getElementById('Pdist').value,document.getElementById("PLarva").value,true);
-			        mapLarvalOverlay(map,document.getElementById('dist').value,document.getElementById("Larva").value,false);
+					mapLarvalOverlay(map);
+				    //mapLarvalOverlay(map,document.getElementById('Pdist').value,document.getElementById("PLarva").value,true);
+			        //mapLarvalOverlay(map,document.getElementById('dist').value,document.getElementById("Larva").value,false);
 			    }
 				if(document.getElementById('getBb').value.toString()=="1")
 				{
@@ -189,6 +361,7 @@ jQuery(document).ready(function(){
 	});
 </script>
 </head>
+<input type = 'hidden' id ='baseURL' name='baseURL' value='<?php echo base_url()?>'>
 <input type = 'hidden' id ='getLarva' name='getLarva' value='<?php echo $getLarva?>'>
 <input type = 'hidden' id ='getDengue' name='getDengue' value='<?php echo $getDengue?>'>
 <input type = 'hidden' id ='getPoi' name='getPoi' value='<?php echo $getPoI?>'>
@@ -200,11 +373,19 @@ jQuery(document).ready(function(){
 <input type = 'hidden' id ='dataBAge2' name='dataBAge2' value='<?php echo $bage?>'>
 <input type = 'hidden' id ='dataBCount' name='dataBCount' value='<?php echo $bcount?>'>
 <input type = 'hidden' id ='type' name='type' value='<?php echo $node_type?>'>
-<input type = 'hidden' id ='Larva' name='Larva' value='<?php echo $larval?>'>
+<!-- <input type = 'hidden' id ='Larva' name='Larva' value=''> -->
 <input type = 'hidden' id ='Dengue' name='Dengue' value='<?php echo $dengue?>'>
 <input type = 'hidden' id ='Household' name='Household' value='<?php echo $household?>'>
 
-<?php if ($larval != 0){?>
+<?php if ($denguePoIDistance != null){?>
+<input type="hidden" id="dgPoIDistance_length" value="<?php echo count($denguePoIDistance); ?>" />
+	<?php for ($ctr = 0; $ctr < count($denguePoIDistance); $ctr++) {?>
+		<input type="hidden" id="dgPoIDistance<?= $ctr ?>" 	value="<?php echo $denguePoIDistance[$ctr]; ?>"	/>
+	<?php }?> 
+	<input type="hidden" id="dgPoIDistance_icon" value="<?php echo base_url('/images/arrow.png')?>" />
+	<?php } else { ?> <input type="hidden" id="dgPoIDistance_length" value="0" /> <?php } ?>
+
+<?php if ($larval != null){?>
 <input type="hidden" id="ls_length" value="<?php echo count($larval); ?>" />
 	<?php for ($ctr = 0; $ctr < count($larval); $ctr++) {?>
 		<input type="hidden" id="ls_no<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['ls_no']; ?>"	/>
@@ -217,10 +398,10 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="ls_updatedBy<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['updatedBy']; ?>"	/>
 		<input type="hidden" id="ls_updatedOn<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['updatedOn']; ?>"	/>
 	<?php }?> 
-	<input type="hidden" id="ls_icon" value="<?php echo base_url('/images/arrow.png')?>" />
+	<input type="hidden" id="ls_icon" value="<?php echo base_url('/images/eggs-2.png')?>" />
 	<?php } else { ?> <input type="hidden" id="ls_length" value="0" /> <?php } ?>
-
-<?php if ($bb != 0){?>
+	
+<?php if ($bb != null){?>
 <input type="hidden" id="bb_length" value="<?php echo count($bb); ?>" />
 	<?php for ($ctr = 0; $ctr < count($bb); $ctr++) {?>
 		<input type="hidden" id="bb_polyName<?= $ctr ?>" 	value="<?php echo $bb[$ctr]['pName']; ?>"	/>
@@ -228,10 +409,9 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="bb_polyLat<?= $ctr ?>"		value="<?php echo $bb[$ctr]['lat']; ?>"	/>
 		<input type="hidden" id="bb_polyLng<?= $ctr ?>" 	value="<?php echo $bb[$ctr]['lng']; ?>"			/>
 	<?php }?> 
-	<input type="hidden" id="bb_icon" value="<?php echo base_url('/images/arrow.png')?>" />
 	<?php } else { ?> <input type="hidden" id="bb_length" value="0" /> <?php } ?>
 	
-<?php if ($poi != 0){?>
+<?php if ($poi != null){?>
 <input type="hidden" id="poi_length" value="<?php echo count($poi); ?>" />
 	<?php for ($ctr = 0; $ctr < count($poi); $ctr++) {?>
 		<input type="hidden" id="poi_name<?= $ctr ?>" 	value="<?php echo $poi[$ctr]['name']; ?>"	/>
@@ -243,7 +423,8 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="poi_endDate<?= $ctr ?>" 	value="<?php echo $poi[$ctr]['endDate']; ?>"	/>
 		<input type="hidden" id="poi_barangay<?= $ctr ?>" 	value="<?php echo $poi[$ctr]['barangay']; ?>"	/>
 	<?php }?> 
-	<input type="hidden" id="poi_icon" value="<?php echo base_url('/images/arrow.png')?>" />
+	<input type="hidden" id="poi_iconR" value="<?php echo base_url('/images/risk.png')?>" />
+	<input type="hidden" id="poi_iconS" value="<?php echo base_url('/images/source.png')?>" />
 	<?php } else { ?> <input type="hidden" id="poi_length" value="0" /> <?php } ?>
 	
 <input type = 'hidden' id ='type' name='type' value='<?php echo $node_type?>'>
@@ -262,7 +443,7 @@ jQuery(document).ready(function(){
 <input type = 'hidden' id ='Ptype' name='Ptype' value='<?php echo $node_type?>'>
 <input type = 'hidden' id ='PDengue' name='PDengue' value='<?php echo $Pdengue?>'>
 
-<?php if ($household != 0){?>
+<?php if ($household != null){?>
 <input type="hidden" id="hs_length" value="<?php echo count($household); ?>" />
 	<?php for ($ctr = 0; $ctr < count($household); $ctr++) {?>
 		<input type="hidden" id="hs_householdId<?= $ctr ?>" 	value="<?php echo $household[$ctr]['householdID']; ?>"	/>
@@ -270,8 +451,8 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="hs_houseNo<?= $ctr ?>"			value="<?php echo $household[$ctr]['houseNo']; ?>"	/>
 		<input type="hidden" id="hs_street<?= $ctr ?>" 			value="<?php echo $household[$ctr]['street']; ?>"			/>
 		<input type="hidden" id="hs_lastVisited<?= $ctr ?>"	 	value="<?php echo $household[$ctr]['lastVisited']; ?>"			/>
-		<input type="hidden" id="hs_lat<?= $ctr ?>" 			value="<?php echo $household[$ctr]['householdLat']; ?>"	/>
-		<input type="hidden" id="hs_lng<?= $ctr ?>" 			value="<?php echo $household[$ctr]['householdLng']; ?>"		/>
+		<input type="hidden" id="hs_lat<?= $ctr ?>" 			value="<?php echo $household[$ctr]['lat']; ?>"	/>
+		<input type="hidden" id="hs_lng<?= $ctr ?>" 			value="<?php echo $household[$ctr]['lng']; ?>"		/>
 		<input type="hidden" id="hs_personId<?= $ctr ?>" 		value="<?php echo $household[$ctr]['personID']; ?>"		/>
 		<input type="hidden" id="hs_bhwId<?= $ctr ?>" 			value="<?php echo $household[$ctr]['bhwID']; ?>"	/>
 		<input type="hidden" id="hs_userUsername<?= $ctr ?>"	value="<?php echo $household[$ctr]['bhwUsername']; ?>"	/>
@@ -281,10 +462,10 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="hs_dob<?= $ctr ?>" 			value="<?php echo $household[$ctr]['personDoB']; ?>"	/>
 		<input type="hidden" id="hs_sex<?= $ctr ?>" 			value="<?php echo $household[$ctr]['personSex']; ?>"	/>
 	<?php }?> 
-	<input type="hidden" id="hs_icon" value="<?php echo base_url('/images/arrow.png')?>" />
+	<input type="hidden" id="hs_icon" value="<?php echo base_url('/images/group.png')?>" />
 	<?php } else { ?> <input type="hidden" id="hs_length" value="0" /> <?php } ?>
 	
-<?php if ($dengue != 0){?>
+<?php if ($dengue != null){?>
 <input type="hidden" id="dg_length" value="<?php echo count($dengue); ?>" />
 	<?php for ($ctr = 0; $ctr < count($dengue); $ctr++) {?>	
 		<input type="hidden" id="dg_caseNo<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['caseNo']; ?>"	/>
@@ -318,7 +499,10 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="dg_guardian<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['guardian']; ?>"	/>
 		<input type="hidden" id="dg_contact<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['contact']; ?>"	/>
 	<?php }?> 
-	<input type="hidden" id="dg_icon" value="<?php echo base_url('/images/arrow.png')?>" />
+	<input type="hidden" id="dg_icon1" value="<?php echo base_url('/images/notice.png')?>" />
+	<input type="hidden" id="dg_icon2" value="<?php echo base_url('/images/notice2.png')?>" />
+	<input type="hidden" id="dg_icon3" value="<?php echo base_url('/images/notice3.png')?>" />
+	<input type="hidden" id="dg_icon4" value="<?php echo base_url('/images/hospital.png')?>" />
 	<?php } else { ?> <input type="hidden" id="dg_length" value="0" /> <?php } ?>
 
 </form>

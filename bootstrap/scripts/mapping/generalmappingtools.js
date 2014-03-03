@@ -1,7 +1,10 @@
-function createMarker(map,point,image,info,bounce,isOld,isPoI,RiskOrSource)
+var infoWindow = new google.maps.InfoWindow();
+infoWindow.setOptions({maxWidth:400});
+
+var centroidMarker;
+function createMarker(map,point,image,info,bounce,isOld,isPoI,hasCircle)
 {//General marker creation
-	var centroidMarker;
-	var oms = new OverlappingMarkerSpiderfier(map);
+	//var oms = new OverlappingMarkerSpiderfier(map);
 	if(image === null && !isPoI)
 	{
 		if(isOld===false)
@@ -11,7 +14,7 @@ function createMarker(map,point,image,info,bounce,isOld,isPoI,RiskOrSource)
 			  map: map,
 			  shadow:null
 			});
-			oms.addMarker(centroidMarker);
+			//oms.addMarker(centroidMarker);
 			if(bounce !== null)
 			{
 			    centroidMarker.setAnimation(google.maps.Animation.BOUNCE);
@@ -24,7 +27,7 @@ function createMarker(map,point,image,info,bounce,isOld,isPoI,RiskOrSource)
 				  map: map,
 			      icon: new google.maps.MarkerImage('https://maps.gstatic.com/mapfiles/ms2/micons/ltblue-dot.png'),
 				});
-				oms.addMarker(centroidMarker);
+				//oms.addMarker(centroidMarker);
 				if(bounce !== null)
 				{
 				    centroidMarker.setAnimation(google.maps.Animation.BOUNCE);
@@ -56,6 +59,28 @@ function createMarker(map,point,image,info,bounce,isOld,isPoI,RiskOrSource)
 		google.maps.event.addListener(centroidMarker, 'click', function() {
 			loadXMLDoc(info);
 	});
+	//oms.addMarker(centroidMarker);
+		/*
+		var oms = new OverlappingMarkerSpiderfier(map);
+		//var mcOptions = {gridSize: 50, maxZoom: 15}; //for MarkerClusterer
+
+		oms.addListener('click', function(marker) {
+		    iw.setContent(marker.desc);
+		    iw.open(map, marker);
+		  });
+		  oms.addListener('spiderfy', function(markers) {
+		    for(var i = 0; i < markers.length; i ++) {
+		      markers[i].setIcon(iconWithColor(spiderfiedColor));
+		      markers[i].setShadow(null);
+		    } 
+		    iw.close();
+		  });
+		  oms.addListener('unspiderfy', function(markers) {
+		    for(var i = 0; i < markers.length; i ++) {
+		      markers[i].setIcon(iconWithColor(usualColor));
+		      markers[i].setShadow(shadow);
+		    }
+		  });//*/
 }
 
 
