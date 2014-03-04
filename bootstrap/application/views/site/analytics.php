@@ -27,7 +27,7 @@ body { height:100% }
 			<div class="panel-heading">
 				<h3 class="panel-title"> Case Summary </h3>
 			</div>
-			<center><h4>Week <?php echo (date('W')-4).'-'.date('W'). ' Year '. date('Y');?></h4></center>>
+			<center><h4><?php echo  date('M d, Y', strtotime("-4 week")). ' (Week'.(date('W')-4).') to '.date('M d, Y').'(Week '.date('W').')';?></h4></center>
 			<div class="row">
 			<div class="col-md-1">	
 

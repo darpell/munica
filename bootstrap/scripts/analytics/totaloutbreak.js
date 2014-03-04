@@ -23,7 +23,7 @@ $(function () {
             chart: {
             },
             title: {
-                text: 'Total Outbreaks occured per year'
+                text: 'Total Outbreaks occured for years ' + yearstart + ' to '+ yearend
             },
             xAxis: {
                 categories: catagoriesdata
@@ -40,11 +40,33 @@ $(function () {
                     }
                     return s;
                 }
+            }, labels: {
+                items: [{
+                    html: 'Overall Monthly Distribution Of Outbreaks',
+                    style: {
+                        left: '350px',
+                        top: '8px',
+                        color: 'black'
+                    }
+                }]
             },
             series: [{
                 type: 'column',
                 name: 'Number of outbreaks',
-                data: seriesdata
+                data: seriesdata,
+                dataLabels: {
+                    enabled: true,
+                    rotation: 0,
+                    color: '#FFFFFF',
+                    align: 'center',
+                    x: 0,
+                    y: 25,
+                    style: {
+                        fontSize: '15px',
+                        fontFamily: 'Verdana, sans-serif',
+                        textShadow: '0 0 3px black'
+                    }
+                }
             },{
                 type: 'pie',
                 name: 'Total consumption',
