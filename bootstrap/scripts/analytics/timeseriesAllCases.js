@@ -58,14 +58,14 @@ $(function () {
             series: [{
                 type: 'area',
                 name: 'Cases',
-                pointInterval: 30 * 24 * 3600 * 1000,
-                pointStart: Date.UTC(cyearstart, 01, 01),
+                pointInterval: (365 * 24 * 3600 * 1000)/12,
+                pointStart: Date.UTC(cyearstart, 0	, 1),
                 data: cases
             },{
                 type: 'area',
                 name: 'Deaths',
-                pointInterval: 30 * 24 * 3600 * 1000,
-                pointStart: Date.UTC(dyearstart, 01, 01),
+                pointInterval: (365 * 24 * 3600 * 1000)/12,
+                pointStart: Date.UTC(dyearstart, 0, 1),
                 data: deathcount
             }]
         });

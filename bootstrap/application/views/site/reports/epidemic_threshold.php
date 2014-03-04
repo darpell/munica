@@ -84,6 +84,64 @@
 			</tbody>
 		</table>
 		<!-- /end of Data table for chart -->
+		<br />
+		
+		<table class="table" border="1">
+			<thead>
+				<tr>
+					<th> &nbsp; </th>
+					<?php
+						for ($mth_ctr = 0; $mth_ctr < $months; $mth_ctr++) 
+						{
+							$month_display = '';
+							switch ($mth_ctr)
+							{
+								case '0': $month_display = 'JAN'; break;
+								case '1': $month_display = 'FEB'; break;
+								case '2': $month_display = 'MAR'; break;
+								case '3': $month_display = 'APR'; break;
+								case '4': $month_display = 'MAY'; break;
+								case '5': $month_display = 'JUN'; break;
+								case '6': $month_display = 'JUL'; break;
+								case '7': $month_display = 'AUG'; break;
+								case '8': $month_display = 'SEP'; break;
+								case '9': $month_display = 'OCT'; break;
+								case '10': $month_display = 'NOV'; break;
+								case '11': $month_display = 'DEC'; break;
+							}
+					?>
+					<th> <?= $month_display ?> </th>
+					<?php } ?>
+				</tr>
+			</thead>
+			<tbody>
+					<tr class="warning">
+					<td>3rd Quartile</td>
+				<?php 
+						for ($mth_ctr = 0; $mth_ctr < $months; $mth_ctr++)
+						{
+				?>
+				
+					<td> <?= $sorted[$mth_ctr][3] ?> </td>
+				<?php } ?>
+				</tr>
+				
+				<tr>
+					<td><?php echo date('Y');?></td>
+				<?php 
+						for ($mth_ctr = 0; $mth_ctr < $months; $mth_ctr++)
+						{
+						if ($results[0 . '_' . $mth_ctr]>=$sorted[$mth_ctr][3])
+						echo '<td class= "danger">';
+						else echo '<td>';
+
+				?>
+				
+					 <?= $results[0 . '_' . $mth_ctr] ?> </td>
+				<?php } ?>
+				</tr>
+			</tbody>
+		</table>
 		
 		<br />
 		<p><h4>1. Five ( 5 ) years monthly record of cases(<?php echo date('Y')-5;?>-<?php echo date('Y');?>)</h4></p>
@@ -168,7 +226,7 @@
 					for ($ctr = 0; $ctr < $years; $ctr++) 
 					{
 				?>
-					<tr <?php if ($ctr == 1) echo 'class="success"'; else if ($ctr == 2) echo 'class="warning"'; else if($ctr == 3) echo 'class="danger"'; else if ($ctr == 5) echo 'class="info"';   ?>>
+					<tr>
 				
 					<td> <?php if ($ctr == 1) echo '1st Quartile'; else if ($ctr == 2) echo 'Median'; else if($ctr == 3) echo '3rd Quartile'; else if ($ctr == 5) echo date('Y');   ?> </td>
 				<?php 
@@ -177,7 +235,7 @@
 				?>
 				
 								<td> <?= $sorted[$mth_ctr][$ctr]?> </td>
-				<?php }else {  ?> <td> <?= $results[$ctr . '_' . $mth_ctr] ?> </td>
+				<?php }else {  ?> <td> <?= $results[0 . '_' . $mth_ctr] ?> </td>
 				
 				<?php }} ?> </tr> <?php }?>
 			</tbody>

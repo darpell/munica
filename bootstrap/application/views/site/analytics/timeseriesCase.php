@@ -51,7 +51,7 @@ body { height:100% }
 			</div>
 			<center>
 			 <fieldset  style="width: 50%;">
-			 <legend>Summary</legend>
+			 <legend>Summary from <?php echo $cases['yearstart'].' to '. date('Y')?></legend>
 			<p>The most number of cases reported was <b><?php echo $cases['max'] ?> cases</b>.</p>
 			<p>During the <b> <?php echo $month; ?> <?php echo $cases['max_year'] ?>.</b></p>
 			 <p>Resulting in <b> deaths at <?php foreach ($death as $row)

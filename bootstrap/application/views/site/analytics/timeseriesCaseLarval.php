@@ -66,7 +66,7 @@ body { height:100% }
 						case '12': $month = 'DEC'; break;
 					}
 		?>
-			 <legend>Summary</legend>
+			 <legend>Summary from <?php echo $caseandlarval['yearstart'].' to '. date('Y')?></legend>
 			<p>The most number of cases reported was <b><?php echo $cases['max'] ?> cases</b>.</p>
 			<p>During the <b> <?php echo $month2; ?> <?php echo $cases['max_year'] ?>.</b></p>
 			<br />

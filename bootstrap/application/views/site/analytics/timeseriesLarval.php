@@ -51,7 +51,7 @@ body { height:100% }
 			
 				<center>
 			 <fieldset  style="width: 50%;">
-			 <legend>Summary</legend>
+			 <legend>Summary from <?php echo $larval['yearstart'].' to '. date('Y')?></legend>
 			<p>The most number of Larval Breeding spots reported was <b><?php echo $larval['max'] ?></b>.</p>
 			<p>During the <b> <?php echo $month; ?> <?php echo $larval['max_year'] ?>.</b></p>
 			 </fieldset>

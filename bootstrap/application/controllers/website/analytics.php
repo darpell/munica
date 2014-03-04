@@ -84,17 +84,22 @@ class Analytics extends CI_Controller
 	}
 	function case_demographics()
 	{
-		$data['dateto'] = '';
-		$data['datefrom'] = '';
+		$data['dateto'] = date('m/d/Y');
+		$data['datefrom'] = '01/01/2006';
 		
 		$this->form_validation->set_rules('datepicker', 'Date from', 'required');
 		$this->form_validation->set_rules('datepicker2', 'Date to', 'required');
 		
 		if ($this->form_validation->run('') == FALSE)
 		{
+			$temp= explode ('/', $data['datefrom']);
+			$temp = $temp[2].'/'.$temp[0].'/'.$temp[1];
+				
+			$temp2= explode ('/', $data['dateto']);
+			$temp2 = $temp2[2].'/'.$temp2[0].'/'.$temp2[1];
 			
-			$casereportANDimmecase = $this->Analytics_model->get_all_cases_data('2000-01-01', '2013-12-31');
-			$data['deathcount'] = $this->Analytics_model->get_death_count_daterange('2000-01-01', '2013-12-31');
+			$casereportANDimmecase = $this->Analytics_model->get_all_cases_data($temp, $temp2);
+			$data['deathcount'] = $this->Analytics_model->get_death_count_daterange($temp, $temp2);
 		}
 		else
 		{
@@ -366,6 +371,29 @@ class Analytics extends CI_Controller
 		$data['deathcount'] = $this->Analytics_model->get_all_death_count();
 			
 		$this->load->view('site/analytics/timeseriesCase',$data);
+	}
+	function totaloutbreakcount()
+	{
+		$data['outbreak'] = $this->Analytics_model->get_outbreak_count();
+		$this->load->view('site/analytics/totaloutbreak',$data);
+	}
+	function outbreakcountyear()
+	{
+
+
+		
+		if ($this->form_validation->run('') == FALSE)
+		{
+			$data['outbreak'] = $this->Analytics_model->get_outbreak_count_year( $this->input->post('yearselected'));
+			
+		}
+		else
+		{
+			$data['outbreak'] = $this->Analytics_model->get_outbreak_count_year( $this->input->post('yearselected'));
+			
+		}
+		
+		$this->load->view('site/analytics/outbreakperyear',$data);
 	}
 	function totallarvalcount()
 	{

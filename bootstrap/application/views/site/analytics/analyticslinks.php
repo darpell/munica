@@ -21,8 +21,8 @@ $( "#datepicker2" ).datepicker();
 				<ul class="nav nav-pills nav-stacked">
 					<li><?= anchor(site_url('website/threshold/epidemic_threshold'),'Epidemic Threshold')?></li>
 					<li> <a href="<?= site_url('website/analytics') ?>"> Recent Cases </a> </li>
+					<li> <a href="<?= site_url('website/analytics/totaloutbreakcount') ?>"> Outbreaks Occured</a> </li>
 					<li> <a href="<?= site_url('website/analytics/totalcasecount') ?>"> Total Case Count </a> </li>
-					<li> <a href="<?= site_url('website/analytics/totallarvalcount') ?>"> Total Larval Count</a> </li>
 					<li> <a href="<?= site_url('website/analytics/totalcaselarvalcount') ?>"> Total Case and Larval Count</a> </li>
 					<li> <a href="<?= site_url('website/analytics/case_demographics') ?>"> Case Demographics</a> </li>
 					<li> <a href="<?= site_url('website/analytics/population_demographics') ?>"> Population Demographics</a> </li>
@@ -74,6 +74,40 @@ $( "#datepicker2" ).datepicker();
  				</ul>
 			</div>
 		</div>
-		<?php }?>
+		<?php }else if( $title =='outbreak'){
+		echo form_open('website/analytics/outbreakcountyear');
+		$barangay_form[] = 'LANGKAAN II';
+		$barangay_form[] = 'SAN AGUSTIN I';
+		$barangay_form[] = 'SAN AGUSTIN III';
+		$barangay_form[] = 'SAMPALOC I';
+		?>
+		<!-- Filters -->
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title"> Filters </h3>
+			</div>
+			<div class="panel-body">
+				<ul class="nav nav-pills nav-stacked">
+				 <li>Year</li>
+				 <li>
+ 				<?php  
+		 		for($i = $outbreak['yearstart']; $i <= $outbreak['yearend'];$i++)
+		 		{
+		 			$options[$i]=$i;
+		 		}
+		 		echo form_dropdown('yearselected', $options, date('Y'));
+				
+		    	?>
+		    	</li>
+		    	<br />
+		   
+		    	<li><input type="submit" class="submitButton" value="Search"/>
+		    	<?php echo form_close(); ?>
+		    	
+		    	</li>
+ 				</ul>
+			</div>
+		</div>
+		<?php } ?>
 		<!-- end of Filters -->
 </div>

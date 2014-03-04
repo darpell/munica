@@ -36,6 +36,7 @@ body { height:100% }
 			<?php if ($casereportANDimmecase['casereport'] != null OR $casereportANDimmecase['immecase'] != null )
 			{?>
 			<center>
+			<h4>Cases reported during <?php echo $datefrom.' to '.$dateto ?></h4>
 			 <fieldset  style="width: 50%;">
 			 <legend>Summary</legend>
 			<p>Most cases reported was at  <b><?php echo $brgys[$brgy_max]; ?></b></p>
@@ -66,13 +67,14 @@ body { height:100% }
 					case '4': $age = '31-40'; break;
 					case '5': $age = '>40'; break;
 				}
-				
+		}
 				?>
 	<!-- fatality rate -->
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<h3 class="panel-title"> Case Fatality </h3>
 			</div>
+			<?php if($max_fatality > 0 ){?>
 				<center>
 			 <fieldset  style="width: 50%;">
 			 <legend>Summary</legend>
@@ -84,9 +86,15 @@ body { height:100% }
 			<div class="panel-body">
 				<div id="fatalityrate" style="min-width: 310px; height: 400px; margin: 0 auto"> graph of distribution </div>
 			</div>
+			<?php } else {?>
+			<center><h3>Zero fatalities reported</h3></center>
+			<?php }?>
 		</div>
 		
-	
+		
+
+		
+<?php if($max_fatality > 0 ){?>
 <script>
 var fatality =  <?php echo json_encode($fatality);?>;
 </script>
