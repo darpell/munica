@@ -63,8 +63,12 @@ class Mapping extends CI_Model
 					{
 						$where .= $varr."' OR ";
 					}
-					$this->db->where(substr($where,0,-3));
-				}$this->db->group_by("ls_no"); 
+					$where = (substr($where,0,-3));
+					$where.=" AND ";
+				}
+				$where .= "created_on BETWEEN '".$data['date1']."' AND '".$data['date2']."'";
+				$this->db->where($where);
+				$this->db->group_by("ls_no"); 
 				$q = $this->db->get();
 				if($q->num_rows() > 0) 
 				{	$tempp;
@@ -131,8 +135,11 @@ class Mapping extends CI_Model
 					{
 						$where .= $varr."' OR ";
 					}
-					$this->db->where(substr($where,0,-3));
+					$where = (substr($where,0,-3));
+					$where.=" AND ";
 				}
+				$where .= "last_updated_on BETWEEN '".$data['date1']."' AND '".$data['date2']."'";
+				$this->db->where($where);
 				$this->db->group_by('active_cases.person_id');
 				$q = $this->db->get();
 				if($q->num_rows() > 0) 
@@ -232,8 +239,11 @@ class Mapping extends CI_Model
 					{
 						$where .= $varr."' OR ";
 					}
-					$this->db->where(substr($where,0,-3));
+					$where = (substr($where,0,-3));
+					$where.=" AND ";
 				}
+				$where .= "(node_addedOn <= '".$data['date1']."' AND (node_endDate >= '".$data['date2']."' OR node_endDate = '0000-00-00'))";
+				$this->db->where($where);
 				$q = $this->db->get();
 				if($q->num_rows() > 0) 
 				{	$temppoi;

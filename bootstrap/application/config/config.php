@@ -14,7 +14,7 @@
 | path to your installation.
 | PUSH TEST
 */
-$config['base_url']	= 'http://localhost/workspace/munica/bootstrap';
+$config['base_url']	= 'http://127.0.0.1/workspace/munica/bootstrap';
 
 /*
 |--------------------------------------------------------------------------
