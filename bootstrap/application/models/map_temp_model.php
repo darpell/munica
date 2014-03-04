@@ -40,7 +40,8 @@ class Map_temp_model extends CI_Model
 	{
 		$this->db->from('household_address')
 				->join('catchment_area','household_address.household_id = catchment_area.household_id')
-				->join('bhw', 'catchment_area.bhw_id = bhw.user_username');
+				->join('bhw', 'catchment_area.bhw_id = bhw.user_username')
+				->group_by('household_address.household_id');
 		
 		if ($bhw != FALSE)
 			$this->db->where('bhw_id',$bhw);
