@@ -35,6 +35,20 @@ class Map_temp_model extends CI_Model
 		return $query->result_array();
 			$query->free_result();
 	}
+	
+	function get_households($bhw = FALSE)
+	{
+		$this->db->from('household_address')
+				->join('catchment_area','household_address.household_id = catchment_area.household_id')
+				->join('bhw', 'catchment_area.bhw_id = bhw.user_username');
+		
+		if ($bhw != FALSE)
+			$this->db->where('bhw_id',$bhw);
+			
+		$query = $this->db->get();
+		return $query->result_array();
+			$query->free_result();
+	}
 }
 
 /* End of map_temp_model.php */

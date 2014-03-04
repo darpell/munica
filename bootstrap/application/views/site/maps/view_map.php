@@ -1,4 +1,7 @@
 <!-- HEADER -->
+<?php $data['title'] = 'Map'; $this->load->view('/site/templates/header',$data);?>
+
+
 <!-- CONTENT -->
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>    
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3&sensor=true"></script>
@@ -718,3 +721,4 @@ jQuery(document).ready(function(){
 </script>
 		
 <!-- FOOTER -->
+<?php $this->load->view('/site/templates/footer');?>
