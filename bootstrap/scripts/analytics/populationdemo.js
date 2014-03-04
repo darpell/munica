@@ -39,7 +39,7 @@ $(function () {
                 },{
                     html: 'Gender Distribution',
                     style: {
-                        left: '600px',
+                        left: '550px',
                         top: '8px',
                         color: 'black'
                     }
@@ -114,7 +114,7 @@ $(function () {
                     y: gender['f'],
                     color: Highcharts.getOptions().colors[1] // John's color
                 }],
-                center: [750, 7],
+                center: [700, 7],
                 size: 100,
                 showInLegend: false,
                 dataLabels: {
