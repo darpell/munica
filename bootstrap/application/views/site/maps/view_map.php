@@ -142,6 +142,14 @@ function load() {
 					  map: map,
 				      icon: document.getElementById("ls_icon").value.toString(),
 					});
+				
+				var invariant1=document.getElementById("ls_no"+ctr).value.toString();
+				if(document.getElementById("dgLarvalBounce_length").value.toString() != 0)
+					for(var i=0;i < document.getElementById("dgLarvalBounce_length").value.toString();i++)
+					{
+						if(document.getElementById("dgLarvalBounce"+i).value.toString() == invariant1)
+							centroidMarker.setAnimation(google.maps.Animation.BOUNCE);
+					}
 				setInfo(centroidMarker,linfo,map);
 				oms.addMarker(centroidMarker);
 				//createMarker(map,point,document.getElementById("ls_icon").value.toString(),linfo,null,false,false,false);//*/
@@ -202,6 +210,7 @@ function load() {
 					+"Last Visit: "+document.getElementById("dg_lastVisited"+ctr).value.toString()+"<br/><br/>";
 				//alert(ctr);
 				point = new google.maps.LatLng(document.getElementById("dg_lat"+ctr).value.toString(),document.getElementById("dg_lng"+ctr).value.toString());
+				var setCircle=false;
 				if(document.getElementById("dgPoIDistance_length").value.toString() != 0)
 				{
 					if(document.getElementById("dgPoIDistance"+ctr).value.toString() == 0)
@@ -211,19 +220,35 @@ function load() {
 					else
 					{
 						dinfo += document.getElementById("dgPoIDistance"+ctr).value.toString();
-						var circle = new google.maps.Circle({
-							center:point,
-							radius:200,
-							strokeColor:"#0000FF",
-							strokeOpacity:0.7,
-							strokeWeight:1,
-							fillColor:"#66CCCC",
-							fillOpacity:0.3,
-							clickable:false
-						});
-						circle.setMap(map); 
+						setCircle=true;
+					}
+				}//*
+				if(document.getElementById("dgLarvalDistance_length").value.toString() != 0)
+				{
+					if(document.getElementById("dgLarvalDistance"+ctr).value.toString() == 0)
+					{
+						dinfo += "No Larval Positives detected nearby.";
+					}
+					else
+					{
+						dinfo += document.getElementById("dgLarvalDistance"+ctr).value.toString();
+						setCircle=true;
 					}
 				}
+				if(setCircle)
+				{
+					var circle = new google.maps.Circle({
+						center:point,
+						radius:200,
+						strokeColor:"#0000FF",
+						strokeOpacity:0.7,
+						strokeWeight:1,
+						fillColor:"#66CCCC",
+						fillOpacity:0.3,
+						clickable:false
+					});
+					circle.setMap(map); 
+				}//*/
 				//*
 				if(document.getElementById("dg_status"+ctr).value.toString() == "threatening")
 				{
@@ -287,6 +312,13 @@ function load() {
 					  map: map,
 				      icon: img
 					});
+				var invariant1=document.getElementById("poi_id"+ctr).value.toString();
+				if(document.getElementById("dgPoIBounce_length").value.toString() != 0)
+					for(var i=0;i < document.getElementById("dgPoIBounce_length").value.toString();i++)
+					{
+						if(document.getElementById("dgPoIBounce"+i).value.toString() == invariant1)
+							centroidMarker.setAnimation(google.maps.Animation.BOUNCE);
+					}
 				setInfo(centroidMarker,poiinfo,map);
 				oms.addMarker(centroidMarker);
 				ctr++;
@@ -385,13 +417,33 @@ jQuery(document).ready(function(){
 	<?php for ($ctr = 0; $ctr < count($denguePoIDistance); $ctr++) {?>
 		<input type="hidden" id="dgPoIDistance<?= $ctr ?>" 	value="<?php echo $denguePoIDistance[$ctr]; ?>"	/>
 	<?php }?> 
-	<input type="hidden" id="dgPoIDistance_icon" value="<?php echo base_url('/images/arrow.png')?>" />
 	<?php } else { ?> <input type="hidden" id="dgPoIDistance_length" value="0" /> <?php } ?>
+	
+<?php if ($denguePoIBounce != null){?>
+<input type="hidden" id="dgPoIBounce_length" value="<?php echo count($denguePoIBounce); ?>" />
+	<?php for ($ctr = 0; $ctr < count($denguePoIBounce); $ctr++) {?>
+		<input type="hidden" id="dgPoIBounce<?= $ctr ?>" 	value="<?php echo $denguePoIBounce[$ctr]; ?>"	/>
+	<?php }?> 
+	<?php } else { ?> <input type="hidden" id="dgPoIBounce_length" value="0" /> <?php } ?>
+
+<?php if ($dengueLarvalDistance != null){?>
+<input type="hidden" id="dgLarvalDistance_length" value="<?php echo count($dengueLarvalDistance); ?>" />
+	<?php for ($ctr = 0; $ctr < count($dengueLarvalDistance); $ctr++) {?>
+		<input type="hidden" id="dgLarvalDistance<?= $ctr ?>" 	value="<?php echo $dengueLarvalDistance[$ctr]; ?>"	/>
+	<?php }?> 
+	<?php } else { ?> <input type="hidden" id="dgLarvalDistance_length" value="0" /> <?php } ?>
+	
+<?php if ($dengueLarvalBounce != null){?>
+<input type="hidden" id="dgLarvalBounce_length" value="<?php echo count($dengueLarvalBounce); ?>" />
+	<?php for ($ctr = 0; $ctr < count($dengueLarvalBounce); $ctr++) {?>
+		<input type="hidden" id="dgLarvalBounce<?= $ctr ?>" 	value="<?php echo $dengueLarvalBounce[$ctr]; ?>"	/>
+	<?php }?> 
+	<?php } else { ?> <input type="hidden" id="dgLarvalBounce_length" value="0" /> <?php } ?>
 
 <?php if ($larval != null){?>
 <input type="hidden" id="ls_length" value="<?php echo count($larval); ?>" />
 	<?php for ($ctr = 0; $ctr < count($larval); $ctr++) {?>
-		<input type="hidden" id="ls_no<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['ls_no']; ?>"	/>
+		<input type="hidden" id="ls_no<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['id']; ?>"	/>
 		<input type="hidden" id="ls_household<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['household']; ?>"	/>
 		<input type="hidden" id="ls_container<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['container']; ?>"	/>
 		<input type="hidden" id="ls_lat<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['lat']; ?>"	/>
@@ -417,6 +469,7 @@ jQuery(document).ready(function(){
 <?php if ($poi != null){?>
 <input type="hidden" id="poi_length" value="<?php echo count($poi); ?>" />
 	<?php for ($ctr = 0; $ctr < count($poi); $ctr++) {?>
+		<input type="hidden" id="poi_id<?= $ctr ?>" 	value="<?php echo $poi[$ctr]['id']; ?>"	/>
 		<input type="hidden" id="poi_name<?= $ctr ?>" 	value="<?php echo $poi[$ctr]['name']; ?>"	/>
 		<input type="hidden" id="poi_lat<?= $ctr ?>" 	value="<?php echo $poi[$ctr]['lat']; ?>"	/>
 		<input type="hidden" id="poi_lng<?= $ctr ?>" 	value="<?php echo $poi[$ctr]['lng']; ?>"	/>
@@ -471,7 +524,7 @@ jQuery(document).ready(function(){
 <?php if ($dengue != null){?>
 <input type="hidden" id="dg_length" value="<?php echo count($dengue); ?>" />
 	<?php for ($ctr = 0; $ctr < count($dengue); $ctr++) {?>	
-		<input type="hidden" id="dg_caseNo<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['caseNo']; ?>"	/>
+		<input type="hidden" id="dg_caseNo<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['id']; ?>"	/>
 		<input type="hidden" id="dg_personID<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['personID']; ?>"	/>
 		<input type="hidden" id="dg_hasMusclePain<?= $ctr ?>" 		value="<?php echo $dengue[$ctr]['hasMusclePain']; ?>"	/>
 		<input type="hidden" id="dg_hasJointPain<?= $ctr ?>" 		value="<?php echo $dengue[$ctr]['hasJointPain']; ?>"	/>

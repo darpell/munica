@@ -44,7 +44,9 @@ class Mapping extends CI_Model
 			$returnValues['larvalValues'] =null;
 			$returnValues['dengueValues'] =null;
 			$returnValues['denguePoIDistanceValues'] =null;
+			$returnValues['denguePoIBounceValues'] =null;
 			$returnValues['dengueLarvalDistanceValues'] =null;
+			$returnValues['dengueLarvalBounceValues'] =null;
 			$returnValues['poiValues'] =null;
 			$returnValues['poiDistanceValues'] =null;
 			$returnValues['householdValues'] =0;
@@ -69,7 +71,7 @@ class Mapping extends CI_Model
 					foreach ($q->result() as $row) 
 					{
 						$tempp[]=array(
-								'ls_no'=> $row->ls_no,
+								'id'=> $row->ls_no,
 								'household'=> $row->ls_household,
 								'container'=> $row->ls_container,
 								'lat'=> $row->ls_lat,
@@ -82,41 +84,7 @@ class Mapping extends CI_Model
 					}//print_r($tempp);
 					$returnValues['larvalValues'] =  $tempp;
 					unset($tempp);
-				}/*
-				$where;
-				$qString = 'CALL ';
-				$qString .= "view_larval_nodes('"; // name of stored procedure
-				$qString .=
-				//variables needed by the stored procedure
-				$data['date1']. "','".
-				$data['date2']. "'". ")";
-				
-				$q = $this->db->query($qString);
-				//*
-				if($q->num_rows() > 0)
-				{	$temp = "";
-				foreach ($q->result() as $row)
-				{
-					//if($row->ls_result=="positive") // disabled for now since only a few (or non) entries would be positive
-					$temp .=
-					"larvalpositive" . "&&" .
-					$row->ls_no . "&&" .
-					$row->ls_lat . "&&" .
-					$row->ls_lng . "&&" .
-					$row->ls_household . "&&" .
-					$row->ls_container . "&&".
-					$row->created_on . "&&".
-					$row->last_updated_on . "&&".
-					$row->ls_barangay . "&&".
-					$row->created_by . "%%"  ;
 				}
-				$q->free_result();
-				$returnValues['larvalValues'] = substr($temp,0,-2);
-				}
-				else
-				{
-					$q->free_result();
-				}//*/
 			}
 			if($data['getBB'])
 			{
@@ -172,7 +140,7 @@ class Mapping extends CI_Model
 					foreach ($q->result() as $row) 
 					{
 						$tempest[]=array(//*
-								'caseNo'=> $row->imcase_no,
+								'id'=> $row->imcase_no,
 								'personID'=> $row->person_id,
 								'hasMusclePain'=> $row->has_muscle_pain,
 								'hasJointPain'=> $row->has_joint_pain,
@@ -231,7 +199,7 @@ class Mapping extends CI_Model
 					foreach ($q->result() as $row) 
 					{
 						$tempall[]=array(//*
-								'householdID'=> $row->household_id,
+								'id'=> $row->household_id,
 								'houseName'=> $row->household_name,
 								'houseNo'=> $row->house_no,
 								'street'=> $row->street,
@@ -280,6 +248,7 @@ class Mapping extends CI_Model
 							$temp="<br/>Potential Risk Area <br/><i>(Commonly areas with high population density or traffic)</i>";
 						}
 						$temppoi[]=array(//*
+								'id'=> $row->node_no,
 								'name'=> $row->node_name,
 								'lat'=> $row->node_lat,
 								'lng'=> $row->node_lng,
@@ -313,6 +282,7 @@ class Mapping extends CI_Model
 							for($_i=0;$_i < $_invariant; $_i++)
 							{
 								$temp.=$poi[$i][$_i]['name']."<br/>";
+								$returnValues['denguePoIBounceValues'][] = $poi[$i][$_i]['id'];
 							}
 						}
 						$temparr[]=$temp;
@@ -323,12 +293,12 @@ class Mapping extends CI_Model
 					$poi=null;
 				}
 				if($returnValues['larvalValues'] != null)
-				{
+				{//print_r("ATTENTION");
 					$larval=$this->compareArraysDistanceFormula($returnValues['dengueValues'],$returnValues['larvalValues']);
 					$invariant=count($returnValues['dengueValues']);
 					$temparr=null;
 					for($i=0;$i < $invariant; $i++)
-					{
+					{	//$temp=null;
 						$temp="No Larval Positives detected nearby.";
 						if($larval[$i] != 0)
 						{
@@ -337,12 +307,13 @@ class Mapping extends CI_Model
 							for($_i=0;$_i < $_invariant; $_i++)
 							{
 								$temp.=$larval[$i][$_i]['household']." Household, ".$larval[$i][$_i]['container']."<br/>";
+								$returnValues['dengueLarvalBounceValues'][] = $larval[$i][$_i]['id'];
 							}
 						}
 						$temparr[]=$temp;
 						$temp="";
 					}
-					$returnValues['dengueLarvalDistanceValues'][]=$temparr;
+					$returnValues['dengueLarvalDistanceValues']=$temparr;
 					unset($temparr);
 					$larval=null;
 				}				

@@ -138,16 +138,17 @@ class Map extends CI_Controller
 						'lng'=> "-64.25737"
 				);
 				print_r($this->Mapping->compareArraysDistanceFormula($paths1,$paths2));//*/
-				
 
 				$data['denguePoIDistance'] =null;
+				$data['denguePoIBounce'] = null;
 				$data['dengueLarvalDistance'] =null;
+				$data['dengueLarvalBounce'] = null;
 				$data['getLarva'] = $getLarva;
 				$data['getDengue'] = $getDengue;
 				$data['getPoI'] = $getPoI;
 				$data['getHouseholds'] = $getHouseholds;
 				$data['getBB'] = $getBB;
-				$data['brgy'][]="SAN AGUSTIN III";//print_r($data['brgy']);
+				$data['brgy']=null;//print_r($data['brgy']);
 				$values = $this->Mapping->mapByType($data);
 				
 				//*CURRENT DATE INTERVAL DATA EXTRACTION
@@ -159,11 +160,13 @@ class Map extends CI_Controller
 				if($values['denguePoIDistanceValues'] != null)
 				{
 					$data['denguePoIDistance'] = $values['denguePoIDistanceValues'];
+					$data['denguePoIBounce'] = $values['denguePoIBounceValues'];
 					//print_r($data['denguePoIDistance']);
 				}
 				if($values['dengueLarvalDistanceValues'] != null)
 				{
 					$data['dengueLarvalDistance'] = $values['dengueLarvalDistanceValues'];
+					$data['dengueLarvalBounce'] = $values['dengueLarvalBounceValues'];
 					//print_r($data['dengueLarvalDistance']);
 				}
 				if($getBB)
