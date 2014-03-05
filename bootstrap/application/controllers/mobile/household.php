@@ -5,6 +5,7 @@ class Household extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('map_temp_model','map');
+		$this->load->model('hh_model', 'hh');
 	}
 	
 	function index()
@@ -13,6 +14,16 @@ class Household extends CI_Controller
 		$data['households'] = $this->map->get_households($this->session->userdata('TPusername'));
 		
 		$this->load->view('mobile/household_map', $data);
+	}
+	
+	function mark_visit($hh_id)
+	{
+		$hh_name = $this->hh->mark_visit($hh_id);
+		
+		$data['result'] = 'Household ' . $hh_name['household_name'] . ' is marked as visited';
+		$data['treatment'] = ''; // for the sake of not having an error
+		
+		$this->load->view('mobile/im_case_success', $data);
 	}
 }
 

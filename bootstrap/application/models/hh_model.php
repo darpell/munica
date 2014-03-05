@@ -7,6 +7,35 @@ class Hh_model extends CI_Model
 		parent::__construct();
 	}
 	
+	function mark_visit($hh_id)
+	{
+		$visit_data = array(
+				'household_id'	=> $hh_id,
+				'visit_date'	=> date('Y-m-d H:i:s')
+			);
+		
+		$this->db->insert('house_visits', $visit_data);
+		
+		$query = $this->db->get_where('household_address',array('household_id' => $hh_id));
+		
+		return $query->row_array();
+			$query->free_result();
+	}
+	
+	function get_visits($hh_id, $last = FALSE)
+	{
+		$this->db->from('house_visits')
+				->where('household_id', $hh_id)
+				->order_by('visit_date', 'desc');
+		
+		IF ($last == TRUE)
+			$this->db->limit(1);
+		
+		$query = $this->db->get();
+		return $query->row_array();
+			$query->free_result();
+	}
+	
 	function check_if_has_fever($person_id)
 	{
 		$query = $this->db->get_where('active_cases',array('person_id' => $person_id));
@@ -120,7 +149,8 @@ class Hh_model extends CI_Model
 	{
 		$this->db->from('catchment_area')
 					->join('bhw','catchment_area.bhw_id = bhw.user_username')
-					->join('household_address', 'household_address.household_id = catchment_area.household_id');
+					->join('household_address', 'household_address.household_id = catchment_area.household_id')
+					->join('house_visits','catchment_area.household_id = house_visits.household_id');
 		/*
 		if ($brgy != FALSE)
 			$this->db->where('bhw.barangay', $brgy);

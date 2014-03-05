@@ -19,7 +19,7 @@ class Cases extends CI_Controller
 		
 		$this->pagination->initialize($config);
 		
-		$data['results'] = $this->ac->search($this->input->get('TPsearch-txt'), $config['per_page'], $this->uri->segment(4));
+		$data['results'] = $this->ac->search($this->input->post('TPsearch-txt'), $config['per_page'], $this->uri->segment(4));
 		$data['links'] = $this->pagination->create_links();
 		
 		$this->load->view('site/search_results', $data);

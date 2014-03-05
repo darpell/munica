@@ -24,7 +24,7 @@ class Active_case_model extends CI_Model
 		if ($offset != FALSE && $limit != FALSE)
 			$this->db->limit($offset, $limit);
 		
-		$query = $this->db->get();
+		$query = $this->db->get();		
 		return $query->result_array();
 			$query->free_result();
 	}
@@ -258,16 +258,24 @@ class Active_case_model extends CI_Model
 		# trigger notif
 			
 		// updates last_visited_on at `household_address`
-		$hh = array(
+		/*$hh = array(
 		'last_visited' => date('Y-m-d')
 			);
 			
 		$this->db->where('household_id',$this->input->post('household_id'));
 			$this->db->update('household_address', $hh);
+		*/
 		
-						$returning_data = array($level, $symptoms);
+		$visit_data = array(
+						'household_id'	=> $this->input->post('household_id'),
+						'visit_date'	=> date('Y-m-d H:i:s')
+					);
+		
+		$this->db->insert('house_visits', $visit_data);
+		
+			$returning_data = array($level, $symptoms);
 							
-						return $returning_data;
+			return $returning_data;
 	}
 	
 	

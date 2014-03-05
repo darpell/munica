@@ -8,6 +8,15 @@ class Households extends CI_Controller
 		$this->load->model('hh_model','model');
 		$this->load->model('barangay_model');
 		$this->load->model('active_case_model','ac');
+		$this->load->model('map_temp_model','map');
+	}
+	
+	function visits()
+	{
+		//$this->load->view('mobile/poi_form');
+		$data['households'] = $this->map->get_households($this->session->userdata('TPusername'));
+		
+		$this->load->view('site/house_visits', $data);
 	}
 	
 	function filter_brgys()

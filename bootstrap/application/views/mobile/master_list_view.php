@@ -14,6 +14,7 @@
 			
 			<ul data-role="listview" data-filter="true" data-inset="true" data-split-icon="check" data-split-theme="d">
 				<li><a href="<?php echo site_url('mobile/master_list/add_member/' . $hh_id);?>" data-ajax="false" data-transition="slide"> Add New Member </a></li>
+				<li><a href="<?php echo site_url('mobile/household/mark_visit/' . $hh_id);?>" data-ajax="false" data-transition="slide"> Mark as Visited </a></li>
 				<?php 
 				for ($ctr = 0; $ctr < count($household_persons); $ctr++) 
 				{
