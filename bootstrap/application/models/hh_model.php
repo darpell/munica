@@ -165,6 +165,7 @@ class Hh_model extends CI_Model
 		if ($bhw != FALSE)
 			$this->db->where('catchment_area.bhw_id', $bhw);
 		
+		$this->db->order_by('house_visits.visit_date','desc');
 		$this->db->group_by('catchment_area.household_id');
 		
 		if ($offset != FALSE && $limit != FALSE)

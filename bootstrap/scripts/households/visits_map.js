@@ -61,10 +61,10 @@ function initialize()
 			+ 'Last Visit: </th>'
 			+ '<td>' + last_visits[ctr].visit_date + '</td>'
 			+ '</tr>'
-			+ '<tr> <th>'
+		/*	+ '<tr> <th>'
 			+ 'name: </th>'
 			+ '<td>' + last_visits[ctr].household_name + '</td>'
-			+ '</tr>';
+			+ '</tr>'*/;
 		
 		marker.info = new google.maps.InfoWindow({
 			content: html

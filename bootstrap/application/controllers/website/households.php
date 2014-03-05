@@ -13,7 +13,6 @@ class Households extends CI_Controller
 	
 	function visits()
 	{
-		//$this->load->view('mobile/poi_form');
 		$data['households'] = $this->map->get_households($this->session->userdata('TPusername'));
 		
 		$last_visits = array();
