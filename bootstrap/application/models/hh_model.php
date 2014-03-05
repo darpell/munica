@@ -172,7 +172,8 @@ class Hh_model extends CI_Model
 	{
 		$this->db->from('catchment_area')
 					->join('bhw','catchment_area.bhw_id = bhw.user_username')
-					->join('master_list', 'master_list.person_id = catchment_area.person_id');
+					->join('master_list', 'master_list.person_id = catchment_area.person_id')
+					->join('household_address','catchment_area.household_id = household_address.household_id');
 		/*
 			if ($bhw != FALSE)
 				$this->db->where('catchment_area.bhw_id', $bhw);

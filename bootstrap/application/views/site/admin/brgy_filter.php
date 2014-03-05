@@ -80,16 +80,6 @@ var symp_r = <?= $symptoms['has_rashes'] ?>;
 			<!-- end of Symptoms Pie Chart -->
 	</div>
 	<div class="col-md-7">
-		<!-- Graph -->
-		<div class="panel panel-primary">
-			<div class="panel-heading">
-				<h3 class="panel-title"> Graph of All Active Cases</h3>
-			</div>
-			<div class="panel-body">
-				<div id="graph" style="min-width: 310px; height: 400px; margin: 0 auto"> Graph of Distribution </div>
-			</div>
-		</div>
-		<!-- end of Graph -->
 		<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h3 class="panel-title"> Filter Barangays in Dasmarinas CHO-I </h3>
@@ -106,6 +96,17 @@ var symp_r = <?= $symptoms['has_rashes'] ?>;
 					</ul>
 				</div>
 			</div>
+		<!-- Graph -->
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title"> Graph of All Active Cases</h3>
+			</div>
+			<div class="panel-body">
+				<div id="graph" style="min-width: 310px; height: 400px; margin: 0 auto"> Graph of Distribution </div>
+			</div>
+		</div>
+		<!-- end of Graph -->
+		
 	</div>
 </div>
 <!-- /end of Filters -->

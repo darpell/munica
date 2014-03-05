@@ -66,8 +66,47 @@ class Active_case_model extends CI_Model
 	
 		$query = $this->db->get();
 		return $query->result_array();
-		$query->free_result();
+			$query->free_result();
+	}
 	
+	function get_cases_per_ca($bhw = FALSE, $status = FALSE)
+	{
+		$this->db->from('active_cases')
+				->join('catchment_area','active_cases.person_id = catchment_area.person_id')
+				->join('bhw', 'catchment_area.bhw_id = bhw.user_username')
+				->join('master_list','catchment_area.person_id = master_list.person_id')
+				->join('household_address', 'household_address.household_id = catchment_area.household_id');
+		
+		if ($bhw != FALSE)
+			$this->db->where('bhw_id', $bhw);
+		if ($status != FALSE)
+			$this->db->where('status',$status);
+		
+		$this->db->order_by('imcase_no','desc');
+		
+		$query = $this->db->get();
+		return $query->result_array();
+			$query->free_result();
+	}
+	
+	function get_cases_per_hh($hh = FALSE, $status = FALSE)
+	{
+		$this->db->from('active_cases')
+				->join('catchment_area','active_cases.person_id = catchment_area.person_id')
+				->join('bhw', 'catchment_area.bhw_id = bhw.user_username')
+				->join('master_list','catchment_area.person_id = master_list.person_id')
+				->join('household_address', 'household_address.household_id = catchment_area.household_id');
+		
+		if ($hh != FALSE)
+			$this->db->where('catchment_area.household_id', $hh);
+		if ($status != FALSE)
+			$this->db->where('status',$status);
+		
+		$this->db->order_by('imcase_no','desc');
+		
+		$query = $this->db->get();
+		return $query->result_array();
+			$query->free_result();
 	}
 	
 	function get_case($imcase)

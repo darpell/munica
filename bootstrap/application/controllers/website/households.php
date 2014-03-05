@@ -75,9 +75,11 @@ class Households extends CI_Controller
 		foreach ($data['CAs'] as $ca)
 		{
 			$hh_count[$ca['bhw_id']] = $this->model->get_households($ca['bhw_id']);
+			$case_count[$ca['bhw_id']] = $this->ac->get_cases_per_ca($ca['bhw_id']);
 		}
 		
 		$data['hh_count'] = $hh_count;
+		$data['case_count'] = $case_count;
 		
 		$this->load->view('site/admin/ca_filter', $data);
 	}
@@ -88,6 +90,7 @@ class Households extends CI_Controller
 		
 		$config['base_url'] = site_url('website/households/filter_HHs/' . $bhw);
 		$config['total_rows'] = count($this->model->get_households($data['CA']));
+		$config['first_url'] = 1; //http://stackoverflow.com/questions/9989494/first-page-link-issue-in-codeigniter-pagination-library
 		$config['per_page'] = 5;
 		$config['num_links'] = 3;
 		$config['uri_segment'] = 5;
@@ -101,9 +104,11 @@ class Households extends CI_Controller
 		foreach ($data['HHs'] as $hh)
 		{
 			$person_count[$hh['household_id']] = $this->model->get_people($hh['household_id']);
+			$case_count[$hh['household_id']] = $this->ac->get_cases_per_hh($hh['household_id']);
 		}
 		
 		$data['person_count'] = $person_count;
+		$data['case_count'] = $case_count;
 		
 		$this->load->view('site/admin/hh_filter', $data);
 	}
@@ -114,7 +119,7 @@ class Households extends CI_Controller
 		
 		$config['base_url'] = site_url('website/households/filter_persons/' . $data['HH']);
 		$config['total_rows'] = count($this->model->get_people($data['HH']));
-		$config['per_page'] = 2;
+		$config['per_page'] = 5;
 		$config['num_links'] = 3;
 		$config['uri_segment'] = 5;
 		

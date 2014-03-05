@@ -7,7 +7,7 @@
 <style>
 html { height:100% }
 body { height:100% }
-#googleMap { width:700px; height:500px;max-width:100%; max-height:100%; }
+#googleMap { width:700px; height:700px;max-width:100%; max-height:100%; }
 </style>	
 </style>
 
@@ -80,13 +80,7 @@ body { height:100% }
 								<th> Household Name </th> <th> Address </th> <th> Barangay </th> <th> BHW assigned </th> <th> Date of Last Visit </th>
 							</tr>  -->
 							<?php foreach ($households as $house) { ?>
-							<li>
-								<p> <?= $house['household_name']?> </p> 
-								<p> <?= $house['house_no'] . ' ' . $house['street']?> </p>
-								<p> <?= $house['barangay']?> </p>
-								<p> <?= $house['bhw_id'] ?> </p>
-								<p> <?= date('Y-m-d')//$house[''] ?> </p>
-							</li>
+							<li> <a> <?= $house['household_name'] . ' at ' . $house['house_no'] . ' ' . $house['street'] . ' Barangay ' . $house['barangay'] ?> </a> </li>
 							<?php } ?>
 						</ul>
 					</div>

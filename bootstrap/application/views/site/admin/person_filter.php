@@ -9,7 +9,7 @@
 <div class="col-md-10">
 	<div class="panel panel-primary">
 			<div class="panel-heading">
-				<h3 class="panel-title"> People living in <?= $HH ?></h3>
+				<h3 class="panel-title"> People living in <?= $persons[0]['household_name'] ?></h3>
 			</div>
 			<div class="panel-body">
 				<ul class="nav nav-pills nav-stacked">
