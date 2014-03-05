@@ -47,7 +47,7 @@
                	<li><?= anchor(site_url('website/dashboard'),'Dashboard')?></li>
                	<?php }?>
                		<?php if($this->session->userdata('TPtype') == "MIDWIFE"){?>
-               	<li><?= anchor(base_url('index.php/master_list/view_household_midwife'),'Dashboard')?></li>
+               	<li><?= anchor(site_url('website/dashboard'),'Dashboard')?></li>
                	<?php }?>
                	
                	<!-- functions -->

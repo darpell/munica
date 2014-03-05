@@ -11,6 +11,7 @@ class Dashboard extends CI_Controller
 		$this->load->model('active_case_model','ac');
 		$this->load->model('notif_model');
 		$this->load->model('hh_model');
+		$this->load->model('user_model','user');
 	}
 	
 	function index()
@@ -31,6 +32,29 @@ class Dashboard extends CI_Controller
 		$this->load->model('user_model');
 		$data['bhw_ctr'] = $this->db->get_where('users', array('user_type' => 'bhw'))->num_rows();
 		$data['mw_ctr'] = $this->db->get_where('users', array('user_type' => 'midwife'))->num_rows();
+		
+		if ($this->session->userdata('TPtype') == 'BHW')
+		{
+			$data['suspected_count'] = $this->ac->get_cases($this->session->userdata('TPusername'), 'suspected');
+			$data['threatening_count'] = $this->ac->get_cases($this->session->userdata('TPusername'), 'threatening');
+			$data['serious_count'] = $this->ac->get_cases($this->session->userdata('TPusername'), 'serious');
+			$data['hospitalized_count'] = $this->ac->get_cases($this->session->userdata('TPusername'), 'hospitalized');
+		}
+		else if ($this->session->userdata('TPtype') == 'MIDWIFE')
+		{
+			$case_brgy = $this->user->get_brgy($this->session->userdata('TPusername'));
+			$data['suspected_count'] = $this->ac->get_cases_per_brgy($case_brgy['barangay'],'suspected');
+			$data['threatening_count'] = $this->ac->get_cases_per_brgy($case_brgy['barangay'],'threatening');
+			$data['serious_count'] = $this->ac->get_cases_per_brgy($case_brgy['barangay'],'serious');
+			$data['hospitalized_count'] = $this->ac->get_cases_per_brgy($case_brgy['barangay'],'hospitalized');
+		}
+		else
+		{
+			$data['suspected_count'] = $this->db->get_where('active_cases',array('status' => 'suspected'))->num_rows();
+			$data['threatening_count'] = $this->db->get_where('active_cases',array('status' => 'threatening'))->num_rows();
+			$data['serious_count'] = $this->db->get_where('active_cases',array('status' => 'serious'))->num_rows();
+			$data['hospitalized_count'] = $this->db->get_where('active_cases',array('status' => 'hospitalized'))->num_rows();
+		}
 		
 		// map data
 		

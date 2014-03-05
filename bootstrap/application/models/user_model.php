@@ -90,7 +90,13 @@ class User_model extends CI_Model
 		$query->free_result();
 	}
 	
-	
+	function get_brgy($user)
+	{
+		$query = $this->db->get_where('bhw',array('user_username' => $user));
+		
+		return $query->row_array();
+			$query->free_result();
+	}
 }
 
 /* End of user_model.php */
