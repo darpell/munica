@@ -18,7 +18,7 @@
 			<ul data-role="listview" data-filter="true" data-inset="true" data-split-icon="check" data-split-theme="d" data-divider-theme="a">
 				<?php for ($ctr = 0; $ctr < count($cases); $ctr++) { ?>
 				
-				<li data-theme="a"> <a href="<?php echo site_url('mobile/monitored_cases/view_case/' . $cases[$ctr]['imcase_no']);?>" data-ajax="false" data-transition="slide">
+				<li data-theme="a"> <a href="<?php echo site_url('mobile/cases/edit/' . $cases[$ctr]['imcase_no']);?>" data-ajax="false" data-transition="slide">
 					<?php 
 					if ($cases[$ctr]['status'] == 'suspected') { ?> 
 						<label style="color:YELLOW;"> 

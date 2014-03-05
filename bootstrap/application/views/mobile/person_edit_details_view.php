@@ -19,14 +19,6 @@
 					<?php echo $person['person_last_name']; ?> <!-- Last Name --> 
 				</li>
 				
-				<li> Civil Status: 
-					<?php echo $person['person_marital'];?> <!-- Civil Status -->
-				</li>
-				
-				<li> Nationality: 
-					<?php echo $person['person_nationality']; ?> <!-- Nationality-->
-				</li>
-				
 				<li> Age: 
 					<?php //http://stackoverflow.com/questions/11272691/php-data-difference-giving-fatal-error
 						$bday = $person['person_dob']; 
@@ -44,6 +36,14 @@
 							echo 'Female';
 					?> <!-- Sex -->
 				</li>
+				
+				<li> Civil Status: 
+					<?php echo $person['person_marital'];?> <!-- Civil Status -->
+				</li>
+				
+				<li> Nationality: 
+					<?php echo $person['person_nationality']; ?> <!-- Nationality-->
+				</li>
 					
 				<li> Blood Type: 
 					<?php 
@@ -56,6 +56,10 @@
 				
 				<li>Guardian: 
 					<?php echo $person['person_guardian'];?>
+				</li>
+				
+				<li> Contact No: 
+					<?php echo $person['person_contactno'];?> <!-- Civil Status -->
 				</li>
 		</ul>
 		
