@@ -73,14 +73,14 @@ $(function () {
 	                type: 'area',
 	                name: name1,
 	                pointInterval: 30 * 24 * 3600 * 1000,
-	                pointStart: Date.UTC(clyearstart, 0, 01),
+	                pointStart: Date.UTC(clyearstart, clmonthstart-1, 01),
 	                data: name1data
 	            },
 	            {
 	                type: 'area',
 	                name: name2,
 	                pointInterval: 30 * 24 * 3600 * 1000,
-	                pointStart: Date.UTC(clyearstart, 0, 01),
+	                pointStart: Date.UTC(clyearstart, clmonthstart-1, 01),
 	                data: name2data
 	            }]
 	        });
