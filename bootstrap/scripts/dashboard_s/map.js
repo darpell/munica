@@ -1,6 +1,20 @@
 var dasma = new google.maps.LatLng(14.2990183, 120.9589699);
-
-var map, heatmap;
+var infowindow = new google.maps.InfoWindow();
+infowindow.setOptions({maxWidth:400});
+function setPolyInfo(poly,str,pmap)
+{
+	var p;
+	google.maps.event.addListener(poly,'click', function(event) {
+		infowindow.setContent(str);
+	    if (event) {
+	       p = event.latLng;
+	    }
+	    infowindow.setPosition(p);
+	    infowindow.open(pmap);
+	    // map.openInfoWindowHtml(point,html); 
+	  });
+}
+var heatmap;
 var markers = [];
 for (var pt_ctr = 0; pt_ctr < lat.length; pt_ctr++) 
 {
@@ -38,7 +52,7 @@ function initialize()
 				zoom: 13,
 				mapTypeId: google.maps.MapTypeId.HYBRID
 			};
-		map = new google.maps.Map(document.getElementById('googleMap'),mapProp);
+		var map = new google.maps.Map(document.getElementById('googleMap'),mapProp);
 
 		//var oms = new OverlappingMarkerSpiderfier(map);
 		//var mcOptions = {gridSize: 50, maxZoom: 15}; //for MarkerClusterer
@@ -90,7 +104,8 @@ function initialize()
 		    strokeOpacity: 0.6,
 		    strokeWeight: 2,
 		    fillColor: '#FF0000',
-		    fillOpacity: 0.1
+		    fillOpacity: 0.1,
+		    clickable:true
 		  });
 
 		san_agustin_iii_polygon.setMap(map);
@@ -100,14 +115,19 @@ function initialize()
 			'<p> Having ' + san_agustin_iii_cases_count + ' cases.</p>'
 			;
 
-		
+		setPolyInfo(san_agustin_iii_polygon,contentString,map);
+		/*
 	  var infowindow = new google.maps.InfoWindow({
 	      content: contentString
 	  });
 		
-		google.maps.event.addListener(san_agustin_iii_polygon, 'click', function() {
+		google.maps.event.addListener(san_agustin_iii_polygon, 'click', function(event) {
 		    infowindow.open(map,san_agustin_iii_polygon);
-		  });
+		    if (event) {
+			       p = event.latLng;
+			    }
+			    infoWindow.setPosition(p);
+		  });//*/
 		
 		// langkaan ii
 		var langkaan_ii_polygon = new google.maps.Polygon({
@@ -125,15 +145,15 @@ function initialize()
 			'<h4>' + langkaan_ii + '</h4>' +
 			'<p> Having ' + langkaan_ii_cases_count + ' cases.</p>' 
 			;
-
-		
+		setPolyInfo(langkaan_ii_polygon,langkaan_ii_string,map);
+		/*
 	  var langkaan_ii_infowindow = new google.maps.InfoWindow({
 	      content: langkaan_ii_string
 	  });
 		
 		google.maps.event.addListener(langkaan_ii_polygon, 'click', function() {
 			langkaan_ii_infowindow.open(map,langkaan_ii_polygon);
-		  });
+		  });//*/
 		
 		// sampaloc i
 		var sampaloc_i_polygon = new google.maps.Polygon({
@@ -152,14 +172,15 @@ function initialize()
 			'<p> Having ' + sampaloc_i_cases_count + ' cases.</p>' 
 			;
 
-		
+		setPolyInfo(sampaloc_i_polygon,sampaloc_i_string,map);
+		/*
 	  var sampaloc_i_infowindow = new google.maps.InfoWindow({
 	      content: sampaloc_i_string
 	  });
 		
 		google.maps.event.addListener(sampaloc_i_polygon, 'click', function() {
 			sampaloc_i_infowindow.open(map,sampaloc_i_polygon);
-		  });
+		  });//*/
 		
 		// san agustin I
 		var san_agustin_i_polygon = new google.maps.Polygon({
@@ -178,14 +199,15 @@ function initialize()
 			'<p> Having ' + san_agustin_i_cases_count + ' cases.</p>' 
 			;
 
-		
+		setPolyInfo(san_agustin_i_polygon,san_agustin_i_string,map);
+		/*
 	  var san_agustin_i_infowindow = new google.maps.InfoWindow({
 	      content: san_agustin_i_string
 	  });
 		
 		google.maps.event.addListener(san_agustin_i_polygon, 'click', function() {
 			san_agustin_i_infowindow.open(map,san_agustin_i_polygon);
-		  });
+		  });//*/
 		
 		// end of polygons
 
