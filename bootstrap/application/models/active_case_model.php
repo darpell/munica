@@ -390,12 +390,14 @@ class Active_case_model extends CI_Model
 						$this->db->set('status',$level);
 							
 						$this->db->insert('active_cases', $data);
-						$hh = array(
-								'last_visited' => date('Y-m-d')
-						);
-	
-						$this->db->where('household_id',$this->input->post('household_id'));
-						$this->db->update('household_address', $hh);
+						
+						$visit_data = array(
+								'household_id'	=> $this->input->post('household_id'),
+								'visit_date'	=> date('Y-m-d H:i:s')
+							);
+		
+						$this->db->insert('house_visits', $visit_data);
+						
 							
 						$returning_data = array($level, $symptoms);
 							

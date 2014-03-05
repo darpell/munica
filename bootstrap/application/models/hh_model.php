@@ -63,12 +63,18 @@ class Hh_model extends CI_Model
 				'household_lat'	=>	$this->input->post('lat'),
 				'household_lng'	=>	$this->input->post('lng'),
 				'house_no'		=>	$this->input->post('hh_no'),
-				'street'		=>	$this->input->post('hh_street'),
-				'last_visited'	=>	date("Y-m-d H:i:s")
+				'street'		=>	$this->input->post('hh_street')
+				//'last_visited'	=>	date("Y-m-d H:i:s")
 		);
 		$this->db->insert('household_address',$input_data);
 	
 		$hh_id = $this->db->insert_id();
+		
+		$visits_input = array(
+					'household_id'	=> $hh_id,
+					'visit_date'	=> date("Y-m-d H:i:s")
+				);
+		$this->db->insert('house_visits',$visits_input);
 		
 		$this->add_hh_member($hh_id);
 	}
