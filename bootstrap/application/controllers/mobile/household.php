@@ -30,17 +30,14 @@ class Household extends CI_Controller
 		$data['subjects'] = $this->hh->get_to_visit_list($this->session->userdata('TPusername'));
 		
 		$last_visits = array();
-		$temp_cases = array();
 		
 		foreach ($data['subjects'] as $hh)
 		{
 			$temp = $this->hh->get_visits($hh['household_id']);
 			array_push($last_visits, $temp);
-			$temp_cases = $this->hh->get_cases($this->session->userdata('TPusername'),$subjects[$ctr]['household_id']);
 		}
 		
 		$data['last_visits'] = $last_visits;
-		$data['cases'] = $temp_cases;
 		
 		$this->load->view('mobile/master_list', $data);
 	}
