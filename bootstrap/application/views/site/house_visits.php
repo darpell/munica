@@ -14,40 +14,20 @@ body { height:100% }
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3&sensor=true"></script>
 <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
 <script src="<?= base_url('scripts/OverlappingMarkerSpiderfier.js') ?>"></script>
-<script src="<?= base_url('scripts/households/hh_mapping.js') ?>"></script>
+<script src="<?= base_url('scripts/households/visits_map.js') ?>"></script>
+
+<script>
+var households = <?= json_encode($households); ?>;
+var last_visits = <?= json_encode($last_visits); ?>;
+var hh_img = [
+				'<?= base_url('images/house visited.png'); ?>',
+				'<?= base_url('images/house not visited.PNG'); ?>'
+              ];
+</script>
 
 <!-- end of ADDITIONAL FILES -->
-
-<!-- map data -->
-<?php $this->load->model('hh_model','hh');?>
-<input type="hidden" id="result_length" value="<?php echo count($households); ?>" />
-	<?php for ($ctr = 0; $ctr < count($households); $ctr++) {
-		
-		$date = date('Y-m-d');//$this->hh->get_visits($households[$ctr]['household_id'], TRUE);//$households[$ctr]['last_visited'];
-		$year = date('Y', strtotime($date));
-		$month = date('m', strtotime($date));
-		$date = date('d', strtotime($date));
-	?>
-	
-		<input type="hidden" id="pt_id<?= $ctr ?>" 				value="<?php echo $households[$ctr]['household_id']; ?>"	/>
-		<input type="hidden" id="pt_name<?= $ctr ?>" 			value="<?php echo $households[$ctr]['household_name']; ?>"	/>
-		<input type="hidden" id="pt_no<?= $ctr ?>"				value="<?php echo $households[$ctr]['house_no']; ?>"	/>
-		<input type="hidden" id="pt_lat<?= $ctr ?>" 			value="<?php echo $households[$ctr]['household_lat']; ?>"	/>
-		<input type="hidden" id="pt_lng<?= $ctr ?>" 			value="<?php echo $households[$ctr]['household_lng']; ?>"	/>
-		<input type="hidden" id="pt_last_visit_year<?= $ctr ?>" value="<?php echo $year; ?>"	/>
-		<input type="hidden" id="pt_last_visit_month<?= $ctr ?>" value="<?php echo $month; ?>"	/>
-		<input type="hidden" id="pt_last_visit_date<?= $ctr ?>" value="<?php echo $date; ?>"	/>
-		<input type="hidden" id="pt_street<?= $ctr ?>" 			value="<?php echo $households[$ctr]['street']; ?>"			/>
-		<input type="hidden" id="pt_bhw<?= $ctr ?>" 			value="<?php echo $households[$ctr]['bhw_id']; ?>"			/>
-		<input type="hidden" id="pt_barangay<?= $ctr ?>" 		value="<?php echo $households[$ctr]['barangay']; ?>"		/>
-	<?php } ?>
-
-	<input type="hidden" id="image_visited" value="<?php echo base_url('images/house visited.png'); ?>"		/>
-	<input type="hidden" id="image_unvisited" value="<?php echo base_url('images/house unvisited.png'); ?>"		/>
-	<input type="hidden" id="image_not_visited" value="<?php echo base_url('images/house not visited.PNG'); ?>"		/>
-<!-- end of map data -->
 </head>
-<body>
+<body onload="initialize()">
 <!-- CONTENT -->
 <!-- Filters -->
 <div class="container">

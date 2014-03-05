@@ -53,7 +53,8 @@ function initialize()
 									+ document.getElementById("pt_street" + pt_ctr).value + ', Barangay '
 									+ document.getElementById("pt_barangay" + pt_ctr).value,
 							animation: animate,//google.maps.Animation.BOUNCE,
-							icon: image
+							icon: image,
+							map: map
 			});
 		google.maps.event.addListener(marker, 'click', toggleBounce);
 			

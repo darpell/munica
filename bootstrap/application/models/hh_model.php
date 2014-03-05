@@ -25,7 +25,8 @@ class Hh_model extends CI_Model
 	function get_visits($hh_id, $last = FALSE)
 	{
 		$this->db->from('house_visits')
-				->where('household_id', $hh_id)
+				->join('household_address','household_address.household_id = house_visits.household_id')
+				->where('house_visits.household_id', $hh_id)
 				->order_by('visit_date', 'desc');
 		
 		IF ($last == TRUE)

@@ -16,6 +16,16 @@ class Households extends CI_Controller
 		//$this->load->view('mobile/poi_form');
 		$data['households'] = $this->map->get_households($this->session->userdata('TPusername'));
 		
+		$last_visits = array();
+		
+		foreach ($data['households'] as $hh)
+		{
+			$temp = $this->model->get_visits($hh['household_id']);
+			array_push($last_visits, $temp);
+		}
+		
+		$data['last_visits'] = $last_visits;
+		
 		$this->load->view('site/house_visits', $data);
 	}
 	
