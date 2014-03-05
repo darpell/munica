@@ -36,7 +36,7 @@ body { height:100% }
 			<?php if ($casereportANDimmecase['casereport'] != null OR $casereportANDimmecase['immecase'] != null )
 			{?>
 			<center>
-			<h4>Cases reported during <?php echo $datefrom.' to '.$dateto ?></h4>
+			<h4>Cases reported during <?php echo date('M',strtotime($monthstart.'/1/'.$yearstart)).' '.$yearstart .' to '.date('M',strtotime($monthend.'/1/'.$yearend)).' '.$yearend ?></h4>
 			 <fieldset  style="width: 50%;">
 			 <legend>Summary</legend>
 			<p>Most cases reported was at  <b><?php echo $brgys[$brgy_max]; ?></b></p>
@@ -107,8 +107,8 @@ var fatality =  <?php echo json_encode($fatality);?>;
 			echo json_encode($agegroup); else echo json_encode('null')?>;
   var brgys = <?php if ($casereportANDimmecase['casereport'] != null OR $casereportANDimmecase['immecase'] != null )
 			echo json_encode($brgys); else echo json_encode('null')?>;
-
-var gender = <?php echo json_encode($gender);?>;
+  var barangay = <?php echo json_encode($barangay);?>;
+  var gender = <?php echo json_encode($gender);?>;
 </script>
 	<!-- end of Graph -->
 

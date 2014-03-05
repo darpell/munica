@@ -19,7 +19,7 @@ body { height:100% }
 </head>
 <body onload="initialize()">
 <!-- CONTENT -->
-<?php  $this->load->view('/site/analytics/analyticslinks',$data);?>
+<?php $data['title'] = 'casesummary'; $this->load->view('/site/analytics/analyticslinks',$data);?>
 
 <div class="col-md-9">		
 	<!-- combo chart for dengue cases -->
@@ -38,7 +38,8 @@ body { height:100% }
 					<p></>A total of <b><?php echo $cases['deaths'] ?> deaths</b> reported for the last 4 weeks.</p>
 					 </fieldset>
 					 <legend><center></>Suspected Sources</center></legend>
-					<?php foreach ($household as $row)
+					<?php 
+					if($household != null)foreach ($household as $row)
 					{
 						if($row['suspected_source'] != null OR $row['suspected_source'] != '' OR $row['suspected_source'] != 'null')
 						echo '<li>'. $row['suspected_source'].'</li>';
@@ -56,79 +57,7 @@ body { height:100% }
 				<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"> graph of distribution </div>
 			
 			
-			<!--  
-	
-			<br />
-			<table class="table" border="1">
-			<thead>
-				<tr>
-					<th> <?php echo date('Y')?> </th>
-					<?php
-						for ($week_ctr = (int)date('W')-4; $week_ctr <= (int)date('W'); $week_ctr++) 
-						{
-							
-					?>
-					<th> <?php if($week_ctr != (int)date('W')){ echo 'Week '.$week_ctr;} else {echo 'Current Week';}  ?> </th>
-					<?php } ?>
-				</tr>
-			</thead>
-				<tbody>
-				<?php
-					for ($ctr = 0; $ctr < 4; $ctr++) 
-					{
-				?>
-					<tr>
-					<td> <?= $barangay[$ctr] ?> </td>
-				<?php 
-						for ($week_ctr = (int)date('W')-4; $week_ctr <= (int)date('W'); $week_ctr++)
-						{
-				?>
-				
-					<td> <?= $cases[$barangay[$ctr]][date('Y')][$week_ctr]?> </td>
-				<?php } ?>
-				</tr>
-				<?php } ?>
-			</tbody>
 			
-		</table>
-		
-		<table class="table" border="1">
-			<thead>
-				<tr>
-					<th> <?php echo date('Y')-1?> </th>
-					<?php
-						for ($week_ctr = (int)date('W')-4; $week_ctr <= (int)date('W'); $week_ctr++) 
-						{
-							
-					?>
-					<th> <?php if($week_ctr != (int)date('W')){ echo 'Week '.$week_ctr;} else {echo 'Current Week';}  ?> </th>
-					<?php } ?>
-				</tr>
-			</thead>
-				<tbody>
-				<?php
-					for ($ctr = 0; $ctr < 4; $ctr++) 
-					{
-				?>
-					<tr>
-					<td> <?= $barangay[$ctr] ?> </td>
-				<?php 
-						for ($week_ctr = (int)date('W')-4; $week_ctr <= (int)date('W'); $week_ctr++)
-						{
-				?>
-				
-					<td> <?= $cases[$barangay[$ctr]][date('Y')-1][$week_ctr]?> </td>
-				<?php } ?>
-				</tr>
-				<?php } ?>
-			</tbody>
-			
-		</table>
-		<br />
-		
-		
-		<div id="container2" style="min-width: 210px; height: 300px; margin: 0 auto";align="left"></div>
-		-->
 		</div>
 			
 </div>
@@ -136,7 +65,7 @@ body { height:100% }
 
 <script>
 
-var weekno = <?php echo json_encode((int)date('W')); ?>;
+var weekno = <?php echo json_encode($weekno); ?>;
 weekno = parseInt(weekno);
 
 

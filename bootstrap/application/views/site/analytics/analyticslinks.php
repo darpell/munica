@@ -1,6 +1,4 @@
- <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-<script src="code.jquery.com/jquery-1.9.1.js"></script>
-<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
  <script>
 $(function() {
 $( "#datepicker" ).datepicker();
@@ -46,16 +44,69 @@ $( "#datepicker2" ).datepicker();
 			<div class="panel-body">
 				<ul class="nav nav-pills nav-stacked">
 				
-				<label style="color:red"><?php echo form_error('datepicker'); ?></label>
-				 <li>Date From: <input type="text" name="datepicker" id="datepicker" readonly=true
-				 value ="<?php echo $datefrom;?>"></li>
+				 <li>Date From:<?php  
+		 		for($i = 1; $i <= 12;$i++)
+		 		{ switch ($i)
+					{
+						case '1': $month = 'JAN'; break;
+						case '2': $month = 'FEB'; break;
+						case '3': $month = 'MAR'; break;
+						case '4': $month = 'APR'; break;
+						case '5': $month = 'MAY'; break;
+						case '6': $month = 'JUN'; break;
+						case '7': $month = 'JUL'; break;
+						case '8': $month = 'AUG'; break;
+						case '9': $month = 'SEP'; break;
+						case '10': $month = 'OCT'; break;
+						case '11': $month = 'NOV'; break;
+						case '12': $month = 'DEC'; break;
+					}
+		 			$options[$i]=$month;
+		 		}
+		 		echo form_dropdown('monthstart', $options, $monthstart);
+		 		$options = null;
+		    	?> <?php  
+		 		for($i = 2006; $i <= date('Y');$i++)
+		 		{
+		 			$options[$i]=$i;
+		 		}
+		 		echo form_dropdown('yearstart', $options, $yearstart);
+		 		$options = null;
+		    	?> </li>
 
-				 <label style="color:red"><?php echo form_error('datepicker2'); ?></label>
-				 <li>Date To: <input type="text"  name="datepicker2" id="datepicker2" readonly=true
-				 value ="<?php echo $dateto;?>"></li>
+			<br / >
+				 <li>Date To:<?php  
+		 		for($i = 1; $i <= 12;$i++)
+		 		{switch ($i)
+					{
+						case '1': $month = 'JAN'; break;
+						case '2': $month = 'FEB'; break;
+						case '3': $month = 'MAR'; break;
+						case '4': $month = 'APR'; break;
+						case '5': $month = 'MAY'; break;
+						case '6': $month = 'JUN'; break;
+						case '7': $month = 'JUL'; break;
+						case '8': $month = 'AUG'; break;
+						case '9': $month = 'SEP'; break;
+						case '10': $month = 'OCT'; break;
+						case '11': $month = 'NOV'; break;
+						case '12': $month = 'DEC'; break;
+					}
+		 			$options[$i]=$month;
+		 		}
+		 		echo form_dropdown('monthend', $options, $monthend);
+		 		$options = null;
+		    	?>  <?php  
+		 		for($i = 2006; $i <= date('Y');$i++)
+		 		{
+		 			$options[$i]=$i;
+		 		}
+		 		echo form_dropdown('yearend', $options, $yearend);
+		 		$options = null;
+		    	?></li>
 				  <br />
 				  <input type= "hidden" name="url" value = "<?php echo current_url()?>" />
-				  <!--  
+				  
 				 <li>Barangay:</li>
  				<?php  
 		 		foreach ($barangay_form as $row) {
@@ -66,7 +117,7 @@ $( "#datepicker2" ).datepicker();
 				}
 		    	?>
 		    	<br />
-		    	-->
+		    	
 		    	<li><input type="submit" class="submitButton" value="Search"/>
 		    	<?php echo form_close(); ?>
 		    	
@@ -204,7 +255,103 @@ $( "#datepicker2" ).datepicker();
  				</ul>
 			</div>
 		</div>
-		<?php } ?>
+		<?php } else if( $title =='casesummary'){
+		echo form_open('website/analytics');
+		?>
+		<!-- Filters -->
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title"> Filters </h3>
+			</div>
+			<div class="panel-body">
+				<ul class="nav nav-pills nav-stacked">
+				<li>Week No:</li>
+				 <li>
+ 				<?php  
+		 		for($i = 5; $i <= date('W');$i++)
+		 		{
+		 			$options[$i]=$i. ': '. date('M d, Y', strtotime("-".(date('W')-$i). " week"));
+		 		}
+		 		echo form_dropdown('weekno', $options,$weekno);
+				
+		    	?>
+		    	</li>
+		    	<li>Barangays Selected:</li>
+ 				<?php  
+		 		foreach ($barangay as $row) {
+				echo '<li>';
+		    	echo form_checkbox('barangay[]', $row, TRUE);
+		    	echo " " . $row;
+		    	echo '</li>';
+				}
+		    	?>
+		    	<br />
+		   
+		    	<li><input type="submit" class="submitButton" value="Search"/>
+		    	<?php echo form_close(); ?>
+		    	
+		    	</li>
+ 				</ul>
+			</div>
+		</div>
+		<?php } else if( $title =='caselist'){
+		echo form_open('website/analytics/caselist');
+		?>
+		<!-- Filters -->
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title"> Filters </h3>
+			</div>
+			<div class="panel-body">
+				<ul class="nav nav-pills nav-stacked">
+				 <li>Date:<?php  
+		 		for($i = 1; $i <= 12;$i++)
+		 		{ switch ($i)
+					{
+						case '1': $month = 'JAN'; break;
+						case '2': $month = 'FEB'; break;
+						case '3': $month = 'MAR'; break;
+						case '4': $month = 'APR'; break;
+						case '5': $month = 'MAY'; break;
+						case '6': $month = 'JUN'; break;
+						case '7': $month = 'JUL'; break;
+						case '8': $month = 'AUG'; break;
+						case '9': $month = 'SEP'; break;
+						case '10': $month = 'OCT'; break;
+						case '11': $month = 'NOV'; break;
+						case '12': $month = 'DEC'; break;
+					}
+		 			$options[$i]=$month;
+		 		}
+		 		echo form_dropdown('month', $options, $month2);
+		 		$options = null;
+		    	?> <?php  
+		 		for($i = 2006; $i <= date('Y');$i++)
+		 		{
+		 			$options[$i]=$i;
+		 		}
+		 		echo form_dropdown('year', $options, $year);
+		 		$options = null;
+		    	?> </li>
+		    	<li>Barangays Selected:</li>
+ 				<?php  
+		 		foreach ($barangay as $row) {
+				echo '<li>';
+		    	echo form_checkbox('barangay[]', $row, TRUE);
+		    	echo " " . $row;
+		    	echo '</li>';
+				}
+		    	?>
+		    	<br />
+		   
+		    	<li><input type="submit" class="submitButton" value="Search"/>
+		    	<?php echo form_close(); ?>
+		    	
+		    	</li>
+ 				</ul>
+			</div>
+		</div>
+		<?php }?>
 		
 		<!-- end of Filters -->
 </div>

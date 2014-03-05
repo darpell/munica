@@ -621,29 +621,15 @@ function get_outbreak_count_year($year){
 			return $data;
 			
 		}
-		function get_death_count_daterange ($startdate = null,$enddate = null)
+		function get_death_count_daterange ($startdate,$enddate,$brgy)
 		{
-			if($startdate == null or $enddate == null)
-			{
-				$where = " count(cr_patient_no) as deaths , cr_barangay FROM (`case_report_main`)
-					WHERE  cr_outcome = 'D'
-					GROUP BY cr_barangay ";
-				
-				$this->db->select($where,false);
-				$q = $this->db->get();
-				$yearstart= 0;
-				if($q->num_rows() > 0)
-				{
-					$data= $q->result_array();
-				}
-				else 
-				$data = null;
-			}
-			else
+		
+			$data = [];
+			foreach($brgy as $brgy)
 			{
 			$where = " count(cr_patient_no) as deaths , cr_barangay FROM (`case_report_main`)
 					WHERE cr_date_onset BETWEEN '".$startdate."'  AND '".$enddate."' 
-					AND cr_outcome = 'D'
+					AND cr_outcome = 'D' AND cr_barangay = '".$brgy."'
 					GROUP BY cr_barangay ";
 				
 			$this->db->select($where,false);
@@ -651,33 +637,37 @@ function get_outbreak_count_year($year){
 			$yearstart= 0;
 			if($q->num_rows() > 0)
 			{
-				$data= $q->result_array();
+
+				$data=array_merge($data,$q->result_array());
+				
 			}
-			else
-			$data = null;
 			}
+
+			
 			return $data;
 				
 		}
-		function get_all_cases_data($startdate, $enddate)
+		function get_all_cases_data($startdate, $enddate ,$brgy)
 		{
-	
-		
+			$data['casereport'] = [];
+			$data['immecase'] = [];
+		foreach ($brgy as $brgy)
+		{
 			$where = " * FROM (`case_report_main`)
-					WHERE cr_date_onset BETWEEN '".$startdate."'  AND '".$enddate."' ";
+					WHERE cr_barangay = '".$brgy."' AND  cr_date_onset BETWEEN '".$startdate."'  AND '".$enddate."' ";
 			$this->db->select($where,false);
 			$q = $this->db->get();
 			$yearstart= 0;
 			if($q->num_rows() > 0)
 			{
- 				$data['casereport'] = $q->result_array();
+ 				$data['casereport']=array_merge($data['casereport'],$q->result_array());
 			}
-			else 
-				$data['casereport'] = null;
+			 
+				
 			$q->free_result();
 				
 			
-			$data['immecase'] = null;
+			
 			
 			$where = " *
 				FROM (`active_cases`)
@@ -685,13 +675,13 @@ function get_outbreak_count_year($year){
 				JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
 				JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username`
 				JOIN `household_address` ON `catchment_area`.`household_id` = `household_address`.`household_id`
-				WHERE created_on BETWEEN '".$startdate."'  AND '".$enddate."' ";
+				WHERE barangay = '".$brgy."' AND created_on BETWEEN '".$startdate."'  AND '".$enddate."' ";
 				$this->db->select($where , false);
 				$q = $this->db->get();
 				
 					if($q->num_rows() > 0)
 					{ 
-						$data['immecase'] = $q->result_array();
+						$data['immecase']=array_merge($data['immecase'],$q->result_array());
 					}
 					
 					$q->free_result();
@@ -702,7 +692,7 @@ function get_outbreak_count_year($year){
 				JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
 				JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username`
 				JOIN `household_address` ON `catchment_area`.`household_id` = `household_address`.`household_id`
-				WHERE created_on BETWEEN '".$startdate."'  AND '".$enddate."' ";
+				WHERE barangay = '".$brgy."' AND created_on BETWEEN '".$startdate."'  AND '".$enddate."' ";
 					$this->db->select($where , false);
 					$q = $this->db->get();
 					
@@ -713,7 +703,7 @@ function get_outbreak_count_year($year){
 						
 					$q->free_result();
 						
-		
+		}
 
 			return $data;
 							
@@ -848,7 +838,69 @@ function get_outbreak_count_year($year){
 			$q->free_result();
 			return $data;
 		}
-		function get_summary_count($weekno , $brgy = null)
+		function get_case_list($month,$year,$brgy)
+		{	
+			$data['immecase'] = [];
+			$data['casereport'] = [];
+		
+			foreach($brgy as $brgy)
+			{
+			$where = " *
+				FROM (`active_cases`)
+				JOIN `master_list` ON `master_list`.`person_id` = `active_cases`.`person_id`
+				JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
+				JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username`
+				JOIN `household_address` ON `catchment_area`.`household_id` = `household_address`.`household_id`
+				WHERE barangay = '".$brgy."' AND 
+				YEAR(created_on) = ".$year."  AND
+				MONTH(created_on) = ".$month." 
+					";
+			$this->db->select($where , false);
+			$q = $this->db->get();
+		
+			if($q->num_rows() > 0)
+			{
+				$data['immecase'] = array_merge($data['immecase'],$q->result_array());
+			}
+			$q->free_result();
+			$where = " *
+				FROM (`previous_cases`)
+				JOIN `master_list` ON `master_list`.`person_id` = `previous_cases`.`person_id`
+				JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
+				JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username`
+				JOIN `household_address` ON `catchment_area`.`household_id` = `household_address`.`household_id`
+				WHERE barangay = '".$brgy."' AND
+				YEAR(created_on) = ".$year."  AND
+				MONTH(created_on) = ".$month." 
+					";
+			$this->db->select($where , false);
+			$q = $this->db->get();
+			
+			if($q->num_rows() > 0)
+			{
+				$data['immecase'] = array_merge($data['immecase'],$q->result_array());
+			}
+			
+			
+			$q->free_result();
+			
+			$where = " * FROM (`case_report_main`)
+					WHERE cr_barangay = '".$brgy."' AND  
+					YEAR(cr_date_onset) = ".$year."  AND
+					MONTH(cr_date_onset) = ".$month." 
+					";
+			$this->db->select($where,false);
+			$q = $this->db->get();
+			if($q->num_rows() > 0)
+			{
+				$data['casereport']=array_merge($data['casereport'],$q->result_array());
+			}
+			$q->free_result();
+			
+			}
+			return $data;
+		}
+		function get_summary_count($weekno , $brgy)
 		{
 			$brgys = $this->get_barangays();
 			
@@ -879,18 +931,19 @@ function get_outbreak_count_year($year){
 				
 				$average[$i] = 0;  
 			}
-			
-			if($brgy == null){
+			foreach ($brgy as $brgy)
+			{
 			$where = "count(cr_barangay) as patientcount ,YEAR(cr_date_onset) as caseyear,   
 						WEEK(cr_date_onset) as caseweek, cr_barangay, cr_age DIV 10 as agegroup, cr_sex
 					
 
 						FROM (`case_report_main`)
 						WHERE WEEK(`cr_date_onset`) between ".$weekno."-4 AND ".$weekno." AND
-						(YEAR(`cr_date_onset`) between ".date('Y')."-5 AND  ".date('Y').") 
+						(YEAR(`cr_date_onset`) between ".date('Y')."-5 AND  ".date('Y').")
+						AND cr_barangay ='".$brgy."' 
 						GROUP BY YEAR(`cr_date_onset`),WEEK(`cr_date_onset`), cr_barangay, agegroup, cr_sex
 					";
-			}
+			
 			$this->db->select($where,false);
 			$q = $this->db->get();
 			if($q->num_rows() > 0)
@@ -931,7 +984,7 @@ function get_outbreak_count_year($year){
 				
 			}
 			$q->free_result();
-			if($brgy == null){
+			
 			$where = "count(imcase_no) as patientcount ,YEAR(created_on) as caseyear,   
 						WEEK(created_on) as caseweek, barangay ,  FLOOR(TIMESTAMPDIFF(YEAR,person_dob,CURDATE())/10) as agegroup, person_sex
 						FROM (`active_cases`)
@@ -942,8 +995,9 @@ function get_outbreak_count_year($year){
 			
 						WHERE WEEK(`created_on`) between ".$weekno."-4 AND ".$weekno." AND
 						(YEAR(`created_on`) between ".date('Y')."-5 AND  ".date('Y').")
+						AND barangay ='".$brgy."' 
 						GROUP BY YEAR(`created_on`),WEEK(`created_on`), barangay,agegroup,person_sex";
-			}
+			
 			$this->db->select($where,false);
 			$q = $this->db->get();
 			if($q->num_rows() > 0)
@@ -983,15 +1037,16 @@ function get_outbreak_count_year($year){
 			
 			$data['deaths'] = 0;
 			
-			if($brgy == null){
+			
 				$where = "count(cr_barangay) as patientcount ,YEAR(cr_date_onset) as caseyear,
 						WEEK(cr_date_onset) as caseweek, cr_barangay
 						FROM (`case_report_main`)
 						WHERE WEEK(`cr_date_onset`) between ".$weekno."-4 AND ".$weekno." AND
 						(YEAR(`cr_date_onset`) =  ".date('Y').") AND cr_outcome = 'D'
+						AND cr_barangay ='".$brgy."' 
 						GROUP BY YEAR(`cr_date_onset`),WEEK(`cr_date_onset`), cr_barangay
 					";
-			}
+			
 			$this->db->select($where,false);
 			$q = $this->db->get();
 			if($q->num_rows() > 0)
@@ -1002,6 +1057,7 @@ function get_outbreak_count_year($year){
 				}
 			
 			}
+		}
 			
 			for($i = $weekno-4; $i<=$weekno; $i++)
 			{
@@ -1019,7 +1075,7 @@ function get_outbreak_count_year($year){
 		}
 		function get_affected_household($weekno)
 		{
-
+			$data = null;
 			$where = "barangay,count(household_name) as ctr ,suspected_source, household_name , house_no, street, household_address.household_id as id
 						FROM (`active_cases`)
 						JOIN `master_list` ON `master_list`.`person_id` = `active_cases`.`person_id`
@@ -1034,15 +1090,45 @@ function get_outbreak_count_year($year){
 				
 			$this->db->select($where,false);
 			$q = $this->db->get();
+			if($q->num_rows() > 0)
+			{
+				foreach ($q->result_array() as $row)
+				{
+				if(!isset($data[$row['household_name']]))
+					$data[$row['household_name']] = $row;
+				
+				else
+					$data[$row['household_name']]['ctr'] += $row['ctr'];
+				}
+			}
+			$where = "barangay,count(household_name) as ctr ,suspected_source, household_name , house_no, street, household_address.household_id as id
+						FROM (`previous_cases`)
+						JOIN `master_list` ON `master_list`.`person_id` = `previous_cases`.`person_id`
+						JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
+						JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username`
+						JOIN `household_address` ON `catchment_area`.`household_id` = `household_address`.`household_id`
 			
-			$data = null;
+						WHERE WEEK(`created_on`) between ".$weekno."-4 AND ".$weekno." AND
+						(YEAR(`created_on`) = ".date('Y').")
+						GROUP BY household_name
+					";
 			
+			$this->db->select($where,false);
+			$q = $this->db->get();
+				
+				
 				
 			if($q->num_rows() > 0)
 			{
 				foreach ($q->result_array() as $row)
+				{
+				if(isset($data[$row['household_name']]))
+				$data[$row['household_name']]['ctr'] += $row['ctr'];
+				else
 				$data[$row['household_name']] = $row;
+				}
 			}
+			
 			$q->free_result();
 			return $data;
 		}

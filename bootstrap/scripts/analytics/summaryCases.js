@@ -19,7 +19,7 @@ $(function () {
                 text: 'Cases Reported Last 4 Weeks'
             },
             xAxis: {
-                categories: ['Week '+ (weekno-4), 'Week '+ (weekno-3), 'Week '+ (weekno-2), 'Week '+ (weekno-1), 'Current Week',]
+                categories: ['Week '+ (weekno-4), 'Week '+ (weekno-3), 'Week '+ (weekno-2), 'Week '+ (weekno-1), 'Week '+ (weekno),]
             },
             tooltip: {
                 formatter: function() {
@@ -36,13 +36,7 @@ $(function () {
             },plotOptions: {
                 column: {
                     stacking: 'normal',
-                    dataLabels: {
-                        enabled: true,
-                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
-                        style: {
-                            textShadow: '0 0 3px black, 0 0 3px black'
-                        }
-                    }
+                   
                 }
             },
             labels: {

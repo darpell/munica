@@ -4,8 +4,19 @@ if(brgycount != 'null')
 	var arragegroup = new Array();
 	for (var i=0;i<agegroup[0].length;i++)
 	{
-		arragegroup[i] = [agegroup[0][i],agegroup[1][i],agegroup[2][i],agegroup[3][i]];
+		arragegroup[i] = new Array();
 	}
+	$.each(barangay, function(index, value) {
+
+		for (var i=0;i<agegroup[0].length;i++)
+		{
+			$.each(brgys, function(x, y) {
+			if(value == y)
+				arragegroup[i].push(agegroup[x][i])
+			});
+		}
+		
+	});
 
         $('#combocases').highcharts({
             chart: {
@@ -14,7 +25,7 @@ if(brgycount != 'null')
                 text: 'Case Demographics'
             },
             xAxis: {
-                categories: brgys
+                categories: barangay
             },
             tooltip: {
                 formatter: function() {

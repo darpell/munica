@@ -11,12 +11,31 @@ class Analytics extends CI_Controller
 	
 	function index()
 	{
-		$data['cases']= $this->Analytics_model->get_summary_count((int)date("W"));
+		$this->form_validation->set_rules('weekno', 'Date from', 'required');
+		$this->form_validation->set_rules('barangay', 'Date to', 'required');
 		
-		$data['larval']= $this->Analytics_model->get_larval_count((int)date("W"));
 		$data['barangay'] = $this->Analytics_model->get_barangays();
+		$data['brgys'] = $this->Analytics_model->get_barangays();
+		if ($this->form_validation->run('') == FALSE)
+		{
+			$data['cases']= $this->Analytics_model->get_summary_count((int)date("W"),$data['barangay']);
+			
+			$data['household']= $this->Analytics_model->get_affected_household((int)date("W"));
+			
+			$data['weekno'] = (int)date("W");
+		}
+		else {
+			$data['brgys'] = $this->input->post('barangay');
+			$data['cases']= $this->Analytics_model->get_summary_count((int)$this->input->post('weekno'),$data['brgys']);
 		
-		$data['household']= $this->Analytics_model->get_affected_household((int)date("W"));
+			$data['household']= $this->Analytics_model->get_affected_household((int)$this->input->post('weekno'));
+			$data['weekno'] = (int)$this->input->post('weekno');
+		}
+		
+
+
+		
+
 		$temp= $this->Analytics_model->get_all_person_data();
 		$data['personcount']= 0;
 		foreach ($temp as $row)
@@ -74,52 +93,80 @@ class Analytics extends CI_Controller
 				: (date("Y") - $birthDate[0]));
 		return $age;
 	}
-	function larval_demographics()
+	function caselist()
 	{
-		$data['cases']= $this->Analytics_model->get_summary_count((int)date("W"));
-	
-		$data['larval']= $this->Analytics_model->get_larval_count((int)date("W"));
 		$data['barangay'] = $this->Analytics_model->get_barangays();
-		$this->load->view('site/analytics/larvalsummary',$data);
+		
+		$this->form_validation->set_rules('month', 'Date from', 'required');
+		$this->form_validation->set_rules('year', 'Date to', 'required');
+		$this->form_validation->set_rules('barangay', 'Date to', 'required');
+		if ($this->form_validation->run('') == FALSE)
+		{	
+			$data['year'] = date('Y');
+			$data['month2'] = date('m');
+			$data['cases'] = $this->Analytics_model->get_case_list($data['month2'],$data['year'],$data['barangay']);
+		
+		}
+		else
+		{
+			$data['year'] = $this->input->post('year');
+			$data['month2'] =  $this->input->post('month');
+			$data['cases'] = $this->Analytics_model->get_case_list($data['month2'],$data['year'],$this->input->post('barangay'));
+			
+		}
+		
+		
+		$this->load->view('site/analytics/caselist',$data);
 	}
 	function case_demographics()
 	{
 		$data['dateto'] = date('m/d/Y');
 		$data['datefrom'] = '01/01/2006';
+		$brgys = $this->Analytics_model->get_barangays();
 		
-		$this->form_validation->set_rules('datepicker', 'Date from', 'required');
-		$this->form_validation->set_rules('datepicker2', 'Date to', 'required');
+		$this->form_validation->set_rules('monthstart', 'Date from', 'required');
+		$this->form_validation->set_rules('monthend', 'Date to', 'required');
+		$this->form_validation->set_rules('yearstart', 'Date from', 'required');
+		$this->form_validation->set_rules('yearend', 'Date to', 'required');
+		$this->form_validation->set_rules('barangay', 'Date to', 'required');
 		
 		if ($this->form_validation->run('') == FALSE)
 		{
-			$temp= explode ('/', $data['datefrom']);
-			$temp = $temp[2].'/'.$temp[0].'/'.$temp[1];
+			$data['monthstart'] =1;
+		 	$data['monthend'] = date('m');
 				
-			$temp2= explode ('/', $data['dateto']);
-			$temp2 = $temp2[2].'/'.$temp2[0].'/'.$temp2[1];
+			$data['yearstart'] = 2006;
+			$data['yearend'] = date('Y');
 			
-			$casereportANDimmecase = $this->Analytics_model->get_all_cases_data($temp, $temp2);
-			$data['deathcount'] = $this->Analytics_model->get_death_count_daterange($temp, $temp2);
+			$temp = $data['yearstart'].'/'.$data['monthstart'].'/1';
+			$temp2 =  date("Y-m-t", strtotime($data['yearend'].'/'.$data['monthend'].'/1'));
+			
+			$data['barangay'] = $brgys;
+			
+			$casereportANDimmecase = $this->Analytics_model->get_all_cases_data($temp, $temp2,$data['barangay']);
+			$data['deathcount'] = $this->Analytics_model->get_death_count_daterange($temp, $temp2,$data['barangay']);
 		}
 		else
 		{
-			$data['datefrom'] = $this->input->post('datepicker');
-			$data['dateto'] = $this->input->post('datepicker2');
+			$data['monthstart'] = $this->input->post('monthstart');
+			$data['monthend'] = $this->input->post('monthend');
 			
-			$temp= explode ('/', $data['datefrom']);
-			$temp = $temp[2].'/'.$temp[0].'/'.$temp[1];
+			$data['yearstart'] = $this->input->post('yearstart');
+			$data['yearend'] = $this->input->post('yearend');
 			
-			$temp2= explode ('/', $data['dateto']);
-			$temp2 = $temp2[2].'/'.$temp2[0].'/'.$temp2[1];
+			$temp = $data['yearstart'].'/'.$data['monthstart'].'/1';
+			$temp2 =  date("Y-m-t", strtotime($data['yearend'].'/'.$data['monthend'].'/1'));
 			
-			$casereportANDimmecase = $this->Analytics_model->get_all_cases_data($temp, $temp2);
-			$data['deathcount'] = $this->Analytics_model->get_death_count_daterange($temp, $temp2);
+			$data['barangay'] = $this->input->post('barangay');
+			
+			$casereportANDimmecase = $this->Analytics_model->get_all_cases_data($temp, $temp2,$data['barangay']);
+			$data['deathcount'] = $this->Analytics_model->get_death_count_daterange($temp, $temp2,$data['barangay']);
 			
 		}
 		
 		
 		
-		$brgys = $this->Analytics_model->get_barangays();
+		
 		
 		for ($i = 0; $i < 4; $i++)
 		{
@@ -135,7 +182,7 @@ class Analytics extends CI_Controller
 		
 		$gender['m'] = 0;
 		$gender['f'] = 0;
-		if ($casereportANDimmecase['casereport'] != null)
+		if ($casereportANDimmecase['casereport'] != [])
 		{
 			
 		foreach ($casereportANDimmecase['casereport'] as $row)
@@ -187,7 +234,7 @@ class Analytics extends CI_Controller
 		}
 			
 		}
-		if ($casereportANDimmecase['immecase'] != null)
+		if ($casereportANDimmecase['immecase'] != [])
 		{
 		
 				foreach ($casereportANDimmecase['immecase'] as $row)
