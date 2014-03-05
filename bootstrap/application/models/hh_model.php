@@ -7,6 +7,30 @@ class Hh_model extends CI_Model
 		parent::__construct();
 	}
 	
+	function add_to_visit($hh_id)
+	{
+		$input_data = array(
+					'bhw_id'		=> $this->session->userdata('TPusername'),
+					'household_id'	=> $hh_id,
+					'created_on'	=> date('Y-m-d H:i:s')
+				);
+		
+		$this->db->insert('to_visit',$input_data);
+	}
+	
+	function get_to_visit_list($bhw)
+	{
+		$this->db->from('to_visit')
+				->join('household_address','to_visit.household_id = household_address.household_id')
+				->group_by('household_address.household_id')
+				->order_by('created_on');
+		
+		$query = $this->db->get();
+		
+		return $query->result_array();
+			$query->free_result();
+	}
+	
 	function mark_visit($hh_id)
 	{
 		$visit_data = array(

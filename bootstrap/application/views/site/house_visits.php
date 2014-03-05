@@ -51,7 +51,7 @@ var hh_img = [
 		<!-- Household List -->
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<h3 class="panel-title"> Household List </h3>
+					<h3 class="panel-title"> To Visit List </h3>
 				</div>
 				<div class="panel-body">
 					<div>
@@ -59,8 +59,8 @@ var hh_img = [
 							<!-- <tr>
 								<th> Household Name </th> <th> Address </th> <th> Barangay </th> <th> BHW assigned </th> <th> Date of Last Visit </th>
 							</tr>  -->
-							<?php foreach ($households as $house) { ?>
-							<li> <a> <?= $house['household_name'] . ' at ' . $house['house_no'] . ' ' . $house['street'] . ' Barangay ' . $house['barangay'] ?> </a> </li>
+							<?php foreach ($to_visit as $house) { ?>
+							<li> <a> <?= $house['household_name'] . ' at ' . $house['house_no'] . ' ' . $house['street'] ?></a> </li>
 							<?php } ?>
 						</ul>
 					</div>
