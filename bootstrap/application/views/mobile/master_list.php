@@ -21,8 +21,8 @@
 				<ul data-role="listview" data-inset="true" data-split-icon="check" data-split-theme="d" data-divider-theme="a" data-filter="true">
 				<?php for ($ctr = 0; $ctr < count($subjects); $ctr++) {?>
 					<?php 
-						$this->load->model('hh_model','model');
-						$fever_count = count($this->model->get_cases($this->session->userdata('TPusername'),$subjects[$ctr]['household_id']));
+						//$this->load->model('hh_model','model');
+						$fever_count = count($cases);
 							
 						if ($fever_count != NULL || $fever_count != 0)
 						{

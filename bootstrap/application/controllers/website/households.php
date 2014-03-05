@@ -32,8 +32,7 @@ class Households extends CI_Controller
 	function add_to_visit_list($hh_id)
 	{
 		$this->model->add_to_visit($hh_id);
-		
-		$this->visits();
+		redirect('website/households/visits');
 	}
 	
 	function filter_brgys()

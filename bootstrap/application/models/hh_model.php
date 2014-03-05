@@ -33,6 +33,7 @@ class Hh_model extends CI_Model
 	
 	function mark_visit($hh_id)
 	{
+		$this->check_if_in_to_visit($hh_id);
 		$visit_data = array(
 				'household_id'	=> $hh_id,
 				'visit_date'	=> date('Y-m-d H:i:s')
@@ -44,6 +45,16 @@ class Hh_model extends CI_Model
 		
 		return $query->row_array();
 			$query->free_result();
+	}
+	
+	function check_if_in_to_visit($hh_id)
+	{
+		$query = $this->db->get_where('to_visit', array('household_id' => $hh_id));
+		
+		if ($query->num_rows() > 0)
+		{
+			$this->db->delete('to_visit', array('household_id' => $hh_id));
+		}
 	}
 	
 	function get_visits($hh_id, $last = FALSE)
