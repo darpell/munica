@@ -35,7 +35,7 @@ class Households extends CI_Controller
 		redirect('website/households/visits');
 	}
 	
-	function filter_brgys()
+	function filter_brgys($user)
 	{		
 		$data['brgys'] = $this->barangay_model->get_brgys();
 		
