@@ -51,7 +51,7 @@ class Mapping extends CI_Model
 			$returnValues['poiDistanceValues'] =null;
 			$returnValues['householdValues'] =0;
 			$returnValues['householdDistanceValues'] =null;
-			$returnValues['bbValues'] =null;
+			$returnValues['bbValues'] =null;//echo $data['date1']." ".$data['date2'];
 			if($data['getLarva'])
 			{//*
 				$where="";
