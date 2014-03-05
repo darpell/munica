@@ -19,7 +19,7 @@ body { height:100% }
 </head>
 <body onload="initialize()">
 <!-- CONTENT -->
-<?php  $data['title'] = 'outbreak'; $this->load->view('/site/analytics/analyticslinks', $data);?>
+<?php  $data['title'] = 'totaloutbreak'; $this->load->view('/site/analytics/analyticslinks', $data);?>
 <div class="col-md-9">
 
 		

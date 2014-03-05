@@ -135,19 +135,54 @@ $( "#datepicker2" ).datepicker();
 			</div>
 			<div class="panel-body">
 				<ul class="nav nav-pills nav-stacked">
+				<li>Barangay:</li>
+ 				<?php  
+		 		foreach ($barangay as $row) {
+				$options[$row]=$row;
+				
+				}
+				echo form_dropdown('barangay', $options,$brgy);
+		    	?>
+		    	<br />
 				 <li>Year</li>
 				 <li>
  				<?php  
+ 				$options = null;
 		 		for($i = $outbreak['yearstart']; $i <= $outbreak['yearend'];$i++)
 		 		{
 		 			$options[$i]=$i;
 		 		}
 		 		echo form_dropdown('yearselected', $options, date('Y'));
-				
+		 		
 		    	?>
 		    	</li>
 		    	<br />
-		   
+		    	<li><input type="submit" class="submitButton" value="Search"/>
+		    	<?php echo form_close(); ?>
+		    	
+		    	</li>
+ 				</ul>
+			</div>
+		</div><?php }else if( $title =='totaloutbreak'){
+		echo form_open('website/analytics/outbreakcountyear');
+		?>
+		<!-- Filters -->
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title"> Filters </h3>
+			</div>
+			<div class="panel-body">
+				<ul class="nav nav-pills nav-stacked">
+				 <li>Barangay:</li>
+ 				<?php  
+		 		foreach ($barangay as $row) {
+				$options[$row]=$row;
+				
+				}
+				echo form_dropdown('barangay', $options);
+		    	?>
+		    	<br />
+		  		<br />
 		    	<li><input type="submit" class="submitButton" value="Search"/>
 		    	<?php echo form_close(); ?>
 		    	

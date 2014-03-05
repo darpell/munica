@@ -3,22 +3,58 @@ $(function () {
 	var seriesdata = new Array();
 	var catagoriesdata = new Array();
 	var piedata = new Array();
-	$.each(outbreak, function(index, value) {
-	  seriesdata.push(value);
-	  catagoriesdata.push(index);
-	});
+	for(var i = yearstart; i<=yearend;i++)
+	{  
+	catagoriesdata.push(i);
+	}
 	var ctr = 0;
-	$.each(outbreakmonth, function(index, value) {
-		if(value>0)
-			{
-				piedata.push( {
-	            name: index,
-	            y: value,
-	            color: Highcharts.getOptions().colors[ctr] // Joe's color
-				});
-				ctr++;
-			}
-		});
+	$.each(outbreak, function(index, value) {
+		var temp = new Array();
+		var sum = 0;
+		$.each(value, function(x, y) {
+			temp.push(y);
+			sum += y;
+			})
+		seriesdata.push(
+		{
+                type: 'column',
+                name: index,
+                data: temp,
+                dataLabels: {
+                    enabled: true,
+                    rotation: 0,
+                    color: '#FFFFFF',
+                    align: 'center',
+                    x: 0,
+                    y: 0,
+                    style: {
+                        fontSize: '15px',
+                        fontFamily: 'Verdana, sans-serif',
+                        textShadow: '0 0 3px black'
+                    }
+                }
+		})
+		
+		piedata.push( {
+            name: index,
+            y: sum,
+            color: Highcharts.getOptions().colors[ctr] // Joe's color
+			});
+		ctr++;
+	});
+	
+
+	seriesdata.push({
+        type: 'pie',
+        name: 'Total consumption',
+        data: piedata,
+        center: [650, 3],
+        size: 100,
+        showInLegend: false,
+        dataLabels: {
+            enabled: false
+        }
+    });
         $('#totaloutbreak').highcharts({
             chart: {
             },
@@ -42,42 +78,19 @@ $(function () {
                 }
             }, labels: {
                 items: [{
-                    html: 'Overall Monthly Distribution Of Outbreaks',
+                    html: 'Overall Geographic Distribution Of Outbreaks',
                     style: {
                         left: '350px',
                         top: '8px',
                         color: 'black'
                     }
                 }]
+            }, plotOptions: {
+                column: {
+                    stacking: 'normal'
+                }
             },
-            series: [{
-                type: 'column',
-                name: 'Number of outbreaks',
-                data: seriesdata,
-                dataLabels: {
-                    enabled: true,
-                    rotation: 0,
-                    color: '#FFFFFF',
-                    align: 'center',
-                    x: 0,
-                    y: 25,
-                    style: {
-                        fontSize: '15px',
-                        fontFamily: 'Verdana, sans-serif',
-                        textShadow: '0 0 3px black'
-                    }
-                }
-            },{
-                type: 'pie',
-                name: 'Total consumption',
-                data: piedata,
-                center: [650, 3],
-                size: 100,
-                showInLegend: false,
-                dataLabels: {
-                    enabled: false
-                }
-            }]
+            series: seriesdata
         });
     });
     

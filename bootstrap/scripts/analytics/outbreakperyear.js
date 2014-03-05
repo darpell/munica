@@ -5,30 +5,47 @@ $(function () {
 	$.each(months, function(index, value) {
 		  catagoriesdata.push(value);
 		});
-	
-	$.each(barangay, function(index, value) {
-			seriesdata.push(
+	var temp = new Array();
+	$.each(barangay[brgy], function(index, value) {
+		
+		temp.push(value);
+		
+		});
+
+	seriesdata.push(
 			{
                 type: 'column',
-                name: index,
-                data: value
-			})
+                name: brgy,
+                data: temp,
+                dataLabels: {
+                    enabled: true,
+                    rotation: 0,
+                    color: '#FFFFFF',
+                    align: 'right',
+                    x: 0,
+                    y: 34,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif',
+                        textShadow: '0 0 3px black'
+                    }
+                }
+			});
 			
-		});
 	var splinedata = new Array();
 	
 	for(var i = 1 ; i <= 12; i++)
 	{
-	if(threshold[yearsel][i][3]<=monthsum[i-1])
+	if(threshold[brgy][yearsel][i][3]<=monthsum[brgy][i-1])
 	{
 		splinedata.push({
-            y: threshold[yearsel][i][3],
+            y: threshold[brgy][yearsel][i][3],
             marker: {
                 symbol: 'diamond'
             }});
 	}
 	else 
-	splinedata.push(threshold[yearsel][i][3]);
+	splinedata.push(threshold[brgy][yearsel][i][3]);
 	}
 	
 	seriesdata.push(
@@ -48,7 +65,7 @@ $(function () {
                 type: 'column'
             },
             title: {
-                text: 'Reported Dengue Cases and Epidemic Threshold'
+                text: 'Reported Dengue Cases and Epidemic Threshold For ' + brgy
             },
             xAxis: {
                 categories: catagoriesdata
@@ -89,11 +106,7 @@ $(function () {
                     }
                 }]
             },
-            plotOptions: {
-                column: {
-                    stacking: 'normal'
-                }
-            },
+            
             series: seriesdata
         });
     });

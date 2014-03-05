@@ -45,6 +45,7 @@ body { height:100% }
   var threshold = <?php echo json_encode($outbreak['threshold']); ?>;
   var barangay = <?php echo json_encode($outbreak['barangay']); ?>;
   var monthsum = <?php echo json_encode($outbreak['monthsum']); ?>;
+  var brgy = <?php echo json_encode($brgy); ?>;
   var url = <?php echo json_encode(base_url('images/notice3.png')); ?>;
 
 

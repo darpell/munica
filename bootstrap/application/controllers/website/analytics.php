@@ -454,6 +454,7 @@ class Analytics extends CI_Controller
 	}
 	function totaloutbreakcount()
 	{
+		$data['barangay'] = $this->Analytics_model->get_barangays();
 		$data['outbreak'] = $this->Analytics_model->get_outbreak_count();
 		$this->load->view('site/analytics/totaloutbreak',$data);
 	}
@@ -461,18 +462,23 @@ class Analytics extends CI_Controller
 	{
 
 
+		$this->form_validation->set_rules('barangay', 'Date from', 'required');
 		$this->form_validation->set_rules('yearselected', 'Date from', 'required');
+		
 		if ($this->form_validation->run('') == FALSE)
 		{
-			//$data['outbreak'] = $this->Analytics_model->get_outbreak_count_year( $this->input->post('yearselected'));
-			
+			$data['brgy'] = $this->input->post('barangay');
+			$data['outbreak'] = $this->Analytics_model->get_outbreak_count_year(2014,$data['brgy']);
 		}
 		else
 		{
-			$data['outbreak'] = $this->Analytics_model->get_outbreak_count_year( $this->input->post('yearselected'));
+			$data['brgy'] = $this->input->post('barangay');
+			$year = $this->input->post('yearselected');
+			$data['outbreak'] = $this->Analytics_model->get_outbreak_count_year($year,$data['brgy']);
 			
 		}
 		
+		$data['barangay']=$this->Analytics_model->get_barangays();
 		$this->load->view('site/analytics/outbreakperyear',$data);
 	}
 	function totallarvalcount()
