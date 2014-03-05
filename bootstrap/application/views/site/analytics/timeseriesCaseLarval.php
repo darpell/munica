@@ -102,6 +102,7 @@ body { height:100% }
   <!-- time series larval and cases -->
   var caseandlarval = <?php echo json_encode($caseandlarval['count']); ?>;
   var clyearstart = parseInt(<?php echo json_encode($caseandlarval['yearstart']); ?>);
+  var clmonthstart = parseInt(<?php echo json_encode($caseandlarval['monthstart']); ?>);
   caseandlarval = caseandlarval.split(",");
   caseandlarval.pop();
   for (var i=0;i<caseandlarval.length;i++)

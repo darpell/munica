@@ -16,7 +16,7 @@
 			$data[] = 'SAMPALOC I';
 			return $data;
 		}
-		function get_all_cases_count($yearstart = null, $yearend = null, $brgy)
+		function get_all_cases_count($monthstart = 1, $yearstart = null,$monthend =12, $yearend = null, $brgy)
 		{	
 			$where = "MIN(YEAR(cr_date_onset)) as yearmin
 			FROM (`case_report_main`) 
@@ -35,6 +35,8 @@
 			{
 				$data['yearstart'] = $yearstart;
 			}
+			
+			$data['monthstart'] = $monthstart;
 			
 			$q->free_result();
 			
@@ -156,10 +158,24 @@
 			
 			$ctr = 0;
 			$data['casecount'] = '0,';
-			for($i=$data['yearstart'];$i<=DATE('Y');$i++)
-			{$ctr++;
+			
+			if($yearend != null)
+			$x = $yearend;
+			else 
+			$x = date('Y');
+			
+			for($i=$data['yearstart'];$i<=$x;$i++)
+			{
+			if($i == $data['yearstart'])
+			$s = $monthstart;
+			else
+			$s = 1;
 			for ($s= 1;$s<=12;$s++)
 			{
+			
+			
+			
+				
 			$data['casecount'] .= $data[$i][$s] . ',';
 			
 			if($data[$i][$s] >=$data['max'] )
@@ -168,10 +184,12 @@
 				$data['max_mon']=$s;
 				$data['max_year']=$i;
 			}
-			
-			
+			if($i == $yearend AND $s == $monthend)
+				$s = 13;
 			}
 			}
+			$data['monthend'] = $monthend;
+			$data['yearend'] = $x;
 			return $data;	
 		}
 		function get_outbreak_count()
@@ -330,7 +348,7 @@
 					
 					
 					}
-function get_outbreak_count_year($year){
+			function get_outbreak_count_year($year){
 					
 					
 						$where = "MIN(YEAR(cr_date_onset)) as yearmin
@@ -472,13 +490,13 @@ function get_outbreak_count_year($year){
 							case '3': $month = 'MAR'; break;
 							case '4': $month = 'APR'; break;
 							case '5': $month = 'MAY'; break;
-								case '6': $month = 'JUN'; break;
-								case '7': $month = 'JUL'; break;
-								case '8': $month = 'AUG'; break;
-										case '9': $month = 'SEP'; break;
-										case '10': $month = 'OCT'; break;
-										case '11': $month = 'NOV'; break;
-										case '12': $month = 'DEC'; break;
+							case '6': $month = 'JUN'; break;
+							case '7': $month = 'JUL'; break;
+							case '8': $month = 'AUG'; break;
+							case '9': $month = 'SEP'; break;
+							case '10': $month = 'OCT'; break;
+							case '11': $month = 'NOV'; break;
+							case '12': $month = 'DEC'; break;
 								}
 					
 								$outbreakpermonth[$month] ++;
@@ -526,7 +544,7 @@ function get_outbreak_count_year($year){
 															
 															
 								}
-		function get_all_death_count($yearstart = null,$yearend = null,$brgy)
+		function get_all_death_count($monthstart = 1, $yearstart = null,$monthend =12, $yearend = null, $brgy)
 		{
 			$where = "MIN(YEAR(cr_date_onset)) as yearmin
 			FROM (`case_report_main`)
@@ -546,6 +564,8 @@ function get_outbreak_count_year($year){
 			{
 				$data['yearstart'] = $yearstart;
 			}
+			
+			$data['monthstart'] = $monthstart;
 			
 			
 			for($i=$data['yearstart'];$i<=DATE('Y');$i++)
@@ -587,18 +607,32 @@ function get_outbreak_count_year($year){
 			}
 			}
 			
+			if($yearstart != null)
+			$x = $yearend;
+			else
+			$x = date('Y');
 			
 			$data['count'] = '0,';
-			for($i=$data['yearstart'];$i<=DATE('Y');$i++)
+			
+			for($i=$data['yearstart'];$i<=$x;$i++)
 			{
+				if($i == $data['yearstart'])
+					$s = $monthstart;
+				else
+					$s = 1;
+				
 				for ($s= 1;$s<=12;$s++)
 				{
+					
 					$data['count'] .= $data[$i][$s] . ',';
 								
-								
+
+					if($i == $yearend AND $s == $monthend)
+						$s = 13;
 				}
 			}
 				
+			
 			return $data;
 		
 		}
@@ -733,7 +767,7 @@ function get_outbreak_count_year($year){
 			return $data;
 				
 		}
-		function get_all_larval_count($yearstart = null, $yearend = null,  $brgy)
+		function get_all_larval_count($monthstart = 1, $yearstart = null,$monthend =12, $yearend = null, $brgy)
 		{
 			
 			$where = "MIN(YEAR(created_on)) as yearmin
@@ -755,6 +789,7 @@ function get_outbreak_count_year($year){
 			{
 				$data['yearstart'] = $yearstart;
 			}
+			$data['monthstart'] = $monthstart;
 				
 				
 			for($i=$data['yearstart'];$i<=DATE('Y');$i++)
@@ -801,8 +836,19 @@ function get_outbreak_count_year($year){
 			$data['max_mon']=null;
 			$data['max_year']=null;
 			$data['larvalcount'] = '';
-			for($i=$data['yearstart'];$i<=DATE('Y');$i++)
+			
+			if($yearend != null)
+				$x = $yearend;
+			else
+				$x = date('Y');
+			
+			for($i=$data['yearstart'];$i<=$x;$i++)
 			{
+				if($i == $data['yearstart'])
+					$s = $monthstart;
+				else
+					$s = 1;
+				
 			for ($s= 1;$s<=12;$s++)
 				{
 				$data['larvalcount'] .= $data[$i][$s] . ',';
@@ -814,9 +860,13 @@ function get_outbreak_count_year($year){
 					$data['max_year']=$i;
 				}
 				
+				if($i == $yearend AND $s == $monthend)
+					$s = 13;
+				
 				}
 			}
-							
+			$data['monthend'] = $monthend;
+			$data['yearend'] = $x;			
 			return $data;
 							
 		}

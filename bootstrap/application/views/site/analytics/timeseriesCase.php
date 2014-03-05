@@ -72,6 +72,7 @@ body { height:100% }
 <!-- time series cases -->
   var cases = <?php echo json_encode($cases['casecount']); ?>;
   var cyearstart = parseInt(<?php echo json_encode($cases['yearstart']); ?>);
+  var cmonthstart = parseInt(<?php echo json_encode($cases['monthstart']); ?>);
   cases = cases.split(",");
   cases.pop();
   for (var i=0;i<cases.length;i++)
@@ -80,6 +81,7 @@ body { height:100% }
   }
 
   var dyearstart = parseInt(<?php echo json_encode($deathcount['yearstart']); ?>);
+  var dmonthstart = parseInt(<?php echo json_encode($deathcount['monthstart']); ?>);
   var deathcount = <?php echo json_encode($deathcount['count']); ?>;
   deathcount = deathcount.split(",");
   deathcount.pop();

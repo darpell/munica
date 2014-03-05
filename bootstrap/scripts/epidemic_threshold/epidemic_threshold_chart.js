@@ -60,7 +60,7 @@ $(function () {
                 	lineColor: Highcharts.getOptions().colors[1],
                 	fillColor: 'white'
                 }
-            }, {
+            }/*, {
                 type: 'spline',
                 name: '1st Quartile',
                 data: quartile1,
@@ -78,6 +78,6 @@ $(function () {
                 	lineColor: Highcharts.getOptions().colors[3],
                 	fillColor: 'white'
                 }
-            }]
+            }*/]
         });
     });
