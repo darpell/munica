@@ -369,7 +369,7 @@ class Mapping extends CI_Model
 					$temparr=null;
 					for($i=0;$i < $invariant; $i++)
 					{	//$temp=null;
-						$temp="No Larval Positives detected nearby.";
+						$temp="0";
 						if($larval[$i] != 0)
 						{
 							$_invariant=count($larval[$i]);

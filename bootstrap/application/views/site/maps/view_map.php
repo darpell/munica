@@ -17,6 +17,12 @@
 <script type="text/javascript">
 	google.load('visualization', '1.1', {packages: ['controls','corechart']});
 </script>
+<style>
+#pad15
+{
+padding:15px;
+}
+</style>
 <script type="text/javascript">
 function drawVisualization() {
 	
@@ -334,7 +340,7 @@ function load() {
 				{
 					if(document.getElementById("dgLarvalDistance"+ctr).value.toString() == 0)
 					{
-						dinfo += "No Larval Positives detected nearby.";
+						dinfo += "No Larval Positives detected nearby.<br/>";
 					}
 					else
 					{
@@ -708,22 +714,7 @@ jQuery(document).ready(function(){
 		"12"=>"December"
 	);
 	$optionsYear=array(
-		"1990"=>"1990",
-		"1991"=>"1991",
-		"1992"=>"1992",
-		"1993"=>"1993",
-		"1994"=>"1994",
-		"1995"=>"1995",
-		"1996"=>"1996",
-		"1997"=>"1997",
-		"1998"=>"1998",
-		"1999"=>"1999",
-		"2000"=>"2000",
-		"2001"=>"2001",
-		"2002"=>"2002",
-		"2003"=>"2003",
-		"2004"=>"2004",
-		"2005"=>"2005",
+		
 		"2006"=>"2006",
 		"2007"=>"2007",
 		"2008"=>"2008",
@@ -734,35 +725,23 @@ jQuery(document).ready(function(){
 		"2013"=>"2013",
 		"2014"=>"2014",
 		"2015"=>"2015",
-		"2016"=>"2016",
-		"2017"=>"2017",
-		"2018"=>"2018",
-		"2019"=>"2019",
-		"2020"=>"2020"
+		"2016"=>"2016"
 	);?>
 <table border="1" width=100%>
 <tr>
-	<td style="width:60%; height:600px" rowspan="2">
+	<td style="width:70%; height:600px" rowspan="2">
 	    <div id="map" style="width: 100%%; height: 600px"></div>
 	</td>
-	<td style="width:40%; height:200px">
+	<td id='pad15' style="width:30%; height:200px">
 		<form action="" method='post'>
 		<label style="color:red"><?php echo form_error('NDtype-ddl'); ?></label>
-		<div id="info" class="info">
-		<i>(Today is <?php echo date('F d, Y');?>)</i>
 		
-		<h4>
-		Select 'Barangay overlay' to view dengue cases per barangay.<br />
-		Select 'Larval overlay' to view positive larval samplings.<br />
-		Select 'both' to view overlays displaying both larval positives and dengue cases.<br />
+		
+		<table border="0" style="width:500px">
+		<tr><td colspan="2">
+		<h3><center>Map Control<br /><i>(Today is <?php echo date('F d, Y');?>)</i></center></h3></td></tr>
+		<tr><td id='pad15' style="width:50%"><h4><center>Node Type</center></h4>
 		<?php 
-		$options=array(
-			"both"=>"Both",
-			"denguecase"=>"Barangay overlay",
-			"larvalpositive"=>"Larval overlay"
-		);
-		echo form_dropdown('NDtype-ddl', $options, $node_type);
-		echo "<br/>";
 		$cboxDengue = array(
 				'name'        => 'cboxDengue',
 				'id'          => 'cboxDengue',
@@ -817,11 +796,11 @@ jQuery(document).ready(function(){
 		);
 		echo form_checkbox($cboxBarangayBoundaries);
 		echo "Barangay Boundaries<br/>";
-		?></h4></div>
+		?></td><td id='pad15'><h4><center>Date</center></h4>
 		
 		
 		
-	    Main Search Date: <?php echo "<i>(Currently ".$cdate1." to ".$cdate2.")</i>"?>
+	    <b>Main Search Date </b><?php echo "<br/><i>(".$cdate1." to ".$cdate2.")</i>"?>
 		<br /><!-- 
 	    From: <input type="text" style="background-color:#CCCCCC;" name="date1" id="date1" value="01/01/2011" readonly="true" /><a href="javascript:NewCal('date1','mmddyyyy')"><img src="<?php echo  $this->config->item('base_url'); ?>/application/views/cal.gif" width="16" height="16" border="0" alt="Pick a date"></a> 
 		<br />
@@ -834,66 +813,42 @@ jQuery(document).ready(function(){
 		echo form_dropdown('YearStart-ddl', $optionsYear,date('Y'));
 		echo form_dropdown('MonthStart-ddl', $optionsMonths,date('m'));
 		echo "<br/>";
-		echo " End Date:&#160;&#160;";
+		echo "End Date:&#160;";
 		echo form_dropdown('YearEnd-ddl', $optionsYear,date('Y'));
 		echo form_dropdown('MonthEnd-ddl', $optionsMonths,date('m'));
 		?>
-		<br/><br/>
+		<br/><br/><b> Date Comparison </b><br/>
+		
+		<?php
+		echo "<i>(".$pdate1." to ".$pdate2.")</i><br/>"; 	
+		?>
 		<select name='old' id='old'>
 		  <option value="0" selected>Hide</option>
 		  <option value="1">Display</option>
-		</select> <b> nodes containing old data.</b><br />
-		
-		<?php
-		echo "Old Data Comparison: <i>(Currently ".$pdate1." to ".$pdate2.")</i><br/>"; 	
-		?>
-		Use 
+		</select>Period 2 Nodes <br />
+		<br/> 
 		<select name='deflt' id='deflt'>
-		  <option value="0">custom</option>
-		  <option value="1" selected>default</option>
-		</select> date for old data comparison. <i>Default is same length and period of the previous year(s)</i><br/>
+		  <option value="1" selected>Default</option>
+		  <option value="0">Custom</option>
+		</select><br/>
+		<i>Default, same period of the previous year(s)</i><br/>
+		<i>Custom, from drop down lists below</i><br/><br/>
+		
 		<?php
 		echo "Start Date:";
 		echo form_dropdown('PYearStart-ddl', $optionsYear,date('Y'));
 		echo form_dropdown('PMonthStart-ddl', $optionsMonths,date('m'));
 		echo "<br/>";
-		echo " End Date:&#160;&#160;";
+		echo "End Date:&#160;";
 		echo form_dropdown('PYearEnd-ddl', $optionsYear,date('Y'));
 		echo form_dropdown('PMonthEnd-ddl', $optionsMonths,date('m'));
-		?>
-		<div><input type="submit" value="Sort" /></div>
+		?></td></tr>
+		</table>
+		<div><br/><center><input type="submit" value="Sort Data" width="40%"/></center></div>
 		</form> 
 	</td>
 </tr>
-<tr>
-	<td style="width:40%; height:60%" rowspan='2'>
-	<div style="height: 100%; overflow: auto;">
-		<?php 
-		$tmpl = array (
-						'table_open'          => '<table border="1" cellpadding="5" cellspacing="0" id="results" >',
-					    'heading_row_start'   => '<tr>',
-					    'heading_row_end'     => '</tr>',
-					    'heading_cell_start'  => '<th id="result" scope="col">',
-					    'heading_cell_end'    => '</th>',
-					    'row_start'           => '<tr>',
-					    'row_end'             => '</tr>',
-					    'cell_start'          => '<td align="center">',
-					    'cell_end'            => '</td>',
-					    'row_alt_start'       => '<tr style="background-color: #e3e3e3">',
-					    'row_alt_end'         => '</tr>',
-					    'cell_alt_start'      => '<td align="center">',
-					    'cell_alt_end'        => '</td>',
-					    'table_close'         => '</table>'
-					   );
-		$this->table->set_template($tmpl);
-		echo "<br/><center><b>Age Distribution:</b><br/><h4></>Table 1. Displaying Age Distribution for period <br/><i>".$cdate1." to ".$cdate2."</i></h6>";
-		echo $this->table->generate($table1);?>
-		<?php echo "<br/><b>Age Distribution:</b><br/><h4></>Table 2. Displaying Age Distribution for period <br/><i>".$pdate1." to ".$pdate2."</i></h6><center>";
-		echo $this->table->generate($table2);
-		?>
-	</div>
-	</td>
-</tr>
+
 </table>
 <!-- <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-text="<?php echo $bcount?>">Tweet</a> -->
 <script>/*
