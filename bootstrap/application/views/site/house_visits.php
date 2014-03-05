@@ -60,7 +60,7 @@ var hh_img = [
 								<th> Household Name </th> <th> Address </th> <th> Barangay </th> <th> BHW assigned </th> <th> Date of Last Visit </th>
 							</tr>  -->
 							<?php foreach ($to_visit as $house) { ?>
-							<li> <a> <?= $house['household_name'] . ' at ' . $house['house_no'] . ' ' . $house['street'] ?></a> </li>
+							<li> <a> <?= $house['household_name'] . ' at ' . $house['house_no'] . ' ' . $house['street'] . ' Street'?></a> </li>
 							<?php } ?>
 						</ul>
 					</div>

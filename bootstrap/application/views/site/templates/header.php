@@ -45,15 +45,13 @@
                	<?php }?>
                	<?php if($this->session->userdata('TPtype') == "BHW"){?>
                	<li><?= anchor(site_url('website/dashboard'),'Dashboard')?></li>
-               	<li><?= anchor(site_url('website/households/visits'),'Household visits')?></li>
-               	<li><?= anchor(base_url('index.php/master_list/view_household_bhw'),'Catchment Area	')?></li>
                	<?php }?>
                		<?php if($this->session->userdata('TPtype') == "MIDWIFE"){?>
-               	<li><?= anchor(base_url('index.php/master_list/view_household_midwife'),'Dashboard')?></li>
+               	<li><?= anchor(site_url('website/dashboard'),'Dashboard')?></li>
                	<?php }?>
                	
                	<!-- functions -->
-               	<?php if($this->session->userdata('TPtype') == "CHO"){?>
+               	<?php if($this->session->userdata('TPtype') == "CHO") {?>
 	            <li class="dropdown">
 	              <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Functions <b class="caret"></b></a>
 	              <ul class="dropdown-menu">
@@ -75,7 +73,28 @@
             		 -->
 	              </ul>
 	            </li> <!-- /end of functions -->
-               	<?php } ?>
+               	<?php } else if($this->session->userdata('TPtype') == "BHW") { ?>
+               	<li class="dropdown">
+	              <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Map Views <b class="caret"></b></a>
+	              <ul class="dropdown-menu">
+                	<li class="dropdown-header"> Tools </li>
+              		<li><?= anchor(site_url('website/households/visits'),'Household visits')?></li>
+                	<li class="divider"></li>
+                	<li class="dropdown-header"> Map Reports </li>
+                	<li><?= anchor(site_url(''),'Case Map')?></li>
+                	<li><?= anchor(site_url(''),'Larval Map')?></li>
+                	<!-- in question  -->
+						<!-- <li><?php //anchor(base_url('index.php/CHO/'),'View Tasks')?></li>  -->
+					<!-- /end of in question -->
+                	<!-- 
+                	<li class="divider"></li>
+                	<li class="dropdown-header">Mapping Commands</li>
+                	<li><?php //anchor(base_url('index.php/addmap'),'Add Polygon')?></li>
+            		<li><?php //anchor(base_url('index.php/deletemap'),'Delete Polygon')?></li>
+            		 -->
+	              </ul>
+	            </li> <!-- /end of functions -->
+	            <?php } ?>
                
                	<!-- reports 
 	            <li class="dropdown">

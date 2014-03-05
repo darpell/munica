@@ -96,7 +96,11 @@ body { height:100% }
 					<li> <a href="<?= site_url('website/notifications') ?>"> Notifications <span class="badge pull-right"> <?= $notif_count?> </span></a> </li>
 					<li> <a href="<?= site_url('website/analytics') ?>"> Analytics</a> </li>
 					<li> <a href="<?= site_url('website/map/view') ?>"> Maps </a> </li>
+					<?php if ($this->session->userdata('TPtype') != 'BHW') { ?>
 					<li> <a href="<?= site_url('website/households/filter_brgys') ?>"> Households <span class="badge pull-right"><?= $hh_num ?></span></a> </li>
+					<?php } else { ?>
+					<li> <a href="<?= site_url('website/households/filter_HHs/' . $this->session->userdata('TPusername')) ?>"> Households <span class="badge pull-right"><?= $hh_num ?></span></a> </li>
+					<?php } ?>
 				</ul>
 			</div>
 		</div>
@@ -109,10 +113,10 @@ body { height:100% }
 			</div>
 			<div class="panel-body">
 				<ul class="nav nav-pills nav-stacked">
-				  <li> <a href="<?= site_url('website/cases/view_suspected') ?>"> Suspected <span class="badge pull-right"><?php echo $this->db->get_where('active_cases',array('status' => 'suspected'))->num_rows(); ?></span> </a> </li>
-				  <li> <a href="<?= site_url('website/cases/view_threatening') ?>"> Threatening <span class="badge pull-right"><?php echo $this->db->get_where('active_cases',array('status' => 'threatening'))->num_rows(); ?></span> </a> </li>
-				  <li> <a href="<?= site_url('website/cases/view_serious') ?>"> Serious <span class="badge pull-right"><?php echo $this->db->get_where('active_cases',array('status' => 'serious'))->num_rows();?></span> </a> </li>
-				  <li> <a href="<?= site_url('website/cases/view_hospitalized') ?>"> Hospitalized <span class="badge pull-right"><?php echo $this->db->get_where('active_cases',array('status' => 'hospitalized'))->num_rows()?></span> </a> </li>
+				  <li> <a href="<?= site_url('website/cases/view_suspected') ?>"> Suspected <span class="badge pull-right"><?= count($suspected_count) ?></span> </a> </li>
+				  <li> <a href="<?= site_url('website/cases/view_threatening') ?>"> Threatening <span class="badge pull-right"><?= count($threatening_count) ?></span> </a> </li>
+				  <li> <a href="<?= site_url('website/cases/view_serious') ?>"> Serious <span class="badge pull-right"><?= count($serious_count) ?></span> </a> </li>
+				  <li> <a href="<?= site_url('website/cases/view_hospitalized') ?>"> Hospitalized <span class="badge pull-right"><?= count($hospitalized_count) ?></span> </a> </li>
 				</ul>
 			</div>
 		</div>
@@ -126,8 +130,10 @@ body { height:100% }
 			<div class="panel-body">
 				<ul class="nav nav-pills nav-stacked">
 					<li> <a> No. of Households <span class="badge pull-right"><?= $hh_num ?></span></a> </li>
+					<?php if ($this->session->userdata('TPtype') != 'BHW') { ?>
 					<li> <a> No. of Midwives <span class="badge pull-right"><?= $mw_ctr ?></span></a> </li>
 					<li> <a> No. of BHWs <span class="badge pull-right"><?= $bhw_ctr ?></span></a> </li>
+					<?php } ?>
 				</ul>
 			</div>
 		</div>
