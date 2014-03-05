@@ -22,6 +22,7 @@ class Map extends CI_Controller
 		$getPoI=False;
 		$getHouseholds=False;
 		$getBB=False;
+		$getActiveDengueOnly=False;
 				
 		/** Validation rules could be seen at application/config/form_validation.php **/
 		//*
@@ -41,6 +42,10 @@ class Map extends CI_Controller
 					if ($this->input->post('cboxDengue'))
 					{
 						$getDengue=True;
+						if ($this->input->post('cboxActiveDengueOnly'))
+						{
+							$getActiveDengueOnly=True;
+						}
 					}
 					if ($this->input->post('cboxPoI'))
 					{
@@ -64,6 +69,7 @@ class Map extends CI_Controller
 					$getPoI=False;
 					$getHouseholds=False;
 					$getBB=True;
+					$getActiveDengueOnly=False;
 					
 				}
 				
@@ -148,12 +154,13 @@ class Map extends CI_Controller
 				$data['getPoI'] = $getPoI;
 				$data['getHouseholds'] = $getHouseholds;
 				$data['getBB'] = $getBB;
+				$data['getActiveDengueOnly'] = $getActiveDengueOnly;
 				$data['brgy']=null;//print_r($data['brgy']);
 				$values = $this->Mapping->mapByType($data);
 				
 				//*CURRENT DATE INTERVAL DATA EXTRACTION
 				$data['larval'] = $values['larvalValues'];//print_r($data['larval']);
-				$data['dengue'] = $values['dengueValues'];
+				$data['dengue'] = $values['dengueValues'];//print_r($data['dengue']);
 				$data['poi'] = $values['poiValues'];
 				$data['household'] = $values['householdValues'];
 				$data['bb'] = $values['bbValues'];
@@ -233,7 +240,7 @@ class Map extends CI_Controller
 					$data['interest'] =0;
 				
 				//$data['test'] = $this->Mapping->getBarangayAgesS($data);
-							
+				print_r($data['table1']);	
 				$this->load->library('table');
 				$this->load->view('site/maps/view_map',$data);
 			}

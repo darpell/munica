@@ -56,6 +56,7 @@ class Mapping extends CI_Model
 			{//*
 				$where="";
 				$this->db->from('ls_report');
+				$this->db->join('household_address', 'ls_report.ls_household=household_address.household_name');
 				if ($data['brgy'] != NULL)
 				{
 					$where = "ls_barangay ='";
@@ -76,6 +77,7 @@ class Mapping extends CI_Model
 					{
 						$tempp[]=array(
 								'id'=> $row->ls_no,
+								'householdId'=> $row->household_id,
 								'household'=> $row->ls_household,
 								'container'=> $row->ls_container,
 								'lat'=> $row->ls_lat,
@@ -123,10 +125,12 @@ class Mapping extends CI_Model
 			if($data['getDengue'])
 			{
 				$where="";
+				$this->db->select("imcase_no,active_cases.person_id,has_muscle_pain,has_joint_pain,has_headache,has_bleeding,has_rashes,days_fever,created_on,last_updated_on,suspected_source,remarks,status,household_address.household_id,bhw_id,household_name,house_no,street,household_lat,household_lng,user_username,barangay,MAX(visit_date) AS 'visit_date',person_first_name,person_last_name,person_dob,person_sex,person_marital,person_nationality,person_blood_type,person_guardian,person_adu,person_contactno");
 				$this->db->from('active_cases');
 				$this->db->join('catchment_area', 'catchment_area.person_id = active_cases.person_id');
 				$this->db->join('household_address', 'household_address.household_id = catchment_area.household_id');
 				$this->db->join('bhw', 'bhw.user_username = catchment_area.bhw_id');
+				$this->db->join('house_visits', 'house_visits.household_id = household_address.household_id');
 				$this->db->join('master_list', 'master_list.person_id = catchment_area.person_id');
 				if ($data['brgy'] != NULL)
 				{
@@ -142,8 +146,9 @@ class Mapping extends CI_Model
 				$this->db->where($where);
 				$this->db->group_by('active_cases.person_id');
 				$q = $this->db->get();
+				$tempest=array();
 				if($q->num_rows() > 0) 
-				{	$tempest;
+				{	
 					foreach ($q->result() as $row) 
 					{
 						$tempest[]=array(//*
@@ -166,7 +171,7 @@ class Mapping extends CI_Model
 								'householdName'=> $row->household_name,
 								'houseNo'=> $row->house_no,
 								'street'=> $row->street,
-								'lastVisited'=> $row->last_visited,
+								'lastVisited'=> $row->visit_date,
 								'lat'=> $row->household_lat,
 								'lng'=> $row->household_lng,
 								'bhwName'=> $row->user_username,
@@ -179,9 +184,63 @@ class Mapping extends CI_Model
 								'contact'=> $row->person_contactno
 								//*/
 						);
-					}
-					$returnValues['dengueValues'] =  $tempest;
+					}//print_r("XSXSX".$tempest);
+					//$returnValues['dengueValues'] =  $tempest;
 				}
+				$q->free_result();
+				if(!$data['getActiveDengueOnly'])
+				{
+					$this->db->select("imcase_no,previous_cases.person_id,has_muscle_pain,has_joint_pain,has_headache,has_bleeding,has_rashes,days_fever,created_on,last_updated_on,suspected_source,remarks,outcome,household_address.household_id,bhw_id,household_name,house_no,street,household_lat,household_lng,user_username,barangay,MAX(visit_date) AS 'visit_date',person_first_name,person_last_name,person_dob,person_sex,person_marital,person_nationality,person_blood_type,person_guardian,person_adu,person_contactno");
+					$this->db->from('previous_cases');
+					$this->db->join('catchment_area', 'catchment_area.person_id = previous_cases.person_id');
+					$this->db->join('household_address', 'household_address.household_id = catchment_area.household_id');
+					$this->db->join('bhw', 'bhw.user_username = catchment_area.bhw_id');
+					$this->db->join('house_visits', 'house_visits.household_id = household_address.household_id');
+					$this->db->join('master_list', 'master_list.person_id = catchment_area.person_id');
+					$this->db->where($where);
+					$this->db->group_by('previous_cases.person_id');
+					$q = $this->db->get();
+					if($q->num_rows() > 0)
+					{	//$tempest;
+						foreach ($q->result() as $row)
+						{
+							$tempest[]=array(//*
+									'id'=> $row->imcase_no,
+									'personID'=> $row->person_id,
+									'hasMusclePain'=> $row->has_muscle_pain,
+									'hasJointPain'=> $row->has_joint_pain,
+									'hasHeadache'=> $row->has_headache,
+									'hasBleeding'=> $row->has_bleeding,
+									'hasRashes'=> $row->has_rashes,
+									'daysFever'=> $row->days_fever,
+									'createdOn'=> $row->created_on,
+									'lastUpdatedOn'=> $row->last_updated_on,
+									'suspectedSource'=> $row->suspected_source,
+									'remarks'=> $row->remarks,
+									'outcome'=> $row->outcome,
+									'householdID'=> $row->household_id,
+									'personID'=> $row->person_id,
+									'bhwID'=> $row->bhw_id,
+									'householdName'=> $row->household_name,
+									'houseNo'=> $row->house_no,
+									'street'=> $row->street,
+									'lastVisited'=> $row->visit_date,
+									'lat'=> $row->household_lat,
+									'lng'=> $row->household_lng,
+									'bhwName'=> $row->user_username,
+									'barangay'=> $row->barangay,
+									'fName'=> $row->person_first_name,
+									'lName'=> $row->person_last_name,
+									'dob'=> $row->person_dob,
+									'sex'=> $row->person_sex,
+									'guardian'=> $row->person_guardian,
+									'contact'=> $row->person_contactno
+									//*/
+							);
+						}
+					}
+				}
+				$returnValues['dengueValues'] =  $tempest;
 				$q->free_result();
 			}
 			if ($data['getHouseholds'])//all polygons
@@ -191,6 +250,7 @@ class Mapping extends CI_Model
 				$this->db->join('catchment_area', 'catchment_area.household_id = household_address.household_id');
 				$this->db->join('bhw', 'catchment_area.bhw_id = bhw.user_username');
 				$this->db->join('master_list', 'master_list.person_id = catchment_area.person_id');
+				$this->db->join('house_visits', 'house_visits.household_id = household_address.household_id');
 				if ($data['brgy'] != NULL)
 				{
 					$where = "barangay ='";
@@ -210,7 +270,7 @@ class Mapping extends CI_Model
 								'houseName'=> $row->household_name,
 								'houseNo'=> $row->house_no,
 								'street'=> $row->street,
-								'lastVisited'=> $row->last_visited,
+								'lastVisited'=> $row->visit_date,
 								'lat'=> $row->household_lat,
 								'lng'=> $row->household_lng,
 								'personID'=> $row->person_id,

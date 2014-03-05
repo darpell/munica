@@ -131,7 +131,8 @@ function load() {
 			{
 				//*
 				linfo = "Larval Survey #"+document.getElementById("ls_no"+ctr).value.toString()+"<br/>"
-				+document.getElementById("ls_household"+ctr).value.toString()+" Household<br/>"//+"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("ls_createdBy"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("ls_household"+ctr).value.toString()+" Household<br/>"
+				//+document.getElementById("ls_household"+ctr).value.toString()+" Household<br/>"//
+				+"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("ls_householdId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("ls_household"+ctr).value.toString()+" Household</a><br/>"
 				+"Container: "+document.getElementById("ls_container"+ctr).value.toString()+"<br/>"
 				+"Created by: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("ls_createdBy"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("ls_createdBy"+ctr).value.toString()+"</a><br/>"
 				+"Created on: "+document.getElementById("ls_createdOn"+ctr).value.toString();//*/
@@ -169,7 +170,109 @@ function load() {
 	if(document.getElementById('getBb').value.toString()=="1")
 	{
 		//alert("Alert BB!");
-		mapBarangayOverlay(map);
+		var bb_length = document.getElementById('bb_length').value.toString();
+		if (bb_length != 0)
+		{
+			var pinfo = new Array();
+			var plat = new Array();
+			var plng = new Array();
+			var polygonChild = new Array();
+			var color="FF0000";
+			var bermudaTriangle;
+		
+			var ctr =0;
+			var currPoly=document.getElementById("bb_polyID"+ctr);
+			var prevPoly=0;
+			var tabStr="";
+			//*
+			while(ctr<bb_length)
+			{//alert(parseFloat(document.getElementById("bb_polyLat"+ctr).value.toString()));
+				var cntent;
+				currPoly=document.getElementById("bb_polyID"+ctr).value.toString();
+				if (currPoly==prevPoly || ctr==0)
+				{//alert("IF "+ctr);
+					polygonChild.push(new google.maps.LatLng(parseFloat(document.getElementById("bb_polyLat"+ctr).value.toString()),
+							parseFloat(document.getElementById("bb_polyLng"+ctr).value.toString())));
+				}
+				else
+				{
+					bermudaTriangle = new google.maps.Polygon(
+							{
+								paths: polygonChild,
+								fillColor: "#FF0000",
+								fillOpacity:0.3,
+								clickable:true
+							});
+					bermudaTriangle.setMap(map);
+					tabStr = "<table border='1' cellpadding='5' cellspacing='0' id='results' >";
+					for(var i=0; i < document.getElementById("table1_length").value.toString(); i++ )
+					{
+						//alert(""+document.getElementById("table1_brgy"+i).value.toString() + document.getElementById("bb_polyName"+ctr).value.toString());
+						if(document.getElementById("table1_brgy"+i).value.toString() == document.getElementById("bb_polyName"+ctr).value.toString())
+						{
+							tabStr += "<tr><td align='center'>"+document.getElementById("table1_brgy"+(i)).value.toString()+"</td>"
+								+"<td align='center'>"+document.getElementById("table1_count"+(i)).value.toString()+"</td>"
+								+"<td align='center'>"+document.getElementById("table1_range"+(i)).value.toString()+"</td></tr>";
+						}
+					}
+					tabStr +="</table>";
+					//YOU ARE HERE, TRY TO MOVE POLYGON ADDLISTENER TO ITS OWN FUNCTION.
+					/*
+					<table border="1" cellpadding="5" cellspacing="0" id="results" >
+					<tr style="background-color: #e3e3e3">
+					<td align="center">one</td><td align="center">two</td><td align="center">three</td>
+					</tr><tr>
+					<td align="center">one</td><td align="center">two</td><td align="center">three</td>
+					</tr><tr style="background-color: #e3e3e3">
+					<td align="center">one</td><td align="center">two</td><td align="center">three</td>
+					</tr><tr>
+					<td align="center">one</td><td align="center">two</td><td align="center">three</td></tr>
+					</table>
+					//*/
+					//*
+					var p;
+					google.maps.event.addListener(bermudaTriangle,'click', function(event) {
+				          infoWindow.setContent(tabStr);
+				          if (event) {
+				             p = event.latLng;
+				          }
+				          infoWindow.setPosition(p);
+				          infoWindow.open(map);
+				          // map.openInfoWindowHtml(point,html); 
+				        }); //*/
+					//tabStr="";
+					polygonChild = [];
+					polygonChild.push(new google.maps.LatLng(parseFloat(document.getElementById("bb_polyLat"+ctr).value.toString()),
+							parseFloat(document.getElementById("bb_polyLng"+ctr).value.toString())));
+					prevPoly=currPoly;
+				}
+				if(ctr==0)
+					{
+						prevPoly=currPoly;
+					}
+				ctr++;
+			}
+			bermudaTriangle = new google.maps.Polygon(
+					{
+						paths: polygonChild,
+						fillColor: "#FF0000",
+						fillOpacity:0.3,
+						clickable:true
+					});
+			bermudaTriangle.setMap(map);
+			//*
+			var p;
+			google.maps.event.addListener(bermudaTriangle,'click', function(event) {
+		          infoWindow.setContent("2");
+		          if (event) {
+		             p = event.latLng;
+		          }
+		          infoWindow.setPosition(p);
+		          infoWindow.open(map);
+		          // map.openInfoWindowHtml(point,html); 
+		        }); //*/
+			polygonChild = [];
+		}
 	}
 	if(document.getElementById('getDengue').value.toString()=="1")
     {
@@ -181,7 +284,6 @@ function load() {
 		
 		if (dg_length != 0)
 		{//alert(dg_length);
-			
 			var ctr =0;//*
 			while(ctr < dg_length)
 			{
@@ -197,9 +299,16 @@ function load() {
 					+"Guardian: "+document.getElementById("dg_guardian"+ctr).value.toString()+"<br/>"
 					+"Contact No: "+document.getElementById("dg_contact"+ctr).value.toString()+"<br/><br/>"
 					+"Case Information <br/>"
-					+"Case No: "+document.getElementById("dg_caseNo"+ctr).value.toString()+"<br/>"
-					+"Status: "+document.getElementById("dg_status"+ctr).value.toString()+"<br/>"
-					+"Days Fever: "+document.getElementById("dg_daysFever"+ctr).value.toString()+"<br/>"
+					+"Case No: "+document.getElementById("dg_caseNo"+ctr).value.toString()+"<br/>";//alert("!");
+				if(document.getElementById("dg_status"+ctr) != null)
+				{
+					dinfo +="Status: "+document.getElementById("dg_status"+ctr).value.toString()+"<br/>";
+				}
+				else
+				{
+					dinfo +="Outcome: "+document.getElementById("dg_outcome"+ctr).value.toString()+"<br/>";//alert("!");
+				}
+				dinfo +="Days Fever: "+document.getElementById("dg_daysFever"+ctr).value.toString()+"<br/>"
 					+"Suspect Source: "+document.getElementById("dg_suspectedSource"+ctr).value.toString()+"<br/>"
 					+"Muscle Pain: "+document.getElementById("dg_hasMusclePain"+ctr).value.toString()+"<br/>"
 					+"Joint Pain: "+document.getElementById("dg_hasJointPain"+ctr).value.toString()+"<br/>"
@@ -215,7 +324,7 @@ function load() {
 				{
 					if(document.getElementById("dgPoIDistance"+ctr).value.toString() == 0)
 					{
-						dinfo += "No Points of Interests detected nearby.";
+						dinfo += "No Points of Interests detected nearby.<br/>";
 					}
 					else
 					{
@@ -250,7 +359,14 @@ function load() {
 					circle.setMap(map); 
 				}//*/
 				//*
-				if(document.getElementById("dg_status"+ctr).value.toString() == "threatening")
+				if(document.getElementById("dg_status"+ctr) == null)
+				{//alert("!");
+					if(document.getElementById("dg_outcome"+ctr).value.toString() == "A")
+						img=document.getElementById("dg_iconA").value.toString();
+					else
+						img=document.getElementById("dg_iconD").value.toString();
+				}
+				else if(document.getElementById("dg_status"+ctr).value.toString() == "threatening")
 				{
 					img=document.getElementById("dg_icon2").value.toString();
 				}
@@ -272,14 +388,6 @@ function load() {
 				setInfo(centroidMarker,dinfo,map);
 				oms.addMarker(centroidMarker);
 			}
-			//var lengthinvariant=dinfo.length;
-			/*
-			alert(dinfo[0]);
-			for (var i=0; i<lengthinvariant; i++)
-			{
-				point = new google.maps.LatLng(dlat[i],dlng[i]);
-				//createMarker(map,point,null,dinfo[i],false,false,false,false);
-			}//*/
 		}
     }
 	if(document.getElementById('getPoi').value.toString()=="1")
@@ -412,6 +520,19 @@ jQuery(document).ready(function(){
 <input type = 'hidden' id ='Dengue' name='Dengue' value='<?php echo $dengue?>'>
 <input type = 'hidden' id ='Household' name='Household' value='<?php echo $household?>'>
 
+<?php if ($table1 != null){?>
+<input type="hidden" id="table1_length" value="<?php echo count($table1); ?>" />
+	<?php for ($ctr = 0; $ctr < count($table1); $ctr++) {if($ctr != 0){?>
+		<input type="hidden" id="table1_brgy<?= $ctr ?>" 	value="<?php echo $table1[$ctr]['cr_barangay']; ?>"	/>
+		<input type="hidden" id="table1_count<?= $ctr ?>" 	value="<?php echo $table1[$ctr]['patientcount']; ?>"	/>
+		<input type="hidden" id="table1_range<?= $ctr ?>" 	value="<?php echo $table1[$ctr][0]; ?>"	/>
+	<?php }
+		else {?>
+		<input type="hidden" id="table1_brgy<?= $ctr ?>" 	value="<?php echo $table1[$ctr]['cr_barangay']; ?>"	/>
+		<input type="hidden" id="table1_count<?= $ctr ?>" 	value="Patient Count"	/>
+		<input type="hidden" id="table1_range<?= $ctr ?>" 	value="<?php echo $table1[$ctr]['agerange']; ?>"	/><?php }}?> 
+	<?php } else { ?> <input type="hidden" id="table1_length" value="0" /> <?php } ?>
+
 <?php if ($denguePoIDistance != null){?>
 <input type="hidden" id="dgPoIDistance_length" value="<?php echo count($denguePoIDistance); ?>" />
 	<?php for ($ctr = 0; $ctr < count($denguePoIDistance); $ctr++) {?>
@@ -445,6 +566,7 @@ jQuery(document).ready(function(){
 	<?php for ($ctr = 0; $ctr < count($larval); $ctr++) {?>
 		<input type="hidden" id="ls_no<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['id']; ?>"	/>
 		<input type="hidden" id="ls_household<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['household']; ?>"	/>
+		<input type="hidden" id="ls_householdId<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['householdId']; ?>"	/>
 		<input type="hidden" id="ls_container<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['container']; ?>"	/>
 		<input type="hidden" id="ls_lat<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['lat']; ?>"	/>
 		<input type="hidden" id="ls_lng<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['lng']; ?>"	/>
@@ -536,7 +658,11 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="dg_lastUpdatedOn<?= $ctr ?>" 		value="<?php echo $dengue[$ctr]['lastUpdatedOn']; ?>"	/>
 		<input type="hidden" id="dg_suspectedSource<?= $ctr ?>" 	value="<?php echo $dengue[$ctr]['suspectedSource']; ?>"	/>
 		<input type="hidden" id="dg_remarks<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['remarks']; ?>"	/>
+		<?php if (isset($dengue[$ctr]['status'])){?>
 		<input type="hidden" id="dg_status<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['status']; ?>"	/>
+		<?php }else{?>
+		<input type="hidden" id="dg_outcome<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['outcome']; ?>"	/>
+		<?php }?>
 		<input type="hidden" id="dg_householdID<?= $ctr ?>" 		value="<?php echo $dengue[$ctr]['householdID']; ?>"	/>
 		<input type="hidden" id="dg_personID<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['personID']; ?>"	/>
 		<input type="hidden" id="dg_bhwID<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['bhwID']; ?>"	/>
@@ -559,6 +685,8 @@ jQuery(document).ready(function(){
 	<input type="hidden" id="dg_icon2" value="<?php echo base_url('/images/notice2.png')?>" />
 	<input type="hidden" id="dg_icon3" value="<?php echo base_url('/images/notice3.png')?>" />
 	<input type="hidden" id="dg_icon4" value="<?php echo base_url('/images/hospital.png')?>" />
+	<input type="hidden" id="dg_iconA" value="<?php echo base_url('/images/A.png')?>" />
+	<input type="hidden" id="dg_iconD" value="<?php echo base_url('/images/D.png')?>" />
 	<?php } else { ?> <input type="hidden" id="dg_length" value="0" /> <?php } ?>
 
 </form>
@@ -643,6 +771,15 @@ jQuery(document).ready(function(){
 		);
 		echo form_checkbox($cboxDengue);
 		echo "Dengue Nodes<br/>";
+		$cboxActiveDengueOnly = array(
+				'name'        => 'cboxActiveDengueOnly',
+				'id'          => 'cboxActiveDengueOnly',
+				'value'       => 'activedenguecaseonly',
+				'checked'     => $getActiveDengueOnly,
+				'style'       => 'margin:10px',
+		);
+		echo form_checkbox($cboxActiveDengueOnly);
+		echo "Active Case Nodes Only<br/>";
 		$cboxLarva = array(
 				'name'        => 'cboxLarva',
 				'id'          => 'cboxLarva',
