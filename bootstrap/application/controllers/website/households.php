@@ -26,11 +26,32 @@ class Households extends CI_Controller
 		foreach ($data['brgys'] as $brgy)
 		{
 			 $ca_count[$brgy['barangay']] = $this->model->get_catchment_area($brgy['barangay']);
+			 $case_count[$brgy['barangay']] = $this->ac->get_cases_per_brgy($brgy['barangay']);
 		}
 		
 		$data['brgy_cases'] = $this->ac->get_cases_per_brgy();
 		
 		$data['ca_count'] = $ca_count;
+		$data['case_count'] = $case_count;
+		
+		// Graph data
+		$STATUS = 'suspected';
+		
+		$data['distribution'] = $this->ac->check_gender_distribution($this->ac->get_cases_per_brgy());
+		$data['male_age_dist'] = $this->ac->age_distribution($this->ac->get_cases_per_brgy(),'M');
+		$data['female_age_dist'] = $this->ac->age_distribution($this->ac->get_cases_per_brgy(),'F');
+		
+		$data['offices'] = $this->ac->check_sources('office');
+		$data['schools'] = $this->ac->check_sources('school');
+		
+		$data['symptoms'] = array(
+				'has_muscle_pain'	=> count($this->ac->get_symptom('has_muscle_pain')),
+				'has_joint_pain'	=> count($this->ac->get_symptom('has_joint_pain')),
+				'has_headache'		=> count($this->ac->get_symptom('has_headache')),
+				'has_bleeding'		=> count($this->ac->get_symptom('has_bleeding')),
+				'has_rashes'		=> count($this->ac->get_symptom('has_rashes'))
+		);
+		// end of Graph Data
 		
 		$this->load->view('site/admin/brgy_filter', $data);
 	}
