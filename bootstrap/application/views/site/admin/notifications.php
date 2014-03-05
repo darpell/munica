@@ -19,7 +19,7 @@
 			<tbody>			
 				<?php foreach ($notifs as $notif) {?>
 				<tr>
-					<td> <?= $notif['notif_type']?> </td> 
+					<td> <?= ucfirst($notif['notif_type']) ?> </td> 
 					<td>
 						<!-- Icon -->
 						<div class="col-md-1">
@@ -33,7 +33,7 @@
 						</div>
 						<!-- /end of Icon -->
 						<div class="col-md-8">
-							<?= $notif['notification']?>
+							<a href="<?= site_url($notif['unique_id']) ?>"> <?= $notif['notification']?> </a>
 						</div>
 					</td> 
 					<td> 

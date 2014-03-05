@@ -53,7 +53,7 @@ class Notif_model extends CI_Model
 			$notif_input = array(
 					'notif_type'		=> 'update',
 					'notification'		=> 'Please update on ' . $query[$ctr]['person_first_name'] . ' ' . $query[$ctr]['person_last_name'] . ' status',
-					'unique_id'			=> 'website/view_person/' . $query[$ctr]['imcase_no'],
+					'unique_id'			=> 'website/cases/view_person/' . $query[$ctr]['imcase_no'],
 					'notif_viewed'		=> 'N',
 					'notif_createdOn'	=> date('Y-m-d H:i:s'),
 					'notif_user'		=> $query[$ctr]['bhw_id']
