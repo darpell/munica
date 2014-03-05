@@ -26,7 +26,8 @@
 	-->
 	
 		<ul data-role="listview" data-autodividers="true" data-inset="true" data-count-theme="b">
-			<li> <a href="<?php echo site_url('mobile/household/');?>" data-ajax="false" data-transition="slide"> Households' Visit Map </a> </li>
+			<li> <a href="<?php echo site_url('mobile/household/');?>" data-ajax="false" data-transition="slide"> Household Visits Map </a> </li>
+			<li> <a href="<?php echo site_url('mobile/cases/view_map');?>" data-ajax="false" data-transition="slide"> Active Cases Map </a> </li>
 			<li> <a href="<?php echo site_url('mobile/page/master_list');?>" data-ajax="false" data-transition="slide"> Check Masterlist </a> </li>
 			<li> <a href="<?php echo site_url('mobile/page/checklocation');?>" data-ajax="false" data-transition="slide"> Plot Location </a> </li>
         	<!-- <li> <a href="<?php //echo site_url('mobile/page/point_of_interest');?>" data-ajax="false" data-transition="slide"> Add Source/Risk Area </a> </li>

@@ -6,7 +6,27 @@ class Cases extends CI_Controller
 		parent::__construct();
 		// Your own constructor code
 		$this->load->model('active_case_model','model');
+		$this->load->model('map_temp_model','map');
 		
+	}
+	
+	function view_map()
+	{
+		$data['poi'] = $this->model->get_cases();
+		
+		$data['san_agustin_iii_cases'] = $this->model->get_cases_per_brgy('san agustin iii');
+		$data['san_agustin_iii'] = $this->map->get_brgys('san agustin iii');
+		
+		$data['langkaan_ii_cases'] = $this->model->get_cases_per_brgy('langkaan ii');
+		$data['langkaan_ii'] = $this->map->get_brgys('langkaan ii');
+		
+		$data['sampaloc_i_cases'] = $this->model->get_cases_per_brgy('sampaloc i');
+		$data['sampaloc_i'] = $this->map->get_brgys('sampaloc i');
+		
+		$data['san_agustin_i_cases'] = $this->model->get_cases_per_brgy('san agustin i');
+		$data['san_agustin_i'] = $this->map->get_brgys('san agustin i');
+		
+		$this->load->view('mobile/active_cases_map',$data);
 	}
 
 	function add()

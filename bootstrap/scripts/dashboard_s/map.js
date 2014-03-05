@@ -96,10 +96,8 @@ function initialize()
 		san_agustin_iii_polygon.setMap(map);
 		
 		var contentString = 
-			'<div>' +
 			'<h4>' + san_agustin_iii + '</h4>' +
 			'<p> Having ' + san_agustin_iii_cases_count + ' cases.</p>'
-			'</div>'
 			;
 
 		
@@ -124,10 +122,8 @@ function initialize()
 		langkaan_ii_polygon.setMap(map);
 		
 		var langkaan_ii_string = 
-			'<div>' +
 			'<h4>' + langkaan_ii + '</h4>' +
-			'<p> Having ' + langkaan_ii_cases_count + ' cases.</p>' // to be changed
-			'</div>'
+			'<p> Having ' + langkaan_ii_cases_count + ' cases.</p>' 
 			;
 
 		
@@ -152,10 +148,8 @@ function initialize()
 		sampaloc_i_polygon.setMap(map);
 		
 		var sampaloc_i_string = 
-			'<div>' +
 			'<h4>' + sampaloc_i + '</h4>' +
-			'<p> Having ' + sampaloc_i_cases_count + ' cases.</p>' // to be changed
-			'</div>'
+			'<p> Having ' + sampaloc_i_cases_count + ' cases.</p>' 
 			;
 
 		
@@ -180,10 +174,8 @@ function initialize()
 		san_agustin_i_polygon.setMap(map);
 		
 		var san_agustin_i_string = 
-			'<div>' +
 			'<h4>' + san_agustin_i + '</h4>' +
-			'<p> Having ' + san_agustin_i_cases_count + ' cases.</p>' // to be changed
-			'</div>'
+			'<p> Having ' + san_agustin_i_cases_count + ' cases.</p>' 
 			;
 
 		

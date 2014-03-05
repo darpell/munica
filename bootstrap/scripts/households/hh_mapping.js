@@ -36,6 +36,13 @@ function initialize()
 		else
 			image = document.getElementById('image_visited').value;
 		
+		var animate = null;
+		
+		if (true)
+		{
+			animate = google.maps.Animation.BOUNCE;
+		}
+		
 		var marker = new google.maps.Marker({
 								position:new google.maps.LatLng(
 								document.getElementById("pt_lat" + pt_ctr).value,
@@ -45,8 +52,10 @@ function initialize()
 									+ document.getElementById("pt_no" + pt_ctr).value + ' '
 									+ document.getElementById("pt_street" + pt_ctr).value + ', Barangay '
 									+ document.getElementById("pt_barangay" + pt_ctr).value,
+							animation: animate,//google.maps.Animation.BOUNCE,
 							icon: image
 			});
+		google.maps.event.addListener(marker, 'click', toggleBounce);
 			
 		var html = document.getElementById("pt_name" + pt_ctr).value + ' located at ' 
 					+ document.getElementById("pt_no" + pt_ctr).value + ' '
@@ -64,7 +73,18 @@ function initialize()
 		markers.push(marker);
 	}
 					
-	var mc = new MarkerClusterer(map, markers, mcOptions);
+	//var mc = new MarkerClusterer(map, markers, mcOptions);
+}
+
+function toggleBounce() 
+{
+	  if (marker.getAnimation() != null) {
+	    marker.setAnimation(null);
+	  } 
+	  else 
+	  {
+	    marker.setAnimation(google.maps.Animation.BOUNCE);
+	  }
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
