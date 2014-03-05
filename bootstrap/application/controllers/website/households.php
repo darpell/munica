@@ -13,8 +13,8 @@ class Households extends CI_Controller
 	
 	function visits()
 	{
-		//$this->load->view('mobile/poi_form');
 		$data['households'] = $this->map->get_households($this->session->userdata('TPusername'));
+		$data['to_visit'] = $this->model->get_to_visit_list($this->session->userdata('TPusername'));
 		
 		$last_visits = array();
 		
@@ -27,6 +27,13 @@ class Households extends CI_Controller
 		$data['last_visits'] = $last_visits;
 		
 		$this->load->view('site/house_visits', $data);
+	}
+	
+	function add_to_visit_list($hh_id)
+	{
+		$this->model->add_to_visit($hh_id);
+		
+		$this->visits();
 	}
 	
 	function filter_brgys()

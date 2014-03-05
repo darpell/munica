@@ -240,7 +240,7 @@ class Map extends CI_Controller
 					$data['interest'] =0;
 				
 				//$data['test'] = $this->Mapping->getBarangayAgesS($data);
-				print_r($data['table1']);	
+				//print_r($data['table1']);	
 				$this->load->library('table');
 				$this->load->view('site/maps/view_map',$data);
 			}

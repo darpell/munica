@@ -122,6 +122,10 @@ if (defined('ENVIRONMENT'))
  */
 	// $assign_to_config['name_of_config_item'] = 'value of config item';
 
+	if( ! ini_get('date.timezone') )
+	{
+		date_default_timezone_set('Asia/Taipei');
+	}
 
 
 // --------------------------------------------------------------------

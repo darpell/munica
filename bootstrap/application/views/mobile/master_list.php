@@ -38,7 +38,7 @@
 						<?php echo $subjects[$ctr]['house_no']; ?>, <!-- Household No. e.g. "Blk 2" --> 
 						<?php echo $subjects[$ctr]['street']; ?> <!-- Street -->
 						<p class="ui-li-aside"> last visit: <strong>
-						<?php echo date('D, M d Y',strtotime($subjects[$ctr]['visit_date'])); ?> <!-- Last Visited On -->
+						<?php echo date('D, M d Y',strtotime($last_visits[$ctr]['visit_date'])); ?> <!-- Last Visited On -->
 						</strong></p>
 						</a>
 					</li>

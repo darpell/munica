@@ -43,7 +43,7 @@ function initialize()
 		// infowindow content
 		var html =
 			'<div>'
-			+ '<table cellpadding="10">'
+			+ '<table cellpadding="5">'
 			+ '<tr> <th>'
 			+ 'Household Name: </th>'
 			+ '<td>' + households[ctr].household_name + '</td>'
@@ -61,10 +61,11 @@ function initialize()
 			+ 'Last Visit: </th>'
 			+ '<td>' + last_visits[ctr].visit_date + '</td>'
 			+ '</tr>'
-			+ '<tr> <th>'
-			+ 'name: </th>'
-			+ '<td>' + last_visits[ctr].household_name + '</td>'
-			+ '</tr>';
+			+ '</table> <br/>'
+			+ '<form action="add_to_visit_list/' + households[ctr].household_id + '" method="post">'
+			+ '<input type="hidden" name="household_id" value="' + households[ctr].household_id + '" />'
+			+ '<div class="form-group"><center><input type="submit" value="Add to list" class="btn btn-primary btn-xs" /></center></div>'
+			+ '</form>';
 		
 		marker.info = new google.maps.InfoWindow({
 			content: html

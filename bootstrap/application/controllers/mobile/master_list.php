@@ -11,6 +11,17 @@ class Master_list extends CI_Controller
 	function index()
 	{
 		$data['subjects'] = $this->model->get_households($this->session->userdata('TPusername'));
+		
+		$last_visits = array();
+		
+		foreach ($data['subjects'] as $hh)
+		{
+			$temp = $this->model->get_visits($hh['household_id']);
+			array_push($last_visits, $temp);
+		}
+		
+		$data['last_visits'] = $last_visits;
+		
 		$this->load->view('mobile/master_list', $data);
 	}
 

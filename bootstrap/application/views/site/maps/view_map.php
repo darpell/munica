@@ -110,6 +110,20 @@ function createMarker(map,point,image,info,bounce,isOld,isPoI,hasCircle)
 {
 }
 
+function setPolyInfo(poly,str,pmap)
+{
+	var p;
+	google.maps.event.addListener(poly,'click', function(event) {
+	    infoWindow.setContent(str);
+	    if (event) {
+	       p = event.latLng;
+	    }
+	    infoWindow.setPosition(p);
+	    infoWindow.open(pmap);
+	    // map.openInfoWindowHtml(point,html); 
+	  });
+}
+
 function load() {
 	var map = new google.maps.Map(document.getElementById("map"), {
 		center: new google.maps.LatLng(14.301716, 120.942506),
@@ -204,42 +218,21 @@ function load() {
 								clickable:true
 							});
 					bermudaTriangle.setMap(map);
-					tabStr = "<table border='1' cellpadding='5' cellspacing='0' id='results' >";
+					tabStr = "<center><h4>Barangay "+document.getElementById("bb_polyName"+(ctr-1)).value.toString();
+					tabStr += "<h5></>Table 1. Displaying Age Distribution for period <br/><i>"+document.getElementById("cdate1").value.toString()+" to "+document.getElementById("cdate2").value.toString()+"</i>";
+					tabStr += "<br/><table border='1' cellpadding='5' cellspacing='0' id='results' >";
+					tabStr += "<tr><td align='center'><b>Age Range</b></td><td align='center'><b>Patient Amount</b></td></tr>";
 					for(var i=0; i < document.getElementById("table1_length").value.toString(); i++ )
 					{
 						//alert(""+document.getElementById("table1_brgy"+i).value.toString() + document.getElementById("bb_polyName"+ctr).value.toString());
-						if(document.getElementById("table1_brgy"+i).value.toString() == document.getElementById("bb_polyName"+ctr).value.toString())
+						if(document.getElementById("table1_brgy"+i).value.toString() == document.getElementById("bb_polyName"+(ctr-1)).value.toString())
 						{
-							tabStr += "<tr><td align='center'>"+document.getElementById("table1_brgy"+(i)).value.toString()+"</td>"
-								+"<td align='center'>"+document.getElementById("table1_count"+(i)).value.toString()+"</td>"
-								+"<td align='center'>"+document.getElementById("table1_range"+(i)).value.toString()+"</td></tr>";
+							tabStr +="<td align='center'>"+document.getElementById("table1_range"+(i)).value.toString()+"</td>"
+								+"<td align='center'>"+document.getElementById("table1_count"+(i)).value.toString()+"</td></tr>";
 						}
 					}
-					tabStr +="</table>";
-					//YOU ARE HERE, TRY TO MOVE POLYGON ADDLISTENER TO ITS OWN FUNCTION.
-					/*
-					<table border="1" cellpadding="5" cellspacing="0" id="results" >
-					<tr style="background-color: #e3e3e3">
-					<td align="center">one</td><td align="center">two</td><td align="center">three</td>
-					</tr><tr>
-					<td align="center">one</td><td align="center">two</td><td align="center">three</td>
-					</tr><tr style="background-color: #e3e3e3">
-					<td align="center">one</td><td align="center">two</td><td align="center">three</td>
-					</tr><tr>
-					<td align="center">one</td><td align="center">two</td><td align="center">three</td></tr>
-					</table>
-					//*/
-					//*
-					var p;
-					google.maps.event.addListener(bermudaTriangle,'click', function(event) {
-				          infoWindow.setContent(tabStr);
-				          if (event) {
-				             p = event.latLng;
-				          }
-				          infoWindow.setPosition(p);
-				          infoWindow.open(map);
-				          // map.openInfoWindowHtml(point,html); 
-				        }); //*/
+					tabStr +="</table></center>";
+					setPolyInfo(bermudaTriangle,tabStr,map);
 					//tabStr="";
 					polygonChild = [];
 					polygonChild.push(new google.maps.LatLng(parseFloat(document.getElementById("bb_polyLat"+ctr).value.toString()),
@@ -260,17 +253,22 @@ function load() {
 						clickable:true
 					});
 			bermudaTriangle.setMap(map);
-			//*
-			var p;
-			google.maps.event.addListener(bermudaTriangle,'click', function(event) {
-		          infoWindow.setContent("2");
-		          if (event) {
-		             p = event.latLng;
-		          }
-		          infoWindow.setPosition(p);
-		          infoWindow.open(map);
-		          // map.openInfoWindowHtml(point,html); 
-		        }); //*/
+			
+			tabStr = "<center><h4>Barangay "+document.getElementById("bb_polyName"+(ctr-1)).value.toString();
+			tabStr += "<h5></>Table 1. Displaying Age Distribution for period <br/><i>"+document.getElementById("cdate1").value.toString()+" to "+document.getElementById("cdate2").value.toString()+"</i>";
+			tabStr += "<br/><table border='1' cellpadding='5' cellspacing='0' id='results' >";
+			tabStr += "<tr><td align='center'><b>Age Range</b></td><td align='center'><b>Patient Amount</b></td></tr>";
+			for(var i=0; i < document.getElementById("table1_length").value.toString(); i++ )
+			{
+				if(document.getElementById("table1_brgy"+i).value.toString() == document.getElementById("bb_polyName"+(ctr-1)).value.toString())
+				{
+					tabStr +="<td align='center'>"+document.getElementById("table1_range"+(i)).value.toString()+"</td>"
+						+"<td align='center'>"+document.getElementById("table1_count"+(i)).value.toString()+"</td></tr>";
+				}
+			}
+			tabStr +="</table></center>";
+			setPolyInfo(bermudaTriangle,tabStr,map);
+			
 			polygonChild = [];
 		}
 	}
@@ -688,6 +686,9 @@ jQuery(document).ready(function(){
 	<input type="hidden" id="dg_iconA" value="<?php echo base_url('/images/A.png')?>" />
 	<input type="hidden" id="dg_iconD" value="<?php echo base_url('/images/D.png')?>" />
 	<?php } else { ?> <input type="hidden" id="dg_length" value="0" /> <?php } ?>
+	
+	<input type="hidden" id="cdate1" value="<?php echo $cdate1?>" />
+	<input type="hidden" id="cdate2" value="<?php echo $cdate2?>" />
 
 </form>
 <body onload="load()">
