@@ -19,7 +19,7 @@ body { height:100% }
 </head>
 <body onload="initialize()">
 <!-- CONTENT -->
-<?php  $this->load->view('/site/analytics/analyticslinks');?>
+<?php  $data['title'] ='totalcaselarval'; $this->load->view('/site/analytics/analyticslinks' , $data);?>
 <div class="col-md-9">
 
 		

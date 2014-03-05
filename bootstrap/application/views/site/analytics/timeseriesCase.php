@@ -21,7 +21,7 @@ body { height:100% }
 </head>
 <body onload="initialize()">
 <!-- CONTENT -->
-<?php  $this->load->view('/site/analytics/analyticslinks');?>
+<?php  $data['title'] = 'totalcase'; $this->load->view('/site/analytics/analyticslinks', $data);?>
 <div class="col-md-9">
 
 	<?php 
@@ -54,11 +54,12 @@ body { height:100% }
 			 <legend>Summary from <?php echo $cases['yearstart'].' to '. date('Y')?></legend>
 			<p>The most number of cases reported was <b><?php echo $cases['max'] ?> cases</b>.</p>
 			<p>During the <b> <?php echo $month; ?> <?php echo $cases['max_year'] ?>.</b></p>
+			<?php if($death != null){?>
 			 <p>Resulting in <b> deaths at <?php foreach ($death as $row)
 			 {
 			 	echo "<br />" . $row['cr_barangay'] . " : " . $row['deaths']; 
 			 }
-			 	?></b></p>
+			 	?></b></p><?php }?>
 			 
 			 </fieldset>
 			 </center>

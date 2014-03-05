@@ -76,10 +76,6 @@ $( "#datepicker2" ).datepicker();
 		</div>
 		<?php }else if( $title =='outbreak'){
 		echo form_open('website/analytics/outbreakcountyear');
-		$barangay_form[] = 'LANGKAAN II';
-		$barangay_form[] = 'SAN AGUSTIN I';
-		$barangay_form[] = 'SAN AGUSTIN III';
-		$barangay_form[] = 'SAMPALOC I';
 		?>
 		<!-- Filters -->
 		<div class="panel panel-primary">
@@ -108,6 +104,107 @@ $( "#datepicker2" ).datepicker();
  				</ul>
 			</div>
 		</div>
+		<?php }else if( $title =='totalcase'){
+		echo form_open('website/analytics/totalcasecount');
+		?>
+		<!-- Filters -->
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title"> Filters </h3>
+			</div>
+			<div class="panel-body">
+				<ul class="nav nav-pills nav-stacked">
+				 <li>Year Start</li>
+				 <li>
+ 				<?php  
+		 		for($i = $cases['yearmin']; $i <= date('Y');$i++)
+		 		{
+		 			$options[$i]=$i;
+		 		}
+		 		echo form_dropdown('yearstart', $options, $cases['yearstart']);
+				
+		    	?>
+		    	</li>
+		    	 <li>Year end</li>
+				 <li>
+ 				<?php  
+		 		for($i = $cases['yearmin']; $i <= date('Y');$i++)
+		 		{
+		 			$options[$i]=$i;
+		 		}
+		 		echo form_dropdown('yearend', $options, date('Y'));
+				
+		    	?>
+		    	</li>
+		    	<li>Barangays Selected:</li>
+ 				<?php  
+		 		foreach ($brgys as $row) {
+				echo '<li>';
+		    	echo form_checkbox('barangay[]', $row, TRUE);
+		    	echo " " . $row;
+		    	echo '</li>';
+				}
+		    	?>
+		    	<br />
+		   
+		    	<li><input type="submit" class="submitButton" value="Search"/>
+		    	<?php echo form_close(); ?>
+		    	
+		    	</li>
+ 				</ul>
+			</div>
+		</div>
+		<?php }else if( $title =='totalcaselarval'){
+		echo form_open('website/analytics/totalcaselarvalcount');
+		?>
+		<!-- Filters -->
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title"> Filters </h3>
+			</div>
+			<div class="panel-body">
+				<ul class="nav nav-pills nav-stacked">
+				 <li>Year Start</li>
+				 <li>
+ 				<?php  
+		 		for($i = $caseandlarval['yearmin']; $i <= date('Y');$i++)
+		 		{
+		 			$options[$i]=$i;
+		 		}
+		 		echo form_dropdown('yearstart', $options, $cases['yearstart']);
+				
+		    	?>
+		    	</li>
+		    	 <li>Year end</li>
+				 <li>
+ 				<?php  
+		 		for($i = $caseandlarval['yearmin']; $i <= date('Y');$i++)
+		 		{
+		 			$options[$i]=$i;
+		 		}
+		 		echo form_dropdown('yearend', $options, date('Y'));
+				
+		    	?>
+		    	</li>
+		    	<li>Barangays Selected:</li>
+ 				<?php  
+		 		foreach ($brgys as $row) {
+				echo '<li>';
+		    	echo form_checkbox('barangay[]', $row, TRUE);
+		    	echo " " . $row;
+		    	echo '</li>';
+				}
+		    	?>
+		    	<br />
+		   
+		    	<li><input type="submit" class="submitButton" value="Search"/>
+		    	<?php echo form_close(); ?>
+		    	
+		    	</li>
+ 				</ul>
+			</div>
+		</div>
 		<?php } ?>
+		
 		<!-- end of Filters -->
 </div>

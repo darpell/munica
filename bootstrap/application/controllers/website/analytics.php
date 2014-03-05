@@ -366,9 +366,26 @@ class Analytics extends CI_Controller
 	}
 	function totalcasecount()
 	{
-		$data['cases'] = $this->Analytics_model->get_all_cases_count();
+		$data['brgys'] = $brgys = $this->Analytics_model->get_barangays();
+		
+		$this->form_validation->set_rules('yearstart', 'Date from', 'required');
+		$this->form_validation->set_rules('yearend', 'Date from', 'required');
+		$this->form_validation->set_rules('barangay', 'Date from', 'required');
+		if ($this->form_validation->run('') == FALSE)
+		{
+			$data['cases'] = $this->Analytics_model->get_all_cases_count(null,null,$brgys);
+			$data['deathcount'] = $this->Analytics_model->get_all_death_count(null,null,$brgys);
+		}
+		else
+		{
+
+			$data['cases'] = $this->Analytics_model->get_all_cases_count($this->input->post('yearstart'),$this->input->post('yearend'),$this->input->post('barangay'));
+			$data['deathcount'] = $this->Analytics_model->get_all_death_count($this->input->post('yearstart'),$this->input->post('yearend'),$this->input->post('barangay'));
+		}
+		
+
 		$data['death'] = $this->Analytics_model->get_death_count($data['cases']['max_mon'],$data['cases']['max_year']);
-		$data['deathcount'] = $this->Analytics_model->get_all_death_count();
+		
 			
 		$this->load->view('site/analytics/timeseriesCase',$data);
 	}
@@ -381,10 +398,10 @@ class Analytics extends CI_Controller
 	{
 
 
-		
+		$this->form_validation->set_rules('yearselected', 'Date from', 'required');
 		if ($this->form_validation->run('') == FALSE)
 		{
-			$data['outbreak'] = $this->Analytics_model->get_outbreak_count_year( $this->input->post('yearselected'));
+			//$data['outbreak'] = $this->Analytics_model->get_outbreak_count_year( $this->input->post('yearselected'));
 			
 		}
 		else
@@ -402,15 +419,28 @@ class Analytics extends CI_Controller
 	}
 	function totalcaselarvalcount()
 	{
-		//timeseriesallcases
-		$data['cases'] = $this->Analytics_model->get_all_cases_count();
-		//timeseriesalllarval
-		$data['larval']= $this->Analytics_model->get_all_larval_count();
-		//areacasesand larval
+
+		$data['brgys'] = $brgys = $this->Analytics_model->get_barangays();
+		
+		$this->form_validation->set_rules('yearstart', 'Date from', 'required');
+		$this->form_validation->set_rules('yearend', 'Date from', 'required');
+		$this->form_validation->set_rules('barangay', 'Date from', 'required');
+		if ($this->form_validation->run('') == FALSE)
+		{
+			$data['cases'] = $this->Analytics_model->get_all_cases_count(null,null,$brgys);
+			$data['larval']= $this->Analytics_model->get_all_larval_count(null,null,$brgys);
+		}
+		else
+		{
+			$data['cases'] = $this->Analytics_model->get_all_cases_count($this->input->post('yearstart'),$this->input->post('yearend'),$this->input->post('barangay'));
+			$data['larval']= $this->Analytics_model->get_all_larval_count($this->input->post('yearstart'),$this->input->post('yearend'),$this->input->post('barangay'));
+		}
+		
+
 
 		if ($data['cases']['yearstart']<=$data['larval']['yearstart'])
 		{	$data['caseandlarval']['yearstart'] = $data['cases']['yearstart'];
-			
+			$data['caseandlarval']['yearmin'] = $data['cases']['yearmin'];
 
 			for($i=$data['caseandlarval']['yearstart'];$i<=DATE('Y');$i++)
 			{
@@ -430,7 +460,7 @@ class Analytics extends CI_Controller
 		
 		else
 		{	$data['caseandlarval']['yearstart'] = $data['larval']['yearstart'];		
-
+			$data['caseandlarval']['yearmin'] = $data['larval']['yearmin'];
 			for($i=$data['caseandlarval']['yearstart'];$i<=DATE('Y');$i++)
 			{
 				for ($s= 1;$s<=12;$s++)
