@@ -7,7 +7,7 @@
 <style>
 html { height:100% }
 body { height:100% }
-#hh_map { width:700px; height:500px;max-width:100%; max-height:100%; }
+#googleMap { width:700px; height:500px;max-width:100%; max-height:100%; }
 </style>	
 </style>
 
@@ -21,13 +21,12 @@ body { height:100% }
 <!-- map data -->
 <?php $this->load->model('hh_model','hh');?>
 <input type="hidden" id="result_length" value="<?php echo count($households); ?>" />
-	<?php for ($ctr = 0; $ctr < count($households); $ctr++) {?>
-	
-	<?php 
-		$date = $this->hh->get_visits($households[$ctr]['household_id'], TRUE);//$households[$ctr]['last_visited'];
-		$year = date('Y', strtotime($date['visit_date']));
-		$month = date('m', strtotime($date['visit_date']));
-		$date = date('d', strtotime($date['visit_date']));
+	<?php for ($ctr = 0; $ctr < count($households); $ctr++) {
+		
+		$date = date('Y-m-d');//$this->hh->get_visits($households[$ctr]['household_id'], TRUE);//$households[$ctr]['last_visited'];
+		$year = date('Y', strtotime($date));
+		$month = date('m', strtotime($date));
+		$date = date('d', strtotime($date));
 	?>
 	
 		<input type="hidden" id="pt_id<?= $ctr ?>" 				value="<?php echo $households[$ctr]['household_id']; ?>"	/>
@@ -52,24 +51,51 @@ body { height:100% }
 <!-- CONTENT -->
 <!-- Filters -->
 <div class="container">
-	<div class="col-md-6">
+	<div class="col-md-8">
 		<!-- Map -->
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h3 class="panel-title"> Map of Household Visits</h3>
 				</div>
 				<div class="panel-body">
-					<div class="col-md-8">
+					<div>
 						<!-- <div> for map -->
-						<div id="hh_map"></div>
+						<div id="googleMap"></div>
 						<!-- </div> for map -->
+					</div>
+				</div>
+			</div>
+			<!-- end of Map -->
+	</div>
+	<div class="col-md-4">
+		<!-- Household List -->
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title"> Household List </h3>
+				</div>
+				<div class="panel-body">
+					<div>
+						<ul class="nav nav-pills nav-stacked">
+							<!-- <tr>
+								<th> Household Name </th> <th> Address </th> <th> Barangay </th> <th> BHW assigned </th> <th> Date of Last Visit </th>
+							</tr>  -->
+							<?php foreach ($households as $house) { ?>
+							<li>
+								<p> <?= $house['household_name']?> </p> 
+								<p> <?= $house['house_no'] . ' ' . $house['street']?> </p>
+								<p> <?= $house['barangay']?> </p>
+								<p> <?= $house['bhw_id'] ?> </p>
+								<p> <?= date('Y-m-d')//$house[''] ?> </p>
+							</li>
+							<?php } ?>
+						</ul>
 					</div>
 					<div class="col-md-4">
 								
 					</div>
 				</div>
 			</div>
-			<!-- end of Map -->
+			<!-- end of Household LIst -->
 	</div>
 </div>
 <!-- /end of Filters -->

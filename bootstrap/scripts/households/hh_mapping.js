@@ -3,7 +3,7 @@ function initialize()
 {
 	var mapProp = {
 			center: dasma,
-			zoom: 15,
+			zoom: 12,
 			mapTypeId: google.maps.MapTypeId.HYBRID
 		};
 
