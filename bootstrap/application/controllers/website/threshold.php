@@ -7,9 +7,35 @@ class Threshold extends CI_Controller
 		parent::__construct();
 		$this->load->model('threshold_model','model');
 	}
+	function get_user_barangay()
+	{
+		if($this->session->userdata('TPtype') == 'CHO')
+			return null;
+		else
 	
+		{
+			$data =	$this->model->get_user_barangay($this->session->userdata('TPusername'));
+		}
+		return $data;
+	}
 	function epidemic_threshold()
 	{
+		$data['barangay'] = $this->model->getAllBarangays();
+		if($this->input->post('year')!= null)
+		$data['year'] = $this->input->post('year');
+		else
+		$data['year'] = date('Y');
+		$user = $this->get_user_barangay();
+		if($user != null)
+		$brgy = $user;
+		else{
+			if( $this->input->post('barangay') == 'all')
+			$brgy = null;
+			else
+			$brgy = $this->input->post('barangay');
+		}
+		$data['brgy'] = $brgy;
+		
 		$COMPARING_YEARS = 6; /* signifying a 5 year duration */
 		$MONTHS = 12; /* signifying a 12 months in a year */
 		
@@ -17,7 +43,7 @@ class Threshold extends CI_Controller
 		{
 			for($mth_ctr = 0; $mth_ctr < $MONTHS;$mth_ctr++)
 			{
-				$period[$ctr . '_' . $mth_ctr] = $this->model->epidemic_threshold(date('Y') - $ctr, 1 + $mth_ctr);
+				$period[$ctr . '_' . $mth_ctr] = $this->model->epidemic_threshold($data['year'] - $ctr, 1 + $mth_ctr,$brgy);
 				if($ctr != 0)
 				$sorted[$mth_ctr][]=$period[$ctr . '_' . $mth_ctr];
 			}

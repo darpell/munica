@@ -31,8 +31,7 @@ body { height:100% }
 			<center>
 			 <fieldset  style="width: 50%;">
 			 <?php 
-	
-					$month = '';
+				
 					switch ($larval['max_mon'])
 					{
 						case '1': $month = 'JAN'; break;
@@ -52,18 +51,18 @@ body { height:100% }
 					$month2 = '';
 					switch ($cases['max_mon'])
 					{
-						case '1': $month = 'JAN'; break;
-						case '2': $month = 'FEB'; break;
-						case '3': $month = 'MAR'; break;
-						case '4': $month = 'APR'; break;
-						case '5': $month = 'MAY'; break;
-						case '6': $month = 'JUN'; break;
-						case '7': $month = 'JUL'; break;
-						case '8': $month = 'AUG'; break;
-						case '9': $month = 'SEP'; break;
-						case '10': $month = 'OCT'; break;
-						case '11': $month = 'NOV'; break;
-						case '12': $month = 'DEC'; break;
+						case '1': $month2 = 'JAN'; break;
+						case '2': $month2 = 'FEB'; break;
+						case '3': $month2 = 'MAR'; break;
+						case '4': $month2 = 'APR'; break;
+						case '5': $month2 = 'MAY'; break;
+						case '6': $month2 = 'JUN'; break;
+						case '7': $month2 = 'JUL'; break;
+						case '8': $month2 = 'AUG'; break;
+						case '9': $month2 = 'SEP'; break;
+						case '10': $month2 = 'OCT'; break;
+						case '11': $month2 = 'NOV'; break;
+						case '12': $month2 = 'DEC'; break;
 					}
 		?>
 			 <legend>Summary from <?php echo $caseandlarval['yearstart'].' to '. date('Y')?></legend>

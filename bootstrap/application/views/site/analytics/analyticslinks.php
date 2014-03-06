@@ -8,7 +8,7 @@ $( "#datepicker2" ).datepicker();
  
 
                 
-                
+
 <div class="col-md-3">		
 		<!-- Filter -->
 		<div class="panel panel-primary">
@@ -19,7 +19,8 @@ $( "#datepicker2" ).datepicker();
 				<ul class="nav nav-pills nav-stacked">
 					<li><?= anchor(site_url('website/threshold/epidemic_threshold'),'Epidemic Threshold')?></li>
 					<li> <a href="<?= site_url('website/analytics') ?>"> Recent Cases </a> </li>
-					<li> <a href="<?= site_url('website/analytics/totaloutbreakcount') ?>"> Outbreaks Occured</a> </li>
+					<li> <a href="<?= site_url('website/analytics/caselist') ?>"> Case list </a> </li>
+					<li> <a href="<?php if($this->session->userdata('TPtype') == 'CHO') echo site_url('website/analytics/totaloutbreakcount'); else echo  site_url('website/analytics/outbreakcountyear');?>"> Outbreaks Occured</a> </li>
 					<li> <a href="<?= site_url('website/analytics/totalcasecount') ?>"> Total Case Count </a> </li>
 					<li> <a href="<?= site_url('website/analytics/totalcaselarvalcount') ?>"> Total Case and Larval Count</a> </li>
 					<li> <a href="<?= site_url('website/analytics/case_demographics') ?>"> Case Demographics</a> </li>
@@ -106,7 +107,7 @@ $( "#datepicker2" ).datepicker();
 		    	?></li>
 				  <br />
 				  <input type= "hidden" name="url" value = "<?php echo current_url()?>" />
-				  
+				  <?php if($this->session->userdata('TPtype') == 'CHO'){?>
 				 <li>Barangay:</li>
  				<?php  
 		 		foreach ($barangay_form as $row) {
@@ -117,7 +118,7 @@ $( "#datepicker2" ).datepicker();
 				}
 		    	?>
 		    	<br />
-		    	
+		    	<?php }?>
 		    	<li><input type="submit" class="submitButton" value="Search"/>
 		    	<?php echo form_close(); ?>
 		    	
@@ -135,15 +136,18 @@ $( "#datepicker2" ).datepicker();
 			</div>
 			<div class="panel-body">
 				<ul class="nav nav-pills nav-stacked">
+				<?php if($this->session->userdata('TPtype') == 'CHO'){?>
 				<li>Barangay:</li>
  				<?php  
 		 		foreach ($barangay as $row) {
 				$options[$row]=$row;
 				
 				}
+				
 				echo form_dropdown('barangay', $options,$brgy);
 		    	?>
 		    	<br />
+		    	<?php }?>
 				 <li>Year</li>
 				 <li>
  				<?php  
@@ -173,6 +177,7 @@ $( "#datepicker2" ).datepicker();
 			</div>
 			<div class="panel-body">
 				<ul class="nav nav-pills nav-stacked">
+				
 				 <li>Barangay:</li>
  				<?php  
 		 		foreach ($barangay as $row) {
@@ -264,9 +269,11 @@ $( "#datepicker2" ).datepicker();
 		 			$options[$i]=$i;
 		 		}
 		 		echo form_dropdown('yearend', $options, $cases['yearend']);
-				
+		 		?>
+		 		</li>
+		 		<?php if($this->session->userdata('TPtype') == 'CHO'){
 		    	?>
-		    	</li>
+		    	
 		    	<li>Barangays Selected:</li>
  				<?php  
 		 		foreach ($brgys as $row) {
@@ -274,6 +281,7 @@ $( "#datepicker2" ).datepicker();
 		    	echo form_checkbox('barangay[]', $row, TRUE);
 		    	echo " " . $row;
 		    	echo '</li>';
+				}
 				}
 		    	?>
 		    	<br />
@@ -359,9 +367,12 @@ $( "#datepicker2" ).datepicker();
 		 			$options[$i]=$i;
 		 		}
 		 		echo form_dropdown('yearend', $options, $cases['yearend']);
-				
+		 		?>
+		 		</li>
+		 		<?php 
+		 		if($this->session->userdata('TPtype') == 'CHO'){
 		    	?>
-		    	</li>
+		    	
 		    	<li>Barangays Selected:</li>
  				<?php  
 		 		foreach ($brgys as $row) {
@@ -369,6 +380,7 @@ $( "#datepicker2" ).datepicker();
 		    	echo form_checkbox('barangay[]', $row, TRUE);
 		    	echo " " . $row;
 		    	echo '</li>';
+				}
 				}
 		    	?>
 		    	<br />
@@ -401,6 +413,8 @@ $( "#datepicker2" ).datepicker();
 				
 		    	?>
 		    	</li>
+		    	<?php if($this->session->userdata('TPtype') == 'CHO'){
+		    	?>
 		    	<li>Barangays Selected:</li>
  				<?php  
 		 		foreach ($barangay as $row) {
@@ -409,6 +423,7 @@ $( "#datepicker2" ).datepicker();
 		    	echo " " . $row;
 		    	echo '</li>';
 				}
+		    	}
 		    	?>
 		    	<br />
 		   
@@ -458,6 +473,8 @@ $( "#datepicker2" ).datepicker();
 		 		echo form_dropdown('year', $options, $year);
 		 		$options = null;
 		    	?> </li>
+		    	<?php if($this->session->userdata('TPtype') == 'CHO'){
+		    	?>
 		    	<li>Barangays Selected:</li>
  				<?php  
 		 		foreach ($barangay as $row) {
@@ -466,6 +483,7 @@ $( "#datepicker2" ).datepicker();
 		    	echo " " . $row;
 		    	echo '</li>';
 				}
+		    	}
 		    	?>
 		    	<br />
 		   

@@ -8,14 +8,40 @@ class Threshold_model extends CI_Model
 		//load monica database
 		$this->load->database('default');
 	}
-	
+	function get_user_barangay($userid)
+	{
+		$where = "*
+			FROM (`bhw`)
+			WHERE user_username = '".$userid."'";
+		$this->db->select($where,false);
+		$q = $this->db->get();
+		if($q->num_rows() > 0)
+		{
+			foreach ($q->result() as $row)
+			{
+				$data = $row->barangay;
+			}
+			return $data;
+		}
+		else return null;
+			
+	}
 	function getAllBarangays()
 	{
+		$data =[];
 		$this->db->select('barangay')
 					->from('barangay')
 					->group_by('barangay');
+		$query = $this->db->get();
 		
-		return $this->db->get()->result_array();
+		if ($query->num_rows() > 0)
+		{
+			foreach ($query->result() as $row)
+				{ 
+					$data[]= $row->barangay;
+				}
+		}
+		return $data;
 	}
 	
 	function epidemic_threshold($year = FALSE, $month = FALSE, $brgy = FALSE)
@@ -27,7 +53,7 @@ class Threshold_model extends CI_Model
 		
 		if ($year != FALSE) $this->db->where('YEAR(cr_date_onset) = ' . $year);
 		if ($month != FALSE) $this->db->where('MONTH(cr_date_onset) = ' . $month);
-		if ($brgy != FALSE) $this->db->where('cr_barangay = ' . $brgy);
+		if ($brgy != FALSE) $this->db->where("cr_barangay = '" . $brgy."'");
 		
 		$query = $this->db->get();
 		if ($query->num_rows() > 0)
@@ -46,7 +72,7 @@ class Threshold_model extends CI_Model
 		
 		if ($year != FALSE) $this->db->where('YEAR(created_on) = ' . $year);
 		if ($month != FALSE) $this->db->where('MONTH(created_on) = ' . $month);
-		if ($brgy != FALSE) $this->db->where('cr_barangay = ' . $brgy);
+		if ($brgy != FALSE) $this->db->where("barangay = '" . $brgy."'");
 		
 		$query = $this->db->get();
 		if ($query->num_rows() > 0)
@@ -65,7 +91,7 @@ class Threshold_model extends CI_Model
 		
 		if ($year != FALSE) $this->db->where('YEAR(created_on) = ' . $year);
 		if ($month != FALSE) $this->db->where('MONTH(created_on) = ' . $month);
-		if ($brgy != FALSE) $this->db->where('cr_barangay = ' . $brgy);
+		if ($brgy != FALSE) $this->db->where("barangay = '" . $brgy."'");
 		
 		$query = $this->db->get();
 		if ($query->num_rows() > 0)

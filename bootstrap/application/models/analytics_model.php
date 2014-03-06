@@ -16,6 +16,24 @@
 			$data[] = 'SAMPALOC I';
 			return $data;
 		}
+		function get_user_barangay($userid)
+		{
+			$where = "*
+			FROM (`bhw`)
+			WHERE user_username = '".$userid."'";
+			$this->db->select($where,false);
+			$q = $this->db->get();
+			if($q->num_rows() > 0)
+			{
+				foreach ($q->result() as $row)
+				{
+					$data = $row->barangay;
+				}
+				return $data;
+			}
+			else return null;
+			
+		}
 		function get_all_cases_count($monthstart = 1, $yearstart = null,$monthend =12, $yearend = null, $brgy)
 		{	
 			$where = "MIN(YEAR(cr_date_onset)) as yearmin
@@ -656,11 +674,14 @@
 			return $data;
 		
 		}
-		function get_death_count($mon,$year)
+		function get_death_count($mon,$year,$brgy)
 		{
+			$data = [];
+			foreach($brgy as $brgy)
+			{
 			$where = " count(cr_patient_no) as deaths , cr_barangay FROM (`case_report_main`)
 					WHERE YEAR(cr_date_onset) =".$year." AND MONTH(cr_date_onset) =".$mon."
-					AND cr_outcome = 'D'
+					AND cr_outcome = 'D' AND cr_barangay = '".$brgy."'
 					GROUP BY cr_barangay ";
 			
 			$this->db->select($where,false);
@@ -668,10 +689,13 @@
 			$yearstart= 0;
 			if($q->num_rows() > 0)
 			{
-				$data= $q->result_array();
+				$data= array_merge($data,$q->result_array());
 			}
-			else return null;
+			}
 			
+			if($data == [])
+			return null;
+			else
 			return $data;
 			
 		}
@@ -855,7 +879,7 @@
 			$data['max'] = 0;
 			$data['max_mon']=null;
 			$data['max_year']=null;
-			$data['larvalcount'] = '';
+			$data['larvalcount'] = '0,';
 			
 			if($yearend != null)
 				$x = $yearend;

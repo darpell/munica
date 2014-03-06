@@ -31,7 +31,30 @@
 
 <FORM>
 <INPUT TYPE="button" onClick="window.print()" value="Print This Page">
-</FORM>
+</FORM><center>
+<?php echo form_open('website/threshold/epidemic_threshold'); ?>
+Year:
+
+ 				<?php  
+ 				
+		 		for($i = 2013; $i <= date('Y');$i++)
+		 		{
+		 			$options[$i]=$i;
+		 		}
+		 		echo form_dropdown('year', $options, $year);
+		 		$options = null;
+		    	if($this->session->userdata('TPtype') == 'CHO'){ ?>
+Barangay:
+ 				<?php  
+ 				$options['all'] = 'All';
+		 		foreach ($barangay as $row) {
+				$options[$row]=$row;
+				}
+				
+				echo form_dropdown('barangay', $options,$brgy);
+		    	}?>
+		    	<input type="submit" class="submitButton" value="View"/>
+		    	</center>
 <div class="panel panel-primary">
 	<div class="panel-heading">
 		<h3 class="panel-title"> Epidemic threshold </h3>
