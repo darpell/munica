@@ -101,7 +101,7 @@ body { height:100% }
 					<?php } /*else if ($this->session->userdata('TPtype') != 'MIDWIFE') {?>
 					<li> <a href="<?= site_url('website/households/filter_CAs/') ?>"> Households <span class="badge pull-right"><?= $hh_num ?></span></a> </li>
 					<?php }*/ else { ?>
-					<li> <a href="<?= site_url('website/households/filter_HHs/' . $this->session->userdata('TPusername')) ?>"> Households <span class="badge pull-right"><?= $hh_num ?></span></a> </li>
+					<li> <a href="<?= site_url('website/households/filter_HHs/' . $this->session->userdata('TPusername')) ?>"> People <span class="badge pull-right"><?= $hh_num ?></span></a> </li>
 					<?php } ?>
 				</ul>
 			</div>
