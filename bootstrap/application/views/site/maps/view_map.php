@@ -488,21 +488,11 @@ jQuery(document).ready(function(){
 			    {
 					mapHouseholdOverlay(map);
 			    }
-			    	/*Data handler, SPLITTER
-					var str = document.getElementById('data').value.toString();
-					str = str.split("%&");
-					var Pstr = document.getElementById('Pdata').value.toString();
-					Pstr = Pstr.split("%&");
-					
-					mapLarvalOverlay(map,document.getElementById('dist').value.toString(),str[0],false);
-					mapLarvalOverlay(map,document.getElementById('Pdist').value.toString(),Pstr[0],true);
-					mapBarangayOverlay(map,document.getElementById('dataBCount').value.toString(),document.getElementById('dataBAge').value.toString(),str[1],document.getElementById('dataBInfo').value.toString(),false);
-					//mapBarangayOverlay(map,document.getElementById('PdataBCount').value.toString(),document.getElementById('PdataBAge2').value.toString(),Pstr[1],document.getElementById('PdataBInfo').value.toString(),true);
-					mapHousholds(map,barangayCount,barangayAge,datax,barangayInfo) //Denguecase barangay polygon display//*/
+			   
 		  }
 		  else
 		  {
-			  //load();
+			  load();
 		  }
 	  });
 	});
@@ -537,6 +527,8 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="table1_range<?= $ctr ?>" 	value="<?php echo $table1[$ctr]['agerange']; ?>"	/><?php }}?> 
 	<?php } else { ?> <input type="hidden" id="table1_length" value="0" /> <?php } ?>
 
+	<!-- Period 1 Data -->
+	
 <?php if ($denguePoIDistance != null){?>
 <input type="hidden" id="dgPoIDistance_length" value="<?php echo count($denguePoIDistance); ?>" />
 	<?php for ($ctr = 0; $ctr < count($denguePoIDistance); $ctr++) {?>
@@ -565,6 +557,38 @@ jQuery(document).ready(function(){
 	<?php }?> 
 	<?php } else { ?> <input type="hidden" id="dgLarvalBounce_length" value="0" /> <?php } ?>
 
+	<!-- Period 2 Data -->
+	
+<?php if ($PdenguePoIDistance != null){?>
+<input type="hidden" id="PdgPoIDistance_length" value="<?php echo count($PdenguePoIDistance); ?>" />
+	<?php for ($ctr = 0; $ctr < count($PdenguePoIDistance); $ctr++) {?>
+		<input type="hidden" id="PdgPoIDistance<?= $ctr ?>" 	value="<?php echo $PdenguePoIDistance[$ctr]; ?>"	/>
+	<?php }?> 
+	<?php } else { ?> <input type="hidden" id="PdgPoIDistance_length" value="0" /> <?php } ?>
+	
+<?php if ($PdenguePoIBounce != null){?>
+<input type="hidden" id="PdgPoIBounce_length" value="<?php echo count($PdenguePoIBounce); ?>" />
+	<?php for ($ctr = 0; $ctr < count($PdenguePoIBounce); $ctr++) {?>
+		<input type="hidden" id="PdgPoIBounce<?= $ctr ?>" 	value="<?php echo $PdenguePoIBounce[$ctr]; ?>"	/>
+	<?php }?> 
+	<?php } else { ?> <input type="hidden" id="PdgPoIBounce_length" value="0" /> <?php } ?>
+
+<?php if ($PdengueLarvalDistance != null){?>
+<input type="hidden" id="PdgLarvalDistance_length" value="<?php echo count($PdengueLarvalDistance); ?>" />
+	<?php for ($ctr = 0; $ctr < count($PdengueLarvalDistance); $ctr++) {?>
+		<input type="hidden" id="PdgLarvalDistance<?= $ctr ?>" 	value="<?php echo $PdengueLarvalDistance[$ctr]; ?>"	/>
+	<?php }?> 
+	<?php } else { ?> <input type="hidden" id="PdgLarvalDistance_length" value="0" /> <?php } ?>
+	
+<?php if ($PdengueLarvalBounce != null){?>
+<input type="hidden" id="PdgLarvalBounce_length" value="<?php echo count($PdengueLarvalBounce); ?>" />
+	<?php for ($ctr = 0; $ctr < count($PdengueLarvalBounce); $ctr++) {?>
+		<input type="hidden" id="PdgLarvalBounce<?= $ctr ?>" 	value="<?php echo $PdengueLarvalBounce[$ctr]; ?>"	/>
+	<?php }?> 
+	<?php } else { ?> <input type="hidden" id="PdgLarvalBounce_length" value="0" /> <?php } ?>
+	
+	<!-- Period 1 Data -->
+	
 <?php if ($larval != null){?>
 <input type="hidden" id="ls_length" value="<?php echo count($larval); ?>" />
 	<?php for ($ctr = 0; $ctr < count($larval); $ctr++) {?>
@@ -609,6 +633,42 @@ jQuery(document).ready(function(){
 	<input type="hidden" id="poi_iconS" value="<?php echo base_url('/images/source.png')?>" />
 	<?php } else { ?> <input type="hidden" id="poi_length" value="0" /> <?php } ?>
 	
+	<!-- Period 2 Data -->
+	
+	<?php if ($Plarval != null){?>
+	<input type="hidden" id="Pls_length" value="<?php echo count($Plarval); ?>" />
+		<?php for ($ctr = 0; $ctr < count($Plarval); $ctr++) {?>
+			<input type="hidden" id="Pls_no<?= $ctr ?>" 	value="<?php echo $Plarval[$ctr]['id']; ?>"	/>
+			<input type="hidden" id="Pls_household<?= $ctr ?>" 	value="<?php echo $Plarval[$ctr]['household']; ?>"	/>
+			<input type="hidden" id="Pls_householdId<?= $ctr ?>" 	value="<?php echo $Plarval[$ctr]['householdId']; ?>"	/>
+			<input type="hidden" id="Pls_container<?= $ctr ?>" 	value="<?php echo $Plarval[$ctr]['container']; ?>"	/>
+			<input type="hidden" id="Pls_lat<?= $ctr ?>" 	value="<?php echo $Plarval[$ctr]['lat']; ?>"	/>
+			<input type="hidden" id="Pls_lng<?= $ctr ?>" 	value="<?php echo $Plarval[$ctr]['lng']; ?>"	/>
+			<input type="hidden" id="Pls_createdBy<?= $ctr ?>" 	value="<?php echo $Plarval[$ctr]['createdBy']; ?>"	/>
+			<input type="hidden" id="Pls_createdOn<?= $ctr ?>" 	value="<?php echo $Plarval[$ctr]['createdOn']; ?>"	/>
+			<input type="hidden" id="Pls_updatedBy<?= $ctr ?>" 	value="<?php echo $Plarval[$ctr]['updatedBy']; ?>"	/>
+			<input type="hidden" id="Pls_updatedOn<?= $ctr ?>" 	value="<?php echo $Plarval[$ctr]['updatedOn']; ?>"	/>
+		<?php }?> 
+		<input type="hidden" id="Pls_icon" value="<?php echo base_url('/images/eggs-2.png')?>" />
+		<?php } else { ?> <input type="hidden" id="Pls_length" value="0" /> <?php } ?>
+		
+	<?php if ($Ppoi != null){?>
+	<input type="hidden" id="Ppoi_length" value="<?php echo count($Ppoi); ?>" />
+		<?php for ($ctr = 0; $ctr < count($Ppoi); $ctr++) {?>
+			<input type="hidden" id="Ppoi_id<?= $ctr ?>" 	value="<?php echo $Ppoi[$ctr]['id']; ?>"	/>
+			<input type="hidden" id="Ppoi_name<?= $ctr ?>" 	value="<?php echo $Ppoi[$ctr]['name']; ?>"	/>
+			<input type="hidden" id="Ppoi_lat<?= $ctr ?>" 	value="<?php echo $Ppoi[$ctr]['lat']; ?>"	/>
+			<input type="hidden" id="Ppoi_lng<?= $ctr ?>" 	value="<?php echo $Ppoi[$ctr]['lng']; ?>"	/>
+			<input type="hidden" id="Ppoi_notes<?= $ctr ?>" 	value="<?php echo $Ppoi[$ctr]['notes']; ?>"	/>
+			<input type="hidden" id="Ppoi_type<?= $ctr ?>" 	value="<?php echo $Ppoi[$ctr]['type']; ?>"	/>
+			<input type="hidden" id="Ppoi_addedOn<?= $ctr ?>" 	value="<?php echo $Ppoi[$ctr]['addedOn']; ?>"	/>
+			<input type="hidden" id="Ppoi_endDate<?= $ctr ?>" 	value="<?php echo $Ppoi[$ctr]['endDate']; ?>"	/>
+			<input type="hidden" id="Ppoi_barangay<?= $ctr ?>" 	value="<?php echo $Ppoi[$ctr]['barangay']; ?>"	/>
+		<?php }?> 
+		<input type="hidden" id="Ppoi_iconR" value="<?php echo base_url('/images/risk.png')?>" />
+		<input type="hidden" id="Ppoi_iconS" value="<?php echo base_url('/images/source.png')?>" />
+		<?php } else { ?> <input type="hidden" id="Ppoi_length" value="0" /> <?php } ?>
+		
 <input type = 'hidden' id ='type' name='type' value='<?php echo $node_type?>'>
 <input type = 'hidden' id ='dist' name='dist' value='<?php echo $dist?>'>
 
@@ -623,7 +683,6 @@ jQuery(document).ready(function(){
 <input type = 'hidden' id ='PdataBAge2' name='PdataBAge2' value='<?php echo $Pbage?>'>
 <input type = 'hidden' id ='PdataBCount' name='PdataBCount' value='<?php echo $Pbcount?>'>
 <input type = 'hidden' id ='Ptype' name='Ptype' value='<?php echo $node_type?>'>
-<input type = 'hidden' id ='PDengue' name='PDengue' value='<?php echo $Pdengue?>'>
 
 <?php if ($household != null){?>
 <input type="hidden" id="hs_length" value="<?php echo count($household); ?>" />
@@ -646,6 +705,8 @@ jQuery(document).ready(function(){
 	<?php }?> 
 	<input type="hidden" id="hs_icon" value="<?php echo base_url('/images/group.png')?>" />
 	<?php } else { ?> <input type="hidden" id="hs_length" value="0" /> <?php } ?>
+	
+	<!-- Period 1 Data -->
 	
 <?php if ($dengue != null){?>
 <input type="hidden" id="dg_length" value="<?php echo count($dengue); ?>" />
@@ -692,6 +753,54 @@ jQuery(document).ready(function(){
 	<input type="hidden" id="dg_iconA" value="<?php echo base_url('/images/A.png')?>" />
 	<input type="hidden" id="dg_iconD" value="<?php echo base_url('/images/D.png')?>" />
 	<?php } else { ?> <input type="hidden" id="dg_length" value="0" /> <?php } ?>
+	
+	<!-- Period 2 Data -->
+	
+<?php if ($Pdengue != null){?>
+<input type="hidden" id="Pdg_length" value="<?php echo count($Pdengue); ?>" />
+	<?php for ($ctr = 0; $ctr < count($Pdengue); $ctr++) {?>	
+		<input type="hidden" id="Pdg_caseNo<?= $ctr ?>" 				value="<?php echo $Pdengue[$ctr]['id']; ?>"	/>
+		<input type="hidden" id="Pdg_personID<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['personID']; ?>"	/>
+		<input type="hidden" id="Pdg_hasMusclePain<?= $ctr ?>" 		value="<?php echo $Pdengue[$ctr]['hasMusclePain']; ?>"	/>
+		<input type="hidden" id="Pdg_hasJointPain<?= $ctr ?>" 		value="<?php echo $Pdengue[$ctr]['hasJointPain']; ?>"	/>
+		<input type="hidden" id="Pdg_hasHeadache<?= $ctr ?>" 		value="<?php echo $Pdengue[$ctr]['hasHeadache']; ?>"	/>
+		<input type="hidden" id="Pdg_hasBleeding<?= $ctr ?>" 		value="<?php echo $Pdengue[$ctr]['hasBleeding']; ?>"	/>
+		<input type="hidden" id="Pdg_hasRashes<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['hasRashes']; ?>"	/>
+		<input type="hidden" id="Pdg_daysFever<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['daysFever']; ?>"	/>
+		<input type="hidden" id="Pdg_createdOn<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['createdOn']; ?>"	/>
+		<input type="hidden" id="Pdg_lastUpdatedOn<?= $ctr ?>" 		value="<?php echo $Pdengue[$ctr]['lastUpdatedOn']; ?>"	/>
+		<input type="hidden" id="Pdg_suspectedSource<?= $ctr ?>" 	value="<?php echo $Pdengue[$ctr]['suspectedSource']; ?>"	/>
+		<input type="hidden" id="Pdg_remarks<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['remarks']; ?>"	/>
+		<?php if (isset($Pdengue[$ctr]['status'])){?>
+		<input type="hidden" id="Pdg_status<?= $ctr ?>" 				value="<?php echo $Pdengue[$ctr]['status']; ?>"	/>
+		<?php }else{?>
+		<input type="hidden" id="Pdg_outcome<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['outcome']; ?>"	/>
+		<?php }?>
+		<input type="hidden" id="Pdg_householdID<?= $ctr ?>" 		value="<?php echo $Pdengue[$ctr]['householdID']; ?>"	/>
+		<input type="hidden" id="Pdg_personID<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['personID']; ?>"	/>
+		<input type="hidden" id="Pdg_bhwID<?= $ctr ?>" 				value="<?php echo $Pdengue[$ctr]['bhwID']; ?>"	/>
+		<input type="hidden" id="Pdg_householdName<?= $ctr ?>" 		value="<?php echo $Pdengue[$ctr]['householdName']; ?>"	/>
+		<input type="hidden" id="Pdg_houseNo<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['houseNo']; ?>"	/>
+		<input type="hidden" id="Pdg_street<?= $ctr ?>" 				value="<?php echo $Pdengue[$ctr]['street']; ?>"	/>
+		<input type="hidden" id="Pdg_lastVisited<?= $ctr ?>" 		value="<?php echo $Pdengue[$ctr]['lastVisited']; ?>"	/>
+		<input type="hidden" id="Pdg_lat<?= $ctr ?>" 				value="<?php echo $Pdengue[$ctr]['lat']; ?>"	/>
+		<input type="hidden" id="Pdg_lng<?= $ctr ?>" 				value="<?php echo $Pdengue[$ctr]['lng']; ?>"	/>
+		<input type="hidden" id="Pdg_bhwName<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['bhwName']; ?>"	/>
+		<input type="hidden" id="Pdg_barangay<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['barangay']; ?>"	/>
+		<input type="hidden" id="Pdg_fName<?= $ctr ?>" 				value="<?php echo $Pdengue[$ctr]['fName']; ?>"	/>
+		<input type="hidden" id="Pdg_lName<?= $ctr ?>" 				value="<?php echo $Pdengue[$ctr]['lName']; ?>"	/>
+		<input type="hidden" id="Pdg_dob<?= $ctr ?>" 				value="<?php echo $Pdengue[$ctr]['dob']; ?>"	/>
+		<input type="hidden" id="Pdg_sex<?= $ctr ?>" 				value="<?php echo $Pdengue[$ctr]['sex']; ?>"	/>
+		<input type="hidden" id="Pdg_guardian<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['guardian']; ?>"	/>
+		<input type="hidden" id="Pdg_contact<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['contact']; ?>"	/>
+	<?php }?> 
+	<input type="hidden" id="Pdg_icon1" value="<?php echo base_url('/images/notice.png')?>" />
+	<input type="hidden" id="Pdg_icon2" value="<?php echo base_url('/images/notice2.png')?>" />
+	<input type="hidden" id="Pdg_icon3" value="<?php echo base_url('/images/notice3.png')?>" />
+	<input type="hidden" id="Pdg_icon4" value="<?php echo base_url('/images/hospital.png')?>" />
+	<input type="hidden" id="Pdg_iconA" value="<?php echo base_url('/images/A.png')?>" />
+	<input type="hidden" id="Pdg_iconD" value="<?php echo base_url('/images/D.png')?>" />
+	<?php } else { ?> <input type="hidden" id="Pdg_length" value="0" /> <?php } ?>
 	
 	<input type="hidden" id="cdate1" value="<?php echo $cdate1?>" />
 	<input type="hidden" id="cdate2" value="<?php echo $cdate2?>" />

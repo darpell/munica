@@ -149,6 +149,10 @@ class Map extends CI_Controller
 				$data['denguePoIBounce'] = null;
 				$data['dengueLarvalDistance'] =null;
 				$data['dengueLarvalBounce'] = null;
+				$data['PdenguePoIDistance'] =null;
+				$data['PdenguePoIBounce'] = null;
+				$data['PdengueLarvalDistance'] =null;
+				$data['PdengueLarvalBounce'] = null;
 				$data['getLarva'] = $getLarva;
 				$data['getDengue'] = $getDengue;
 				$data['getPoI'] = $getPoI;
@@ -204,10 +208,24 @@ class Map extends CI_Controller
 				$values = $this->Mapping->mapByType($data);
 				
 				//*PREVIOUS DATE INTERVAL DATA EXTRACTION
-				$data['Plarval'] = $values['larvalValues'];
-				$data['Pdengue'] = $values['dengueValues'];
+				$data['Plarval'] = $values['larvalValues'];//print_r($data['Plarval']);
+				$data['Pdengue'] = $values['dengueValues'];//print_r($data['Pdengue']);
 				$data['Phousehold'] = $values['householdValues'];
+				$data['Ppoi'] = $values['poiValues'];
+				
 				//$data['Pnodes'] = $this->Mapping->mapByType($data);
+				if($values['denguePoIDistanceValues'] != null)
+				{
+					$data['PdenguePoIDistance'] = $values['denguePoIDistanceValues'];
+					$data['PdenguePoIBounce'] = $values['denguePoIBounceValues'];
+					//print_r($data['denguePoIDistance']);
+				}
+				if($values['dengueLarvalDistanceValues'] != null)
+				{
+					$data['PdengueLarvalDistance'] = $values['dengueLarvalDistanceValues'];
+					$data['PdengueLarvalBounce'] = $values['dengueLarvalBounceValues'];
+					//print_r($data['dengueLarvalDistance']);
+				}
 				if($getBB)
 				{
 					$data['Pbcount'] = $this->Mapping->getBarangayCount($dateData1);
