@@ -57,6 +57,7 @@ class Mapping extends CI_Model
 				$where="";
 				$this->db->from('ls_report');
 				$this->db->join('household_address', 'ls_report.ls_household=household_address.household_name');
+				$this->db->join('users', 'users.user_username=ls_report.created_by');
 				if ($data['brgy'] != NULL)
 				{
 					$where = "ls_barangay ='";
@@ -85,7 +86,10 @@ class Mapping extends CI_Model
 								'createdBy'=> $row->created_by,
 								'createdOn'=> $row->created_on,
 								'updatedBy'=> $row->last_updated_by,
-								'updatedOn'=> $row->last_updated_on
+								'updatedOn'=> $row->last_updated_on,
+								'barangay'=> $row->ls_barangay,
+								'bhwID'=> $row->created_by,
+								'bhwName'=> ($row->user_lastname.", ".$row->user_firstname." ".$row->user_middlename)
 						);
 					}//print_r($tempp);
 					$returnValues['larvalValues'] =  $tempp;
@@ -614,6 +618,124 @@ class Mapping extends CI_Model
 			}
 		}
 		//*/
+		function getBarangayAgesF($data)
+		{
+			$tempage1;//print_r($tempage1);
+			//echo $data['node_type'];
+			$qry="
+					SELECT barangay, count(barangay) as amount,floor((year(curdate())-year(person_dob) - (right(curdate(),5) < right(person_dob,5))) /10) as agerange
+					FROM `active_cases` 
+					JOIN `master_list` ON `master_list`.`person_id` = `active_cases`.`person_id`
+					JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
+					JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username`";
+			
+			if ($data['brgy'] != NULL)
+			{
+				$qry .= "node_barangay ='";
+				foreach($data['brgy'] as $varr)
+				{
+					$qry .= $varr."' OR ";
+				}
+				$qry = (substr($qry,0,-3));
+				$qry.=" AND ";
+			}
+			$qry .= "WHERE created_on BETWEEN '".$data['date1']."' AND '".$data['date2']."'";
+			
+			$qry .=" GROUP BY barangay,FLOOR((year(curdate())-year(person_dob) - (right(curdate(),5) < right(person_dob,5))) /10);";
+			$q = $this->db->query($qry);
+			//*
+			if($q->num_rows() > 0)
+			{
+				foreach ($q->result() as $row)
+				{
+					$tempage1[]=array(//*
+								'bgy'=> $row->barangay,
+								'amt'=> $row->amount,
+								'rng'=> $row->agerange
+								//*/
+						);
+				}//print_r("1");
+			}//print_r($tempage1);
+			$q->free_result();
+			
+			//echo $data['node_type'];
+			$qry="
+					SELECT barangay, count(barangay) as amount,floor((year(curdate())-year(person_dob) - (right(curdate(),5) < right(person_dob,5))) /10) as agerange
+					FROM `previous_cases`
+					JOIN `master_list` ON `master_list`.`person_id` = `previous_cases`.`person_id`
+					JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
+					JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username` ";
+				
+			if ($data['brgy'] != NULL)
+			{
+				$qry .= "barangay ='";
+				foreach($data['brgy'] as $varr)
+				{
+					$qry .= $varr."' OR ";
+				}
+				$qry = (substr($qry,0,-3));
+				$qry.=" AND ";
+			}
+			$qry .= "WHERE created_on BETWEEN '".$data['date1']."' AND '".$data['date2']."'";
+				
+			$qry .=" GROUP BY barangay,FLOOR((year(curdate())-year(person_dob) - (right(curdate(),5) < right(person_dob,5))) /10);";
+			$q = $this->db->query($qry);
+			//*
+			$data = "";
+			if($q->num_rows() > 0)
+			{
+				foreach ($q->result() as $row)
+				{
+					$tempage1[]=array(//*
+								'bgy'=> $row->barangay,
+								'amt'=> $row->amount,
+								'rng'=> $row->agerange
+								//*/
+						);
+				}//print_r("2");
+			}
+			$q->free_result();
+			$invariant=count($tempage1);
+			for($i=0; $i<$invariant;$i++)
+			{
+				for($_i=0; $_i<$invariant;$_i++)
+				{
+					if (isset($tempage1[$i]) && isset($tempage1[$_i]))
+					{
+						if(($_i != $i) && ($tempage1[$i]['bgy'] == $tempage1[$_i]['bgy']) )
+						{
+							if($tempage1[$i]['rng'] == $tempage1[$_i]['rng'])
+							{
+								$tempage1[$i]['amt']=($tempage1[$i]['amt']+$tempage1[$_i]['amt']);
+								unset($tempage1[$_i]);
+							}
+						}
+					}
+				}
+			}
+			//print_r($tempage1);
+			$ret;
+			
+			foreach ($tempage1 as $row)
+			{
+				$agerange=null;
+				if($row['rng']*10==0)
+				{
+					$agerange = ($row['rng']*10)."-".(($row['rng']*10)+10);
+				}
+				else
+					$agerange = ($row['rng']*10+1)."-".(($row['rng']*10)+10);
+			
+				$ret[]=array(
+						'cr_barangay'=> $row['bgy'],
+						'patientcount'=> $row['amt'],
+						'agerange'=>$agerange
+				);
+			}
+			//print_r($ret);
+			return $ret;
+			//*/
+		}
 		function getBarangayAges2($data2)
 		{
 			//echo $data['node_type'];

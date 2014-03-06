@@ -198,6 +198,8 @@ class Map extends CI_Controller
 					$data['dist'] = 0;
 				//$data['weather'] = $this->Mapping->weatherMapping($dateData1);
 				//*/
+				
+				$this->Mapping->getBarangayAgesF($data);
 
 				$data['date1']=$dateData2['date1'];
 				$data['date2']=$dateData2['date2'];
@@ -206,6 +208,7 @@ class Map extends CI_Controller
 				$data['pdate1']=$dateData2['date1'];
 				$data['pdate2']=$dateData2['date2'];
 				$values = $this->Mapping->mapByType($data);
+				
 				
 				//*PREVIOUS DATE INTERVAL DATA EXTRACTION
 				$data['Plarval'] = $values['larvalValues'];//print_r($data['Plarval']);
@@ -231,8 +234,8 @@ class Map extends CI_Controller
 					$data['Pbcount'] = $this->Mapping->getBarangayCount($dateData1);
 					$data['Pbage'] = $this->Mapping->getBarangayAges2($dateData1);
 					$data['Pbinfo'] = $this->Mapping->getBarangayInfo($dateData1);
-					$data['table1'] = $this->Mapping->getBarangayAges($dateData1);
-					$data['table2'] = $this->Mapping->getBarangayAges($dateData2);
+					$data['table1'] = $this->Mapping->getBarangayAgesF($data);//print_r($data['table1']);
+					$data['table2'] = $this->Mapping->getBarangayAgesF($data);
 				}
 				else
 				{
@@ -256,6 +259,106 @@ class Map extends CI_Controller
 					$data['interest'] = $this->Mapping->getPointsOfInterest($getPoI);
 				else
 					$data['interest'] =0;
+				//*
+				$data['SA1_l']=0;
+				$data['SA3_l']=0;
+				$data['L2_l']=0;
+				$data['S1_l']=0;
+				$data['SA1_d']=0;
+				$data['SA3_d']=0;
+				$data['L2_d']=0;
+				$data['S1_d']=0;
+				if($getLarva)
+				foreach($data['larval'] as $row)
+				{
+					if($row['barangay']=='SAN AGUSTIN I')
+					{
+						$data['SA1_l']++;
+					}
+					if($row['barangay']=='SAN AGUSTIN III')
+					{
+						$data['SA3_l']++;
+					}
+					if($row['barangay']=='LANGKAAN II')
+					{
+						$data['L2_l']++;
+					}
+					if($row['barangay']=='SAMPALOC I')
+					{
+						$data['S1_l']++;
+					}
+				}
+				
+				if($getDengue)
+				foreach($data['dengue'] as $row)
+				{
+					if($row['barangay']=='SAN AGUSTIN I')
+					{
+						$data['SA1_d']++;
+					}
+					if($row['barangay']=='SAN AGUSTIN III')
+					{
+						$data['SA3_d']++;
+					}
+					if($row['barangay']=='LANGKAAN II')
+					{
+						$data['L2_d']++;
+					}
+					if($row['barangay']=='SAMPALOC I')
+					{
+						$data['S1_d']++;
+					}
+				}
+				$data['PSA1_l']=0;
+				$data['PSA3_l']=0;
+				$data['PL2_l']=0;
+				$data['PS1_l']=0;
+				$data['PSA1_d']=0;
+				$data['PSA3_d']=0;
+				$data['PL2_d']=0;
+				$data['PS1_d']=0;
+				if($getLarva)
+				foreach($data['Plarval'] as $row)
+				{
+					if($row['barangay']=='SAN AGUSTIN I')
+					{
+						$data['PSA1_l']++;
+					}
+					if($row['barangay']=='SAN AGUSTIN III')
+					{
+						$data['PSA3_l']++;
+					}
+					if($row['barangay']=='LANGKAAN II')
+					{
+						$data['PL2_l']++;
+					}
+					if($row['barangay']=='SAMPALOC I')
+					{
+						$data['PS1_l']++;
+					}
+				}
+				
+				if($getDengue)
+				foreach($data['Pdengue'] as $row)
+				{
+					if($row['barangay']=='SAN AGUSTIN I')
+					{
+						$data['PSA1_d']++;
+					}
+					if($row['barangay']=='SAN AGUSTIN III')
+					{
+						$data['PSA3_d']++;
+					}
+					if($row['barangay']=='LANGKAAN II')
+					{
+						$data['PL2_d']++;
+					}
+					if($row['barangay']=='SAMPALOC I')
+					{
+						$data['PS1_d']++;
+					}
+				}
+				//*/
 				
 				//$data['test'] = $this->Mapping->getBarangayAgesS($data);
 				//print_r($data['table1']);	
