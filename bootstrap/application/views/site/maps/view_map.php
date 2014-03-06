@@ -144,8 +144,7 @@ function load() {
 		var point;
 		
 		if (ls_length != 0)
-		{//alert(dg_length);
-			
+		{			
 			var ctr =0;//*
 			while(ctr < ls_length)
 			{
@@ -224,7 +223,38 @@ function load() {
 								clickable:true
 							});
 					bermudaTriangle.setMap(map);
-					tabStr = "<center><h4>Barangay "+document.getElementById("bb_polyName"+(ctr-1)).value.toString();
+					tabStr = "<center><h4>Barangay "+document.getElementById("bb_polyName"+(ctr-1)).value.toString()+"</h4></center>";
+					tabStr +="<br/>";
+					if(document.getElementById('getLarva').value.toString()=="1")
+					{
+						if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN I")
+							tabStr +="Larval Positives Detected: "+document.getElementById('SA1_l').value.toString();
+							
+						if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN III")
+							tabStr +="Larval Positives Detected: "+document.getElementById('SA3_l').value.toString();
+							
+						if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "LANGKAAN II")
+							tabStr +="Larval Positives Detected: "+document.getElementById('L2_l').value.toString();
+							
+						if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAMPALOC I")
+							tabStr +="Larval Positives Detected: "+document.getElementById('S1_l').value.toString();
+					}
+					tabStr +="<br/>";
+					if(document.getElementById('getDengue').value.toString()=="1")
+					{
+						if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN I")
+							tabStr +="Dengue Cases Detected: "+document.getElementById('SA1_d').value.toString();
+							
+						if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN III")
+							tabStr +="Dengue Cases Detected: "+document.getElementById('SA3_d').value.toString();
+							
+						if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "LANGKAAN II")
+							tabStr +="Dengue Cases Detected: "+document.getElementById('L2_d').value.toString();
+							
+						if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAMPALOC I")
+							tabStr +="Dengue Cases Detected: "+document.getElementById('S1_d').value.toString();
+					}
+					/*
 					tabStr += "<h5></>Table 1. Displaying Age Distribution for period <br/><i>"+document.getElementById("cdate1").value.toString()+" to "+document.getElementById("cdate2").value.toString()+"</i>";
 					tabStr += "<br/><table border='1' cellpadding='5' cellspacing='0' id='results' >";
 					tabStr += "<tr><td align='center'><b>Age Range</b></td><td align='center'><b>Patient Amount</b></td></tr>";
@@ -237,7 +267,7 @@ function load() {
 								+"<td align='center'>"+document.getElementById("table1_count"+(i)).value.toString()+"</td></tr>";
 						}
 					}
-					tabStr +="</table></center>";
+					tabStr +="</table></center>";//*/
 					setPolyInfo(bermudaTriangle,tabStr,map);
 					//tabStr="";
 					polygonChild = [];
@@ -260,19 +290,51 @@ function load() {
 					});
 			bermudaTriangle.setMap(map);
 			
-			tabStr = "<center><h4>Barangay "+document.getElementById("bb_polyName"+(ctr-1)).value.toString();
+			tabStr = "<center><h4>Barangay "+document.getElementById("bb_polyName"+(ctr-1)).value.toString()+"</h4></center>";
+			tabStr +="<br/>";
+			if(document.getElementById('getLarva').value.toString()=="1")
+			{
+				if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN I")
+					tabStr +="Larval Positives Detected: "+document.getElementById('SA1_l').value.toString();
+					
+				if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN III")
+					tabStr +="Larval Positives Detected: "+document.getElementById('SA3_l').value.toString();
+					
+				if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "LANGKAAN II")
+					tabStr +="Larval Positives Detected: "+document.getElementById('L2_l').value.toString();
+					
+				if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAMPALOC I")
+					tabStr +="Larval Positives Detected: "+document.getElementById('S1_l').value.toString();
+			}
+			tabStr +="<br/>";
+			if(document.getElementById('getDengue').value.toString()=="1")
+			{
+				if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN I")
+					tabStr +="Dengue Cases Detected: "+document.getElementById('SA1_d').value.toString();
+					
+				if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN III")
+					tabStr +="Dengue Cases Detected: "+document.getElementById('SA3_d').value.toString();
+					
+				if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "LANGKAAN II")
+					tabStr +="Dengue Cases Detected: "+document.getElementById('L2_d').value.toString();
+					
+				if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAMPALOC I")
+					tabStr +="Dengue Cases Detected: "+document.getElementById('S1_d').value.toString();
+			}
+			/*
 			tabStr += "<h5></>Table 1. Displaying Age Distribution for period <br/><i>"+document.getElementById("cdate1").value.toString()+" to "+document.getElementById("cdate2").value.toString()+"</i>";
 			tabStr += "<br/><table border='1' cellpadding='5' cellspacing='0' id='results' >";
 			tabStr += "<tr><td align='center'><b>Age Range</b></td><td align='center'><b>Patient Amount</b></td></tr>";
 			for(var i=0; i < document.getElementById("table1_length").value.toString(); i++ )
 			{
+				//alert(""+document.getElementById("table1_brgy"+i).value.toString() + document.getElementById("bb_polyName"+ctr).value.toString());
 				if(document.getElementById("table1_brgy"+i).value.toString() == document.getElementById("bb_polyName"+(ctr-1)).value.toString())
 				{
 					tabStr +="<td align='center'>"+document.getElementById("table1_range"+(i)).value.toString()+"</td>"
 						+"<td align='center'>"+document.getElementById("table1_count"+(i)).value.toString()+"</td></tr>";
 				}
 			}
-			tabStr +="</table></center>";
+			tabStr +="</table></center>";//*/
 			setPolyInfo(bermudaTriangle,tabStr,map);
 			
 			polygonChild = [];
@@ -280,7 +342,6 @@ function load() {
 	}
 	if(document.getElementById('getDengue').value.toString()=="1")
     {
-	    //alert("Alert DG!");
 		var dg_length = document.getElementById("dg_length").value.toString();
 		var dinfo="";
 		var point;
@@ -293,7 +354,7 @@ function load() {
 			{
 				//*
 				img=document.getElementById("dg_icon1").value.toString();
-				dinfo = ""+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"<br/>"
+				dinfo = "<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/cases/view_person/"+document.getElementById("dg_personID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"</a><br/>"
 				+"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("dg_householdID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_householdName"+ctr).value.toString()+" Household</a><br/>"//+document.getElementById("dg_householdName"+ctr).value.toString()+" Household<br/>"
 					+document.getElementById("dg_houseNo"+ctr).value.toString()+", "
 					+document.getElementById("dg_street"+ctr).value.toString()+" "
@@ -440,7 +501,7 @@ function load() {
     }
 	if(document.getElementById('getHouseholds').value.toString()=="1")
     {//alert("Household");
-		mapHouseholdOverlay(map);
+		//mapHouseholdOverlay(map);
     }
     /*
 	else
@@ -584,7 +645,38 @@ jQuery(document).ready(function(){
 											clickable:true
 										});
 								bermudaTriangle.setMap(map);
-								tabStr = "<center><h4>Barangay "+document.getElementById("bb_polyName"+(ctr-1)).value.toString();
+								tabStr = "<center><h4>Barangay "+document.getElementById("bb_polyName"+(ctr-1)).value.toString()+"</h4></center>";
+								tabStr +="<br/>";
+								if(document.getElementById('getLarva').value.toString()=="1")
+								{
+									if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN I")
+										tabStr +="Larval Positives Detected: "+document.getElementById('SA1_l').value.toString()+" <i>("+document.getElementById('PSA1_l').value.toString()+")</i>";
+										
+									if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN III")
+										tabStr +="Larval Positives Detected: "+document.getElementById('SA3_l').value.toString()+" <i>("+document.getElementById('PSA3_l').value.toString()+")</i>";
+										
+									if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "LANGKAAN II")
+										tabStr +="Larval Positives Detected: "+document.getElementById('L2_l').value.toString()+" <i>("+document.getElementById('PL2_l').value.toString()+")</i>";
+										
+									if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAMPALOC I")
+										tabStr +="Larval Positives Detected: "+document.getElementById('S1_l').value.toString()+" <i>("+document.getElementById('PS1_l').value.toString()+")</i>";
+								}
+								tabStr +="<br/>";
+								if(document.getElementById('getDengue').value.toString()=="1")
+								{
+									if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN I")
+										tabStr +="Dengue Cases Detected: "+document.getElementById('SA1_d').value.toString()+" <i>("+document.getElementById('PSA1_d').value.toString()+")</i>";
+										
+									if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN III")
+										tabStr +="Dengue Cases Detected: "+document.getElementById('SA3_d').value.toString()+" <i>("+document.getElementById('PSA3_d').value.toString()+")</i>";
+										
+									if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "LANGKAAN II")
+										tabStr +="Dengue Cases Detected: "+document.getElementById('L2_d').value.toString()+" <i>("+document.getElementById('PL2_d').value.toString()+")</i>";
+										
+									if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAMPALOC I")
+										tabStr +="Dengue Cases Detected: "+document.getElementById('S1_d').value.toString()+" <i>("+document.getElementById('PS1_d').value.toString()+")</i>";
+								}
+								/*
 								tabStr += "<h5></>Table 1. Displaying Age Distribution for period <br/><i>"+document.getElementById("cdate1").value.toString()+" to "+document.getElementById("cdate2").value.toString()+"</i>";
 								tabStr += "<br/><table border='1' cellpadding='5' cellspacing='0' id='results' >";
 								tabStr += "<tr><td align='center'><b>Age Range</b></td><td align='center'><b>Patient Amount</b></td></tr>";
@@ -597,7 +689,7 @@ jQuery(document).ready(function(){
 											+"<td align='center'>"+document.getElementById("table1_count"+(i)).value.toString()+"</td></tr>";
 									}
 								}
-								tabStr +="</table></center>";
+								tabStr +="</table></center>";//*/
 								setPolyInfo(bermudaTriangle,tabStr,map);
 								//tabStr="";
 								polygonChild = [];
@@ -620,19 +712,51 @@ jQuery(document).ready(function(){
 								});
 						bermudaTriangle.setMap(map);
 						
-						tabStr = "<center><h4>Barangay "+document.getElementById("bb_polyName"+(ctr-1)).value.toString();
+						tabStr = "<center><h4>Barangay "+document.getElementById("bb_polyName"+(ctr-1)).value.toString()+"</h4></center>";
+						tabStr +="<br/>";
+						if(document.getElementById('getLarva').value.toString()=="1")
+						{
+							if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN I")
+								tabStr +="Larval Positives Detected: "+document.getElementById('SA1_l').value.toString()+" <i>("+document.getElementById('PSA1_l').value.toString()+")</i>";
+								
+							if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN III")
+								tabStr +="Larval Positives Detected: "+document.getElementById('SA3_l').value.toString()+" <i>("+document.getElementById('PSA3_l').value.toString()+")</i>";
+								
+							if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "LANGKAAN II")
+								tabStr +="Larval Positives Detected: "+document.getElementById('L2_l').value.toString()+" <i>("+document.getElementById('PL2_l').value.toString()+")</i>";
+								
+							if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAMPALOC I")
+								tabStr +="Larval Positives Detected: "+document.getElementById('S1_l').value.toString()+" <i>("+document.getElementById('PS1_l').value.toString()+")</i>";
+						}
+						tabStr +="<br/>";
+						if(document.getElementById('getDengue').value.toString()=="1")
+						{
+							if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN I")
+								tabStr +="Dengue Cases Detected: "+document.getElementById('SA1_d').value.toString()+" <i>("+document.getElementById('PSA1_d').value.toString()+")</i>";
+								
+							if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN III")
+								tabStr +="Dengue Cases Detected: "+document.getElementById('SA3_d').value.toString()+" <i>("+document.getElementById('PSA3_d').value.toString()+")</i>";
+								
+							if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "LANGKAAN II")
+								tabStr +="Dengue Cases Detected: "+document.getElementById('L2_d').value.toString()+" <i>("+document.getElementById('PL2_d').value.toString()+")</i>";
+								
+							if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAMPALOC I")
+								tabStr +="Dengue Cases Detected: "+document.getElementById('S1_d').value.toString()+" <i>("+document.getElementById('PS1_d').value.toString()+")</i>";
+						}
+						/*
 						tabStr += "<h5></>Table 1. Displaying Age Distribution for period <br/><i>"+document.getElementById("cdate1").value.toString()+" to "+document.getElementById("cdate2").value.toString()+"</i>";
 						tabStr += "<br/><table border='1' cellpadding='5' cellspacing='0' id='results' >";
 						tabStr += "<tr><td align='center'><b>Age Range</b></td><td align='center'><b>Patient Amount</b></td></tr>";
 						for(var i=0; i < document.getElementById("table1_length").value.toString(); i++ )
 						{
+							//alert(""+document.getElementById("table1_brgy"+i).value.toString() + document.getElementById("bb_polyName"+ctr).value.toString());
 							if(document.getElementById("table1_brgy"+i).value.toString() == document.getElementById("bb_polyName"+(ctr-1)).value.toString())
 							{
 								tabStr +="<td align='center'>"+document.getElementById("table1_range"+(i)).value.toString()+"</td>"
 									+"<td align='center'>"+document.getElementById("table1_count"+(i)).value.toString()+"</td></tr>";
 							}
 						}
-						tabStr +="</table></center>";
+						tabStr +="</table></center>";//*/
 						setPolyInfo(bermudaTriangle,tabStr,map);
 						
 						polygonChild = [];
@@ -743,7 +867,7 @@ jQuery(document).ready(function(){
 						{
 							//*
 							img=document.getElementById("dg_icon1").value.toString();
-							dinfo = ""+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"<br/>"
+							dinfo = "<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/cases/view_person/"+document.getElementById("dg_personID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"</a><br/>"
 							+"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("dg_householdID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_householdName"+ctr).value.toString()+" Household</a><br/>"//+document.getElementById("dg_householdName"+ctr).value.toString()+" Household<br/>"
 								+document.getElementById("dg_houseNo"+ctr).value.toString()+", "
 								+document.getElementById("dg_street"+ctr).value.toString()+" "
@@ -857,7 +981,7 @@ jQuery(document).ready(function(){
 						{
 							//*
 							img=document.getElementById("Pdg_icon1").value.toString();
-							dinfo = ""+document.getElementById("Pdg_lName"+ctr).value.toString()+", "+document.getElementById("Pdg_fName"+ctr).value.toString()+"<br/>"
+							dinfo = "<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/cases/view_person/"+document.getElementById("Pdg_personID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("Pdg_lName"+ctr).value.toString()+", "+document.getElementById("Pdg_fName"+ctr).value.toString()+"</a><br/>"
 							+"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("Pdg_householdID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("Pdg_householdName"+ctr).value.toString()+" Household</a><br/>"//+document.getElementById("dg_householdName"+ctr).value.toString()+" Household<br/>"
 								+document.getElementById("Pdg_houseNo"+ctr).value.toString()+", "
 								+document.getElementById("Pdg_street"+ctr).value.toString()+" "
@@ -980,15 +1104,35 @@ jQuery(document).ready(function(){
 <input type = 'hidden' id ='dataBCount' name='dataBCount' value='<?php echo $bcount?>'>
 <input type = 'hidden' id ='type' name='type' value='<?php echo $node_type?>'>
 <!-- <input type = 'hidden' id ='Larva' name='Larva' value=''> -->
-<input type = 'hidden' id ='Dengue' name='Dengue' value='<?php echo $dengue?>'>
-<input type = 'hidden' id ='Household' name='Household' value='<?php echo $household?>'>
+<input type = 'hidden' id ='Dengue' name='Dengue' value=''>
+<input type = 'hidden' id ='Household' name='Household' value=''>
+
+<input type = 'hidden' id ='SA1_l' name='SA1_l' value='<?php echo $SA1_l?>'>
+<input type = 'hidden' id ='SA3_l' name='SA3_l' value='<?php echo $SA3_l?>'>
+<input type = 'hidden' id ='L2_l' name='L2_l' value='<?php echo $L2_l?>'>
+<input type = 'hidden' id ='S1_l' name='S1_l' value='<?php echo $S1_l?>'>
+
+<input type = 'hidden' id ='SA1_d' name='SA1_d' value='<?php echo $SA1_d?>'>
+<input type = 'hidden' id ='SA3_d' name='SA3_d' value='<?php echo $SA3_d?>'>
+<input type = 'hidden' id ='L2_d' name='L2_d' value='<?php echo $L2_d?>'>
+<input type = 'hidden' id ='S1_d' name='S1_d' value='<?php echo $S1_d?>'>
+
+<input type = 'hidden' id ='PSA1_l' name='PSA1_l' value='<?php echo $PSA1_l?>'>
+<input type = 'hidden' id ='PSA3_l' name='PSA3_l' value='<?php echo $PSA3_l?>'>
+<input type = 'hidden' id ='PL2_l' name='PL2_l' value='<?php echo $PL2_l?>'>
+<input type = 'hidden' id ='PS1_l' name='PS1_l' value='<?php echo $PS1_l?>'>
+
+<input type = 'hidden' id ='PSA1_d' name='PSA1_d' value='<?php echo $PSA1_d?>'>
+<input type = 'hidden' id ='PSA3_d' name='PSA3_d' value='<?php echo $PSA3_d?>'>
+<input type = 'hidden' id ='PL2_d' name='PL2_d' value='<?php echo $PL2_d?>'>
+<input type = 'hidden' id ='PS1_d' name='PS1_d' value='<?php echo $PS1_d?>'>
 
 <?php if ($table1 != null){?>
 <input type="hidden" id="table1_length" value="<?php echo count($table1); ?>" />
 	<?php for ($ctr = 0; $ctr < count($table1); $ctr++) {if($ctr != 0){?>
 		<input type="hidden" id="table1_brgy<?= $ctr ?>" 	value="<?php echo $table1[$ctr]['cr_barangay']; ?>"	/>
 		<input type="hidden" id="table1_count<?= $ctr ?>" 	value="<?php echo $table1[$ctr]['patientcount']; ?>"	/>
-		<input type="hidden" id="table1_range<?= $ctr ?>" 	value="<?php echo $table1[$ctr][0]; ?>"	/>
+		<input type="hidden" id="table1_range<?= $ctr ?>" 	value="<?php echo $table1[$ctr]['agerange']; ?>"	/>
 	<?php }
 		else {?>
 		<input type="hidden" id="table1_brgy<?= $ctr ?>" 	value="<?php echo $table1[$ctr]['cr_barangay']; ?>"	/>
@@ -1071,6 +1215,9 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="ls_createdOn<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['createdOn']; ?>"	/>
 		<input type="hidden" id="ls_updatedBy<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['updatedBy']; ?>"	/>
 		<input type="hidden" id="ls_updatedOn<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['updatedOn']; ?>"	/>
+		<input type="hidden" id="ls_barangay<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['barangay']; ?>"	/>
+		<input type="hidden" id="ls_bhwID<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['bhwID']; ?>"	/>
+		<input type="hidden" id="ls_bhwName<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['bhwName']; ?>"	/>
 	<?php }?> 
 	<input type="hidden" id="ls_icon" value="<?php echo base_url('/images/eggs.png')?>" />
 	<?php } else { ?> <input type="hidden" id="ls_length" value="0" /> <?php } ?>
@@ -1153,24 +1300,24 @@ jQuery(document).ready(function(){
 <input type = 'hidden' id ='PdataBCount' name='PdataBCount' value='<?php echo $Pbcount?>'>
 <input type = 'hidden' id ='Ptype' name='Ptype' value='<?php echo $node_type?>'>
 
-<?php if ($household != null){?>
-<input type="hidden" id="hs_length" value="<?php echo count($household); ?>" />
-	<?php for ($ctr = 0; $ctr < count($household); $ctr++) {?>
-		<input type="hidden" id="hs_householdId<?= $ctr ?>" 	value="<?php echo $household[$ctr]['householdID']; ?>"	/>
-		<input type="hidden" id="hs_householdName<?= $ctr ?>" 	value="<?php echo $household[$ctr]['houseName']; ?>"	/>
-		<input type="hidden" id="hs_houseNo<?= $ctr ?>"			value="<?php echo $household[$ctr]['houseNo']; ?>"	/>
-		<input type="hidden" id="hs_street<?= $ctr ?>" 			value="<?php echo $household[$ctr]['street']; ?>"			/>
-		<input type="hidden" id="hs_lastVisited<?= $ctr ?>"	 	value="<?php echo $household[$ctr]['lastVisited']; ?>"			/>
-		<input type="hidden" id="hs_lat<?= $ctr ?>" 			value="<?php echo $household[$ctr]['lat']; ?>"	/>
-		<input type="hidden" id="hs_lng<?= $ctr ?>" 			value="<?php echo $household[$ctr]['lng']; ?>"		/>
-		<input type="hidden" id="hs_personId<?= $ctr ?>" 		value="<?php echo $household[$ctr]['personID']; ?>"		/>
-		<input type="hidden" id="hs_bhwId<?= $ctr ?>" 			value="<?php echo $household[$ctr]['bhwID']; ?>"	/>
-		<input type="hidden" id="hs_userUsername<?= $ctr ?>"	value="<?php echo $household[$ctr]['bhwUsername']; ?>"	/>
-		<input type="hidden" id="hs_barangay<?= $ctr ?>" 		value="<?php echo $household[$ctr]['householdBarangay']; ?>"	/>
-		<input type="hidden" id="hs_fname<?= $ctr ?>" 			value="<?php echo $household[$ctr]['personFName']; ?>"	/>
-		<input type="hidden" id="hs_lname<?= $ctr ?>" 			value="<?php echo $household[$ctr]['personLName']; ?>"	/>
-		<input type="hidden" id="hs_dob<?= $ctr ?>" 			value="<?php echo $household[$ctr]['personDoB']; ?>"	/>
-		<input type="hidden" id="hs_sex<?= $ctr ?>" 			value="<?php echo $household[$ctr]['personSex']; ?>"	/>
+<?php if ($household != null){$hs_invariant=count($household);?>
+<input type="hidden" id="hs_length" value="<?php echo $hs_invariant; ?>" />
+	<?php for ($ctr = 0; $ctr < $hs_invariant; $ctr++) {?>
+		<input type="hidden" id="hs_householdId<?= $ctr ?>" 	value="<?php echo json_encode($household[$ctr]['id']); ?>"	/>
+		<input type="hidden" id="hs_householdName<?= $ctr ?>" 	value="<?php echo json_encode($household[$ctr]['houseName']); ?>"	/>
+		<input type="hidden" id="hs_houseNo<?= $ctr ?>"			value="<?php echo json_encode($household[$ctr]['houseNo']); ?>"	/>
+		<input type="hidden" id="hs_street<?= $ctr ?>" 			value="<?php echo json_encode($household[$ctr]['street']); ?>"			/>
+		<input type="hidden" id="hs_lastVisited<?= $ctr ?>"	 	value="<?php echo json_encode($household[$ctr]['lastVisited']); ?>"			/>
+		<input type="hidden" id="hs_lat<?= $ctr ?>" 			value="<?php echo json_encode($household[$ctr]['lat']); ?>"	/>
+		<input type="hidden" id="hs_lng<?= $ctr ?>" 			value="<?php echo json_encode($household[$ctr]['lng']); ?>"		/>
+		<input type="hidden" id="hs_personId<?= $ctr ?>" 		value="<?php echo json_encode($household[$ctr]['personID']); ?>"		/>
+		<input type="hidden" id="hs_bhwId<?= $ctr ?>" 			value="<?php echo json_encode($household[$ctr]['bhwID']); ?>"	/>
+		<input type="hidden" id="hs_userUsername<?= $ctr ?>"	value="<?php echo json_encode($household[$ctr]['bhwUsername']); ?>"	/>
+		<input type="hidden" id="hs_barangay<?= $ctr ?>" 		value="<?php echo json_encode($household[$ctr]['householdBarangay']); ?>"	/>
+		<input type="hidden" id="hs_fname<?= $ctr ?>" 			value="<?php echo json_encode($household[$ctr]['personFName']); ?>"	/>
+		<input type="hidden" id="hs_lname<?= $ctr ?>" 			value="<?php echo json_encode($household[$ctr]['personLName']); ?>"	/>
+		<input type="hidden" id="hs_dob<?= $ctr ?>" 			value="<?php echo json_encode($household[$ctr]['personDoB']); ?>"	/>
+		<input type="hidden" id="hs_sex<?= $ctr ?>" 			value="<?php echo json_encode($household[$ctr]['personSex']); ?>"	/>
 	<?php }?> 
 	<input type="hidden" id="hs_icon" value="<?php echo base_url('/images/group.png')?>" />
 	<?php } else { ?> <input type="hidden" id="hs_length" value="0" /> <?php } ?>
@@ -1305,19 +1452,19 @@ jQuery(document).ready(function(){
 		"2015"=>"2015",
 		"2016"=>"2016"
 	);?>
-<table border="1" width=100%>
+<center><table border="0" width=90%>
 <tr>
-	<td style="width:70%; height:600px" rowspan="2">
-	    <div id="map" style="width: 100%%; height: 600px"></div>
+	<td style="width:75%; height:900px" rowspan="1">
+	    <div id="map" style="width: 100%%; height: 100%"></div>
 	</td>
-	<td id='pad15' style="width:30%; height:200px">
+	<td id='pad15' style="width:25%; height:900px">
 		<form action="" method='post'>
 		<label style="color:red"><?php echo form_error('NDtype-ddl'); ?></label>
 		
 		
-		<table border="0" style="width:500px">
-		<tr><td colspan="2">
-		<h3><center>Map Control<br /><i>(Today is <?php echo date('F d, Y');?>)</i></center></h3></td></tr>
+		<center><table border="1" style="width:90%">
+		<tr><td>
+		<h4><center>Map Control<br /><i>(Today is <?php echo date('F d, Y');?>)</i></center></h4></td></tr>
 		<tr><td id='pad15' style="width:50%"><h4><center>Node Type</center></h4>
 		<?php 
 		$cboxDengue = array(
@@ -1329,6 +1476,7 @@ jQuery(document).ready(function(){
 		);
 		echo form_checkbox($cboxDengue);
 		echo "Dengue Nodes<br/>";
+		
 		$cboxActiveDengueOnly = array(
 				'name'        => 'cboxActiveDengueOnly',
 				'id'          => 'cboxActiveDengueOnly',
@@ -1338,6 +1486,7 @@ jQuery(document).ready(function(){
 		);
 		echo form_checkbox($cboxActiveDengueOnly);
 		echo "Active Case Nodes Only<br/>";
+		
 		$cboxLarva = array(
 				'name'        => 'cboxLarva',
 				'id'          => 'cboxLarva',
@@ -1347,6 +1496,7 @@ jQuery(document).ready(function(){
 		);
 		echo form_checkbox($cboxLarva);
 		echo "Larva Nodes<br/>";
+		
 		$cboxPoI = array(
 				'name'        => 'cboxPoI',
 				'id'          => 'cboxPoI',
@@ -1356,6 +1506,7 @@ jQuery(document).ready(function(){
 		);
 		echo form_checkbox($cboxPoI);
 		echo "Points of Interest<br/>";
+		//*
 		$cboxHouseholds = array(
 				'name'        => 'cboxHouseholds',
 				'id'          => 'cboxHouseholds',
@@ -1364,7 +1515,8 @@ jQuery(document).ready(function(){
 				'style'       => 'margin:10px',
 		);
 		echo form_checkbox($cboxHouseholds);
-		echo "Households<br/>";
+		echo "Households<br/>";//*/
+		
 		$cboxBarangayBoundaries = array(
 				'name'        => 'cboxBB',
 				'id'          => 'cboxBB',
@@ -1374,7 +1526,7 @@ jQuery(document).ready(function(){
 		);
 		echo form_checkbox($cboxBarangayBoundaries);
 		echo "Barangay Boundaries<br/>";
-		?></td><td id='pad15'><h4><center>Date</center></h4>
+		?></td><tr><td id='pad15'><h4><center>Date</center></h4>
 		
 		
 		
@@ -1387,11 +1539,11 @@ jQuery(document).ready(function(){
 		<br /> -->
 		<?php 
 		
-		echo "Start Date:";
+		echo "Start Date:<br/>";
 		echo form_dropdown('YearStart-ddl', $optionsYear,date('Y'));
 		echo form_dropdown('MonthStart-ddl', $optionsMonths,date('m'));
 		echo "<br/>";
-		echo "End Date:&#160;";
+		echo "End Date:&#160;<br/>";
 		echo form_dropdown('YearEnd-ddl', $optionsYear,date('Y'));
 		echo form_dropdown('MonthEnd-ddl', $optionsMonths,date('m'));
 		?>
@@ -1413,21 +1565,21 @@ jQuery(document).ready(function(){
 		<i>Custom, from drop down lists below</i><br/><br/>
 		
 		<?php
-		echo "Start Date:";
+		echo "Start Date:<br/>";
 		echo form_dropdown('PYearStart-ddl', $optionsYear,date('Y'));
 		echo form_dropdown('PMonthStart-ddl', $optionsMonths,date('m'));
 		echo "<br/>";
-		echo "End Date:&#160;";
+		echo "End Date:&#160;<br/>";
 		echo form_dropdown('PYearEnd-ddl', $optionsYear,date('Y'));
 		echo form_dropdown('PMonthEnd-ddl', $optionsMonths,date('m'));
 		?></td></tr>
 		</table>
-		<div><br/><center><input type="submit" value="Sort Data" width="40%"/></center></div>
+		<div><br/><input type="submit" value="Sort Data" width="40%"/></center></div>
 		</form> 
 	</td>
 </tr>
 
-</table>
+</table></center>
 <!-- <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-text="<?php echo $bcount?>">Tweet</a> -->
 <script>/*
 	!function(d,s,id)
