@@ -29,6 +29,47 @@ class Cases extends CI_Controller
 	function view_map()
 	{
 		$data['cases'] = $this->map->get_all_cases();
+		$data['period'] = 'All active cases and previous';
+		
+		// map data
+		
+		$data['poi'] = $this->ac->get_cases();
+		
+		$data['san_agustin_iii_cases'] = $this->ac->get_cases_per_brgy('san agustin iii');
+		$data['san_agustin_iii'] = $this->map->get_brgys('san agustin iii');
+		
+		$data['langkaan_ii_cases'] = $this->ac->get_cases_per_brgy('langkaan ii');
+		$data['langkaan_ii'] = $this->map->get_brgys('langkaan ii');
+		
+		$data['sampaloc_i_cases'] = $this->ac->get_cases_per_brgy('sampaloc i');
+		$data['sampaloc_i'] = $this->map->get_brgys('sampaloc i');
+		
+		$data['san_agustin_i_cases'] = $this->ac->get_cases_per_brgy('san agustin i');
+		$data['san_agustin_i'] = $this->map->get_brgys('san agustin i');
+		
+		$this->load->view('site/admin/cases_map', $data);
+	}
+	
+	function filter_view_map()
+	{
+		$data['cases'] = $this->map->get_all_cases($this->input->post('start'), $this->input->post('end'));
+		$data['period'] = 'Displaying all cases since ' . date('D, M d Y',strtotime($this->input->post('start'))) . ' to ' . date('D, M d Y',strtotime($this->input->post('end')));
+		
+		// map data
+		
+		$data['poi'] = $this->ac->get_cases();
+		
+		$data['san_agustin_iii_cases'] = $this->ac->get_cases_per_brgy('san agustin iii');
+		$data['san_agustin_iii'] = $this->map->get_brgys('san agustin iii');
+		
+		$data['langkaan_ii_cases'] = $this->ac->get_cases_per_brgy('langkaan ii');
+		$data['langkaan_ii'] = $this->map->get_brgys('langkaan ii');
+		
+		$data['sampaloc_i_cases'] = $this->ac->get_cases_per_brgy('sampaloc i');
+		$data['sampaloc_i'] = $this->map->get_brgys('sampaloc i');
+		
+		$data['san_agustin_i_cases'] = $this->ac->get_cases_per_brgy('san agustin i');
+		$data['san_agustin_i'] = $this->map->get_brgys('san agustin i');
 		
 		$this->load->view('site/admin/cases_map', $data);
 	}
