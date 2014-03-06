@@ -50,6 +50,34 @@ class Map_temp_model extends CI_Model
 		return $query->result_array();
 			$query->free_result();
 	}
+	
+	function get_all_cases($start = FALSE, $end = FALSE)
+	{
+		$this->db->from('previous_cases')
+				->join('catchment_area', 'catchment_area.person_id = previous_cases.person_id')
+				->join('household_address', 'household_address.household_id = catchment_area.household_id');
+		
+		if ($start != FALSE && $end != FALSE)
+			$this->db->where("created_on BETWEEN '$start' AND '$end'");
+
+		$query = $this->db->get();
+		
+		$previous_cases = $query->result_array();
+		
+		$this->db->from('previous_cases')
+				->join('catchment_area', 'catchment_area.person_id = previous_cases.person_id')
+				->join('household_address', 'household_address.household_id = catchment_area.household_id');
+		
+		
+		if ($start != FALSE && $end != FALSE)
+			$this->db->where("created_on BETWEEN '$start' AND '$end'");
+		
+		$query2 = $this->db->get();
+		
+		$active_cases = $query->result_array();
+		
+		return array_merge($previous_cases, $active_cases);
+	}
 }
 
 /* End of map_temp_model.php */

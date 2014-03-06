@@ -7,6 +7,7 @@ class Cases extends CI_Controller
 		parent::__construct();
 		$this->load->model('cases_model','model');
 		$this->load->model('active_case_model','ac');
+		$this->load->model('map_temp_model','map');
 	}
 	
 	function search()
@@ -23,6 +24,13 @@ class Cases extends CI_Controller
 		$data['links'] = $this->pagination->create_links();
 		
 		$this->load->view('site/search_results', $data);
+	}
+	
+	function view_map()
+	{
+		$data['cases'] = $this->map->get_all_cases();
+		
+		$this->load->view('site/admin/cases_map', $data);
 	}
 	
 	function view_suspected()

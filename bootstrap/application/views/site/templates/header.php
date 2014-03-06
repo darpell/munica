@@ -56,8 +56,8 @@
 	              <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Functions <b class="caret"></b></a>
 	              <ul class="dropdown-menu">
               		<li><?= anchor(site_url('website/upload'),'Upload PIDSR Forms')?></li>
-                	<li><?= anchor(base_url('index.php/case_report/viewCaseReport'),'View Cases')?></li>
-                	<li><?= anchor(base_url('index.php/larval_survey/viewLarvalReport'),'View Surveys')?></li>
+                	<!-- <li><?= anchor(base_url('index.php/case_report/viewCaseReport'),'View Cases')?></li>
+                	<li><?= anchor(base_url('index.php/larval_survey/viewLarvalReport'),'View Surveys')?></li>  -->
                 	<li class="divider"></li>
                 	<li class="dropdown-header">User Controls</li>
                 	<li><?= anchor(site_url('website/user/add'),'Create User')?></li>
@@ -81,8 +81,8 @@
               		<li><?= anchor(site_url('website/households/visits'),'Household visits')?></li>
                 	<li class="divider"></li>
                 	<li class="dropdown-header"> Map Reports </li>
-                	<li><?= anchor(site_url(''),'Case Map')?></li>
-                	<li><?= anchor(site_url(''),'Larval Map')?></li>
+                	<li><?= anchor(site_url('website/cases/view_map'),'Case Map')?></li>
+                	<!-- <li><?= anchor(site_url(''),'Larval Map')?></li> -->
                 	<!-- in question  -->
 						<!-- <li><?php //anchor(base_url('index.php/CHO/'),'View Tasks')?></li>  -->
 					<!-- /end of in question -->
