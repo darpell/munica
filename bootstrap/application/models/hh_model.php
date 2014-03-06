@@ -187,6 +187,15 @@ class Hh_model extends CI_Model
 			$query->free_result();
 	}
 	
+	function get_hh_midwife($mw)
+	{
+		$query = $this->db->get_where('bhw', array('user_username' => $mw));
+		
+		$brgy = $query->row_array();
+		
+		return $this->get_catchment_area($brgy);
+	}
+	
 	function get_households($bhw = FALSE, $offset = FALSE, $limit = FALSE)
 	{
 		$this->db->from('catchment_area')

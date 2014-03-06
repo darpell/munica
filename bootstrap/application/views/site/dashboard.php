@@ -98,7 +98,9 @@ body { height:100% }
 					<li> <a href="<?= site_url('website/map/view') ?>"> Maps </a> </li>
 					<?php if ($this->session->userdata('TPtype') != 'BHW') { ?>
 					<li> <a href="<?= site_url('website/households/filter_brgys') ?>"> Households <span class="badge pull-right"><?= $hh_num ?></span></a> </li>
-					<?php } else { ?>
+					<?php } /*else if ($this->session->userdata('TPtype') != 'MIDWIFE') {?>
+					<li> <a href="<?= site_url('website/households/filter_CAs/') ?>"> Households <span class="badge pull-right"><?= $hh_num ?></span></a> </li>
+					<?php }*/ else { ?>
 					<li> <a href="<?= site_url('website/households/filter_HHs/' . $this->session->userdata('TPusername')) ?>"> Households <span class="badge pull-right"><?= $hh_num ?></span></a> </li>
 					<?php } ?>
 				</ul>
