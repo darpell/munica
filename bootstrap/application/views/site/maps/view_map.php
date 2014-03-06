@@ -468,27 +468,496 @@ jQuery(document).ready(function(){
 					zoom: 14,
 					mapTypeId: 'roadmap'
 				});
-				
-				
+			  	var oms = new OverlappingMarkerSpiderfier(map);
 				if(document.getElementById('getLarva').value.toString()=="1")
 			    {
-					mapLarvalOverlay(map);
-				    //mapLarvalOverlay(map,document.getElementById('Pdist').value,document.getElementById("PLarva").value,true);
-			        //mapLarvalOverlay(map,document.getElementById('dist').value,document.getElementById("Larva").value,false);
+					var ls_length = document.getElementById("ls_length").value.toString();
+					var linfo="";
+					var point;
+					
+					if (ls_length != 0)
+					{//alert(dg_length);
+						
+						var ctr =0;//*
+						while(ctr < ls_length)
+						{
+							//*
+							linfo = "Larval Survey #"+document.getElementById("ls_no"+ctr).value.toString()+"<br/>"
+							//+document.getElementById("ls_household"+ctr).value.toString()+" Household<br/>"//
+							+"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("ls_householdId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("ls_household"+ctr).value.toString()+" Household</a><br/>"
+							+"Container: "+document.getElementById("ls_container"+ctr).value.toString()+"<br/>"
+							+"Created by: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("ls_createdBy"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("ls_createdBy"+ctr).value.toString()+"</a><br/>"
+							+"Created on: "+document.getElementById("ls_createdOn"+ctr).value.toString();//*/
+							//alert(ctr);
+							point = new google.maps.LatLng(document.getElementById("ls_lat"+ctr).value.toString(),document.getElementById("ls_lng"+ctr).value.toString());
+							centroidMarker = new google.maps.Marker({
+								  position: point,
+								  map: map,
+							      icon: document.getElementById("ls_icon").value.toString(),
+								});
+							
+							var invariant1=document.getElementById("ls_no"+ctr).value.toString();
+							if(document.getElementById("dgLarvalBounce_length").value.toString() != 0)
+								for(var i=0;i < document.getElementById("dgLarvalBounce_length").value.toString();i++)
+								{
+									if(document.getElementById("dgLarvalBounce"+i).value.toString() == invariant1)
+										centroidMarker.setAnimation(google.maps.Animation.BOUNCE);
+								}
+							setInfo(centroidMarker,linfo,map);
+							oms.addMarker(centroidMarker);
+							//createMarker(map,point,document.getElementById("ls_icon").value.toString(),linfo,null,false,false,false);//*/
+							ctr++;
+						}
+					}
+				    
+					ls_length = document.getElementById("Pls_length").value.toString();
+					linfo="";
+					point;
+					
+					if (ls_length != 0)
+					{//alert(dg_length);
+						
+						var ctr =0;//*
+						while(ctr < ls_length)
+						{
+							//*
+							linfo = "Larval Survey #"+document.getElementById("Pls_no"+ctr).value.toString()+"<br/>"
+							//+document.getElementById("ls_household"+ctr).value.toString()+" Household<br/>"//
+							+"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("Pls_householdId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("Pls_household"+ctr).value.toString()+" Household</a><br/>"
+							+"Container: "+document.getElementById("Pls_container"+ctr).value.toString()+"<br/>"
+							+"Created by: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("Pls_createdBy"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("Pls_createdBy"+ctr).value.toString()+"</a><br/>"
+							+"Created on: "+document.getElementById("Pls_createdOn"+ctr).value.toString();//*/
+							//alert(ctr);
+							point = new google.maps.LatLng(document.getElementById("Pls_lat"+ctr).value.toString(),document.getElementById("Pls_lng"+ctr).value.toString());
+							centroidMarker = new google.maps.Marker({
+								  position: point,
+								  map: map,
+							      icon: document.getElementById("Pls_icon").value.toString(),
+								});
+							
+							var invariant1=document.getElementById("Pls_no"+ctr).value.toString();
+							if(document.getElementById("PdgLarvalBounce_length").value.toString() != 0)
+								for(var i=0;i < document.getElementById("PdgLarvalBounce_length").value.toString();i++)
+								{
+									if(document.getElementById("PdgLarvalBounce"+i).value.toString() == invariant1)
+										centroidMarker.setAnimation(google.maps.Animation.BOUNCE);
+								}
+							setInfo(centroidMarker,linfo,map);
+							oms.addMarker(centroidMarker);
+							ctr++;
+						}
+					}
 			    }
 				if(document.getElementById('getBb').value.toString()=="1")
 				{
-					mapBarangayOverlay(map);
+					var bb_length = document.getElementById('bb_length').value.toString();
+					if (bb_length != 0)
+					{
+						var pinfo = new Array();
+						var plat = new Array();
+						var plng = new Array();
+						var polygonChild = new Array();
+						var color="FF0000";
+						var bermudaTriangle;
+					
+						var ctr =0;
+						var currPoly=document.getElementById("bb_polyID"+ctr);
+						var prevPoly=0;
+						var tabStr="";
+						//*
+						while(ctr<bb_length)
+						{//alert(parseFloat(document.getElementById("bb_polyLat"+ctr).value.toString()));
+							var cntent;
+							currPoly=document.getElementById("bb_polyID"+ctr).value.toString();
+							if (currPoly==prevPoly || ctr==0)
+							{//alert("IF "+ctr);
+								polygonChild.push(new google.maps.LatLng(parseFloat(document.getElementById("bb_polyLat"+ctr).value.toString()),
+										parseFloat(document.getElementById("bb_polyLng"+ctr).value.toString())));
+							}
+							else
+							{
+								bermudaTriangle = new google.maps.Polygon(
+										{
+											paths: polygonChild,
+											fillColor: "#FF0000",
+											fillOpacity:0.3,
+											clickable:true
+										});
+								bermudaTriangle.setMap(map);
+								tabStr = "<center><h4>Barangay "+document.getElementById("bb_polyName"+(ctr-1)).value.toString();
+								tabStr += "<h5></>Table 1. Displaying Age Distribution for period <br/><i>"+document.getElementById("cdate1").value.toString()+" to "+document.getElementById("cdate2").value.toString()+"</i>";
+								tabStr += "<br/><table border='1' cellpadding='5' cellspacing='0' id='results' >";
+								tabStr += "<tr><td align='center'><b>Age Range</b></td><td align='center'><b>Patient Amount</b></td></tr>";
+								for(var i=0; i < document.getElementById("table1_length").value.toString(); i++ )
+								{
+									//alert(""+document.getElementById("table1_brgy"+i).value.toString() + document.getElementById("bb_polyName"+ctr).value.toString());
+									if(document.getElementById("table1_brgy"+i).value.toString() == document.getElementById("bb_polyName"+(ctr-1)).value.toString())
+									{
+										tabStr +="<td align='center'>"+document.getElementById("table1_range"+(i)).value.toString()+"</td>"
+											+"<td align='center'>"+document.getElementById("table1_count"+(i)).value.toString()+"</td></tr>";
+									}
+								}
+								tabStr +="</table></center>";
+								setPolyInfo(bermudaTriangle,tabStr,map);
+								//tabStr="";
+								polygonChild = [];
+								polygonChild.push(new google.maps.LatLng(parseFloat(document.getElementById("bb_polyLat"+ctr).value.toString()),
+										parseFloat(document.getElementById("bb_polyLng"+ctr).value.toString())));
+								prevPoly=currPoly;
+							}
+							if(ctr==0)
+								{
+									prevPoly=currPoly;
+								}
+							ctr++;
+						}
+						bermudaTriangle = new google.maps.Polygon(
+								{
+									paths: polygonChild,
+									fillColor: "#FF0000",
+									fillOpacity:0.3,
+									clickable:true
+								});
+						bermudaTriangle.setMap(map);
+						
+						tabStr = "<center><h4>Barangay "+document.getElementById("bb_polyName"+(ctr-1)).value.toString();
+						tabStr += "<h5></>Table 1. Displaying Age Distribution for period <br/><i>"+document.getElementById("cdate1").value.toString()+" to "+document.getElementById("cdate2").value.toString()+"</i>";
+						tabStr += "<br/><table border='1' cellpadding='5' cellspacing='0' id='results' >";
+						tabStr += "<tr><td align='center'><b>Age Range</b></td><td align='center'><b>Patient Amount</b></td></tr>";
+						for(var i=0; i < document.getElementById("table1_length").value.toString(); i++ )
+						{
+							if(document.getElementById("table1_brgy"+i).value.toString() == document.getElementById("bb_polyName"+(ctr-1)).value.toString())
+							{
+								tabStr +="<td align='center'>"+document.getElementById("table1_range"+(i)).value.toString()+"</td>"
+									+"<td align='center'>"+document.getElementById("table1_count"+(i)).value.toString()+"</td></tr>";
+							}
+						}
+						tabStr +="</table></center>";
+						setPolyInfo(bermudaTriangle,tabStr,map);
+						
+						polygonChild = [];
+					}
 			    }	
 				if(document.getElementById('getPoi').value.toString()=="1")
 			    {
-					mapPointsOfInterest(map);
+					var poi_length = document.getElementById("poi_length").value.toString();
+					var poiinfo="";
+					var point;
+					var img;
+					
+					if (poi_length != 0)
+					{
+						img=document.getElementById("poi_iconS").value.toString();
+						var ctr =0;//*
+						while(ctr < poi_length)
+						{//*
+							poiinfo = "<b>"+document.getElementById("poi_name"+ctr).value.toString()+"</b><br/>";
+							if(parseInt(document.getElementById("poi_type"+ctr).value.toString()) === 1)
+								{
+									img=document.getElementById("poi_iconR").value.toString();//poiinfo +="SOURCE AREA<br/><br/>"poi_iconS;
+								}
+								//poiinfo +="RISK AREA<br/><br/>";//*/
+							poiinfo +=document.getElementById("poi_barangay"+ctr).value.toString()+"<br/>";
+							poiinfo +=document.getElementById("poi_notes"+ctr).value.toString()+"<br/>";
+							
+							//alert(ctr);
+							point = new google.maps.LatLng(document.getElementById("poi_lat"+ctr).value.toString(),document.getElementById("poi_lng"+ctr).value.toString());
+							//createMarker(map,point,img,poiinfo,null,false,false,false);//*/
+							centroidMarker = new google.maps.Marker({
+								  position: point,
+								  map: map,
+							      icon: img
+								});
+							var invariant1=document.getElementById("poi_id"+ctr).value.toString();
+							if(document.getElementById("dgPoIBounce_length").value.toString() != 0)
+								for(var i=0;i < document.getElementById("dgPoIBounce_length").value.toString();i++)
+								{
+									if(document.getElementById("dgPoIBounce"+i).value.toString() == invariant1)
+										centroidMarker.setAnimation(google.maps.Animation.BOUNCE);
+								}
+							setInfo(centroidMarker,poiinfo,map);
+							oms.addMarker(centroidMarker);
+							ctr++;
+							poiinfo="";
+						}
+					}
+
+					poi_length = document.getElementById("Ppoi_length").value.toString();
+					poiinfo="";
+					point;
+					img;
+					
+					if (poi_length != 0)
+					{
+						img=document.getElementById("Ppoi_iconS").value.toString();
+						var ctr =0;//*
+						while(ctr < poi_length)
+						{//*
+							poiinfo = "<b>"+document.getElementById("Ppoi_name"+ctr).value.toString()+"</b><br/>";
+							if(parseInt(document.getElementById("Ppoi_type"+ctr).value.toString()) === 1)
+								{
+									img=document.getElementById("Ppoi_iconR").value.toString();//poiinfo +="SOURCE AREA<br/><br/>"poi_iconS;
+								}
+								//poiinfo +="RISK AREA<br/><br/>";//*/
+							poiinfo +=document.getElementById("Ppoi_barangay"+ctr).value.toString()+"<br/>";
+							poiinfo +=document.getElementById("Ppoi_notes"+ctr).value.toString()+"<br/>";
+							
+							//alert(ctr);
+							point = new google.maps.LatLng(document.getElementById("Ppoi_lat"+ctr).value.toString(),document.getElementById("Ppoi_lng"+ctr).value.toString());
+							//createMarker(map,point,img,poiinfo,null,false,false,false);//*/
+							centroidMarker = new google.maps.Marker({
+								  position: point,
+								  map: map,
+							      icon: img
+								});
+							var invariant1=document.getElementById("Ppoi_id"+ctr).value.toString();
+							if(document.getElementById("PdgPoIBounce_length").value.toString() != 0)
+								for(var i=0;i < document.getElementById("PdgPoIBounce_length").value.toString();i++)
+								{
+									if(document.getElementById("PdgPoIBounce"+i).value.toString() == invariant1)
+										centroidMarker.setAnimation(google.maps.Animation.BOUNCE);
+								}
+							setInfo(centroidMarker,poiinfo,map);
+							oms.addMarker(centroidMarker);
+							ctr++;
+							poiinfo="";
+						}
+					}
 			    }	
 				if(document.getElementById('getHouseholds').value.toString()=="1")
 			    {
 					mapHouseholdOverlay(map);
-			    }
-			   
+			    }	
+				if(document.getElementById('getDengue').value.toString()=="1")
+			    {
+				    //alert("Alert DG!");
+					var dg_length = document.getElementById("dg_length").value.toString();
+					var dinfo="";
+					var point;
+					var img;
+					
+					if (dg_length != 0)
+					{//alert(dg_length);
+						var ctr =0;//*
+						while(ctr < dg_length)
+						{
+							//*
+							img=document.getElementById("dg_icon1").value.toString();
+							dinfo = ""+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"<br/>"
+							+"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("dg_householdID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_householdName"+ctr).value.toString()+" Household</a><br/>"//+document.getElementById("dg_householdName"+ctr).value.toString()+" Household<br/>"
+								+document.getElementById("dg_houseNo"+ctr).value.toString()+", "
+								+document.getElementById("dg_street"+ctr).value.toString()+" "
+								+document.getElementById("dg_barangay"+ctr).value.toString()+"<br/>"
+								+"Birth: "+document.getElementById("dg_dob"+ctr).value.toString()+"<br/>"
+								+"Gender: "+document.getElementById("dg_sex"+ctr).value.toString()+"<br/>"
+								+"Guardian: "+document.getElementById("dg_guardian"+ctr).value.toString()+"<br/>"
+								+"Contact No: "+document.getElementById("dg_contact"+ctr).value.toString()+"<br/><br/>"
+								+"Case Information <br/>"
+								+"Case No: "+document.getElementById("dg_caseNo"+ctr).value.toString()+"<br/>";//alert("!");
+							if(document.getElementById("dg_status"+ctr) != null)
+							{
+								dinfo +="Status: "+document.getElementById("dg_status"+ctr).value.toString()+"<br/>";
+							}
+							else
+							{
+								dinfo +="Outcome: "+document.getElementById("dg_outcome"+ctr).value.toString()+"<br/>";//alert("!");
+							}
+							dinfo +="Days Fever: "+document.getElementById("dg_daysFever"+ctr).value.toString()+"<br/>"
+								+"Suspect Source: "+document.getElementById("dg_suspectedSource"+ctr).value.toString()+"<br/>"
+								+"Muscle Pain: "+document.getElementById("dg_hasMusclePain"+ctr).value.toString()+"<br/>"
+								+"Joint Pain: "+document.getElementById("dg_hasJointPain"+ctr).value.toString()+"<br/>"
+								+"Headache: "+document.getElementById("dg_hasHeadache"+ctr).value.toString()+"<br/>"
+								+"Bleeding: "+document.getElementById("dg_hasBleeding"+ctr).value.toString()+"<br/>"
+								+"Rashes: "+document.getElementById("dg_hasRashes"+ctr).value.toString()+"<br/>"
+								+"BHW in Charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("dg_bhwName"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_bhwName"+ctr).value.toString()+"</a><br/>"//+"BHW in-charge: "+document.getElementById("dg_bhwName"+ctr).value.toString()+"<br/>"
+								+"Last Visit: "+document.getElementById("dg_lastVisited"+ctr).value.toString()+"<br/><br/>";
+							//alert(ctr);
+							point = new google.maps.LatLng(document.getElementById("dg_lat"+ctr).value.toString(),document.getElementById("dg_lng"+ctr).value.toString());
+							var setCircle=false;
+							if(document.getElementById("dgPoIDistance_length").value.toString() != 0)
+							{
+								if(document.getElementById("dgPoIDistance"+ctr).value.toString() == 0)
+								{
+									dinfo += "No Points of Interests detected nearby.<br/>";
+								}
+								else
+								{
+									dinfo += document.getElementById("dgPoIDistance"+ctr).value.toString();
+									setCircle=true;
+								}
+							}//*
+							if(document.getElementById("dgLarvalDistance_length").value.toString() != 0)
+							{
+								if(document.getElementById("dgLarvalDistance"+ctr).value.toString() == 0)
+								{
+									dinfo += "No Larval Positives detected nearby.<br/>";
+								}
+								else
+								{
+									dinfo += document.getElementById("dgLarvalDistance"+ctr).value.toString();
+									setCircle=true;
+								}
+							}
+							if(setCircle)
+							{
+								var circle = new google.maps.Circle({
+									center:point,
+									radius:200,
+									strokeColor:"#0000FF",
+									strokeOpacity:0.7,
+									strokeWeight:1,
+									fillColor:"#66CCCC",
+									fillOpacity:0.3,
+									clickable:false
+								});
+								circle.setMap(map); 
+							}//*/
+							//*
+							if(document.getElementById("dg_status"+ctr) == null)
+							{//alert("!");
+								if(document.getElementById("dg_outcome"+ctr).value.toString() == "A")
+									img=document.getElementById("dg_iconA").value.toString();
+								else
+									img=document.getElementById("dg_iconD").value.toString();
+							}
+							else if(document.getElementById("dg_status"+ctr).value.toString() == "threatening")
+							{
+								img=document.getElementById("dg_icon2").value.toString();
+							}
+							else if(document.getElementById("dg_status"+ctr).value.toString() == "serious")
+							{
+								img=document.getElementById("dg_icon3").value.toString();
+							}
+							else if(document.getElementById("dg_status"+ctr).value.toString() == "hospitalized")
+							{
+								img=document.getElementById("dg_icon4").value.toString();
+							}//*/
+							//createMarker(map,point,img,dinfo,null,false,false,false);//*/
+							centroidMarker = new google.maps.Marker({  
+						        position: point,   
+						        map: map,  
+						        icon: img
+						    	});  
+							ctr++;
+							setInfo(centroidMarker,dinfo,map);
+							oms.addMarker(centroidMarker);
+						}
+					}
+					
+				    //alert("Alert DG!");
+					dg_length = document.getElementById("Pdg_length").value.toString();
+					dinfo="";
+					point;
+					img;
+					
+					if (dg_length != 0)
+					{//alert(dg_length);
+						var ctr =0;//*
+						while(ctr < dg_length)
+						{
+							//*
+							img=document.getElementById("Pdg_icon1").value.toString();
+							dinfo = ""+document.getElementById("Pdg_lName"+ctr).value.toString()+", "+document.getElementById("Pdg_fName"+ctr).value.toString()+"<br/>"
+							+"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("Pdg_householdID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("Pdg_householdName"+ctr).value.toString()+" Household</a><br/>"//+document.getElementById("dg_householdName"+ctr).value.toString()+" Household<br/>"
+								+document.getElementById("Pdg_houseNo"+ctr).value.toString()+", "
+								+document.getElementById("Pdg_street"+ctr).value.toString()+" "
+								+document.getElementById("Pdg_barangay"+ctr).value.toString()+"<br/>"
+								+"Birth: "+document.getElementById("Pdg_dob"+ctr).value.toString()+"<br/>"
+								+"Gender: "+document.getElementById("Pdg_sex"+ctr).value.toString()+"<br/>"
+								+"Guardian: "+document.getElementById("Pdg_guardian"+ctr).value.toString()+"<br/>"
+								+"Contact No: "+document.getElementById("Pdg_contact"+ctr).value.toString()+"<br/><br/>"
+								+"Case Information <br/>"
+								+"Case No: "+document.getElementById("Pdg_caseNo"+ctr).value.toString()+"<br/>";//alert("!");
+							if(document.getElementById("Pdg_status"+ctr) != null)
+							{
+								dinfo +="Status: "+document.getElementById("Pdg_status"+ctr).value.toString()+"<br/>";
+							}
+							else
+							{
+								dinfo +="Outcome: "+document.getElementById("Pdg_outcome"+ctr).value.toString()+"<br/>";//alert("!");
+							}
+							dinfo +="Days Fever: "+document.getElementById("Pdg_daysFever"+ctr).value.toString()+"<br/>"
+								+"Suspect Source: "+document.getElementById("Pdg_suspectedSource"+ctr).value.toString()+"<br/>"
+								+"Muscle Pain: "+document.getElementById("Pdg_hasMusclePain"+ctr).value.toString()+"<br/>"
+								+"Joint Pain: "+document.getElementById("Pdg_hasJointPain"+ctr).value.toString()+"<br/>"
+								+"Headache: "+document.getElementById("Pdg_hasHeadache"+ctr).value.toString()+"<br/>"
+								+"Bleeding: "+document.getElementById("Pdg_hasBleeding"+ctr).value.toString()+"<br/>"
+								+"Rashes: "+document.getElementById("Pdg_hasRashes"+ctr).value.toString()+"<br/>"
+								+"BHW in Charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("Pdg_bhwName"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("Pdg_bhwName"+ctr).value.toString()+"</a><br/>"//+"BHW in-charge: "+document.getElementById("dg_bhwName"+ctr).value.toString()+"<br/>"
+								+"Last Visit: "+document.getElementById("Pdg_lastVisited"+ctr).value.toString()+"<br/><br/>";
+							//alert(ctr);
+							point = new google.maps.LatLng(document.getElementById("Pdg_lat"+ctr).value.toString(),document.getElementById("Pdg_lng"+ctr).value.toString());
+							var setCircle=false;
+							if(document.getElementById("PdgPoIDistance_length").value.toString() != 0)
+							{
+								if(document.getElementById("PdgPoIDistance"+ctr).value.toString() == 0)
+								{
+									dinfo += "No Points of Interests detected nearby.<br/>";
+								}
+								else
+								{
+									dinfo += document.getElementById("PdgPoIDistance"+ctr).value.toString();
+									setCircle=true;
+								}
+							}//*
+							if(document.getElementById("PdgLarvalDistance_length").value.toString() != 0)
+							{
+								if(document.getElementById("PdgLarvalDistance"+ctr).value.toString() == 0)
+								{
+									dinfo += "No Larval Positives detected nearby.<br/>";
+								}
+								else
+								{
+									dinfo += document.getElementById("PdgLarvalDistance"+ctr).value.toString();
+									setCircle=true;
+								}
+							}
+							if(setCircle)
+							{
+								var circle = new google.maps.Circle({
+									center:point,
+									radius:200,
+									strokeColor:"#0000FF",
+									strokeOpacity:0.7,
+									strokeWeight:1,
+									fillColor:"#66CCCC",
+									fillOpacity:0.3,
+									clickable:false
+								});
+								circle.setMap(map); 
+							}//*/
+							//*
+							if(document.getElementById("Pdg_status"+ctr) == null)
+							{//alert("!");
+								if(document.getElementById("Pdg_outcome"+ctr).value.toString() == "A")
+									img=document.getElementById("Pdg_iconA").value.toString();
+								else
+									img=document.getElementById("Pdg_iconD").value.toString();
+							}
+							else if(document.getElementById("Pdg_status"+ctr).value.toString() == "threatening")
+							{
+								img=document.getElementById("Pdg_icon2").value.toString();
+							}
+							else if(document.getElementById("Pdg_status"+ctr).value.toString() == "serious")
+							{
+								img=document.getElementById("Pdg_icon3").value.toString();
+							}
+							else if(document.getElementById("Pdg_status"+ctr).value.toString() == "hospitalized")
+							{
+								img=document.getElementById("Pdg_icon4").value.toString();
+							}//*/
+							//createMarker(map,point,img,dinfo,null,false,false,false);//*/
+							centroidMarker = new google.maps.Marker({  
+						        position: point,   
+						        map: map,  
+						        icon: img
+						    	});  
+							ctr++;
+							setInfo(centroidMarker,dinfo,map);
+							oms.addMarker(centroidMarker);
+						}
+					}
+			    } 
 		  }
 		  else
 		  {
@@ -603,7 +1072,7 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="ls_updatedBy<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['updatedBy']; ?>"	/>
 		<input type="hidden" id="ls_updatedOn<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['updatedOn']; ?>"	/>
 	<?php }?> 
-	<input type="hidden" id="ls_icon" value="<?php echo base_url('/images/eggs-2.png')?>" />
+	<input type="hidden" id="ls_icon" value="<?php echo base_url('/images/eggs.png')?>" />
 	<?php } else { ?> <input type="hidden" id="ls_length" value="0" /> <?php } ?>
 	
 <?php if ($bb != null){?>
@@ -649,7 +1118,7 @@ jQuery(document).ready(function(){
 			<input type="hidden" id="Pls_updatedBy<?= $ctr ?>" 	value="<?php echo $Plarval[$ctr]['updatedBy']; ?>"	/>
 			<input type="hidden" id="Pls_updatedOn<?= $ctr ?>" 	value="<?php echo $Plarval[$ctr]['updatedOn']; ?>"	/>
 		<?php }?> 
-		<input type="hidden" id="Pls_icon" value="<?php echo base_url('/images/eggs-2.png')?>" />
+		<input type="hidden" id="Pls_icon" value="<?php echo base_url('/images/Peggs.png')?>" />
 		<?php } else { ?> <input type="hidden" id="Pls_length" value="0" /> <?php } ?>
 		
 	<?php if ($Ppoi != null){?>
@@ -665,8 +1134,8 @@ jQuery(document).ready(function(){
 			<input type="hidden" id="Ppoi_endDate<?= $ctr ?>" 	value="<?php echo $Ppoi[$ctr]['endDate']; ?>"	/>
 			<input type="hidden" id="Ppoi_barangay<?= $ctr ?>" 	value="<?php echo $Ppoi[$ctr]['barangay']; ?>"	/>
 		<?php }?> 
-		<input type="hidden" id="Ppoi_iconR" value="<?php echo base_url('/images/risk.png')?>" />
-		<input type="hidden" id="Ppoi_iconS" value="<?php echo base_url('/images/source.png')?>" />
+		<input type="hidden" id="Ppoi_iconR" value="<?php echo base_url('/images/Prisk.png')?>" />
+		<input type="hidden" id="Ppoi_iconS" value="<?php echo base_url('/images/Psource.png')?>" />
 		<?php } else { ?> <input type="hidden" id="Ppoi_length" value="0" /> <?php } ?>
 		
 <input type = 'hidden' id ='type' name='type' value='<?php echo $node_type?>'>
@@ -794,12 +1263,12 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="Pdg_guardian<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['guardian']; ?>"	/>
 		<input type="hidden" id="Pdg_contact<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['contact']; ?>"	/>
 	<?php }?> 
-	<input type="hidden" id="Pdg_icon1" value="<?php echo base_url('/images/notice.png')?>" />
-	<input type="hidden" id="Pdg_icon2" value="<?php echo base_url('/images/notice2.png')?>" />
-	<input type="hidden" id="Pdg_icon3" value="<?php echo base_url('/images/notice3.png')?>" />
-	<input type="hidden" id="Pdg_icon4" value="<?php echo base_url('/images/hospital.png')?>" />
-	<input type="hidden" id="Pdg_iconA" value="<?php echo base_url('/images/A.png')?>" />
-	<input type="hidden" id="Pdg_iconD" value="<?php echo base_url('/images/D.png')?>" />
+	<input type="hidden" id="Pdg_icon1" value="<?php echo base_url('/images/Pnotice.png')?>" />
+	<input type="hidden" id="Pdg_icon2" value="<?php echo base_url('/images/Pnotice2.png')?>" />
+	<input type="hidden" id="Pdg_icon3" value="<?php echo base_url('/images/Pnotice3.png')?>" />
+	<input type="hidden" id="Pdg_icon4" value="<?php echo base_url('/images/Phospital.png')?>" />
+	<input type="hidden" id="Pdg_iconA" value="<?php echo base_url('/images/PA.png')?>" />
+	<input type="hidden" id="Pdg_iconD" value="<?php echo base_url('/images/PD.png')?>" />
 	<?php } else { ?> <input type="hidden" id="Pdg_length" value="0" /> <?php } ?>
 	
 	<input type="hidden" id="cdate1" value="<?php echo $cdate1?>" />
