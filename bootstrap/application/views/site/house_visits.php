@@ -48,6 +48,24 @@ var hh_img = [
 			<!-- end of Map -->
 	</div>
 	<div class="col-md-4">
+		<!-- Legend -->
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title"> Legends </h3>
+				</div>
+				<div class="panel-body">
+					<table class="table">
+						<tr>
+							<td> <img src="<?= base_url('images/house visited.png'); ?>" /> </td> <td> House is has been recently visited </td>
+						</tr>
+						<tr>
+							<td> <img src="<?= base_url('images/house not visited.PNG'); ?>" /> </td> <td> House has not been visited for more than 7 days </td>
+						</tr>					
+					</table>
+				</div>
+			</div>
+		<!-- end of Legend -->
+	
 		<!-- Household List -->
 			<div class="panel panel-primary">
 				<div class="panel-heading">

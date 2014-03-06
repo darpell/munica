@@ -34,7 +34,6 @@ function initialize()
 				households[ctr].household_lat,
 				households[ctr].household_lng
 			),
-			title: 'test',
 			icon: image,
 			map: map
 		});
