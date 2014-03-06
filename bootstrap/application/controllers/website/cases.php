@@ -163,10 +163,10 @@ class Cases extends CI_Controller
 		$data['cases'] = $this->model->get_cases('hospitalized', $config['per_page'], $this->uri->segment(4));
 		$data['links'] = $this->pagination->create_links();
 	
-		$data['type'] = 'Serious';
+		$data['type'] = 'Hospitalized';
 		
 		// Graph data
-		$STATUS = 'serious';
+		$STATUS = 'hospitalized';
 		
 		$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases($STATUS));
 		$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'M');
