@@ -354,7 +354,7 @@ function load() {
 			{
 				//*
 				img=document.getElementById("dg_icon1").value.toString();
-				dinfo = "<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/cases/view_person/"+document.getElementById("dg_personID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"</a><br/>";
+				dinfo = "<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/cases/view_person/"+document.getElementById("dg_caseNo"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"</a><br/>";
 				dinfo +="<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("dg_householdID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_householdName"+ctr).value.toString()+" Household</a><br/>";
 				dinfo +=document.getElementById("dg_houseNo"+ctr).value.toString()+", "
 					+document.getElementById("dg_street"+ctr).value.toString()+" "
@@ -1079,7 +1079,7 @@ jQuery(document).ready(function(){
 						{
 							//*
 							img=document.getElementById("dg_icon1").value.toString();
-							dinfo = "<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/cases/view_person/"+document.getElementById("dg_personID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"</a><br/>"
+							dinfo = "<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/cases/view_person/"+document.getElementById("dg_caseNo"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"</a><br/>"
 							+"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("dg_householdID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_householdName"+ctr).value.toString()+" Household</a><br/>"//+document.getElementById("dg_householdName"+ctr).value.toString()+" Household<br/>"
 								+document.getElementById("dg_houseNo"+ctr).value.toString()+", "
 								+document.getElementById("dg_street"+ctr).value.toString()+" "
