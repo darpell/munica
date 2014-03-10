@@ -213,7 +213,7 @@ class Map extends CI_Controller
 				//*PREVIOUS DATE INTERVAL DATA EXTRACTION
 				$data['Plarval'] = $values['larvalValues'];//print_r($data['Plarval']);
 				$data['Pdengue'] = $values['dengueValues'];//print_r($data['Pdengue']);
-				$data['Phousehold'] = $values['householdValues'];
+				$data['Phousehold'] = $values['householdValues'];//print_r($data['Pdengue']);
 				$data['Ppoi'] = $values['poiValues'];
 				
 				//$data['Pnodes'] = $this->Mapping->mapByType($data);

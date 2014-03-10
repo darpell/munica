@@ -1,5 +1,6 @@
 function mapHouseholdOverlay(map) //Larvalpositive nodes display
-{	/*
+{	//*
+	var hs_length = document.getElementById("hs_length").value.toString();alert(hs_length);
 	if (hs_length != 0)
 	{//alert("HS");
 		var hs_length = document.getElementById("hs_length").value.toString();alert(hs_length);
@@ -20,7 +21,7 @@ function mapHouseholdOverlay(map) //Larvalpositive nodes display
 		var point = new google.maps.LatLng(document.getElementById("hs_lat"+ctr).value.toString(),document.getElementById("hs_lng"+ctr).value.toString());
 		occupantsChild+=document.getElementById("hs_lname"+ctr).value.toString()+", "+document.getElementById("hs_fname"+ctr).value.toString()+" <i>"+document.getElementById("hs_dob"+ctr).value.toString()+" "+document.getElementById("hs_sex"+ctr).value.toString()+"</i><br/>";
 		//alert(hs_length);
-		//*
+		/*
 		while(ctr < hs_length)
 		{
 			//*
@@ -47,7 +48,7 @@ function mapHouseholdOverlay(map) //Larvalpositive nodes display
 				hinfo="";
 			}
 			ctr++;
-		}
-	}//*/
+		}//*/
+	}
 }
 	

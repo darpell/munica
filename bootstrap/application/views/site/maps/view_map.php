@@ -101,7 +101,7 @@ function countInstances(arr) {
     return [a, b];
 }
 var infoWindow = new google.maps.InfoWindow();
-infoWindow.setOptions({maxWidth:400});
+infoWindow.setOptions({maxWidth:600});
 
 var centroidMarker;
 
@@ -354,9 +354,9 @@ function load() {
 			{
 				//*
 				img=document.getElementById("dg_icon1").value.toString();
-				dinfo = "<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/cases/view_person/"+document.getElementById("dg_personID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"</a><br/>"
-				+"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("dg_householdID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_householdName"+ctr).value.toString()+" Household</a><br/>"//+document.getElementById("dg_householdName"+ctr).value.toString()+" Household<br/>"
-					+document.getElementById("dg_houseNo"+ctr).value.toString()+", "
+				dinfo = "<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/cases/view_person/"+document.getElementById("dg_personID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"</a><br/>";
+				dinfo +="<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("dg_householdID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_householdName"+ctr).value.toString()+" Household</a><br/>";
+				dinfo +=document.getElementById("dg_houseNo"+ctr).value.toString()+", "
 					+document.getElementById("dg_street"+ctr).value.toString()+" "
 					+document.getElementById("dg_barangay"+ctr).value.toString()+"<br/>"
 					+"Birth: "+document.getElementById("dg_dob"+ctr).value.toString()+"<br/>"
@@ -499,20 +499,83 @@ function load() {
 			}
 		}
     }
-	if(document.getElementById('getHouseholds').value.toString()=="1")
-    {//alert("Household");
-		//mapHouseholdOverlay(map);
-    }
-    /*
-	else
-	{
-    	//Data handler, SPLITTER
-		var str = document.getElementById('data').value.toString();
-		str = str.split("%&");
+	if(document.getElementById('getHouseholds').value.toString()=="1")//PRESENT PERIOD
+    {
+    	var hs_length = document.getElementById("hs_length").value.toString();//alert(hs_length);
+    	var point;
+    	var hinfo = "";
+		var occupantsChild = "";
+		var ctr = 0;
+		var currHouse = document.getElementById("hs_householdId0").value.toString();
+		var img = document.getElementById("hs_icon").value.toString();
 		
-		mapLarvalOverlay(map,document.getElementById('dist').value.toString(),str[0],false);
-		mapBarangayOverlay(map,document.getElementById('dataBCount').value.toString(),document.getElementById('dataBAge2').value.toString(),str[1],document.getElementById('dataBInfo').value.toString(),false);
-	}//*/
+		if (hs_length != 0)
+		{//alert("HS");
+			var prevHouse = currHouse;
+			hinfo=""+
+			"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("hs_householdId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_householdName"+ctr).value.toString()+" Household</a><br/>"+
+				document.getElementById("hs_barangay"+ctr).value.toString()+"<br/>"+
+				document.getElementById("hs_houseNo"+ctr).value.toString()+", "+
+				document.getElementById("hs_street"+ctr).value.toString()+"<br/><br/>"+
+				"BHW in-charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/user/update/"+document.getElementById("hs_bhwId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_bhwLName"+ctr).value.toString()+", "+document.getElementById("hs_bhwFName"+ctr).value.toString()+" "+document.getElementById("hs_bhwMName"+ctr).value.toString()+"</a><br/>"+
+				"Last Visit: "+document.getElementById("hs_lastVisited"+ctr).value.toString()+"<br/>";
+			
+			// = new google.maps.LatLng(document.getElementById("hs_lat"+ctr).value.toString(),document.getElementById("hs_lng"+ctr).value.toString());
+			occupantsChild+=document.getElementById("hs_lname"+ctr).value.toString()+", "+document.getElementById("hs_fname"+ctr).value.toString()+" <i>"+document.getElementById("hs_dob"+ctr).value.toString()+" "+document.getElementById("hs_sex"+ctr).value.toString()+"</i><br/>";
+		}//*/
+		while(ctr < hs_length)
+		{
+			currHouse=document.getElementById("hs_householdId"+ctr).value.toString();;
+			if (currHouse==prevHouse || ctr==0)
+			{
+				occupantsChild+=document.getElementById("hs_lname"+ctr).value.toString()+", "+document.getElementById("hs_fname"+ctr).value.toString()+" <i>"+document.getElementById("hs_dob"+ctr).value.toString()+" "+document.getElementById("hs_sex"+ctr).value.toString()+"</i><br/>";
+				point = new google.maps.LatLng(document.getElementById("hs_lat"+ctr).value.toString(),document.getElementById("hs_lng"+ctr).value.toString());
+				if(ctr == hs_length-1)
+				{
+					hinfo=""+
+					"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("hs_householdId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_householdName"+ctr).value.toString()+" Household</a><br/>"+
+					document.getElementById("hs_barangay"+ctr).value.toString()+"<br/>"+
+					document.getElementById("hs_houseNo"+ctr).value.toString()+", "+
+					document.getElementById("hs_street"+ctr).value.toString()+" Street<br/><br/>"+
+					"BHW in-charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/user/update/"+document.getElementById("hs_bhwId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_bhwLName"+ctr).value.toString()+", "+document.getElementById("hs_bhwFName"+ctr).value.toString()+" "+document.getElementById("hs_bhwMName"+ctr).value.toString()+"</a><br/>"+
+					"Last Visit: "+document.getElementById("hs_lastVisited"+ctr).value.toString()+"<br/";
+					hinfo+=occupantsChild;
+				}
+			}
+			else
+			{//*
+				hinfo=""+
+				"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("hs_householdId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_householdName"+ctr).value.toString()+" Household</a><br/>"+
+				document.getElementById("hs_barangay"+ctr).value.toString()+"<br/>"+
+				document.getElementById("hs_houseNo"+ctr).value.toString()+", "+
+				document.getElementById("hs_street"+ctr).value.toString()+" Street<br/><br/>"+
+				"BHW in-charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/user/update/"+document.getElementById("hs_bhwId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_bhwLName"+ctr).value.toString()+", "+document.getElementById("hs_bhwFName"+ctr).value.toString()+" "+document.getElementById("hs_bhwMName"+ctr).value.toString()+"</a><br/>"+
+				"Last Visit: "+document.getElementById("hs_lastVisited"+ctr).value.toString()+"<br/";//*/
+				
+				hinfo+=occupantsChild;
+				prevHouse=currHouse;
+				centroidMarker = new google.maps.Marker({
+					  position: point,
+					  map: map,
+				      icon: img
+					});
+				setInfo(centroidMarker,hinfo,map);
+
+				occupantsChild =document.getElementById("hs_lname"+ctr).value.toString()+", "+document.getElementById("hs_fname"+ctr).value.toString()+" <i>"+document.getElementById("hs_dob"+ctr).value.toString()+" "+document.getElementById("hs_sex"+ctr).value.toString()+"</i><br/>";
+				oms.addMarker(centroidMarker);
+				hinfo="";
+			}
+			ctr++;
+		}//*/
+		centroidMarker = new google.maps.Marker({
+			  position: point,
+			  map: map,
+		      icon: img
+			});
+		setInfo(centroidMarker,hinfo,map);
+		oms.addMarker(centroidMarker);
+		hinfo="";//*/
+    }
 }
   function doNothing() {}
 
@@ -850,7 +913,156 @@ jQuery(document).ready(function(){
 			    }	
 				if(document.getElementById('getHouseholds').value.toString()=="1")
 			    {
-					mapHouseholdOverlay(map);
+					var hs_length = document.getElementById("hs_length").value.toString();//alert(hs_length);
+			    	var point;
+			    	var hinfo = "";
+					var occupantsChild = "";
+					var ctr = 0;
+					var currHouse = document.getElementById("hs_householdId0").value.toString();
+					var img = document.getElementById("hs_icon").value.toString();
+					
+					if (hs_length != 0)
+					{//alert("HS");
+						var prevHouse = currHouse;
+						hinfo=""+
+							"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("hs_householdId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_householdName"+ctr).value.toString()+" Household</a><br/>"+
+							document.getElementById("hs_barangay"+ctr).value.toString()+"<br/>"+
+							document.getElementById("hs_houseNo"+ctr).value.toString()+", "+
+							document.getElementById("hs_street"+ctr).value.toString()+"<br/><br/>"+
+							"BHW in-charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/user/update/"+document.getElementById("hs_bhwId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_bhwLName"+ctr).value.toString()+", "+document.getElementById("hs_bhwFName"+ctr).value.toString()+" "+document.getElementById("hs_bhwMName"+ctr).value.toString()+"</a><br/>"+
+							"Last Visit: "+document.getElementById("hs_lastVisited"+ctr).value.toString()+"<br/>";
+						
+						// = new google.maps.LatLng(document.getElementById("hs_lat"+ctr).value.toString(),document.getElementById("hs_lng"+ctr).value.toString());
+						occupantsChild+=document.getElementById("hs_lname"+ctr).value.toString()+", "+document.getElementById("hs_fname"+ctr).value.toString()+" <i>"+document.getElementById("hs_dob"+ctr).value.toString()+" "+document.getElementById("hs_sex"+ctr).value.toString()+"</i><br/>";
+					}//*/
+					while(ctr < hs_length)
+					{
+						currHouse=document.getElementById("hs_householdId"+ctr).value.toString();;
+						if (currHouse==prevHouse || ctr==0)
+						{
+							occupantsChild+=document.getElementById("hs_lname"+ctr).value.toString()+", "+document.getElementById("hs_fname"+ctr).value.toString()+" <i>"+document.getElementById("hs_dob"+ctr).value.toString()+" "+document.getElementById("hs_sex"+ctr).value.toString()+"</i><br/>";
+							point = new google.maps.LatLng(document.getElementById("hs_lat"+ctr).value.toString(),document.getElementById("hs_lng"+ctr).value.toString());
+							if(ctr == hs_length-1)
+							{
+								hinfo=""+
+								"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("hs_householdId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_householdName"+ctr).value.toString()+" Household</a><br/>"+
+								document.getElementById("hs_barangay"+ctr).value.toString()+"<br/>"+
+								document.getElementById("hs_houseNo"+ctr).value.toString()+", "+
+								document.getElementById("hs_street"+ctr).value.toString()+" Street<br/><br/>"+
+								"BHW in-charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/user/update/"+document.getElementById("hs_bhwId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_bhwLName"+ctr).value.toString()+", "+document.getElementById("hs_bhwFName"+ctr).value.toString()+" "+document.getElementById("hs_bhwMName"+ctr).value.toString()+"</a><br/>"+
+								"Last Visit: "+document.getElementById("hs_lastVisited"+ctr).value.toString()+"<br/";
+								hinfo+=occupantsChild;
+							}
+						}
+						else
+						{//*
+							hinfo=""+
+							"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("hs_householdId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_householdName"+ctr).value.toString()+" Household</a><br/>"+
+							document.getElementById("hs_barangay"+ctr).value.toString()+"<br/>"+
+							document.getElementById("hs_houseNo"+ctr).value.toString()+", "+
+							document.getElementById("hs_street"+ctr).value.toString()+" Street<br/><br/>"+
+							"BHW in-charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/user/update/"+document.getElementById("hs_bhwId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_bhwLName"+ctr).value.toString()+", "+document.getElementById("hs_bhwFName"+ctr).value.toString()+" "+document.getElementById("hs_bhwMName"+ctr).value.toString()+"</a><br/>"+
+							"Last Visit: "+document.getElementById("hs_lastVisited"+ctr).value.toString()+"<br/";//*/
+							
+							hinfo+=occupantsChild;
+							prevHouse=currHouse;
+							centroidMarker = new google.maps.Marker({
+								  position: point,
+								  map: map,
+							      icon: img
+								});
+							setInfo(centroidMarker,hinfo,map);
+
+							occupantsChild =document.getElementById("hs_lname"+ctr).value.toString()+", "+document.getElementById("hs_fname"+ctr).value.toString()+" <i>"+document.getElementById("hs_dob"+ctr).value.toString()+" "+document.getElementById("hs_sex"+ctr).value.toString()+"</i><br/>";
+							oms.addMarker(centroidMarker);
+							hinfo="";
+						}
+						ctr++;
+					}//*/
+					centroidMarker = new google.maps.Marker({
+						  position: point,
+						  map: map,
+					      icon: img
+						});
+					setInfo(centroidMarker,hinfo,map);
+					oms.addMarker(centroidMarker);
+					hinfo="";//*/
+
+					hs_length = document.getElementById("phs_length").value.toString();//alert(hs_length);
+			    	point=null;
+			    	hinfo = "";
+					occupantsChild = "";
+					ctr = 0;
+					currHouse = document.getElementById("Phs_householdId0").value.toString();
+					img = document.getElementById("Phs_icon").value.toString();
+					
+					if (hs_length != 0)
+					{//alert("HS");
+						var prevHouse = currHouse;
+						hinfo=""+
+						"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("Phs_householdId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("Phs_householdName"+ctr).value.toString()+" Household</a><br/>"+
+							document.getElementById("Phs_barangay"+ctr).value.toString()+"<br/>"+
+							document.getElementById("Phs_houseNo"+ctr).value.toString()+", "+
+							document.getElementById("Phs_street"+ctr).value.toString()+"<br/><br/>"+
+							"BHW in-charge: "+document.getElementById("Phs_userUsername"+ctr).value.toString()+"<br/>"+
+							"Last Visit: "+document.getElementById("Phs_lastVisited"+ctr).value.toString()+"<br/>";
+						
+						// = new google.maps.LatLng(document.getElementById("hs_lat"+ctr).value.toString(),document.getElementById("hs_lng"+ctr).value.toString());
+						occupantsChild+=document.getElementById("Phs_lname"+ctr).value.toString()+", "+document.getElementById("Phs_fname"+ctr).value.toString()+" <i>"+document.getElementById("Phs_dob"+ctr).value.toString()+" "+document.getElementById("Phs_sex"+ctr).value.toString()+"</i><br/>";
+					}//*/
+					while(ctr < hs_length)
+					{
+						currHouse=document.getElementById("Phs_householdId"+ctr).value.toString();;
+						if (currHouse==prevHouse || ctr==0)
+						{
+							occupantsChild+=document.getElementById("Phs_lname"+ctr).value.toString()+", "+document.getElementById("Phs_fname"+ctr).value.toString()+" <i>"+document.getElementById("Phs_dob"+ctr).value.toString()+" "+document.getElementById("Phs_sex"+ctr).value.toString()+"</i><br/>";
+							point = new google.maps.LatLng(document.getElementById("Phs_lat"+ctr).value.toString(),document.getElementById("Phs_lng"+ctr).value.toString());
+							if(ctr == hs_length-1)
+							{
+								hinfo=""+
+								"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("Phs_householdId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("Phs_householdName"+ctr).value.toString()+" Household</a><br/>"+
+								document.getElementById("Phs_barangay"+ctr).value.toString()+"<br/>"+
+								document.getElementById("Phs_houseNo"+ctr).value.toString()+", "+
+								document.getElementById("Phs_street"+ctr).value.toString()+" Street<br/><br/>"+
+								"BHW in-charge: "+document.getElementById("Phs_userUsername"+ctr).value.toString()+"<br/>"+
+								"Last Visit: "+document.getElementById("Phs_lastVisited"+ctr).value.toString()+"<br/";
+								hinfo+=occupantsChild;
+							}
+						}
+						else
+						{//*
+							//alert(document.getElementById("Phs_householdName"+ctr).value.toString());//*
+							hinfo=""+
+							"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("Phs_householdId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("Phs_householdName"+ctr).value.toString()+" Household</a><br/>"+
+							document.getElementById("Phs_barangay"+ctr).value.toString()+"<br/>"+
+							document.getElementById("Phs_houseNo"+ctr).value.toString()+", "+
+							document.getElementById("Phs_street"+ctr).value.toString()+" Street<br/><br/>"+
+							"BHW in-charge: "+document.getElementById("Phs_userUsername"+ctr).value.toString()+"<br/>"+
+							"Last Visit: "+document.getElementById("Phs_lastVisited"+ctr).value.toString()+"<br/";//*/
+							
+							hinfo+=occupantsChild;
+							prevHouse=currHouse;
+							centroidMarker = new google.maps.Marker({
+								  position: point,
+								  map: map,
+							      icon: img
+								});
+							setInfo(centroidMarker,hinfo,map);
+
+							occupantsChild =document.getElementById("Phs_lname"+ctr).value.toString()+", "+document.getElementById("Phs_fname"+ctr).value.toString()+" <i>"+document.getElementById("Phs_dob"+ctr).value.toString()+" "+document.getElementById("Phs_sex"+ctr).value.toString()+"</i><br/>";
+							oms.addMarker(centroidMarker);
+							hinfo="";
+						}
+						ctr++;
+					}//*/
+					centroidMarker = new google.maps.Marker({
+						  position: point,
+						  map: map,
+					      icon: img
+						});
+					setInfo(centroidMarker,hinfo,map);
+					oms.addMarker(centroidMarker);
+					hinfo="";//*/
 			    }	
 				if(document.getElementById('getDengue').value.toString()=="1")
 			    {
@@ -1219,8 +1431,8 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="ls_bhwID<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['bhwID']; ?>"	/>
 		<input type="hidden" id="ls_bhwName<?= $ctr ?>" 	value="<?php echo $larval[$ctr]['bhwName']; ?>"	/>
 	<?php }?> 
-	<input type="hidden" id="ls_icon" value="<?php echo base_url('/images/eggs.png')?>" />
 	<?php } else { ?> <input type="hidden" id="ls_length" value="0" /> <?php } ?>
+	<input type="hidden" id="ls_icon" value="<?php echo base_url('/images/eggs.png')?>" />
 	
 <?php if ($bb != null){?>
 <input type="hidden" id="bb_length" value="<?php echo count($bb); ?>" />
@@ -1245,9 +1457,9 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="poi_endDate<?= $ctr ?>" 	value="<?php echo $poi[$ctr]['endDate']; ?>"	/>
 		<input type="hidden" id="poi_barangay<?= $ctr ?>" 	value="<?php echo $poi[$ctr]['barangay']; ?>"	/>
 	<?php }?> 
+	<?php } else { ?> <input type="hidden" id="poi_length" value="0" /> <?php } ?>
 	<input type="hidden" id="poi_iconR" value="<?php echo base_url('/images/risk.png')?>" />
 	<input type="hidden" id="poi_iconS" value="<?php echo base_url('/images/source.png')?>" />
-	<?php } else { ?> <input type="hidden" id="poi_length" value="0" /> <?php } ?>
 	
 	<!-- Period 2 Data -->
 	
@@ -1265,8 +1477,8 @@ jQuery(document).ready(function(){
 			<input type="hidden" id="Pls_updatedBy<?= $ctr ?>" 	value="<?php echo $Plarval[$ctr]['updatedBy']; ?>"	/>
 			<input type="hidden" id="Pls_updatedOn<?= $ctr ?>" 	value="<?php echo $Plarval[$ctr]['updatedOn']; ?>"	/>
 		<?php }?> 
-		<input type="hidden" id="Pls_icon" value="<?php echo base_url('/images/Peggs.png')?>" />
 		<?php } else { ?> <input type="hidden" id="Pls_length" value="0" /> <?php } ?>
+		<input type="hidden" id="Pls_icon" value="<?php echo base_url('/images/Peggs.png')?>" />
 		
 	<?php if ($Ppoi != null){?>
 	<input type="hidden" id="Ppoi_length" value="<?php echo count($Ppoi); ?>" />
@@ -1281,9 +1493,9 @@ jQuery(document).ready(function(){
 			<input type="hidden" id="Ppoi_endDate<?= $ctr ?>" 	value="<?php echo $Ppoi[$ctr]['endDate']; ?>"	/>
 			<input type="hidden" id="Ppoi_barangay<?= $ctr ?>" 	value="<?php echo $Ppoi[$ctr]['barangay']; ?>"	/>
 		<?php }?> 
+		<?php } else { ?> <input type="hidden" id="Ppoi_length" value="0" /> <?php } ?>
 		<input type="hidden" id="Ppoi_iconR" value="<?php echo base_url('/images/Prisk.png')?>" />
 		<input type="hidden" id="Ppoi_iconS" value="<?php echo base_url('/images/Psource.png')?>" />
-		<?php } else { ?> <input type="hidden" id="Ppoi_length" value="0" /> <?php } ?>
 		
 <input type = 'hidden' id ='type' name='type' value='<?php echo $node_type?>'>
 <input type = 'hidden' id ='dist' name='dist' value='<?php echo $dist?>'>
@@ -1299,28 +1511,60 @@ jQuery(document).ready(function(){
 <input type = 'hidden' id ='PdataBAge2' name='PdataBAge2' value='<?php echo $Pbage?>'>
 <input type = 'hidden' id ='PdataBCount' name='PdataBCount' value='<?php echo $Pbcount?>'>
 <input type = 'hidden' id ='Ptype' name='Ptype' value='<?php echo $node_type?>'>
+	
+	<!-- Period 1 Data -->
 
 <?php if ($household != null){$hs_invariant=count($household);?>
 <input type="hidden" id="hs_length" value="<?php echo $hs_invariant; ?>" />
 	<?php for ($ctr = 0; $ctr < $hs_invariant; $ctr++) {?>
-		<input type="hidden" id="hs_householdId<?= $ctr ?>" 	value="<?php echo json_encode($household[$ctr]['id']); ?>"	/>
-		<input type="hidden" id="hs_householdName<?= $ctr ?>" 	value="<?php echo json_encode($household[$ctr]['houseName']); ?>"	/>
-		<input type="hidden" id="hs_houseNo<?= $ctr ?>"			value="<?php echo json_encode($household[$ctr]['houseNo']); ?>"	/>
-		<input type="hidden" id="hs_street<?= $ctr ?>" 			value="<?php echo json_encode($household[$ctr]['street']); ?>"			/>
-		<input type="hidden" id="hs_lastVisited<?= $ctr ?>"	 	value="<?php echo json_encode($household[$ctr]['lastVisited']); ?>"			/>
-		<input type="hidden" id="hs_lat<?= $ctr ?>" 			value="<?php echo json_encode($household[$ctr]['lat']); ?>"	/>
-		<input type="hidden" id="hs_lng<?= $ctr ?>" 			value="<?php echo json_encode($household[$ctr]['lng']); ?>"		/>
-		<input type="hidden" id="hs_personId<?= $ctr ?>" 		value="<?php echo json_encode($household[$ctr]['personID']); ?>"		/>
-		<input type="hidden" id="hs_bhwId<?= $ctr ?>" 			value="<?php echo json_encode($household[$ctr]['bhwID']); ?>"	/>
-		<input type="hidden" id="hs_userUsername<?= $ctr ?>"	value="<?php echo json_encode($household[$ctr]['bhwUsername']); ?>"	/>
-		<input type="hidden" id="hs_barangay<?= $ctr ?>" 		value="<?php echo json_encode($household[$ctr]['householdBarangay']); ?>"	/>
-		<input type="hidden" id="hs_fname<?= $ctr ?>" 			value="<?php echo json_encode($household[$ctr]['personFName']); ?>"	/>
-		<input type="hidden" id="hs_lname<?= $ctr ?>" 			value="<?php echo json_encode($household[$ctr]['personLName']); ?>"	/>
-		<input type="hidden" id="hs_dob<?= $ctr ?>" 			value="<?php echo json_encode($household[$ctr]['personDoB']); ?>"	/>
-		<input type="hidden" id="hs_sex<?= $ctr ?>" 			value="<?php echo json_encode($household[$ctr]['personSex']); ?>"	/>
+		<input type="hidden" id="hs_householdId<?= $ctr ?>" 	value="<?php echo $household[$ctr]['id']; ?>"	/>
+		<input type="hidden" id="hs_householdName<?= $ctr ?>" 	value="<?php echo $household[$ctr]['houseName']; ?>"	/>
+		<input type="hidden" id="hs_houseNo<?= $ctr ?>"			value="<?php echo $household[$ctr]['houseNo']; ?>"	/>
+		<input type="hidden" id="hs_street<?= $ctr ?>" 			value="<?php echo $household[$ctr]['street']; ?>"			/>
+		<input type="hidden" id="hs_lastVisited<?= $ctr ?>"	 	value="<?php echo $household[$ctr]['lastVisited']; ?>"			/>
+		<input type="hidden" id="hs_lat<?= $ctr ?>" 			value="<?php echo $household[$ctr]['lat']; ?>"	/>
+		<input type="hidden" id="hs_lng<?= $ctr ?>" 			value="<?php echo $household[$ctr]['lng']; ?>"		/>
+		<input type="hidden" id="hs_personId<?= $ctr ?>" 		value="<?php echo $household[$ctr]['personID']; ?>"		/>
+		<input type="hidden" id="hs_bhwId<?= $ctr ?>" 			value="<?php echo $household[$ctr]['bhwID']; ?>"	/>
+		<input type="hidden" id="hs_userUsername<?= $ctr ?>"	value="<?php echo $household[$ctr]['bhwUsername']; ?>"	/>
+		<input type="hidden" id="hs_barangay<?= $ctr ?>" 		value="<?php echo $household[$ctr]['householdBarangay']; ?>"	/>
+		<input type="hidden" id="hs_fname<?= $ctr ?>" 			value="<?php echo $household[$ctr]['personFName']; ?>"	/>
+		<input type="hidden" id="hs_lname<?= $ctr ?>" 			value="<?php echo $household[$ctr]['personLName']; ?>"	/>
+		<input type="hidden" id="hs_dob<?= $ctr ?>" 			value="<?php echo $household[$ctr]['personDoB']; ?>"	/>
+		<input type="hidden" id="hs_sex<?= $ctr ?>" 			value="<?php echo $household[$ctr]['personSex']; ?>"	/>
+		<input type="hidden" id="hs_bhwFName<?= $ctr ?>" 			value="<?php echo $household[$ctr]['bhwFName']; ?>"	/>
+		<input type="hidden" id="hs_bhwMName<?= $ctr ?>" 			value="<?php echo $household[$ctr]['bhwMName']; ?>"	/>
+		<input type="hidden" id="hs_bhwLName<?= $ctr ?>" 			value="<?php echo $household[$ctr]['bhwLName']; ?>"	/>
 	<?php }?> 
-	<input type="hidden" id="hs_icon" value="<?php echo base_url('/images/group.png')?>" />
 	<?php } else { ?> <input type="hidden" id="hs_length" value="0" /> <?php } ?>
+	<input type="hidden" id="hs_icon" value="<?php echo base_url('/images/group-2.png')?>" />
+	
+	<!-- Period 2 Data -->
+
+<?php if ($household != null){$Phs_invariant=count($Phousehold);?>
+<input type="hidden" id="phs_length" value="<?php echo $Phs_invariant; ?>" />
+	<?php for ($ctr = 0; $ctr < $Phs_invariant; $ctr++) {?>
+		<input type="hidden" id="Phs_householdId<?= $ctr ?>" 	value="<?php echo $Phousehold[$ctr]['id']; ?>"	/>
+		<input type="hidden" id="Phs_householdName<?= $ctr ?>" 	value="<?php echo $Phousehold[$ctr]['houseName']; ?>"	/>
+		<input type="hidden" id="Phs_houseNo<?= $ctr ?>"			value="<?php echo $Phousehold[$ctr]['houseNo']; ?>"	/>
+		<input type="hidden" id="Phs_street<?= $ctr ?>" 			value="<?php echo $Phousehold[$ctr]['street']; ?>"			/>
+		<input type="hidden" id="Phs_lastVisited<?= $ctr ?>"	 	value="<?php echo $Phousehold[$ctr]['lastVisited']; ?>"			/>
+		<input type="hidden" id="Phs_lat<?= $ctr ?>" 			value="<?php echo $Phousehold[$ctr]['lat']; ?>"	/>
+		<input type="hidden" id="Phs_lng<?= $ctr ?>" 			value="<?php echo $Phousehold[$ctr]['lng']; ?>"		/>
+		<input type="hidden" id="Phs_personId<?= $ctr ?>" 		value="<?php echo $Phousehold[$ctr]['personID']; ?>"		/>
+		<input type="hidden" id="Phs_bhwId<?= $ctr ?>" 			value="<?php echo $Phousehold[$ctr]['bhwID']; ?>"	/>
+		<input type="hidden" id="Phs_userUsername<?= $ctr ?>"	value="<?php echo $Phousehold[$ctr]['bhwUsername']; ?>"	/>
+		<input type="hidden" id="Phs_barangay<?= $ctr ?>" 		value="<?php echo $Phousehold[$ctr]['householdBarangay']; ?>"	/>
+		<input type="hidden" id="Phs_fname<?= $ctr ?>" 			value="<?php echo $Phousehold[$ctr]['personFName']; ?>"	/>
+		<input type="hidden" id="Phs_lname<?= $ctr ?>" 			value="<?php echo $Phousehold[$ctr]['personLName']; ?>"	/>
+		<input type="hidden" id="Phs_dob<?= $ctr ?>" 			value="<?php echo $Phousehold[$ctr]['personDoB']; ?>"	/>
+		<input type="hidden" id="Phs_sex<?= $ctr ?>" 			value="<?php echo $Phousehold[$ctr]['personSex']; ?>"	/>
+		<input type="hidden" id="Phs_bhwFName<?= $ctr ?>" 			value="<?php echo $household[$ctr]['bhwFName']; ?>"	/>
+		<input type="hidden" id="Phs_bhwMName<?= $ctr ?>" 			value="<?php echo $household[$ctr]['bhwMName']; ?>"	/>
+		<input type="hidden" id="Phs_bhwLName<?= $ctr ?>" 			value="<?php echo $household[$ctr]['bhwLName']; ?>"	/>
+	<?php }?> 
+	<?php } else { ?> <input type="hidden" id="hs_length" value="0" /> <?php } ?>
+	<input type="hidden" id="Phs_icon" value="<?php echo base_url('/images/Pgroup-2.png')?>" />
 	
 	<!-- Period 1 Data -->
 	
@@ -1362,13 +1606,13 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="dg_guardian<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['guardian']; ?>"	/>
 		<input type="hidden" id="dg_contact<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['contact']; ?>"	/>
 	<?php }?> 
+	<?php } else { ?> <input type="hidden" id="dg_length" value="0" /> <?php } ?>
 	<input type="hidden" id="dg_icon1" value="<?php echo base_url('/images/notice.png')?>" />
 	<input type="hidden" id="dg_icon2" value="<?php echo base_url('/images/notice2.png')?>" />
 	<input type="hidden" id="dg_icon3" value="<?php echo base_url('/images/notice3.png')?>" />
 	<input type="hidden" id="dg_icon4" value="<?php echo base_url('/images/hospital.png')?>" />
 	<input type="hidden" id="dg_iconA" value="<?php echo base_url('/images/A.png')?>" />
 	<input type="hidden" id="dg_iconD" value="<?php echo base_url('/images/D.png')?>" />
-	<?php } else { ?> <input type="hidden" id="dg_length" value="0" /> <?php } ?>
 	
 	<!-- Period 2 Data -->
 	
@@ -1410,13 +1654,13 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="Pdg_guardian<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['guardian']; ?>"	/>
 		<input type="hidden" id="Pdg_contact<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['contact']; ?>"	/>
 	<?php }?> 
+	<?php } else { ?> <input type="hidden" id="Pdg_length" value="0" /> <?php } ?>
 	<input type="hidden" id="Pdg_icon1" value="<?php echo base_url('/images/Pnotice.png')?>" />
 	<input type="hidden" id="Pdg_icon2" value="<?php echo base_url('/images/Pnotice2.png')?>" />
 	<input type="hidden" id="Pdg_icon3" value="<?php echo base_url('/images/Pnotice3.png')?>" />
 	<input type="hidden" id="Pdg_icon4" value="<?php echo base_url('/images/Phospital.png')?>" />
 	<input type="hidden" id="Pdg_iconA" value="<?php echo base_url('/images/PA.png')?>" />
 	<input type="hidden" id="Pdg_iconD" value="<?php echo base_url('/images/PD.png')?>" />
-	<?php } else { ?> <input type="hidden" id="Pdg_length" value="0" /> <?php } ?>
 	
 	<input type="hidden" id="cdate1" value="<?php echo $cdate1?>" />
 	<input type="hidden" id="cdate2" value="<?php echo $cdate2?>" />

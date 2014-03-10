@@ -249,22 +249,37 @@ class Mapping extends CI_Model
 			}
 			if ($data['getHouseholds'])//all polygons
 			{
-				$where="";
-				$this->db->from('household_address');
-				$this->db->join('catchment_area', 'catchment_area.household_id = household_address.household_id');
-				$this->db->join('bhw', 'catchment_area.bhw_id = bhw.user_username');
-				$this->db->join('master_list', 'master_list.person_id = catchment_area.person_id');
-				$this->db->join('house_visits', 'house_visits.household_id = household_address.household_id');
+				$qry="
+					SELECT household_address.household_id,household_name,house_no,street,household_lat,household_lng,catchment_area.person_id, bhw_id,users.user_username,barangay,person_first_name,person_last_name,person_dob,person_sex,person_marital,person_nationality,person_blood_type,person_guardian,person_adu,person_contactno,date(visit_date) as 'visit_date', users.user_firstname, users.user_middlename, users.user_lastname
+					FROM household_address
+					JOIN catchment_area ON catchment_area.household_id = household_address.household_id
+					JOIN bhw ON catchment_area.bhw_id = bhw.user_username
+					JOIN master_list ON master_list.person_id = catchment_area.person_id
+					JOIN house_visits ON house_visits.household_id = household_address.household_id
+					JOIN users ON users.user_username = bhw.user_username
+					WHERE catchment_area.household_id IN (
+						SELECT household_address.household_id
+						FROM demo.household_address
+						JOIN catchment_area ON catchment_area.household_id = household_address.household_id
+						JOIN previous_cases ON catchment_area.person_id = previous_cases.person_id
+						JOIN active_cases ON catchment_area.person_id = active_cases.person_id
+						JOIN ls_report ON ls_report.ls_household = household_address.household_name
+						WHERE (DATE(previous_cases.created_on) BETWEEN '".$data['date1']."' AND '".$data['date2']."') OR 
+							(DATE(active_cases.created_on) BETWEEN '".$data['date1']."' AND '".$data['date2']."') OR
+							(DATE(ls_report.created_on) BETWEEN '".$data['date1']."' AND '".$data['date2']."')
+					)";
+			
 				if ($data['brgy'] != NULL)
 				{
-					$where = "barangay ='";
+					$qry .= "AND bhw.barangay ='";
 					foreach($data['brgy'] as $varr)
 					{
-						$where .= $varr."' OR ";
+						$qry .= $varr."' OR ";
 					}
-					$this->db->where(substr($where,0,-3));
+					$qry = (substr($qry,0,-3));
 				}
-				$q = $this->db->get();
+				$q = $this->db->query($qry);
+				
 				if($q->num_rows() > 0) 
 				{	$tempall;
 					foreach ($q->result() as $row) 
@@ -284,7 +299,10 @@ class Mapping extends CI_Model
 								'personFName'=> $row->person_first_name,
 								'personLName'=> $row->person_last_name,
 								'personDoB'=> $row->person_dob,
-								'personSex'=> $row->person_sex
+								'personSex'=> $row->person_sex,
+								'bhwFName'=> $row->user_firstname,
+								'bhwMName'=> $row->user_middlename,
+								'bhwLName'=> $row->user_lastname
 								//*/
 						);
 					}
