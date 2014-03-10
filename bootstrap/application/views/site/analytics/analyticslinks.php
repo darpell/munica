@@ -139,6 +139,7 @@ $( "#datepicker2" ).datepicker();
 				<?php if($this->session->userdata('TPtype') == 'CHO'){?>
 				<li>Barangay:</li>
  				<?php  
+ 				//$options['all'] = 'All';
 		 		foreach ($barangay as $row) {
 				$options[$row]=$row;
 				
@@ -160,7 +161,6 @@ $( "#datepicker2" ).datepicker();
 		 		
 		    	?>
 		    	</li>
-		    	<br />
 		    	<li><input type="submit" class="submitButton" value="Search"/>
 		    	<?php echo form_close(); ?>
 		    	
@@ -180,6 +180,7 @@ $( "#datepicker2" ).datepicker();
 				
 				 <li>Barangay:</li>
  				<?php  
+ 				//$options['all'] = 'All';
 		 		foreach ($barangay as $row) {
 				$options[$row]=$row;
 				

@@ -333,6 +333,8 @@
 								for($i = 1; $i <=5 ;$i++)
 								{
 									$threshold[$row][$y][$s][]=$data[$row][$y-$i][$s];
+									
+									
 								}
 								sort($threshold[$row][$y][$s],1);
 								if($threshold[$row][$y][$s][3]<=$data[$row][$y][$s])
@@ -401,7 +403,10 @@
 						for ($s= 1;$s<=12;$s++)
 						{
 						$data['month'][$row][$i][$s]=0;
-						
+							for($x = 0 ; $x< 5; $x++)
+							{
+							$threshold2[$i][$s][$x] = 0;
+							}
 						}
 						}
 						for ($s= 0;$s<12;$s++)
@@ -513,7 +518,9 @@
 							for($i = 1; $i <=5 ;$i++)
 							{
 							$threshold[$row][$y][$s][]=$data['month'][$row][$y-$i][$s];
-					}
+							//$threshold2[$y][$s][$i][] += $data['month'][$row][$y-$i][$s];
+							}
+							
 						sort($threshold[$row][$y][$s],1);
 						if($threshold[$row][$y][$s][3]<=$data['month'][$row][$y][$s])
 						{
@@ -571,10 +578,15 @@
 								}
 								}
 								$data2['monthsum'] =$monthsum;
+								for($y = $data['yearstart']+5 ; $y <= date('Y');$y++)
+								{ 
+									sort($threshold2[$y][$s],1);
+								}
+								// to do total for each month threshold
 								
 								return $data2;
 								}
-														else return null;
+								else return null;
 					
 															
 															

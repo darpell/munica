@@ -500,36 +500,48 @@ class Analytics extends CI_Controller
 	function outbreakcountyear()
 	{
 		$user = $this->get_user_barangay();
-		
+		$data['barangay']=$this->Analytics_model->get_barangays();
 		$this->form_validation->set_rules('barangay', 'Date from', 'required');
 		$this->form_validation->set_rules('yearselected', 'Date from', 'required');
 		
 		if ($this->form_validation->run('') == FALSE)
 		{
 			if($user == 'CHO')
+			{
+				if($this->input->post('barangay') != 'all')
 				$data['brgy'] = $this->input->post('barangay');
+				else
+				{
+					$data['brgy'] = $data['barangay'];
+				}
+			}
 			else
 				$data['brgy'] = $user;
 			
 			
-			$data['outbreak'] = $this->Analytics_model->get_outbreak_count_year(2014,$data['brgy']);
+			$data['outbreak'] = $this->Analytics_model->get_outbreak_count_year(2014);
 			
 			
 		}
 		else
 		{
 			if($user == 'CHO')
-				$data['brgy'] = $this->input->post('barangay');
+			{
+				if($this->input->post('barangay') != 'all')
+					$data['brgy'] = $this->input->post('barangay');
+				else
+				{
+					$data['brgy'] = $data['barangay'];
+				}
+			}
 			else
 				$data['brgy'] = $user;
 				
 			$year = $this->input->post('yearselected');
-			$data['outbreak'] = $this->Analytics_model->get_outbreak_count_year($year,$data['brgy']);
+			$data['outbreak'] = $this->Analytics_model->get_outbreak_count_year($year);
 			
 		}
-	
 		
-		$data['barangay']=$this->Analytics_model->get_barangays();
 		$this->load->view('site/analytics/outbreakperyear',$data);
 	}
 	function totallarvalcount()

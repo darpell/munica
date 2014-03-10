@@ -6,59 +6,107 @@ $(function () {
 		  catagoriesdata.push(value);
 		});
 	var temp = new Array();
-	$.each(barangay[brgy], function(index, value) {
+	
+	if (brgy instanceof Array) {
 		
-		temp.push(value);
-		
-		});
-
-	seriesdata.push(
-			{
-                type: 'column',
-                name: brgy,
-                data: temp,
-                dataLabels: {
-                    enabled: true,
-                    rotation: 0,
-                    color: '#FFFFFF',
-                    align: 'right',
-                    x: 0,
-                    y: 34,
-                    style: {
-                        fontSize: '13px',
-                        fontFamily: 'Verdana, sans-serif',
-                        textShadow: '0 0 3px black'
-                    }
-                }
-			});
+		$.each(brgy, function(x, y) {
+			temp[y] = new Array();
 			
+			$.each(barangay[y], function(index, value) {
+				temp[y].push(value);
+				
+				});
+			
+			});
+		
+
+		$.each(brgy, function(x, y) {
+		
+			seriesdata.push(
+					{
+		                type: 'column',
+		                name: y,
+		                data: temp[y],
+		                dataLabels: {
+		                    enabled: true,
+		                    rotation: 0,
+		                    color: '#FFFFFF',
+		                    align: 'right',
+		                    x: 0,
+		                    y: 34,
+		                    style: {
+		                        fontSize: '13px',
+		                        fontFamily: 'Verdana, sans-serif',
+		                        textShadow: '0 0 3px black'
+		                    }
+		                }
+					});
+			
+		});
 	var splinedata = new Array();
+		
+		for(var i = 1 ; i <= 12; i++)
+		{
+		if(threshold[brgy][yearsel][i][3]<=monthsum[brgy][i-1])
+		{
+			splinedata.push({
+	            y: threshold[brgy][yearsel][i][3],
+	            marker: {
+	                symbol: 'diamond'
+	            }});
+		}
+		else 
+		splinedata.push(threshold[brgy][yearsel][i][3]);
+		}
+		
+		seriesdata.push(
+		{
+	        type: 'spline',
+	        name: 'Epidemic Threshold',
+	        data: splinedata,
+	        marker: {
+	        	lineWidth: 2,
+	        	lineColor: Highcharts.getOptions().colors[3],
+	        	fillColor: 'white'
+	        }
+	    });
+		
+		
+		
+		}
+	else
+	{
+		$.each(barangay[brgy], function(index, value) {
+			
+			temp.push(value);
+			
+			});
+
+		seriesdata.push(
+				{
+	                type: 'column',
+	                name: brgy,
+	                data: temp,
+	                dataLabels: {
+	                    enabled: true,
+	                    rotation: 0,
+	                    color: '#FFFFFF',
+	                    align: 'right',
+	                    x: 0,
+	                    y: 34,
+	                    style: {
+	                        fontSize: '13px',
+	                        fontFamily: 'Verdana, sans-serif',
+	                        textShadow: '0 0 3px black'
+	                    }
+	                }
+				});
 	
-	for(var i = 1 ; i <= 12; i++)
-	{
-	if(threshold[brgy][yearsel][i][3]<=monthsum[brgy][i-1])
-	{
-		splinedata.push({
-            y: threshold[brgy][yearsel][i][3],
-            marker: {
-                symbol: 'diamond'
-            }});
-	}
-	else 
-	splinedata.push(threshold[brgy][yearsel][i][3]);
 	}
 	
-	seriesdata.push(
-	{
-        type: 'spline',
-        name: 'Epidemic Threshold',
-        data: splinedata,
-        marker: {
-        	lineWidth: 2,
-        	lineColor: Highcharts.getOptions().colors[3],
-        	fillColor: 'white'
-        }
-    })
+	
+			
+	
     
         $('#totaloutbreak').highcharts({
         	chart: {
@@ -94,6 +142,18 @@ $(function () {
                             this.x  +': '+ this.y + ' cases';
                     }
                     return s;
+                }
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        style: {
+                            textShadow: '0 0 3px black, 0 0 3px black'
+                        }
+                    }
                 }
             },
             labels: {
