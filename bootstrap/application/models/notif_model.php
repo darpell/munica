@@ -62,6 +62,32 @@ class Notif_model extends CI_Model
 			$this->addnotif($notif_input);
 		}
 	}
+	
+	function active_notice()
+	{
+		$this->db->from('active_cases')
+				->join('master_list','active_cases.person_id = master_list.person_id')
+				->join('catchment_area','active_cases.person_id = catchment_area.person_id');
+		
+		$where = 'DATEDIFF(NOW(), created_on) >= "7"';
+		$this->db->where($where);
+		
+		$query = $this->db->get()->result_array();
+		
+		for ($ctr = 0; $ctr < count($query); $ctr++)
+		{
+			$notif_input = array(
+				'notif_type'		=> 'update',
+				'notification'		=> 'Please update on ' . $query[$ctr]['person_first_name'] . ' ' . $query[$ctr]['person_last_name'] . ' status',
+				'unique_id'			=> 'website/cases/view_person/' . $query[$ctr]['imcase_no'],
+				'notif_viewed'		=> 'N',
+				'notif_createdOn'	=> date('Y-m-d H:i:s'),
+				'notif_user'		=> $query[$ctr]['bhw_id']
+							);
+		
+			$this->addnotif($notif_input);
+		}
+	}
 }
 
 	

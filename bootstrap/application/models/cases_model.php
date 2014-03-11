@@ -17,10 +17,14 @@ class Cases_model extends CI_Model
 		}
 		}
 	
-	function get_cases($type = FALSE, $offset = FALSE, $limit = FALSE)
+	function get_cases($type = FALSE, $bhw = FALSE ,$offset = FALSE, $limit = FALSE)
 	{
 		$this->db->from('active_cases')
-					->join('master_list','active_cases.person_id = master_list.person_id');
+					->join('master_list','active_cases.person_id = master_list.person_id')
+					->join('catchment_area','master_list.person_id = catchment_area.person_id');
+		
+		if ($bhw != FALSE)
+			$this->db->where('bhw_id', $bhw);
 		
 		if ($type != FALSE)
 			$this->db->where('status',$type);

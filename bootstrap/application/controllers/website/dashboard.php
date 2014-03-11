@@ -17,7 +17,10 @@ class Dashboard extends CI_Controller
 	function index()
 	{
 		if ($this->session->userdata('TPtype') == 'BHW' || $this->session->userdata('TPtype') == 'MIDWIFE')
-			$this->notif_model->check_on_hospitalized_cases();		
+		{
+			$this->notif_model->check_on_hospitalized_cases();
+			$this->notif_model->active_notice();
+		}
 		$data['notif_count'] = count($this->notif_model->getnotifs($this->session->userdata('TPusername')));
 		
 		

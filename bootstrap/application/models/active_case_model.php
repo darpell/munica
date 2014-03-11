@@ -124,10 +124,14 @@ class Active_case_model extends CI_Model
 			$query->free_result();
 	}
 	
-	function get_symptom($symptom, $status = FALSE)
+	function get_symptom($symptom, $status = FALSE, $bhw = FALSE)
 	{
 		$this->db->from('active_cases')
+				->join('catchment_area','active_cases.person_id = catchment_area.person_id')
 				->where($symptom,'Y');
+		
+		if ($bhw != FALSE)
+			$this->db->where('bhw_id', $bhw);
 		
 		if ($status != FALSE)
 			$this->db->where('status',$status);
@@ -157,9 +161,13 @@ class Active_case_model extends CI_Model
 			return FALSE;
 	}
 	
-	function check_sources($compare, $status = FALSE)
+	function check_sources($compare, $status = FALSE, $bhw = FALSE)
 	{
-		$this->db->from('active_cases');
+		$this->db->from('active_cases')
+				->join('catchment_area','active_cases.person_id = catchment_area.person_id');
+		
+		if ($bhw != FALSE)
+			$this->db->where('bhw_id', $bhw);
 		
 		if ($status != FALSE)
 			$this->db->where('status',$status);
