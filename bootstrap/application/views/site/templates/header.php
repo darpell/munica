@@ -62,6 +62,7 @@
                 	<li class="dropdown-header">User Controls</li>
                 	<li><?= anchor(site_url('website/user/add'),'Create User')?></li>
                 	<li><?= anchor(site_url('website/user/get_users'),'View Users')?></li>
+                	<li><?= anchor(site_url('website/tweet_test'),'Tweet Status')?></li>
                 	<!-- in question  -->
 						<!-- <li><?php //anchor(base_url('index.php/CHO/'),'View Tasks')?></li>  -->
 					<!-- /end of in question -->

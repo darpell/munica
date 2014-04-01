@@ -34,6 +34,76 @@
 			else return null;
 			
 		}
+		function get_case_count($month,$year)
+		{
+			$count = 0;
+			for($i = 2008; $i < $year;$i++)
+			{
+				$ave[$i] = 0;
+			} 
+			$where = "count(cr_barangay) as patientcount ,YEAR(cr_date_onset) as caseyear,
+			Month(cr_date_onset) as casemonth
+			FROM (`case_report_main`)
+			WHERE  MONTH(cr_date_onset) = ".$month." 
+			GROUP BY YEAR(`cr_date_onset`),MONTH(`cr_date_onset`)";
+			
+			$this->db->select($where);
+			$q = $this->db->get();
+			
+			if($q->num_rows() > 0)
+			{
+				foreach ($q->result() as $row)
+				{
+				if($row->caseyear == $year) 
+				$count += $row->patientcount;
+				else
+				$ave[$row->caseyear] +=  $row->patientcount;
+				
+				}
+			}
+			$q->free_result();
+			
+			
+			$where = "count(imcase_no) as patientcount ,YEAR(active_cases.created_on) as caseyear,
+				Month(active_cases.created_on) as casemonth
+				FROM (`active_cases`)
+				JOIN `master_list` ON `master_list`.`person_id` = `active_cases`.`person_id`
+				JOIN `catchment_area` ON `master_list`.`person_id` = `catchment_area`.`person_id`
+				JOIN `bhw` ON `catchment_area`.`bhw_id` = `bhw`.`user_username`
+				JOIN `household_address` ON `catchment_area`.`household_id` = `household_address`.`household_id`
+				WHERE  MONTH(active_cases.created_on) = ".$month."
+				GROUP BY   YEAR( created_on ) ,MONTH( created_on )";
+			
+			$this->db->select($where);
+			$q = $this->db->get();
+				
+			if($q->num_rows() > 0)
+			{
+				foreach ($q->result() as $row)
+				{
+					if($row->caseyear == $year)
+					$count += $row->patientcount;
+					else
+					$ave[$row->caseyear] +=  $row->patientcount;
+				}
+			}
+			$q->free_result();
+
+			
+			$ctr = 0;
+			$total = 0;
+			foreach ($ave as $row)
+			{
+				$total += $row;
+				$ctr++;
+			}
+			$ave =round($total / $ctr ); 
+			$data['count'] = $count;
+			$data['ave'] = $ave;
+			return  $data;
+				
+		}
+		
 		function get_all_cases_count($monthstart = 1, $yearstart = null,$monthend =12, $yearend = null, $brgy)
 		{	
 			$where = "MIN(YEAR(cr_date_onset)) as yearmin
