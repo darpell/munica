@@ -137,7 +137,7 @@ function load() {
 		mapTypeId: 'roadmap'
 	});
 	var oms = new OverlappingMarkerSpiderfier(map);
-	if(document.getElementById('getLarva').value.toString()=="1")
+	if(document.getElementById('getLarva').value.toString()=="1")//CURRENT LARVAL SURVEY
     {
 		var ls_length = document.getElementById("ls_length").value.toString();
 		var linfo="";
@@ -153,7 +153,7 @@ function load() {
 				//+document.getElementById("ls_household"+ctr).value.toString()+" Household<br/>"//
 				+"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("ls_householdId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("ls_household"+ctr).value.toString()+" Household</a><br/>"
 				+"Container: "+document.getElementById("ls_container"+ctr).value.toString()+"<br/>"
-				+"Created by: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("ls_createdBy"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("ls_createdBy"+ctr).value.toString()+"</a><br/>"
+				+"Created by: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("ls_createdBy"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("ls_bhwName"+ctr).value.toString()+"</a><br/>"
 				+"Created on: "+document.getElementById("ls_createdOn"+ctr).value.toString();//*/
 				//alert(ctr);
 				point = new google.maps.LatLng(document.getElementById("ls_lat"+ctr).value.toString(),document.getElementById("ls_lng"+ctr).value.toString());
@@ -186,7 +186,7 @@ function load() {
 		}
         //mapLarvalOverlay(map,document.getElementById('dist').value,document.getElementById("Larva").value,false);
     }
-	if(document.getElementById('getBb').value.toString()=="1")
+	if(document.getElementById('getBb').value.toString()=="1")//BARANGAY OVERLAY
 	{
 		//alert("Alert BB!");
 		var bb_length = document.getElementById('bb_length').value.toString();
@@ -232,7 +232,7 @@ function load() {
 							
 						if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN III")
 							tabStr +="Larval Positives Detected: "+document.getElementById('SA3_l').value.toString();
-							
+
 						if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "LANGKAAN II")
 							tabStr +="Larval Positives Detected: "+document.getElementById('L2_l').value.toString();
 							
@@ -253,6 +253,36 @@ function load() {
 							
 						if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAMPALOC I")
 							tabStr +="Dengue Cases Detected: "+document.getElementById('S1_d').value.toString();
+					}
+					tabStr +="<br/>";
+					if(document.getElementById('getPoi').value.toString()=="1")
+					{
+						if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN I")
+							tabStr +="Points of Interest Detected: "+document.getElementById('SA1_p').value.toString();
+							
+						if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN III")
+							tabStr +="Points of Interest Detected: "+document.getElementById('SA3_p').value.toString();
+							
+						if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "LANGKAAN II")
+							tabStr +="Points of Interest Detected: "+document.getElementById('L2_p').value.toString();
+							
+						if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAMPALOC I")
+							tabStr +="Points of Interest Detected: "+document.getElementById('S1_p').value.toString();
+					}
+					tabStr +="<br/>";
+					if(document.getElementById('getHouseholds').value.toString()=="1")
+					{
+						if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN I")
+							tabStr +="Houeholds Detected: "+document.getElementById('SA1_h').value.toString();
+							
+						if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN III")
+							tabStr +="Houeholds Detected: "+document.getElementById('SA3_h').value.toString();
+							
+						if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "LANGKAAN II")
+							tabStr +="Houeholds Detected: "+document.getElementById('L2_h').value.toString();
+							
+						if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAMPALOC I")
+							tabStr +="Houeholds Detected: "+document.getElementById('S1_h').value.toString();
 					}
 					/*
 					tabStr += "<h5></>Table 1. Displaying Age Distribution for period <br/><i>"+document.getElementById("cdate1").value.toString()+" to "+document.getElementById("cdate2").value.toString()+"</i>";
@@ -321,6 +351,36 @@ function load() {
 				if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAMPALOC I")
 					tabStr +="Dengue Cases Detected: "+document.getElementById('S1_d').value.toString();
 			}
+			tabStr +="<br/>";
+			if(document.getElementById('getPoi').value.toString()=="1")
+			{
+				if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN I")
+					tabStr +="Points of Interest Detected: "+document.getElementById('SA1_p').value.toString();
+					
+				if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN III")
+					tabStr +="Points of Interest Detected: "+document.getElementById('SA3_p').value.toString();
+					
+				if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "LANGKAAN II")
+					tabStr +="Points of Interest Detected: "+document.getElementById('L2_p').value.toString();
+					
+				if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAMPALOC I")
+					tabStr +="Points of Interest Detected: "+document.getElementById('S1_p').value.toString();
+			}
+			tabStr +="<br/>";
+			if(document.getElementById('getHouseholds').value.toString()=="1")
+			{
+				if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN I")
+					tabStr +="Houeholds Detected: "+document.getElementById('SA1_h').value.toString();
+					
+				if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN III")
+					tabStr +="Houeholds Detected: "+document.getElementById('SA3_h').value.toString();
+					
+				if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "LANGKAAN II")
+					tabStr +="Houeholds Detected: "+document.getElementById('L2_h').value.toString();
+					
+				if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAMPALOC I")
+					tabStr +="Houeholds Detected: "+document.getElementById('S1_h').value.toString();
+			}
 			/*
 			tabStr += "<h5></>Table 1. Displaying Age Distribution for period <br/><i>"+document.getElementById("cdate1").value.toString()+" to "+document.getElementById("cdate2").value.toString()+"</i>";
 			tabStr += "<br/><table border='1' cellpadding='5' cellspacing='0' id='results' >";
@@ -340,7 +400,7 @@ function load() {
 			polygonChild = [];
 		}
 	}
-	if(document.getElementById('getDengue').value.toString()=="1")
+	if(document.getElementById('getDengue').value.toString()=="1")//CURRENT DENGUE CASES
     {
 		var dg_length = document.getElementById("dg_length").value.toString();
 		var dinfo="";
@@ -354,7 +414,15 @@ function load() {
 			{
 				//*
 				img=document.getElementById("dg_icon1").value.toString();
-				dinfo = "<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/cases/view_person/"+document.getElementById("dg_caseNo"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"</a><br/>";
+				//dinfo = "<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/cases/view_person/"+document.getElementById("dg_caseNo"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"</a><br/>";
+				if(document.getElementById("dg_status"+ctr) != null)
+				{
+					dinfo = "<b><a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/cases/view_person/"+document.getElementById("dg_caseNo"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"</a></b><br/>";
+				}
+				else
+				{
+					dinfo = "<b>"+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"</b><br/>";
+				}
 				dinfo +="<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("dg_householdID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_householdName"+ctr).value.toString()+" Household</a><br/>";
 				dinfo +=document.getElementById("dg_houseNo"+ctr).value.toString()+", "
 					+document.getElementById("dg_street"+ctr).value.toString()+" "
@@ -380,7 +448,7 @@ function load() {
 					+"Headache: "+document.getElementById("dg_hasHeadache"+ctr).value.toString()+"<br/>"
 					+"Bleeding: "+document.getElementById("dg_hasBleeding"+ctr).value.toString()+"<br/>"
 					+"Rashes: "+document.getElementById("dg_hasRashes"+ctr).value.toString()+"<br/>"
-					+"BHW in Charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("dg_bhwName"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_bhwName"+ctr).value.toString()+"</a><br/>"//+"BHW in-charge: "+document.getElementById("dg_bhwName"+ctr).value.toString()+"<br/>"
+					+"BHW in Charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("dg_bhwName"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_bhwpropername"+ctr).value.toString()+"</a><br/>"//+"BHW in-charge: "+document.getElementById("dg_bhwName"+ctr).value.toString()+"<br/>"
 					+"Last Visit: "+document.getElementById("dg_lastVisited"+ctr).value.toString()+"<br/><br/>";
 				//alert(ctr);
 				point = new google.maps.LatLng(document.getElementById("dg_lat"+ctr).value.toString(),document.getElementById("dg_lng"+ctr).value.toString());
@@ -455,7 +523,7 @@ function load() {
 			}
 		}
     }
-	if(document.getElementById('getPoi').value.toString()=="1")
+	if(document.getElementById('getPoi').value.toString()=="1")//CURRENT POINTS OF INTEREST
     {
 		var poi_length = document.getElementById("poi_length").value.toString();
 		var poiinfo="";
@@ -499,7 +567,7 @@ function load() {
 			}
 		}
     }
-	if(document.getElementById('getHouseholds').value.toString()=="1")//PRESENT PERIOD
+	if(document.getElementById('getHouseholds').value.toString()=="1")//CURRENT HOUSEHOLDS
     {
     	var hs_length = document.getElementById("hs_length").value.toString();//alert(hs_length);
     	var point;
@@ -517,7 +585,7 @@ function load() {
 				document.getElementById("hs_barangay"+ctr).value.toString()+"<br/>"+
 				document.getElementById("hs_houseNo"+ctr).value.toString()+", "+
 				document.getElementById("hs_street"+ctr).value.toString()+"<br/><br/>"+
-				"BHW in-charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/user/update/"+document.getElementById("hs_bhwId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_bhwLName"+ctr).value.toString()+", "+document.getElementById("hs_bhwFName"+ctr).value.toString()+" "+document.getElementById("hs_bhwMName"+ctr).value.toString()+"</a><br/>"+
+				"BHW in-charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/user/update/"+document.getElementById("hs_bhwId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_bhwpropername"+ctr).value.toString()+"</a><br/>"+
 				"Last Visit: "+document.getElementById("hs_lastVisited"+ctr).value.toString()+"<br/>";
 			
 			// = new google.maps.LatLng(document.getElementById("hs_lat"+ctr).value.toString(),document.getElementById("hs_lng"+ctr).value.toString());
@@ -549,7 +617,7 @@ function load() {
 				document.getElementById("hs_barangay"+ctr).value.toString()+"<br/>"+
 				document.getElementById("hs_houseNo"+ctr).value.toString()+", "+
 				document.getElementById("hs_street"+ctr).value.toString()+" Street<br/><br/>"+
-				"BHW in-charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/user/update/"+document.getElementById("hs_bhwId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_bhwLName"+ctr).value.toString()+", "+document.getElementById("hs_bhwFName"+ctr).value.toString()+" "+document.getElementById("hs_bhwMName"+ctr).value.toString()+"</a><br/>"+
+				"BHW in-charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/user/update/"+document.getElementById("hs_bhwId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_bhwpropername"+ctr).value.toString()+"</a><br/>"+
 				"Last Visit: "+document.getElementById("hs_lastVisited"+ctr).value.toString()+"<br/";//*/
 				
 				hinfo+=occupantsChild;
@@ -610,7 +678,7 @@ jQuery(document).ready(function(){
 							//+document.getElementById("ls_household"+ctr).value.toString()+" Household<br/>"//
 							+"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("ls_householdId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("ls_household"+ctr).value.toString()+" Household</a><br/>"
 							+"Container: "+document.getElementById("ls_container"+ctr).value.toString()+"<br/>"
-							+"Created by: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("ls_createdBy"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("ls_createdBy"+ctr).value.toString()+"</a><br/>"
+							+"Created by: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("ls_createdBy"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("ls_bhwName"+ctr).value.toString()+"</a><br/>"
 							+"Created on: "+document.getElementById("ls_createdOn"+ctr).value.toString();//*/
 							//alert(ctr);
 							point = new google.maps.LatLng(document.getElementById("ls_lat"+ctr).value.toString(),document.getElementById("ls_lng"+ctr).value.toString());
@@ -649,7 +717,7 @@ jQuery(document).ready(function(){
 							//+document.getElementById("ls_household"+ctr).value.toString()+" Household<br/>"//
 							+"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("Pls_householdId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("Pls_household"+ctr).value.toString()+" Household</a><br/>"
 							+"Container: "+document.getElementById("Pls_container"+ctr).value.toString()+"<br/>"
-							+"Created by: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("Pls_createdBy"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("Pls_createdBy"+ctr).value.toString()+"</a><br/>"
+							+"Created by: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("Pls_createdBy"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("Pls_bhwName"+ctr).value.toString()+"</a><br/>"
 							+"Created on: "+document.getElementById("Pls_createdOn"+ctr).value.toString();//*/
 							//alert(ctr);
 							point = new google.maps.LatLng(document.getElementById("Pls_lat"+ctr).value.toString(),document.getElementById("Pls_lng"+ctr).value.toString());
@@ -739,6 +807,36 @@ jQuery(document).ready(function(){
 									if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAMPALOC I")
 										tabStr +="Dengue Cases Detected: "+document.getElementById('S1_d').value.toString()+" <i>("+document.getElementById('PS1_d').value.toString()+")</i>";
 								}
+								tabStr +="<br/>";
+								if(document.getElementById('getPoi').value.toString()=="1")
+								{
+									if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN I")
+										tabStr +="Points of Interest Detected: "+document.getElementById('SA1_p').value.toString()+" <i>("+document.getElementById('PS1_p').value.toString()+")</i>";
+										
+									if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN III")
+										tabStr +="Points of Interest Detected: "+document.getElementById('SA3_p').value.toString()+" <i>("+document.getElementById('PSA3_p').value.toString()+")</i>";
+										
+									if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "LANGKAAN II")
+										tabStr +="Points of Interest Detected: "+document.getElementById('L2_p').value.toString()+" <i>("+document.getElementById('PL2_p').value.toString()+")</i>";
+										
+									if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAMPALOC I")
+										tabStr +="Points of Interest Detected: "+document.getElementById('S1_p').value.toString()+" <i>("+document.getElementById('PS1_p').value.toString()+")</i>";
+								}
+								tabStr +="<br/>";
+								if(document.getElementById('getHouseholds').value.toString()=="1")
+								{
+									if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN I")
+										tabStr +="Houeholds Detected: "+document.getElementById('SA1_h').value.toString()+" <i>("+document.getElementById('PSA1_h').value.toString()+")</i>";
+										
+									if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN III")
+										tabStr +="Houeholds Detected: "+document.getElementById('SA3_h').value.toString()+" <i>("+document.getElementById('PSA1_h').value.toString()+")</i>";
+										
+									if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "LANGKAAN II")
+										tabStr +="Houeholds Detected: "+document.getElementById('L2_h').value.toString()+" <i>("+document.getElementById('PSA1_h').value.toString()+")</i>";
+										
+									if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAMPALOC I")
+										tabStr +="Houeholds Detected: "+document.getElementById('S1_h').value.toString()+" <i>("+document.getElementById('PSA1_h').value.toString()+")</i>";
+								}
 								/*
 								tabStr += "<h5></>Table 1. Displaying Age Distribution for period <br/><i>"+document.getElementById("cdate1").value.toString()+" to "+document.getElementById("cdate2").value.toString()+"</i>";
 								tabStr += "<br/><table border='1' cellpadding='5' cellspacing='0' id='results' >";
@@ -805,6 +903,36 @@ jQuery(document).ready(function(){
 								
 							if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAMPALOC I")
 								tabStr +="Dengue Cases Detected: "+document.getElementById('S1_d').value.toString()+" <i>("+document.getElementById('PS1_d').value.toString()+")</i>";
+						}
+						tabStr +="<br/>";
+						if(document.getElementById('getPoi').value.toString()=="1")
+						{
+							if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN I")
+								tabStr +="Points of Interest Detected: "+document.getElementById('SA1_p').value.toString()+" <i>("+document.getElementById('PS1_p').value.toString()+")</i>";
+								
+							if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN III")
+								tabStr +="Points of Interest Detected: "+document.getElementById('SA3_p').value.toString()+" <i>("+document.getElementById('PSA3_p').value.toString()+")</i>";
+								
+							if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "LANGKAAN II")
+								tabStr +="Points of Interest Detected: "+document.getElementById('L2_p').value.toString()+" <i>("+document.getElementById('PL2_p').value.toString()+")</i>";
+								
+							if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAMPALOC I")
+								tabStr +="Points of Interest Detected: "+document.getElementById('S1_p').value.toString()+" <i>("+document.getElementById('PS1_p').value.toString()+")</i>";
+						}
+						tabStr +="<br/>";
+						if(document.getElementById('getHouseholds').value.toString()=="1")
+						{
+							if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN I")
+								tabStr +="Houeholds Detected: "+document.getElementById('SA1_h').value.toString()+" <i>("+document.getElementById('PSA1_h').value.toString()+")</i>";
+								
+							if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAN AGUSTIN III")
+								tabStr +="Houeholds Detected: "+document.getElementById('SA3_h').value.toString()+" <i>("+document.getElementById('PSA1_h').value.toString()+")</i>";
+								
+							if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "LANGKAAN II")
+								tabStr +="Houeholds Detected: "+document.getElementById('L2_h').value.toString()+" <i>("+document.getElementById('PSA1_h').value.toString()+")</i>";
+								
+							if(document.getElementById("bb_polyName"+(ctr-1)).value.toString() == "SAMPALOC I")
+								tabStr +="Houeholds Detected: "+document.getElementById('S1_h').value.toString()+" <i>("+document.getElementById('PSA1_h').value.toString()+")</i>";
 						}
 						/*
 						tabStr += "<h5></>Table 1. Displaying Age Distribution for period <br/><i>"+document.getElementById("cdate1").value.toString()+" to "+document.getElementById("cdate2").value.toString()+"</i>";
@@ -929,7 +1057,7 @@ jQuery(document).ready(function(){
 							document.getElementById("hs_barangay"+ctr).value.toString()+"<br/>"+
 							document.getElementById("hs_houseNo"+ctr).value.toString()+", "+
 							document.getElementById("hs_street"+ctr).value.toString()+"<br/><br/>"+
-							"BHW in-charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/user/update/"+document.getElementById("hs_bhwId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_bhwLName"+ctr).value.toString()+", "+document.getElementById("hs_bhwFName"+ctr).value.toString()+" "+document.getElementById("hs_bhwMName"+ctr).value.toString()+"</a><br/>"+
+							"BHW in-charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/user/update/"+document.getElementById("hs_bhwId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_bhwpropername"+ctr).value.toString()+"</a><br/>"+
 							"Last Visit: "+document.getElementById("hs_lastVisited"+ctr).value.toString()+"<br/>";
 						
 						// = new google.maps.LatLng(document.getElementById("hs_lat"+ctr).value.toString(),document.getElementById("hs_lng"+ctr).value.toString());
@@ -949,7 +1077,7 @@ jQuery(document).ready(function(){
 								document.getElementById("hs_barangay"+ctr).value.toString()+"<br/>"+
 								document.getElementById("hs_houseNo"+ctr).value.toString()+", "+
 								document.getElementById("hs_street"+ctr).value.toString()+" Street<br/><br/>"+
-								"BHW in-charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/user/update/"+document.getElementById("hs_bhwId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_bhwLName"+ctr).value.toString()+", "+document.getElementById("hs_bhwFName"+ctr).value.toString()+" "+document.getElementById("hs_bhwMName"+ctr).value.toString()+"</a><br/>"+
+								"BHW in-charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/user/update/"+document.getElementById("hs_bhwId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_bhwpropername"+ctr).value.toString()+"</a><br/>"+
 								"Last Visit: "+document.getElementById("hs_lastVisited"+ctr).value.toString()+"<br/";
 								hinfo+=occupantsChild;
 							}
@@ -961,7 +1089,7 @@ jQuery(document).ready(function(){
 							document.getElementById("hs_barangay"+ctr).value.toString()+"<br/>"+
 							document.getElementById("hs_houseNo"+ctr).value.toString()+", "+
 							document.getElementById("hs_street"+ctr).value.toString()+" Street<br/><br/>"+
-							"BHW in-charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/user/update/"+document.getElementById("hs_bhwId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_bhwLName"+ctr).value.toString()+", "+document.getElementById("hs_bhwFName"+ctr).value.toString()+" "+document.getElementById("hs_bhwMName"+ctr).value.toString()+"</a><br/>"+
+							"BHW in-charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/user/update/"+document.getElementById("hs_bhwId"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("hs_bhwpropername"+ctr).value.toString()+"</a><br/>"+
 							"Last Visit: "+document.getElementById("hs_lastVisited"+ctr).value.toString()+"<br/";//*/
 							
 							hinfo+=occupantsChild;
@@ -1024,7 +1152,7 @@ jQuery(document).ready(function(){
 								document.getElementById("Phs_barangay"+ctr).value.toString()+"<br/>"+
 								document.getElementById("Phs_houseNo"+ctr).value.toString()+", "+
 								document.getElementById("Phs_street"+ctr).value.toString()+" Street<br/><br/>"+
-								"BHW in-charge: "+document.getElementById("Phs_userUsername"+ctr).value.toString()+"<br/>"+
+								"BHW in-charge: "+document.getElementById("Phs_bhwpropername"+ctr).value.toString()+"<br/>"+
 								"Last Visit: "+document.getElementById("Phs_lastVisited"+ctr).value.toString()+"<br/";
 								hinfo+=occupantsChild;
 							}
@@ -1037,7 +1165,7 @@ jQuery(document).ready(function(){
 							document.getElementById("Phs_barangay"+ctr).value.toString()+"<br/>"+
 							document.getElementById("Phs_houseNo"+ctr).value.toString()+", "+
 							document.getElementById("Phs_street"+ctr).value.toString()+" Street<br/><br/>"+
-							"BHW in-charge: "+document.getElementById("Phs_userUsername"+ctr).value.toString()+"<br/>"+
+							"BHW in-charge: "+document.getElementById("Phs_bhwpropername"+ctr).value.toString()+"<br/>"+
 							"Last Visit: "+document.getElementById("Phs_lastVisited"+ctr).value.toString()+"<br/";//*/
 							
 							hinfo+=occupantsChild;
@@ -1064,7 +1192,7 @@ jQuery(document).ready(function(){
 					oms.addMarker(centroidMarker);
 					hinfo="";//*/
 			    }	
-				if(document.getElementById('getDengue').value.toString()=="1")
+				if(document.getElementById('getDengue').value.toString()=="1")//PREVIOUS DENGUE CASES
 			    {
 				    //alert("Alert DG!");
 					var dg_length = document.getElementById("dg_length").value.toString();
@@ -1079,8 +1207,16 @@ jQuery(document).ready(function(){
 						{
 							//*
 							img=document.getElementById("dg_icon1").value.toString();
-							dinfo = "<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/cases/view_person/"+document.getElementById("dg_caseNo"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"</a><br/>"
-							+"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("dg_householdID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_householdName"+ctr).value.toString()+" Household</a><br/>"//+document.getElementById("dg_householdName"+ctr).value.toString()+" Household<br/>"
+							//dinfo = "<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/cases/view_person/"+document.getElementById("dg_caseNo"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"</a><br/>"
+							if(document.getElementById("dg_status"+ctr) != null)
+							{
+								dinfo = "<b><a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/cases/view_person/"+document.getElementById("dg_caseNo"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"</a></b><br/>";
+							}
+							else
+							{
+								dinfo = "<b>"+document.getElementById("dg_lName"+ctr).value.toString()+", "+document.getElementById("dg_fName"+ctr).value.toString()+"</b><br/>";
+							}
+							dinfo+="<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("dg_householdID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_householdName"+ctr).value.toString()+" Household</a><br/>"//+document.getElementById("dg_householdName"+ctr).value.toString()+" Household<br/>"
 								+document.getElementById("dg_houseNo"+ctr).value.toString()+", "
 								+document.getElementById("dg_street"+ctr).value.toString()+" "
 								+document.getElementById("dg_barangay"+ctr).value.toString()+"<br/>"
@@ -1105,7 +1241,7 @@ jQuery(document).ready(function(){
 								+"Headache: "+document.getElementById("dg_hasHeadache"+ctr).value.toString()+"<br/>"
 								+"Bleeding: "+document.getElementById("dg_hasBleeding"+ctr).value.toString()+"<br/>"
 								+"Rashes: "+document.getElementById("dg_hasRashes"+ctr).value.toString()+"<br/>"
-								+"BHW in Charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("dg_bhwName"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_bhwName"+ctr).value.toString()+"</a><br/>"//+"BHW in-charge: "+document.getElementById("dg_bhwName"+ctr).value.toString()+"<br/>"
+								+"BHW in Charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("dg_bhwName"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("dg_bhwpropername"+ctr).value.toString()+"</a><br/>"//+"BHW in-charge: "+document.getElementById("dg_bhwName"+ctr).value.toString()+"<br/>"
 								+"Last Visit: "+document.getElementById("dg_lastVisited"+ctr).value.toString()+"<br/><br/>";
 							//alert(ctr);
 							point = new google.maps.LatLng(document.getElementById("dg_lat"+ctr).value.toString(),document.getElementById("dg_lng"+ctr).value.toString());
@@ -1193,8 +1329,16 @@ jQuery(document).ready(function(){
 						{
 							//*
 							img=document.getElementById("Pdg_icon1").value.toString();
-							dinfo = "<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/cases/view_person/"+document.getElementById("Pdg_personID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("Pdg_lName"+ctr).value.toString()+", "+document.getElementById("Pdg_fName"+ctr).value.toString()+"</a><br/>"
-							+"<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("Pdg_householdID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("Pdg_householdName"+ctr).value.toString()+" Household</a><br/>"//+document.getElementById("dg_householdName"+ctr).value.toString()+" Household<br/>"
+							//dinfo = "<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/cases/view_person/"+document.getElementById("Pdg_personID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("Pdg_lName"+ctr).value.toString()+", "+document.getElementById("Pdg_fName"+ctr).value.toString()+"</a><br/>"
+							if(document.getElementById("Pdg_status"+ctr) != null)
+							{
+								dinfo = "<b><a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/cases/view_person/"+document.getElementById("Pdg_caseNo"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("Pdg_lName"+ctr).value.toString()+", "+document.getElementById("Pdg_fName"+ctr).value.toString()+"</a></b><br/>";
+							}
+							else
+							{
+								dinfo = "<b>"+document.getElementById("Pdg_lName"+ctr).value.toString()+", "+document.getElementById("Pdg_fName"+ctr).value.toString()+"</b><br/>";
+							}
+							dinfo+="<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_persons/"+document.getElementById("Pdg_householdID"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("Pdg_householdName"+ctr).value.toString()+" Household</a><br/>"//+document.getElementById("dg_householdName"+ctr).value.toString()+" Household<br/>"
 								+document.getElementById("Pdg_houseNo"+ctr).value.toString()+", "
 								+document.getElementById("Pdg_street"+ctr).value.toString()+" "
 								+document.getElementById("Pdg_barangay"+ctr).value.toString()+"<br/>"
@@ -1219,7 +1363,7 @@ jQuery(document).ready(function(){
 								+"Headache: "+document.getElementById("Pdg_hasHeadache"+ctr).value.toString()+"<br/>"
 								+"Bleeding: "+document.getElementById("Pdg_hasBleeding"+ctr).value.toString()+"<br/>"
 								+"Rashes: "+document.getElementById("Pdg_hasRashes"+ctr).value.toString()+"<br/>"
-								+"BHW in Charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("Pdg_bhwName"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("Pdg_bhwName"+ctr).value.toString()+"</a><br/>"//+"BHW in-charge: "+document.getElementById("dg_bhwName"+ctr).value.toString()+"<br/>"
+								+"BHW in Charge: <a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/households/filter_HHs/"+document.getElementById("Pdg_bhwName"+ctr).value.toString()+"' target='_blank'>"+document.getElementById("Pdg_bhwpropername"+ctr).value.toString()+"</a><br/>"//+"BHW in-charge: "+document.getElementById("dg_bhwName"+ctr).value.toString()+"<br/>"
 								+"Last Visit: "+document.getElementById("Pdg_lastVisited"+ctr).value.toString()+"<br/><br/>";
 							//alert(ctr);
 							point = new google.maps.LatLng(document.getElementById("Pdg_lat"+ctr).value.toString(),document.getElementById("Pdg_lng"+ctr).value.toString());
@@ -1329,6 +1473,16 @@ jQuery(document).ready(function(){
 <input type = 'hidden' id ='L2_d' name='L2_d' value='<?php echo $L2_d?>'>
 <input type = 'hidden' id ='S1_d' name='S1_d' value='<?php echo $S1_d?>'>
 
+<input type = 'hidden' id ='SA1_p' name='SA1_p' value='<?php echo $SA1_p?>'>
+<input type = 'hidden' id ='SA3_p' name='SA3_p' value='<?php echo $SA3_p?>'>
+<input type = 'hidden' id ='L2_p' name='L2_p' value='<?php echo $L2_p?>'>
+<input type = 'hidden' id ='S1_p' name='S1_p' value='<?php echo $S1_p?>'>
+
+<input type = 'hidden' id ='SA1_h' name='SA1_h' value='<?php echo $SA1_h?>'>
+<input type = 'hidden' id ='SA3_h' name='SA3_h' value='<?php echo $SA3_h?>'>
+<input type = 'hidden' id ='L2_h' name='L2_h' value='<?php echo $L2_h?>'>
+<input type = 'hidden' id ='S1_h' name='S1_h' value='<?php echo $S1_h?>'>
+
 <input type = 'hidden' id ='PSA1_l' name='PSA1_l' value='<?php echo $PSA1_l?>'>
 <input type = 'hidden' id ='PSA3_l' name='PSA3_l' value='<?php echo $PSA3_l?>'>
 <input type = 'hidden' id ='PL2_l' name='PL2_l' value='<?php echo $PL2_l?>'>
@@ -1338,6 +1492,16 @@ jQuery(document).ready(function(){
 <input type = 'hidden' id ='PSA3_d' name='PSA3_d' value='<?php echo $PSA3_d?>'>
 <input type = 'hidden' id ='PL2_d' name='PL2_d' value='<?php echo $PL2_d?>'>
 <input type = 'hidden' id ='PS1_d' name='PS1_d' value='<?php echo $PS1_d?>'>
+
+<input type = 'hidden' id ='PSA1_p' name='PSA1_p' value='<?php echo $PSA1_p?>'>
+<input type = 'hidden' id ='PSA3_p' name='PSA3_p' value='<?php echo $PSA3_p?>'>
+<input type = 'hidden' id ='PL2_p' name='PL2_p' value='<?php echo $PL2_p?>'>
+<input type = 'hidden' id ='PS1_p' name='PS1_p' value='<?php echo $PS1_p?>'>
+
+<input type = 'hidden' id ='PSA1_h' name='PSA1_h' value='<?php echo $PSA1_h?>'>
+<input type = 'hidden' id ='PSA3_h' name='PSA3_h' value='<?php echo $PSA3_h?>'>
+<input type = 'hidden' id ='PL2_h' name='PL2_h' value='<?php echo $PL2_h?>'>
+<input type = 'hidden' id ='PS1_h' name='PS1_h' value='<?php echo $PS1_h?>'>
 
 <?php if ($table1 != null){?>
 <input type="hidden" id="table1_length" value="<?php echo count($table1); ?>" />
@@ -1476,6 +1640,7 @@ jQuery(document).ready(function(){
 			<input type="hidden" id="Pls_createdOn<?= $ctr ?>" 	value="<?php echo $Plarval[$ctr]['createdOn']; ?>"	/>
 			<input type="hidden" id="Pls_updatedBy<?= $ctr ?>" 	value="<?php echo $Plarval[$ctr]['updatedBy']; ?>"	/>
 			<input type="hidden" id="Pls_updatedOn<?= $ctr ?>" 	value="<?php echo $Plarval[$ctr]['updatedOn']; ?>"	/>
+			<input type="hidden" id="Pls_bhwName<?= $ctr ?>" 	value="<?php echo $Plarval[$ctr]['bhwName']; ?>"	/>
 		<?php }?> 
 		<?php } else { ?> <input type="hidden" id="Pls_length" value="0" /> <?php } ?>
 		<input type="hidden" id="Pls_icon" value="<?php echo base_url('/images/Peggs.png')?>" />
@@ -1532,9 +1697,7 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="hs_lname<?= $ctr ?>" 			value="<?php echo $household[$ctr]['personLName']; ?>"	/>
 		<input type="hidden" id="hs_dob<?= $ctr ?>" 			value="<?php echo $household[$ctr]['personDoB']; ?>"	/>
 		<input type="hidden" id="hs_sex<?= $ctr ?>" 			value="<?php echo $household[$ctr]['personSex']; ?>"	/>
-		<input type="hidden" id="hs_bhwFName<?= $ctr ?>" 			value="<?php echo $household[$ctr]['bhwFName']; ?>"	/>
-		<input type="hidden" id="hs_bhwMName<?= $ctr ?>" 			value="<?php echo $household[$ctr]['bhwMName']; ?>"	/>
-		<input type="hidden" id="hs_bhwLName<?= $ctr ?>" 			value="<?php echo $household[$ctr]['bhwLName']; ?>"	/>
+		<input type="hidden" id="hs_bhwpropername<?= $ctr ?>" 			value="<?php echo $household[$ctr]['bhwpropername']; ?>"	/>
 	<?php }?> 
 	<?php } else { ?> <input type="hidden" id="hs_length" value="0" /> <?php } ?>
 	<input type="hidden" id="hs_icon" value="<?php echo base_url('/images/group-2.png')?>" />
@@ -1559,9 +1722,7 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="Phs_lname<?= $ctr ?>" 			value="<?php echo $Phousehold[$ctr]['personLName']; ?>"	/>
 		<input type="hidden" id="Phs_dob<?= $ctr ?>" 			value="<?php echo $Phousehold[$ctr]['personDoB']; ?>"	/>
 		<input type="hidden" id="Phs_sex<?= $ctr ?>" 			value="<?php echo $Phousehold[$ctr]['personSex']; ?>"	/>
-		<input type="hidden" id="Phs_bhwFName<?= $ctr ?>" 			value="<?php echo $household[$ctr]['bhwFName']; ?>"	/>
-		<input type="hidden" id="Phs_bhwMName<?= $ctr ?>" 			value="<?php echo $household[$ctr]['bhwMName']; ?>"	/>
-		<input type="hidden" id="Phs_bhwLName<?= $ctr ?>" 			value="<?php echo $household[$ctr]['bhwLName']; ?>"	/>
+		<input type="hidden" id="Phs_bhwpropername<?= $ctr ?>" 			value="<?php echo $Phousehold[$ctr]['bhwpropername']; ?>"	/>
 	<?php }?> 
 	<?php } else { ?> <input type="hidden" id="hs_length" value="0" /> <?php } ?>
 	<input type="hidden" id="Phs_icon" value="<?php echo base_url('/images/Pgroup-2.png')?>" />
@@ -1605,6 +1766,7 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="dg_sex<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['sex']; ?>"	/>
 		<input type="hidden" id="dg_guardian<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['guardian']; ?>"	/>
 		<input type="hidden" id="dg_contact<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['contact']; ?>"	/>
+		<input type="hidden" id="dg_bhwpropername<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['propername']; ?>"	/>
 	<?php }?> 
 	<?php } else { ?> <input type="hidden" id="dg_length" value="0" /> <?php } ?>
 	<input type="hidden" id="dg_icon1" value="<?php echo base_url('/images/notice.png')?>" />
@@ -1653,6 +1815,7 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="Pdg_sex<?= $ctr ?>" 				value="<?php echo $Pdengue[$ctr]['sex']; ?>"	/>
 		<input type="hidden" id="Pdg_guardian<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['guardian']; ?>"	/>
 		<input type="hidden" id="Pdg_contact<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['contact']; ?>"	/>
+		<input type="hidden" id="Pdg_bhwpropername<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['propername']; ?>"	/>
 	<?php }?> 
 	<?php } else { ?> <input type="hidden" id="Pdg_length" value="0" /> <?php } ?>
 	<input type="hidden" id="Pdg_icon1" value="<?php echo base_url('/images/Pnotice.png')?>" />

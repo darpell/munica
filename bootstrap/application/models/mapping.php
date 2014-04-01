@@ -129,13 +129,14 @@ class Mapping extends CI_Model
 			if($data['getDengue'])
 			{
 				$where="";
-				$this->db->select("imcase_no,active_cases.person_id,has_muscle_pain,has_joint_pain,has_headache,has_bleeding,has_rashes,days_fever,created_on,last_updated_on,suspected_source,remarks,status,household_address.household_id,bhw_id,household_name,house_no,street,household_lat,household_lng,user_username,barangay,MAX(visit_date) AS 'visit_date',person_first_name,person_last_name,person_dob,person_sex,person_marital,person_nationality,person_blood_type,person_guardian,person_adu,person_contactno");
+				$this->db->select("imcase_no,active_cases.person_id,has_muscle_pain,has_joint_pain,has_headache,has_bleeding,has_rashes,days_fever,created_on,last_updated_on,suspected_source,remarks,status,household_address.household_id,bhw_id,household_name,house_no,street,household_lat,household_lng,bhw.user_username,barangay,MAX(visit_date) AS 'visit_date',person_first_name,person_last_name,person_dob,person_sex,person_marital,person_nationality,person_blood_type,person_guardian,person_adu,person_contactno,user_firstname,user_middlename,user_lastname");
 				$this->db->from('active_cases');
 				$this->db->join('catchment_area', 'catchment_area.person_id = active_cases.person_id');
 				$this->db->join('household_address', 'household_address.household_id = catchment_area.household_id');
 				$this->db->join('bhw', 'bhw.user_username = catchment_area.bhw_id');
 				$this->db->join('house_visits', 'house_visits.household_id = household_address.household_id');
 				$this->db->join('master_list', 'master_list.person_id = catchment_area.person_id');
+				$this->db->join('users', 'bhw.user_username = users.user_username');
 				if ($data['brgy'] != NULL)
 				{
 					$where = "barangay ='";
@@ -185,7 +186,8 @@ class Mapping extends CI_Model
 								'dob'=> $row->person_dob,
 								'sex'=> $row->person_sex,
 								'guardian'=> $row->person_guardian,
-								'contact'=> $row->person_contactno
+								'contact'=> $row->person_contactno,
+								'propername'=> ($row->user_lastname.', '.$row->user_firstname.' '.$row->user_middlename)
 								//*/
 						);
 					}//print_r("XSXSX".$tempest);
@@ -194,13 +196,14 @@ class Mapping extends CI_Model
 				$q->free_result();
 				if(!$data['getActiveDengueOnly'])
 				{
-					$this->db->select("imcase_no,previous_cases.person_id,has_muscle_pain,has_joint_pain,has_headache,has_bleeding,has_rashes,days_fever,created_on,last_updated_on,suspected_source,remarks,outcome,household_address.household_id,bhw_id,household_name,house_no,street,household_lat,household_lng,user_username,barangay,MAX(visit_date) AS 'visit_date',person_first_name,person_last_name,person_dob,person_sex,person_marital,person_nationality,person_blood_type,person_guardian,person_adu,person_contactno");
+					$this->db->select("imcase_no,previous_cases.person_id,has_muscle_pain,has_joint_pain,has_headache,has_bleeding,has_rashes,days_fever,created_on,last_updated_on,suspected_source,remarks,outcome,household_address.household_id,bhw_id,household_name,house_no,street,household_lat,household_lng,bhw.user_username,barangay,MAX(visit_date) AS 'visit_date',person_first_name,person_last_name,person_dob,person_sex,person_marital,person_nationality,person_blood_type,person_guardian,person_adu,person_contactno,user_firstname,user_middlename,user_lastname");
 					$this->db->from('previous_cases');
 					$this->db->join('catchment_area', 'catchment_area.person_id = previous_cases.person_id');
 					$this->db->join('household_address', 'household_address.household_id = catchment_area.household_id');
 					$this->db->join('bhw', 'bhw.user_username = catchment_area.bhw_id');
 					$this->db->join('house_visits', 'house_visits.household_id = household_address.household_id');
 					$this->db->join('master_list', 'master_list.person_id = catchment_area.person_id');
+					$this->db->join('users', 'bhw.user_username = users.user_username');
 					$this->db->where($where);
 					$this->db->group_by('previous_cases.person_id');
 					$q = $this->db->get();
@@ -238,7 +241,8 @@ class Mapping extends CI_Model
 									'dob'=> $row->person_dob,
 									'sex'=> $row->person_sex,
 									'guardian'=> $row->person_guardian,
-									'contact'=> $row->person_contactno
+									'contact'=> $row->person_contactno,
+									'propername'=> ($row->user_lastname.', '.$row->user_firstname.' '.$row->user_middlename)
 									//*/
 							);
 						}
@@ -264,8 +268,8 @@ class Mapping extends CI_Model
 						JOIN previous_cases ON catchment_area.person_id = previous_cases.person_id
 						JOIN active_cases ON catchment_area.person_id = active_cases.person_id
 						JOIN ls_report ON ls_report.ls_household = household_address.household_name
-						WHERE (DATE(previous_cases.created_on) BETWEEN '".$data['date1']."' AND '".$data['date2']."') OR 
-							(DATE(active_cases.created_on) BETWEEN '".$data['date1']."' AND '".$data['date2']."') OR
+						WHERE (DATE(previous_cases.last_updated_on) BETWEEN '".$data['date1']."' AND '".$data['date2']."') OR 
+							(DATE(active_cases.last_updated_on) BETWEEN '".$data['date1']."' AND '".$data['date2']."') OR
 							(DATE(ls_report.created_on) BETWEEN '".$data['date1']."' AND '".$data['date2']."')
 					)";
 			
@@ -300,9 +304,7 @@ class Mapping extends CI_Model
 								'personLName'=> $row->person_last_name,
 								'personDoB'=> $row->person_dob,
 								'personSex'=> $row->person_sex,
-								'bhwFName'=> $row->user_firstname,
-								'bhwMName'=> $row->user_middlename,
-								'bhwLName'=> $row->user_lastname
+								'bhwpropername'=> ($row->user_lastname.', '.$row->user_firstname.' '.$row->user_middlename)
 								//*/
 						);
 					}

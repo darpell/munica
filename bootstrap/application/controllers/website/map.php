@@ -163,8 +163,8 @@ class Map extends CI_Controller
 				$values = $this->Mapping->mapByType($data);
 				
 				//*CURRENT DATE INTERVAL DATA EXTRACTION
-				$data['larval'] = $values['larvalValues'];//print_r($data['larval']);
-				$data['dengue'] = $values['dengueValues'];//print_r($data['dengue']);
+				$data['larval'] = $values['larvalValues'];
+				$data['dengue'] = $values['dengueValues'];
 				$data['poi'] = $values['poiValues'];
 				$data['household'] = $values['householdValues'];
 				$data['bb'] = $values['bbValues'];
@@ -268,6 +268,14 @@ class Map extends CI_Controller
 				$data['SA3_d']=0;
 				$data['L2_d']=0;
 				$data['S1_d']=0;
+				$data['SA1_p']=0;
+				$data['SA3_p']=0;
+				$data['L2_p']=0;
+				$data['S1_p']=0;
+				$data['SA1_h']=0;
+				$data['SA3_h']=0;
+				$data['L2_h']=0;
+				$data['S1_h']=0;
 				if($getLarva)
 				foreach($data['larval'] as $row)
 				{
@@ -288,25 +296,67 @@ class Map extends CI_Controller
 						$data['S1_l']++;
 					}
 				}
-				
+
 				if($getDengue)
-				foreach($data['dengue'] as $row)
+					foreach($data['dengue'] as $row)
+					{
+						if($row['barangay']=='SAN AGUSTIN I')
+						{
+							$data['SA1_d']++;
+						}
+						if($row['barangay']=='SAN AGUSTIN III')
+						{
+							$data['SA3_d']++;
+						}
+						if($row['barangay']=='LANGKAAN II')
+						{
+							$data['L2_d']++;
+						}
+						if($row['barangay']=='SAMPALOC I')
+						{
+							$data['S1_d']++;
+						}
+					}
+					
+				if($getPoI)
+				foreach($data['poi'] as $row)
 				{
 					if($row['barangay']=='SAN AGUSTIN I')
 					{
-						$data['SA1_d']++;
+						$data['SA1_p']++;
 					}
 					if($row['barangay']=='SAN AGUSTIN III')
 					{
-						$data['SA3_d']++;
+						$data['SA3_p']++;
 					}
 					if($row['barangay']=='LANGKAAN II')
 					{
-						$data['L2_d']++;
+						$data['L2_p']++;
 					}
 					if($row['barangay']=='SAMPALOC I')
 					{
-						$data['S1_d']++;
+						$data['S1_p']++;
+					}
+				}
+					
+				if($getHouseholds)
+				foreach($data['household'] as $row)
+				{
+					if($row['barangay']=='SAN AGUSTIN I')
+					{
+						$data['SA1_h']++;
+					}
+					if($row['barangay']=='SAN AGUSTIN III')
+					{
+						$data['SA3_h']++;
+					}
+					if($row['barangay']=='LANGKAAN II')
+					{
+						$data['L2_h']++;
+					}
+					if($row['barangay']=='SAMPALOC I')
+					{
+						$data['S1_h']++;
 					}
 				}
 				$data['PSA1_l']=0;
@@ -317,6 +367,14 @@ class Map extends CI_Controller
 				$data['PSA3_d']=0;
 				$data['PL2_d']=0;
 				$data['PS1_d']=0;
+				$data['PSA1_p']=0;
+				$data['PSA3_p']=0;
+				$data['PL2_p']=0;
+				$data['PS1_p']=0;
+				$data['PSA1_h']=0;
+				$data['PSA3_h']=0;
+				$data['PL2_h']=0;
+				$data['PS1_h']=0;
 				if($getLarva)
 				foreach($data['Plarval'] as $row)
 				{
@@ -358,6 +416,48 @@ class Map extends CI_Controller
 						$data['PS1_d']++;
 					}
 				}
+
+				if($getPoI)
+					foreach($data['Ppoi'] as $row)
+					{
+						if($row['barangay']=='SAN AGUSTIN I')
+						{
+							$data['PSA1_p']++;
+						}
+						if($row['barangay']=='SAN AGUSTIN III')
+						{
+							$data['PSA3_p']++;
+						}
+						if($row['barangay']=='LANGKAAN II')
+						{
+							$data['PL2_p']++;
+						}
+						if($row['barangay']=='SAMPALOC I')
+						{
+							$data['PS1_p']++;
+						}
+					}
+
+				if($getHouseholds)
+					foreach($data['Phousehold'] as $row)
+					{
+						if($row['barangay']=='SAN AGUSTIN I')
+						{
+							$data['PSA1_h']++;
+						}
+						if($row['barangay']=='SAN AGUSTIN III')
+						{
+							$data['PSA3_h']++;
+						}
+						if($row['barangay']=='LANGKAAN II')
+						{
+							$data['PL2_h']++;
+						}
+						if($row['barangay']=='SAMPALOC I')
+						{
+							$data['PS1_h']++;
+						}
+					}
 				//*/
 				
 				//$data['test'] = $this->Mapping->getBarangayAgesS($data);
