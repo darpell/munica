@@ -12,7 +12,7 @@
 		{
 			$temp =  $this->Analytics_model->get_case_count(date('m'),date('Y'));
 			
-			$data['status'] = 'asdasd';
+			$data['status'] = '';
 			$data['count'] =$temp['count'];
 			if ($temp['count'] > $temp['ave'])
 			$data['ave'] = 'above average';
