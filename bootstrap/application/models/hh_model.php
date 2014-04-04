@@ -126,7 +126,12 @@ class Hh_model extends CI_Model
 				'person_blood_type'	=>	$this->input->post('hh_blood'),
 				'person_guardian'	=>	$this->input->post('hh_guardian'),
 				'person_adu'		=>	'Alive',
-				'person_contactno'	=>	$this->input->post('hh_contact')
+				'person_contactno'	=>	$this->input->post('hh_contact'),
+				'person_landline'	=> 	$this->input->post('hh_landline'),
+				'person_email'		=> 	$this->input->post('hh_email'),
+				'person_fb'			=> 	$this->input->post('hh_fb'),
+				'person_tw'			=> 	$this->input->post('hh_tw'),
+				'person_ym'			=> 	$this->input->post('hh_ym'),
 		);
 		$this->db->insert('master_list',$input_data);
 		
