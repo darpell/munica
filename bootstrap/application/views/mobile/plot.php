@@ -291,8 +291,38 @@ function initialize(){
 						<!-- contact -->
 						<label for="hh_contact"> Contact No: </label>
 						<label style="color:red"><?php echo form_error('hh_contact'); ?></label>
-						<input type="tel" name="hh_contact" id="hh_contact" value="<?php echo set_value('hh_contact'); ?>" data-mini="true" placeholder="e.g. 09XX XXXXXXX"/>
+						<input type="tel" name="hh_contact" id="hh_contact" value="<?php echo set_value('hh_contact'); ?>" data-mini="true" placeholder="09XX XXXXXXX"/>
 						<!-- /contact -->
+						
+						<!-- landline -->
+						<label for="hh_landline"> Landline No: </label>
+						<label style="color:red"><?php echo form_error('hh_landline'); ?></label>
+						<input type="tel" name="hh_landline" id="hh_landline" value="<?php echo set_value('hh_landline'); ?>" data-mini="true" placeholder="999 9999"/>
+						<!-- /landline -->
+						
+						<!-- email -->
+						<label for="hh_ym"> Email Address: </label>
+						<label style="color:red"><?php echo form_error('hh_email'); ?></label>
+						<input type="email" name="hh_email" id="hh_email" value="<?php echo set_value('hh_email'); ?>" data-mini="true" placeholder="your.name@your.domain"/>
+						<!-- /email -->
+						
+						<!-- ym -->
+						<label for="hh_ym"> Yahoo Messenger: </label>
+						<label style="color:red"><?php echo form_error('hh_ym'); ?></label>
+						<input type="tel" name="hh_ym" id="hh_ym" value="<?php echo set_value('hh_ym'); ?>" data-mini="true" placeholder="your.mail@yahoo.com"/>
+						<!-- /ym -->
+						
+						<!-- fb -->
+						<label for="hh_fb"> Facebook: </label>
+						<label style="color:red"><?php echo form_error('hh_fb'); ?></label>
+						<input type="tel" name="hh_fb" id="hh_fb" value="<?php echo set_value('hh_fb'); ?>" data-mini="true" placeholder="facebook.com/yourname"/>
+						<!-- /fb -->
+						
+						<!-- twitter -->
+						<label for="hh_tw"> Twitter: </label>
+						<label style="color:red"><?php echo form_error('hh_tw'); ?></label>
+						<input type="tel" name="hh_tw" id="hh_tw" value="<?php echo set_value('hh_tw'); ?>" data-mini="true" placeholder="yourid"/>
+						<!-- /twitter -->
 					</div>
 				
 					<br/>

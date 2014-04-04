@@ -82,19 +82,19 @@ function initialize(){
 					<!-- household -->
 					<label for="TPhousehold-txt"> Name of Household: </label>
 					<label style="color:red"><?php echo form_error('hh_name'); ?></label>
-					<input type="text" name="hh_name" id="hh_name" value="<?php echo set_value('hh_name'); ?>" data-mini="true" />
+					<input type="text" name="hh_name" id="hh_name" value="<?php echo set_value('hh_name'); ?>" data-mini="true" placeholder="Household Name"/>
 					<!-- /household -->
 					
 					<!-- household_no -->
 					<label for="TPhousehold-txt"> House Address No.: </label>
 					<label style="color:red"><?php echo form_error('hh_no'); ?></label>
-					<input type="text" name="hh_no" id="hh_no" value="<?php echo set_value('hh_no'); ?>" data-mini="true" />
+					<input type="text" name="hh_no" id="hh_no" value="<?php echo set_value('hh_no'); ?>" data-mini="true" placeholder="Household Address" />
 					<!-- /household_no -->
 					
 					<!-- street -->
 					<label for="TPstreet-txt"> Street: </label>
 					<label style="color:red"><?php echo form_error('hh_street'); ?></label>
-					<input type="text" name="hh_street" class="hh_street" data-mini="true" />
+					<input type="text" name="hh_street" class="hh_street" data-mini="true" placeholder="Street"/>
 					<!-- /street -->
 				
 					<h4> Please add at least one member of the household: </h4>
@@ -157,8 +157,38 @@ function initialize(){
 						<!-- contact -->
 						<label for="hh_contact"> Contact No: </label>
 						<label style="color:red"><?php echo form_error('hh_contact'); ?></label>
-						<input type="tel" name="hh_contact" id="hh_contact" value="<?php echo set_value('hh_contact'); ?>" data-mini="true" placeholder="e.g. 09XX XXXXXXX"/>
+						<input type="tel" name="hh_contact" id="hh_contact" value="<?php echo set_value('hh_contact'); ?>" data-mini="true" placeholder="09XX XXXXXXX"/>
 						<!-- /contact -->
+						
+						<!-- landline -->
+						<label for="hh_landline"> Landline No: </label>
+						<label style="color:red"><?php echo form_error('hh_landline'); ?></label>
+						<input type="tel" name="hh_landline" id="hh_landline" value="<?php echo set_value('hh_landline'); ?>" data-mini="true" placeholder="999 9999"/>
+						<!-- /landline -->
+						
+						<!-- email -->
+						<label for="hh_ym"> Email Address: </label>
+						<label style="color:red"><?php echo form_error('hh_email'); ?></label>
+						<input type="email" name="hh_email" id="hh_email" value="<?php echo set_value('hh_email'); ?>" data-mini="true" placeholder="your.name@your.domain"/>
+						<!-- /email -->
+						
+						<!-- ym -->
+						<label for="hh_ym"> Yahoo Messenger: </label>
+						<label style="color:red"><?php echo form_error('hh_ym'); ?></label>
+						<input type="tel" name="hh_ym" id="hh_ym" value="<?php echo set_value('hh_ym'); ?>" data-mini="true" placeholder="your.mail@yahoo.com"/>
+						<!-- /ym -->
+						
+						<!-- fb -->
+						<label for="hh_fb"> Facebook: </label>
+						<label style="color:red"><?php echo form_error('hh_fb'); ?></label>
+						<input type="tel" name="hh_fb" id="hh_fb" value="<?php echo set_value('hh_fb'); ?>" data-mini="true" placeholder="facebook.com/yourname"/>
+						<!-- /fb -->
+						
+						<!-- twitter -->
+						<label for="hh_tw"> Twitter: </label>
+						<label style="color:red"><?php echo form_error('hh_tw'); ?></label>
+						<input type="tel" name="hh_tw" id="hh_tw" value="<?php echo set_value('hh_tw'); ?>" data-mini="true" placeholder="yourid"/>
+						<!-- /twitter -->
 					</div>
 				
 					<br/>
