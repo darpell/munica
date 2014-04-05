@@ -1030,7 +1030,7 @@
 				WHERE barangay = '".$brgy."' AND 
 				YEAR(created_on) = ".$year."  AND
 				MONTH(created_on) = ".$month." 
-					";
+				ORDER BY person_last_name ASC";
 			$this->db->select($where , false);
 			$q = $this->db->get();
 		
@@ -1048,7 +1048,7 @@
 				WHERE barangay = '".$brgy."' AND
 				YEAR(created_on) = ".$year."  AND
 				MONTH(created_on) = ".$month." 
-					";
+				ORDER BY person_last_name ASC";
 			$this->db->select($where , false);
 			$q = $this->db->get();
 			
@@ -1064,7 +1064,7 @@
 					WHERE cr_barangay = '".$brgy."' AND  
 					YEAR(cr_date_onset) = ".$year."  AND
 					MONTH(cr_date_onset) = ".$month." 
-					";
+					ORDER BY cr_last_name ASC";
 			$this->db->select($where,false);
 			$q = $this->db->get();
 			if($q->num_rows() > 0)

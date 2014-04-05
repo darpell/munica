@@ -59,7 +59,7 @@ $(function () {
             chart: {
             },
             title: {
-                text: 'Total Outbreaks occured for years ' + yearstart + ' to '+ yearend
+                text: 'Total Outbreaks for years ' + yearstart + ' and '+ yearend
             },
             xAxis: {
                 categories: catagoriesdata
