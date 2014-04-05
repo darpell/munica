@@ -38,7 +38,7 @@ $(function () {
                     stacking: 'normal',
                    
                 }
-            },
+            }/*,
             labels: {
                 items: [{
                     html: 'Gender Distribution For Current Cases',
@@ -48,7 +48,7 @@ $(function () {
                         color: 'black'
                     }
                 }]
-            },
+            }*/,
             series: [/*{
                 type: 'column',
                 name: year-1,
@@ -117,7 +117,7 @@ $(function () {
                 	lineColor: Highcharts.getOptions().colors[3],
                 	fillColor: 'white'
                 }
-            },
+            }/*,
             {
                 type: 'pie',
                 name: 'Gender Distribution',
@@ -137,6 +137,7 @@ $(function () {
                     enabled: false
                 }
             }
+            */
             ]
         });
         

@@ -39,12 +39,41 @@ body { height:100% }
 					 </fieldset>
 					 <legend><center></>Suspected Sources</center></legend>
 					<?php 
-					if($household != null)foreach ($household as $row)
+					$source = array();
+					if($household != null)
+					foreach ($household as $row)
 					{
-						if($row['suspected_source'] != null OR $row['suspected_source'] != '' OR $row['suspected_source'] != 'null')
-						echo '<li>'. $row['suspected_source'].'</li>';
+						if(isset($sources[$row['suspected_source']]))
+						{
+							$sources[$row['suspected_source']] += 1;
+						}
+						else
+						{
+							$sources[$row['suspected_source']] = 1;
+						}
+					
 					}	
 					?>
+					<table class= "table">
+					<?php 
+					$unspecified = 0;
+					foreach($sources as $key=>$value) {
+						if($key != null AND $key != '' AND $key != 'null')
+						{
+						echo '<tr>';
+					    echo '<td>'.$key.'</td><td><span class="badge">'.$value.'</span></td>';
+						echo '</tr>';
+						}
+						else
+						{
+							$unspecified += $value;
+						}
+					}
+					echo '<tr>';
+					echo '<td>unspecified</td><td><span class="badge">'.$unspecified.'</span></td>';
+					echo '</tr>';
+					?>
+					</table>
 					 </fieldset>
 				</div>
 				<div class="col-md-7">	

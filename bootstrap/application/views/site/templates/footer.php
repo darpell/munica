@@ -3,18 +3,22 @@
 		<!-- Example row of columns -->
 		<div class="row">
         	<div class="col-md-4">
-        	
+        	          		<h4>Get in touch with us</h4>
+				<a href="http://www.facebook.com/DOHgovph" id="facebook">Facebook</a> <br/>
+				<a href="http://twitter.com/#!/DOHgovph" id="twitter">Twitter</a> <br/>
         	</div>
         	
         	<div class="col-md-4">
+        	<!--  
         		<p> <?php echo $this->benchmark->elapsed_time() . ' elapsed time';?> </p>
         		<p> <?php echo $this->benchmark->memory_usage() . ' memory used.';?> </p>
+        	-->
+        	
         	</div>
         
         	<div class="col-md-4">
-          		<h4>Get in touch with us</h4>
-				<a href="http://www.facebook.com/DOHgovph" id="facebook">Facebook</a> <br/>
-				<a href="http://twitter.com/#!/DOHgovph" id="twitter">Twitter</a> <br/>
+        	
+
         	</div>
       	</div>
 
