@@ -103,6 +103,10 @@ body { height:100% }
 					<?php }*/ else { ?>
 					<li> <a href="<?= site_url('website/households/filter_HHs/' . $this->session->userdata('TPusername')) ?>"> People <span class="badge pull-right"><?= $hh_num ?></span></a> </li>
 					<?php } ?>
+					<?php if ($this->session->userdata('TPtype') == 'BHW') { ?>
+					<li> <a href="<?= site_url('website/analytics/casecount_report') ?>"> Case Count Report</a> </li>
+					<?php } ?>
+				
 				</ul>
 			</div>
 		</div>

@@ -34,6 +34,42 @@
 			else return null;
 			
 		}
+		function get_case_count_bhw($user,$weekno)
+		{
+			$data['suspected_count'] 	= 0;
+			$data['threatening_count'] 	= 0;
+			$data['serious_count'] 		= 0;
+			$data['hospitalized_count'] = 0;
+			
+			$where = " * FROM (`active_cases`)
+					JOIN `catchment_area` ON `active_cases`.`person_id` = `catchment_area`.`person_id`
+					JOIN `master_list` ON `catchment_area`.`person_id` = `master_list`.`person_id` 
+					JOIN `household_address` ON `household_address`.`household_id` = `catchment_area`.`household_id` 
+					WHERE `bhw_id` = '".$user."' AND 
+					WEEK(created_on) = ".$weekno." AND
+					YEAR(created_on) = ".date('Y')." 
+					ORDER BY `imcase_no` desc";
+			$this->db->select($where);
+			$q = $this->db->get();
+			
+			if($q->num_rows() > 0)
+			{	$data['info'] = $q->result_array();
+				foreach ($q->result() as $row)
+				{
+					if($row->status == 'suspected')
+						$data['suspected_count']  += 1;
+					else if($row->status == 'threatening')
+						$data['threatening_count'] += 1;
+					else if($row->status == 'serious')
+						$data['serious_count'] += 1;
+					else if($row->status == 'hospitalized')
+						$data['hospitalized_count'] += 1;
+			
+				}
+			}
+			$q->free_result();
+			return $data;
+		}
 		function get_case_count($month,$year)
 		{
 			$count = 0;

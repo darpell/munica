@@ -435,6 +435,48 @@ $( "#datepicker2" ).datepicker();
  				</ul>
 			</div>
 		</div>
+		<?php } else if( $title =='bhwcount'){
+		echo form_open('website/analytics');
+		?>
+		<!-- Filters -->
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title"> Filters </h3>
+			</div>
+			<div class="panel-body">
+				<ul class="nav nav-pills nav-stacked">
+				<li>Week No:</li>
+				 <li>
+ 				<?php  
+		 		for($i = 5; $i <= date('W');$i++)
+		 		{
+		 			$options[$i]=$i. ': '. date('M d, Y', strtotime("-".(date('W')-$i). " week"));
+		 		}
+		 		echo form_dropdown('weekno', $options,$weekno);
+				
+		    	?>
+		    	</li>
+		    	<?php if($this->session->userdata('TPtype') == 'CHO'){
+		    	?>
+		    	<li>Barangays Selected:</li>
+ 				<?php  
+		 		foreach ($barangay as $row) {
+				echo '<li>';
+		    	echo form_checkbox('barangay[]', $row, TRUE);
+		    	echo " " . $row;
+		    	echo '</li>';
+				}
+		    	}
+		    	?>
+		    	<br />
+		   
+		    	<li><input type="submit" class="submitButton" value="Search"/>
+		    	<?php echo form_close(); ?>
+		    	
+		    	</li>
+ 				</ul>
+			</div>
+		</div>
 		<?php } else if( $title =='caselist'){
 		echo form_open('website/analytics/caselist');
 		?>

@@ -145,6 +145,59 @@ class Analytics extends CI_Controller
 		
 		$this->load->view('site/analytics/caselist',$data);
 	}
+	function casecount_report()
+	{
+		if($this->uri->segment(4) === FALSE)
+		{
+		$user = $this->get_user_barangay();
+		
+		$this->form_validation->set_rules('weekno', 'Date from', 'required');
+		
+		if ($this->form_validation->run('') == FALSE)
+		{
+			
+			$data['weekno'] = (int)date("W");
+			
+			$data['case_data'] = $this->Analytics_model->get_case_count_bhw($this->session->userdata('TPusername'),(int)date("W"));
+		}
+		else {
+			
+			$data['case_data'] = $this->Analytics_model->get_case_count_bhw($this->session->userdata('TPusername'),(int)$this->input->post('weekno'));
+			
+			$data['weekno'] = (int)$this->input->post('weekno');
+		}
+		
+		
+		$data['user'] = $this->get_user_barangay();
+		
+		$this->load->view('site/reports/bhw_count',$data);
+		}
+		else
+		{
+			$user = $this->get_user_barangay();
+			
+			$this->form_validation->set_rules('weekno', 'Date from', 'required');
+			
+			if ($this->form_validation->run('') == FALSE)
+			{
+					
+				$data['weekno'] = (int)date("W");
+					
+				$data['case_data'] = $this->Analytics_model->get_case_count_bhw($this->session->userdata('TPusername'),$this->uri->segment(4));
+			}
+			else {
+					
+				$data['case_data'] = $this->Analytics_model->get_case_count_bhw($this->session->userdata('TPusername'),$this->uri->segment(4));
+					
+				$data['weekno'] = (int)$this->input->post('weekno');
+			}
+			
+			
+			$data['user'] = $this->get_user_barangay();
+			
+			$this->load->view('site/reports/bhw_count_print',$data);
+		}
+	}
 	function case_demographics()
 	{
 		$user = $this->get_user_barangay();
