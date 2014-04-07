@@ -553,7 +553,7 @@ function load() {
 					//poiinfo +="RISK AREA<br/><br/>";//*/
 				poiinfo +=document.getElementById("poi_barangay"+ctr).value.toString()+"<br/>";
 				poiinfo +=document.getElementById("poi_notes"+ctr).value.toString()+"<br/>";
-				
+				poiinfo +="<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/poi/update/"+document.getElementById("poi_id"+ctr).value.toString()+"' target='_blank'><button>Update</button></a>";
 				//alert(ctr);
 				point = new google.maps.LatLng(document.getElementById("poi_lat"+ctr).value.toString(),document.getElementById("poi_lng"+ctr).value.toString());
 				//createMarker(map,point,img,poiinfo,null,false,false,false);//*/
@@ -983,6 +983,7 @@ jQuery(document).ready(function(){
 								//poiinfo +="RISK AREA<br/><br/>";//*/
 							poiinfo +=document.getElementById("poi_barangay"+ctr).value.toString()+"<br/>";
 							poiinfo +=document.getElementById("poi_notes"+ctr).value.toString()+"<br/>";
+							poiinfo +="<a href='"+document.getElementById("baseURL").value.toString()+"index.php/website/poi/update/"+document.getElementById("poi_id"+ctr).value.toString()+"' target='_blank'><button>Update</button></a>";
 							
 							//alert(ctr);
 							point = new google.maps.LatLng(document.getElementById("poi_lat"+ctr).value.toString(),document.getElementById("poi_lng"+ctr).value.toString());

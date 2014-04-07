@@ -276,7 +276,7 @@ class Map extends CI_Controller
 				$data['SA3_h']=0;
 				$data['L2_h']=0;
 				$data['S1_h']=0;
-				if($getLarva)
+				if($getLarva && count($data['larval']) != 0)
 				foreach($data['larval'] as $row)
 				{
 					if($row['barangay']=='SAN AGUSTIN I')
@@ -297,7 +297,7 @@ class Map extends CI_Controller
 					}
 				}
 
-				if($getDengue)
+				if($getDengue && count($data['dengue']) != 0)
 					foreach($data['dengue'] as $row)
 					{
 						if($row['barangay']=='SAN AGUSTIN I')
@@ -318,7 +318,7 @@ class Map extends CI_Controller
 						}
 					}
 					
-				if($getPoI)
+				if($getPoI && count($data['poi']) != 0)
 				foreach($data['poi'] as $row)
 				{
 					if($row['barangay']=='SAN AGUSTIN I')
@@ -339,7 +339,7 @@ class Map extends CI_Controller
 					}
 				}
 					
-				if($getHouseholds)
+				if($getHouseholds && count($data['household']) != 0)
 				foreach($data['household'] as $row)
 				{
 					if($row['barangay']=='SAN AGUSTIN I')
@@ -375,7 +375,7 @@ class Map extends CI_Controller
 				$data['PSA3_h']=0;
 				$data['PL2_h']=0;
 				$data['PS1_h']=0;
-				if($getLarva)
+				if($getLarva && count($data['Plarval']) != 0)
 				foreach($data['Plarval'] as $row)
 				{
 					if($row['barangay']=='SAN AGUSTIN I')
@@ -396,7 +396,7 @@ class Map extends CI_Controller
 					}
 				}
 				
-				if($getDengue)
+				if($getDengue && count($data['Pdengue']) != 0)
 				foreach($data['Pdengue'] as $row)
 				{
 					if($row['barangay']=='SAN AGUSTIN I')
@@ -417,7 +417,7 @@ class Map extends CI_Controller
 					}
 				}
 
-				if($getPoI)
+				if($getPoI && count($data['Ppoi']) != 0)
 					foreach($data['Ppoi'] as $row)
 					{
 						if($row['barangay']=='SAN AGUSTIN I')
@@ -438,7 +438,7 @@ class Map extends CI_Controller
 						}
 					}
 
-				if($getHouseholds)
+				if($getHouseholds && count($data['Phousehold']) != 0)
 					foreach($data['Phousehold'] as $row)
 					{
 						if($row['barangay']=='SAN AGUSTIN I')
