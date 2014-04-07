@@ -62,6 +62,23 @@ xmlhttp.send(null);
 
 }
 
+function days_between(date1, date2) {
+
+    // The number of milliseconds in one day
+    var ONE_DAY = 1000 * 60 * 60 * 24
+
+    // Convert both dates to milliseconds
+    var date1_ms = date1.getTime()
+    var date2_ms = date2.getTime()
+
+    // Calculate the difference in milliseconds
+    var difference_ms = Math.abs(date1_ms - date2_ms)
+
+    // Convert back to days and return
+    return Math.round(difference_ms/ONE_DAY)
+
+}
+
 function splitter(str)//Data splitter
 {
 	str = str.split("%%");
@@ -512,13 +529,27 @@ function load() {
 				{
 					img=document.getElementById("dg_icon4").value.toString();
 				}//*/
+
+				var t_cdate = new Date();
+				var t_lvdate = new Date((document.getElementById("dg_lastVisited"+ctr).value.toString()).substring(0, 10));
+				//alert(""+t_cdate+" minus "+t_lvdate);
+				
+				if (parseInt(document.getElementById("dg_age"+ctr).value.toString()) < 15) 
+				{
+					img=document.getElementById("dg_iconC").value.toString();
+				}/* 
+				else if(days_between(t_cdate,t_lvdate) > 6)
+				{
+					img=document.getElementById("dg_iconW").value.toString();
+				}//*/
+				
 				//createMarker(map,point,img,dinfo,null,false,false,false);//*/
 				centroidMarker = new google.maps.Marker({  
 			        position: point,   
 			        map: map,  
 			        icon: img
 			    	});//*
-				if (parseInt(document.getElementById("dg_age"+ctr).value.toString()) < 15) 
+				/*if (parseInt(document.getElementById("dg_age"+ctr).value.toString()) < 15) 
 				{
 					centroidMarker.setAnimation(google.maps.Animation.BOUNCE);
 				} 
@@ -1315,13 +1346,27 @@ jQuery(document).ready(function(){
 							{
 								img=document.getElementById("dg_icon4").value.toString();
 							}//*/
+
+							var t_cdate = new Date();
+							var t_lvdate = new Date((document.getElementById("dg_lastVisited"+ctr).value.toString()).substring(0, 10));
+							//alert(""+t_cdate+" minus "+t_lvdate);
+							
+							if (parseInt(document.getElementById("dg_age"+ctr).value.toString()) < 15) 
+							{
+								img=document.getElementById("dg_iconC").value.toString();
+							}/* 
+							else if(days_between(t_cdate,t_lvdate) > 6)
+							{
+								img=document.getElementById("dg_iconW").value.toString();
+							}//*/
+							
 							//createMarker(map,point,img,dinfo,null,false,false,false);//*/
 							centroidMarker = new google.maps.Marker({  
 						        position: point,   
 						        map: map,  
 						        icon: img
 						    	});//*
-							if (parseInt(document.getElementById("dg_age"+ctr).value.toString()) < 15) 
+							/*if (parseInt(document.getElementById("dg_age"+ctr).value.toString()) < 15) 
 							{
 								centroidMarker.setAnimation(google.maps.Animation.BOUNCE);
 							} 
@@ -1446,13 +1491,27 @@ jQuery(document).ready(function(){
 							{
 								img=document.getElementById("Pdg_icon4").value.toString();
 							}//*/
+
+							var t_cdate = new Date();
+							var t_lvdate = new Date((document.getElementById("Pdg_lastVisited"+ctr).value.toString()).substring(0, 10));
+							//alert(""+t_cdate+" minus "+t_lvdate);
+							
+							if (parseInt(document.getElementById("Pdg_age"+ctr).value.toString()) < 15) 
+							{
+								img=document.getElementById("Pdg_iconC").value.toString();
+							}/* 
+							else if(days_between(t_cdate,t_lvdate) > 6)
+							{
+								img=document.getElementById("Pdg_iconW").value.toString();
+							}//*/
+							
 							//createMarker(map,point,img,dinfo,null,false,false,false);//*/
 							centroidMarker = new google.maps.Marker({  
 						        position: point,   
 						        map: map,  
 						        icon: img
 						    	});//*
-							if (parseInt(document.getElementById("Pdg_age"+ctr).value.toString()) < 15) 
+							/*if (parseInt(document.getElementById("Pdg_age"+ctr).value.toString()) < 15) 
 							{
 								centroidMarker.setAnimation(google.maps.Animation.BOUNCE);
 							} 
@@ -1802,6 +1861,8 @@ jQuery(document).ready(function(){
 	<input type="hidden" id="dg_icon2" value="<?php echo base_url('/images/notice2.png')?>" />
 	<input type="hidden" id="dg_icon3" value="<?php echo base_url('/images/notice3.png')?>" />
 	<input type="hidden" id="dg_icon4" value="<?php echo base_url('/images/hospital.png')?>" />
+	<input type="hidden" id="dg_iconC" value="<?php echo base_url('/images/child.png')?>" />
+	<input type="hidden" id="dg_iconW" value="<?php echo base_url('/images/watch.png')?>" />
 	<input type="hidden" id="dg_iconA" value="<?php echo base_url('/images/A.png')?>" />
 	<input type="hidden" id="dg_iconD" value="<?php echo base_url('/images/D.png')?>" />
 	
@@ -1852,6 +1913,8 @@ jQuery(document).ready(function(){
 	<input type="hidden" id="Pdg_icon2" value="<?php echo base_url('/images/Pnotice2.png')?>" />
 	<input type="hidden" id="Pdg_icon3" value="<?php echo base_url('/images/Pnotice3.png')?>" />
 	<input type="hidden" id="Pdg_icon4" value="<?php echo base_url('/images/Phospital.png')?>" />
+	<input type="hidden" id="Pdg_iconC" value="<?php echo base_url('/images/Pchild.png')?>" />
+	<input type="hidden" id="Pdg_iconW" value="<?php echo base_url('/images/Pwatch.png')?>" />
 	<input type="hidden" id="Pdg_iconA" value="<?php echo base_url('/images/PA.png')?>" />
 	<input type="hidden" id="Pdg_iconD" value="<?php echo base_url('/images/PD.png')?>" />
 	
