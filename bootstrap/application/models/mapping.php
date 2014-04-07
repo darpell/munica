@@ -156,6 +156,18 @@ class Mapping extends CI_Model
 				{	
 					foreach ($q->result() as $row) 
 					{
+						
+						$temp_bdate = explode("-", $row->person_dob);
+						$temp_ndate= explode("-", date('Y-m-d'));
+						
+						$date1 = $row->person_dob;
+						$date2 = date('Y-m-d');
+						
+						$diff = abs(strtotime($date2) - strtotime($date1));
+						
+						$years = floor($diff / (365*60*60*24));
+						//$cirdate;
+						//$age = explode("-", $row->person_dob);
 						$tempest[]=array(//*
 								'id'=> $row->imcase_no,
 								'personID'=> $row->person_id,
@@ -183,6 +195,7 @@ class Mapping extends CI_Model
 								'barangay'=> $row->barangay,
 								'fName'=> $row->person_first_name,
 								'lName'=> $row->person_last_name,
+								'age'=> $years,
 								'dob'=> $row->person_dob,
 								'sex'=> $row->person_sex,
 								'guardian'=> $row->person_guardian,
@@ -211,6 +224,15 @@ class Mapping extends CI_Model
 					{	//$tempest;
 						foreach ($q->result() as $row)
 						{
+							$temp_bdate = explode("-", $row->person_dob);
+							$temp_ndate= explode("-", date('Y-m-d'));
+							
+							$date1 = $row->person_dob;
+							$date2 = date('Y-m-d');
+							
+							$diff = abs(strtotime($date2) - strtotime($date1));
+							
+							$years = floor($diff / (365*60*60*24));
 							$tempest[]=array(//*
 									'id'=> $row->imcase_no,
 									'personID'=> $row->person_id,
@@ -239,6 +261,7 @@ class Mapping extends CI_Model
 									'fName'=> $row->person_first_name,
 									'lName'=> $row->person_last_name,
 									'dob'=> $row->person_dob,
+									'age'=> $years,
 									'sex'=> $row->person_sex,
 									'guardian'=> $row->person_guardian,
 									'contact'=> $row->person_contactno,

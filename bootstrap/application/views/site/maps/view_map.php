@@ -428,6 +428,7 @@ function load() {
 					+document.getElementById("dg_street"+ctr).value.toString()+" "
 					+document.getElementById("dg_barangay"+ctr).value.toString()+"<br/>"
 					+"Birth: "+document.getElementById("dg_dob"+ctr).value.toString()+"<br/>"
+					+"Age: "+document.getElementById("dg_age"+ctr).value.toString()+"<br/>"
 					+"Gender: "+document.getElementById("dg_sex"+ctr).value.toString()+"<br/>"
 					+"Guardian: "+document.getElementById("dg_guardian"+ctr).value.toString()+"<br/>"
 					+"Contact No: "+document.getElementById("dg_contact"+ctr).value.toString()+"<br/><br/>"
@@ -516,7 +517,15 @@ function load() {
 			        position: point,   
 			        map: map,  
 			        icon: img
-			    	});  
+			    	});//*
+				if (parseInt(document.getElementById("dg_age"+ctr).value.toString()) < 15) 
+				{
+					centroidMarker.setAnimation(google.maps.Animation.BOUNCE);
+				} 
+				else 
+				{
+					centroidMarker.setAnimation(null);
+				}//*/
 				ctr++;
 				setInfo(centroidMarker,dinfo,map);
 				oms.addMarker(centroidMarker);
@@ -1221,6 +1230,7 @@ jQuery(document).ready(function(){
 								+document.getElementById("dg_street"+ctr).value.toString()+" "
 								+document.getElementById("dg_barangay"+ctr).value.toString()+"<br/>"
 								+"Birth: "+document.getElementById("dg_dob"+ctr).value.toString()+"<br/>"
+								+"Age: "+document.getElementById("dg_age"+ctr).value.toString()+"<br/>"
 								+"Gender: "+document.getElementById("dg_sex"+ctr).value.toString()+"<br/>"
 								+"Guardian: "+document.getElementById("dg_guardian"+ctr).value.toString()+"<br/>"
 								+"Contact No: "+document.getElementById("dg_contact"+ctr).value.toString()+"<br/><br/>"
@@ -1309,7 +1319,15 @@ jQuery(document).ready(function(){
 						        position: point,   
 						        map: map,  
 						        icon: img
-						    	});  
+						    	});//*
+							if (parseInt(document.getElementById("dg_age"+ctr).value.toString()) < 15) 
+							{
+								centroidMarker.setAnimation(google.maps.Animation.BOUNCE);
+							} 
+							else 
+							{
+								centroidMarker.setAnimation(null);
+							}//*/
 							ctr++;
 							setInfo(centroidMarker,dinfo,map);
 							oms.addMarker(centroidMarker);
@@ -1343,6 +1361,7 @@ jQuery(document).ready(function(){
 								+document.getElementById("Pdg_street"+ctr).value.toString()+" "
 								+document.getElementById("Pdg_barangay"+ctr).value.toString()+"<br/>"
 								+"Birth: "+document.getElementById("Pdg_dob"+ctr).value.toString()+"<br/>"
+								+"Age: "+document.getElementById("Pdg_age"+ctr).value.toString()+"<br/>"
 								+"Gender: "+document.getElementById("Pdg_sex"+ctr).value.toString()+"<br/>"
 								+"Guardian: "+document.getElementById("Pdg_guardian"+ctr).value.toString()+"<br/>"
 								+"Contact No: "+document.getElementById("Pdg_contact"+ctr).value.toString()+"<br/><br/>"
@@ -1431,7 +1450,15 @@ jQuery(document).ready(function(){
 						        position: point,   
 						        map: map,  
 						        icon: img
-						    	});  
+						    	});//*
+							if (parseInt(document.getElementById("Pdg_age"+ctr).value.toString()) < 15) 
+							{
+								centroidMarker.setAnimation(google.maps.Animation.BOUNCE);
+							} 
+							else 
+							{
+								centroidMarker.setAnimation(null);
+							}//*/
 							ctr++;
 							setInfo(centroidMarker,dinfo,map);
 							oms.addMarker(centroidMarker);
@@ -1763,6 +1790,7 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="dg_fName<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['fName']; ?>"	/>
 		<input type="hidden" id="dg_lName<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['lName']; ?>"	/>
 		<input type="hidden" id="dg_dob<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['dob']; ?>"	/>
+		<input type="hidden" id="dg_age<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['age']; ?>"	/>
 		<input type="hidden" id="dg_sex<?= $ctr ?>" 				value="<?php echo $dengue[$ctr]['sex']; ?>"	/>
 		<input type="hidden" id="dg_guardian<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['guardian']; ?>"	/>
 		<input type="hidden" id="dg_contact<?= $ctr ?>" 			value="<?php echo $dengue[$ctr]['contact']; ?>"	/>
@@ -1811,6 +1839,7 @@ jQuery(document).ready(function(){
 		<input type="hidden" id="Pdg_barangay<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['barangay']; ?>"	/>
 		<input type="hidden" id="Pdg_fName<?= $ctr ?>" 				value="<?php echo $Pdengue[$ctr]['fName']; ?>"	/>
 		<input type="hidden" id="Pdg_lName<?= $ctr ?>" 				value="<?php echo $Pdengue[$ctr]['lName']; ?>"	/>
+		<input type="hidden" id="Pdg_age<?= $ctr ?>" 				value="<?php echo $Pdengue[$ctr]['age']; ?>"	/>
 		<input type="hidden" id="Pdg_dob<?= $ctr ?>" 				value="<?php echo $Pdengue[$ctr]['dob']; ?>"	/>
 		<input type="hidden" id="Pdg_sex<?= $ctr ?>" 				value="<?php echo $Pdengue[$ctr]['sex']; ?>"	/>
 		<input type="hidden" id="Pdg_guardian<?= $ctr ?>" 			value="<?php echo $Pdengue[$ctr]['guardian']; ?>"	/>
