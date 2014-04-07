@@ -41,6 +41,21 @@ td { font-weight:bold }
 						<td> Contact No: </td> <td> <?= $person['person_contactno'] ?> </td>
 					</tr>
 					<tr>
+						<td> Landline No: </td> <td> <?= $person['person_landline'] ?> </td>
+					</tr>
+					<tr>
+						<td> Email Address: </td> <td> <?= $person['person_email'] ?> </td>
+					</tr>
+					<tr>
+						<td> Facebook: </td> <td> <?= $person['person_fb'] ?> </td>
+					</tr>
+					<tr>
+						<td> Twitter: </td> <td> <?= $person['person_tw'] ?> </td>
+					</tr>
+					<tr>
+						<td> Yahoo Messenger: </td> <td> <?= $person['person_ym'] ?> </td>
+					</tr>
+					<tr>
 						<td> Date of Birth: </td> <td> <?= date('D, M d Y',strtotime($person['person_dob'])) ?> </td>
 					</tr>
 					<tr>

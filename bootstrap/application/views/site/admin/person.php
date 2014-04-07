@@ -23,6 +23,18 @@
 						<td> Contact No: </td> <td> <?= $person['person_contactno'] ?> </td>
 					</tr>
 					<tr>
+						<td> Landline No: </td> <td> <?= $person['person_landline'] ?> </td>
+					</tr>
+					<tr>
+						<td> Email Address: </td> <td> <a href="mailto:<?= $person['person_email'] ?>"> <?= $person['person_email'] ?> </a> </td>
+					</tr>
+					<tr>
+						<td> Facebook: </td> <td> <a href="http://www.facebook.com/<?= $person['person_fb'] ?>">  facebook.com/<?= $person['person_fb'] ?> </a> </td>
+					</tr>
+					<tr>
+						<td> Twitter: </td> <td> <a href="http://www.twitter.com/<?= $person['person_tw'] ?>"> <?= $person['person_tw'] ?> </a></td>
+					</tr>
+					<tr>
 						<td> Date of Birth: </td> <td> <?= date('D, M d Y', strtotime($person['person_dob'])) ?> </td>
 					</tr>
 					<tr>
