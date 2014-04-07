@@ -71,21 +71,14 @@ class Poi extends CI_Controller
 	function search()
 	{
 		$config['base_url'] = site_url('website/poi/search');
-		$config['total_rows'] = count($this->model->search($this->input->post('TPsearch-txt')));
-		$config['per_page'] = 5;
+		$config['total_rows'] = count($this->model->search_limitless($this->input->post('TPsearch-txt')));
+		$config['per_page'] = 10;
 		$config['num_links'] = 3;
 		$config['uri_segment'] = 4;
 	
 		$this->pagination->initialize($config);
-		
-		$uri_segment = $this->uri->segment(4);
-		
-		if ($uri_segment == NULL || $uri_segment == 0)
-			$offset = 0;
-		else
-			$offset  = $uri_segment;
 	
-		$data['results'] = $this->model->search($this->input->post('TPsearch-txt'), $config['per_page'], $offset);
+		$data['results'] = $this->model->search($this->input->post('TPsearch-txt'), $config['per_page'], $this->uri->segment(4));
 		$data['links'] = $this->pagination->create_links();
 	
 		$this->load->view('site/poi/poi_search_results', $data);

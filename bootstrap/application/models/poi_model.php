@@ -34,20 +34,25 @@ class Poi_model extends CI_Model
 			$query->free_result();
 	}
 	
+	function search_limitless($search_term)
+	{
+		$this->db->from('map_nodes')
+		->join('bhw','map_nodes.node_barangay = bhw.barangay')
+		->like('node_name', $search_term)
+		->or_like('node_notes', $search_term);
+	
+		$query = $this->db->get();
+		return $query->result_array();
+		$query->free_result();
+	}
+	
 	function search($search_term, $offset = FALSE, $limit = FALSE)
 	{
 		$this->db->from('map_nodes')
 				->join('bhw','map_nodes.node_barangay = bhw.barangay')
 				->like('node_name', $search_term)
-				->or_like('node_notes', $search_term);
-	
-		if ($limit != FALSE)
-		{
-			if ($offset != 0)
-				$this->db->limit($offset, $limit);
-			else
-				$this->db->limit(0,$limit);
-		}
+				->or_like('node_notes', $search_term)
+				->limit($offset, $limit);
 	
 		$query = $this->db->get();
 		return $query->result_array();
