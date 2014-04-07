@@ -175,17 +175,25 @@ class Hh_model extends CI_Model
 		$query->free_result();
 	}
 	
-	function get_catchment_area($brgy = FALSE, $offset = FALSE, $limit = FALSE)
+	function get_catchment_area_limitless($brgy)
 	{
 		$this->db->from('catchment_area')
-					->join('bhw','catchment_area.bhw_id = bhw.user_username');
-		if ($brgy != FALSE)
-			$this->db->where('bhw.barangay', $brgy);
-		
-		$this->db->group_by('catchment_area.bhw_id');
-		
-		if ($offset != FALSE && $limit != FALSE)
-			$this->db->limit($offset, $limit);
+			->join('bhw','catchment_area.bhw_id = bhw.user_username')
+			->where('bhw.barangay', $brgy)
+			->group_by('catchment_area.bhw_id');
+	
+		$query = $this->db->get();
+		return $query->result_array();
+		$query->free_result();
+	}
+	
+	function get_catchment_area($brgy, $offset, $limit)
+	{
+		$this->db->from('catchment_area')
+					->join('bhw','catchment_area.bhw_id = bhw.user_username')
+					->where('bhw.barangay', $brgy)
+					->group_by('catchment_area.bhw_id')
+					->limit($offset, $limit);
 		
 		$query = $this->db->get();
 		return $query->result_array();
@@ -201,45 +209,58 @@ class Hh_model extends CI_Model
 		return $this->get_catchment_area($brgy);
 	}
 	
-	function get_households($bhw = FALSE, $offset = FALSE, $limit = FALSE)
+	function get_households_limitless($bhw)
+	{
+		$this->db->from('catchment_area')
+		->join('bhw','catchment_area.bhw_id = bhw.user_username')
+		->join('household_address', 'household_address.household_id = catchment_area.household_id')
+		->join('house_visits','catchment_area.household_id = house_visits.household_id')
+		->where('catchment_area.bhw_id', $bhw);
+	
+		$this->db->order_by('house_visits.visit_date','desc');
+		$this->db->group_by('catchment_area.household_id');
+	
+		$query = $this->db->get();
+		return $query->result_array();
+	}		
+	
+	function get_households($bhw, $offset, $limit)
 	{
 		$this->db->from('catchment_area')
 					->join('bhw','catchment_area.bhw_id = bhw.user_username')
 					->join('household_address', 'household_address.household_id = catchment_area.household_id')
-					->join('house_visits','catchment_area.household_id = house_visits.household_id');
-		/*
-		if ($brgy != FALSE)
-			$this->db->where('bhw.barangay', $brgy);
-		*/
-		if ($bhw != FALSE)
-			$this->db->where('catchment_area.bhw_id', $bhw);
-		
-		$this->db->order_by('house_visits.visit_date','desc');
-		$this->db->group_by('catchment_area.household_id');
-		
-		if ($offset != FALSE && $limit != FALSE)
-			$this->db->limit($offset, $limit);
+					->join('house_visits','catchment_area.household_id = house_visits.household_id')
+					->where('catchment_area.bhw_id', $bhw)
+					->order_by('house_visits.visit_date','desc')
+					->group_by('catchment_area.household_id')
+					->limit($offset, $limit);
 		
 		$query = $this->db->get();
 		return $query->result_array();
 			$query->free_result();
 	}
 	
-	function get_people($hh = FALSE, $offset = FALSE, $limit = FALSE)
+	function get_people_limitless($hh)
+	{
+		$this->db->from('catchment_area')
+		->join('bhw','catchment_area.bhw_id = bhw.user_username')
+		->join('master_list', 'master_list.person_id = catchment_area.person_id')
+		->join('household_address','catchment_area.household_id = household_address.household_id')
+		->where('catchment_area.household_id', $hh);
+	
+		$query = $this->db->get();
+		return $query->result_array();
+		$query->free_result();
+	}
+	
+	function get_people($hh, $offset, $limit)
 	{
 		$this->db->from('catchment_area')
 					->join('bhw','catchment_area.bhw_id = bhw.user_username')
 					->join('master_list', 'master_list.person_id = catchment_area.person_id')
-					->join('household_address','catchment_area.household_id = household_address.household_id');
-		/*
-			if ($bhw != FALSE)
-				$this->db->where('catchment_area.bhw_id', $bhw);
-		*/
-		if ($hh != FALSE)
-			$this->db->where('catchment_area.household_id', $hh);
-		
-		if ($offset != FALSE && $limit != FALSE)
-			$this->db->limit($offset, $limit);
+					->join('household_address','catchment_area.household_id = household_address.household_id')
+					->where('catchment_area.household_id', $hh)
+					->limit($offset, $limit);
 		
 		$query = $this->db->get();
 		return $query->result_array();

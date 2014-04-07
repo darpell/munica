@@ -41,7 +41,7 @@ class Households extends CI_Controller
 		
 		foreach ($data['brgys'] as $brgy)
 		{
-			 $ca_count[$brgy['barangay']] = $this->model->get_catchment_area($brgy['barangay']);
+			 $ca_count[$brgy['barangay']] = $this->model->get_catchment_area_limitless($brgy['barangay']);
 			 $case_count[$brgy['barangay']] = $this->ac->get_cases_per_brgy($brgy['barangay']);
 		}
 		
@@ -77,7 +77,7 @@ class Households extends CI_Controller
 		$data['brgy'] = str_replace('%20',' ',$brgy);
 		
 		$config['base_url'] = site_url('website/households/filter_CAs/' . $brgy);
-		$config['total_rows'] = count($this->model->get_catchment_area($data['brgy']));
+		$config['total_rows'] = count($this->model->get_catchment_area_limitless($data['brgy']));
 		$config['per_page'] = 5;
 		$config['num_links'] = 3;
 		$config['uri_segment'] = 5;
@@ -90,7 +90,7 @@ class Households extends CI_Controller
 		
 		foreach ($data['CAs'] as $ca)
 		{
-			$hh_count[$ca['bhw_id']] = $this->model->get_households($ca['bhw_id']);
+			$hh_count[$ca['bhw_id']] = $this->model->get_households_limitless($ca['bhw_id']);
 			$case_count[$ca['bhw_id']] = $this->ac->get_cases_per_ca($ca['bhw_id']);
 		}
 		
@@ -105,8 +105,7 @@ class Households extends CI_Controller
 		$data['CA'] = $bhw;
 		
 		$config['base_url'] = site_url('website/households/filter_HHs/' . $bhw);
-		$config['total_rows'] = count($this->model->get_households($data['CA']));
-		$config['first_url'] = 1; //http://stackoverflow.com/questions/9989494/first-page-link-issue-in-codeigniter-pagination-library
+		$config['total_rows'] = count($this->model->get_households_limitless($data['CA']));
 		$config['per_page'] = 5;
 		$config['num_links'] = 3;
 		$config['uri_segment'] = 5;
@@ -119,7 +118,7 @@ class Households extends CI_Controller
 		
 		foreach ($data['HHs'] as $hh)
 		{
-			$person_count[$hh['household_id']] = $this->model->get_people($hh['household_id']);
+			$person_count[$hh['household_id']] = $this->model->get_people_limitless($hh['household_id']);
 			$case_count[$hh['household_id']] = $this->ac->get_cases_per_hh($hh['household_id']);
 		}
 		
@@ -134,7 +133,7 @@ class Households extends CI_Controller
 		$data['HH'] = $hh;
 		
 		$config['base_url'] = site_url('website/households/filter_persons/' . $data['HH']);
-		$config['total_rows'] = count($this->model->get_people($data['HH']));
+		$config['total_rows'] = count($this->model->get_people_limitless($data['HH']));
 		$config['per_page'] = 5;
 		$config['num_links'] = 3;
 		$config['uri_segment'] = 5;

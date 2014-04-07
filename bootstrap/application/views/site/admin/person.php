@@ -23,7 +23,7 @@
 						<td> Contact No: </td> <td> <?= $person['person_contactno'] ?> </td>
 					</tr>
 					<tr>
-						<td> Date of Birth: </td> <td> <?= $person['person_dob'] ?> </td>
+						<td> Date of Birth: </td> <td> <?= date('D, M d Y', strtotime($person['person_dob'])) ?> </td>
 					</tr>
 					<tr>
 						<td> Marital Status: </td> <td> <?= $person['person_marital'] ?> </td>
