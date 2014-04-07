@@ -46,6 +46,51 @@ class Poi extends CI_Controller
 		$this->load->view('site/poi/poi_list', $data);
 	}
 	
+	function get_unending_pois()
+	{
+		$this->session->unset_userdata('poi_start_date');
+		$this->session->unset_userdata('poi_end_date');
+		
+		$config['base_url'] = site_url('website/poi/get_unending_pois');
+		$config['total_rows'] = $this->db->get_where('map_nodes', array('node_endDate' => 0))->num_rows();
+		$config['per_page'] = 10;
+		$config['num_links'] = 3;
+		$config['uri_segment'] = 4;
+	
+		$this->pagination->initialize($config);
+	
+		$data['pois'] = $this->model->get_unending_POIs($config['per_page'], $this->uri->segment(4));
+	
+		$data['links'] = $this->pagination->create_links();
+	
+		$this->load->view('site/poi/poi_list', $data);
+	}
+	
+	function get_pois_in_between()
+	{
+		if ($this->session->userdata('poi_start_date') == FALSE)
+			$this->session->set_userdata('poi_start_date', $this->input->post('poi_start_date'));
+		if ($this->session->userdata('poi_end_date') == FALSE)
+			$this->session->set_userdata('poi_end_date', $this->input->post('poi_end_date'));
+		
+		$start = $this->session->userdata('poi_start_date');
+		$end = $this->session->userdata('poi_end_date');
+		
+		$config['base_url'] = site_url('website/poi/get_pois_in_between');
+		$config['total_rows'] = count($this->model->get_POIs_in_between_limitless($start, $end));
+		$config['per_page'] = 10;
+		$config['num_links'] = 3;
+		$config['uri_segment'] = 4;
+		
+		$this->pagination->initialize($config);
+		
+		$data['pois'] = $this->model->get_POIs_in_between($start, $end, $config['per_page'], $this->uri->segment(4));
+		
+		$data['links'] = $this->pagination->create_links();
+		
+		$this->load->view('site/poi/poi_list', $data);
+	}
+	
 	function update($no)
 	{
 		if ($this->form_validation->run('poi_update') == FALSE)

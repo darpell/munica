@@ -6,7 +6,8 @@
 <body>
 <!-- CONTENT -->
 <div class="container">
-<!-- Search -->
+<div class="col-md-4">
+	<!-- Search -->
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<h3 class="panel-title"> <span class="glyphicon glyphicon-search"></span> Search Map Nodes </h3>
@@ -28,7 +29,43 @@
 	        	</form>
 			</div>
 		</div>
-		<!-- end of Search -->
+	<!-- end of Search -->
+	
+	<!-- Filter -->
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title"> <span class="glyphicon glyphicon-search"></span> Filter </h3>
+			</div>
+			<div class="panel-body">
+				<ul class="nav nav-pills nav-stacked">
+					<li> <a href="<?= site_url('website/poi/get_unending_pois') ?>"> Nodes with no end date </a> </li>
+				</ul>
+				<?php if ($this->session->userdata('poi_start_date') != FALSE || $this->session->userdata('poi_end_date') != FALSE ) {?>
+				<?php } else {?>
+				<br/> <h4 align="center"> or </h4> <br/>
+				<?php 
+					$attributes = array(
+											'id' 	=> 'TPfilter',
+											'role'	=> 'form'
+										);
+					echo form_open('website/poi/get_pois_in_between',$attributes); 
+				?>
+				<!-- Search Bar -->
+	        	<div class="form-group">
+	        	<h4> End Date is between </h4>
+	        		<input type="date" class="form-control" name="poi_start_date" required />
+	        		<input type="date" class="form-control" name="poi_end_date" required />
+	        	</div>
+	        	<!-- end of Search Bar -->
+	        	<div class="form-group"><center><input type="submit" value="Filter" class="btn btn-default" /></center></div>
+	        	</form>
+	        	<?php } ?>
+			</div>
+		</div>
+	<!-- end of Filter -->
+</div>
+<div class="col-md-8">
+
 <div class="panel panel-primary">
 	<div class="panel-heading">
 		<h3 class="panel-title"><span class="glyphicon glyphicon-user">&nbsp;</span> Viewing All POIs </h3>
@@ -59,6 +96,7 @@
 			<?php echo $links; ?>
 		</div>
 	</div>
+</div>
 </div>
 </div>
 <!-- FOOTER -->

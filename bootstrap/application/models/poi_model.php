@@ -26,6 +26,41 @@ class Poi_model extends CI_Model
 			$query->free_result();
 	}
 	
+	function get_POIs_in_between_limitless($start, $end)
+	{
+		//$query = $this->db->get_where('map_nodes', array('node_type' => $type), $offset, $limit);
+		$where = 'node_endDate between "' . $start . '" AND "' . $end . '"';
+	
+		$this->db->from('map_nodes')
+				->where($where);
+	
+		$query = $this->db->get();
+		return $query->result_array();
+		$query->free_result();
+	}
+	
+	function get_POIs_in_between($start, $end, $offset, $limit)
+	{
+		//$query = $this->db->get_where('map_nodes', array('node_type' => $type), $offset, $limit);
+		$where = 'node_endDate between "' . $start . '" AND "' . $end . '"';
+		
+		$this->db->from('map_nodes')
+				->where($where)
+				->limit($offset, $limit);
+		
+		$query = $this->db->get();
+		return $query->result_array();
+		$query->free_result();
+	}
+	
+	function get_unending_POIs($offset, $limit)
+	{
+		$query = $this->db->get_where('map_nodes', array('node_endDate' => 0), $offset, $limit);
+		
+		return $query->result_array();
+			$query->free_result();
+	}
+	
 	function get_poi($no)
 	{
 		$query = $this->db->get_where('map_nodes', array('node_no' => $no));
