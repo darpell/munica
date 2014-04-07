@@ -86,9 +86,9 @@ class Cases extends CI_Controller
 		$config['num_links'] = 3;
 		$config['uri_segment'] = 4;
 		if ($this->session->userdata('TPtype') != 'BHW')
-			$config['total_rows'] = count($this->model->get_cases($STATUS));
+			$config['total_rows'] = count($this->model->get_cases_limitless($STATUS));
 		else
-			$config['total_rows'] = count($this->model->get_cases($STATUS, $this->session->userdata('TPusername')));
+			$config['total_rows'] = count($this->model->get_cases_limitless($STATUS, $this->session->userdata('TPusername')));
 		
 		$this->pagination->initialize($config);
 		
@@ -108,9 +108,9 @@ class Cases extends CI_Controller
 		
 		if ($this->session->userdata('TPtype') != 'BHW')
 		{
-			$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases($STATUS));
-			$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'M');
-			$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'F');
+			$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases_limitless($STATUS));
+			$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases_limitless($STATUS),'M');
+			$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases_limitless($STATUS),'F');
 				
 			$data['offices'] = $this->ac->check_sources('office',$STATUS);
 			$data['schools'] = $this->ac->check_sources('school',$STATUS);
@@ -125,9 +125,9 @@ class Cases extends CI_Controller
 		}
 		else
 		{
-			$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases($STATUS, $this->session->userdata('TPusername')));
-			$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS, $this->session->userdata('TPusername')),'M');
-			$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS, $this->session->userdata('TPusername')),'F');
+			$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases_limitless($STATUS, $this->session->userdata('TPusername')));
+			$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases_limitless($STATUS, $this->session->userdata('TPusername')),'M');
+			$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases_limitless($STATUS, $this->session->userdata('TPusername')),'F');
 			
 			$data['offices'] = $this->ac->check_sources('office', $STATUS, $this->session->userdata('TPusername'));
 			$data['schools'] = $this->ac->check_sources('school', $STATUS, $this->session->userdata('TPusername'));
@@ -151,9 +151,9 @@ class Cases extends CI_Controller
 		
 		$config['base_url'] = site_url('website/cases/view_threatening');
 		if ($this->session->userdata('TPtype') != 'BHW')
-			$config['total_rows'] = count($this->model->get_cases($STATUS));
+			$config['total_rows'] = count($this->model->get_cases_limitless($STATUS));
 		else
-			$config['total_rows'] = count($this->model->get_cases($STATUS, $this->session->userdata('TPusername')));
+			$config['total_rows'] = count($this->model->get_cases_limitless($STATUS, $this->session->userdata('TPusername')));
 		$config['per_page'] = 5;
 		$config['num_links'] = 3;
 		$config['uri_segment'] = 4;
@@ -173,9 +173,9 @@ class Cases extends CI_Controller
 		
 		if ($this->session->userdata('TPtype') != 'BHW')
 		{
-			$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases($STATUS));
-			$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'M');
-			$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'F');
+			$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases_limitless($STATUS));
+			$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases_limitless($STATUS),'M');
+			$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases_limitless($STATUS),'F');
 			
 			$data['offices'] = $this->ac->check_sources('office',$STATUS);
 			$data['schools'] = $this->ac->check_sources('school',$STATUS);
@@ -190,9 +190,9 @@ class Cases extends CI_Controller
 		}
 		else
 		{
-			$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases($STATUS, $this->session->userdata('TPusername')));
-			$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS, $this->session->userdata('TPusername')),'M');
-			$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS, $this->session->userdata('TPusername')),'F');
+			$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases_limitless($STATUS, $this->session->userdata('TPusername')));
+			$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases_limitless($STATUS, $this->session->userdata('TPusername')),'M');
+			$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases_limitless($STATUS, $this->session->userdata('TPusername')),'F');
 			
 			$data['offices'] = $this->ac->check_sources('office', $STATUS, $this->session->userdata('TPusername'));
 			$data['schools'] = $this->ac->check_sources('school', $STATUS, $this->session->userdata('TPusername'));
@@ -216,9 +216,9 @@ class Cases extends CI_Controller
 		
 		$config['base_url'] = site_url('website/cases/view_serious');
 		if ($this->session->userdata('TPtype') != 'BHW')
-			$config['total_rows'] = count($this->model->get_cases($STATUS));
+			$config['total_rows'] = count($this->model->get_cases_limitless($STATUS));
 		else
-			$config['total_rows'] = count($this->model->get_cases($STATUS, $this->session->userdata('TPusername')));
+			$config['total_rows'] = count($this->model->get_cases_limitless($STATUS, $this->session->userdata('TPusername')));
 		$config['per_page'] = 5;
 		$config['num_links'] = 3;
 		$config['uri_segment'] = 4;
@@ -238,9 +238,9 @@ class Cases extends CI_Controller
 		
 		if ($this->session->userdata('TPtype') != 'BHW')
 		{
-			$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases($STATUS));
-			$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'M');
-			$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'F');
+			$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases_limitless($STATUS));
+			$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases_limitless($STATUS),'M');
+			$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases_limitless($STATUS),'F');
 			
 			$data['offices'] = $this->ac->check_sources('office',$STATUS);
 			$data['schools'] = $this->ac->check_sources('school',$STATUS);
@@ -255,9 +255,9 @@ class Cases extends CI_Controller
 		}
 		else
 		{
-			$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases($STATUS, $this->session->userdata('TPusername')));
-			$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS, $this->session->userdata('TPusername')),'M');
-			$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS, $this->session->userdata('TPusername')),'F');
+			$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases_limitless($STATUS, $this->session->userdata('TPusername')));
+			$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases_limitless($STATUS, $this->session->userdata('TPusername')),'M');
+			$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases_limitless($STATUS, $this->session->userdata('TPusername')),'F');
 			
 			$data['offices'] = $this->ac->check_sources('office', $STATUS, $this->session->userdata('TPusername'));
 			$data['schools'] = $this->ac->check_sources('school', $STATUS, $this->session->userdata('TPusername'));
@@ -281,9 +281,9 @@ class Cases extends CI_Controller
 		
 		$config['base_url'] = site_url('website/cases/view_hospitalized');
 		if ($this->session->userdata('TPtype') != 'BHW')
-			$config['total_rows'] = count($this->model->get_cases($STATUS));
+			$config['total_rows'] = count($this->model->get_cases_limitless($STATUS));
 		else
-			$config['total_rows'] = count($this->model->get_cases($STATUS, $this->session->userdata('TPusername')));
+			$config['total_rows'] = count($this->model->get_cases_limitless($STATUS, $this->session->userdata('TPusername')));
 		$config['per_page'] = 5;
 		$config['num_links'] = 3;
 		$config['uri_segment'] = 4;
@@ -303,9 +303,9 @@ class Cases extends CI_Controller
 		
 		if ($this->session->userdata('TPtype') != 'BHW')
 		{
-			$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases($STATUS));
-			$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'M');
-			$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS),'F');
+			$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases_limitless($STATUS));
+			$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases_limitless($STATUS),'M');
+			$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases_limitless($STATUS),'F');
 			
 			$data['offices'] = $this->ac->check_sources('office',$STATUS);
 			$data['schools'] = $this->ac->check_sources('school',$STATUS);

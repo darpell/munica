@@ -15,9 +15,26 @@ class Cases_model extends CI_Model
 		{
 		$this->db->insert('case_report_main',$cases[$ctr]);
 		}
-		}
+	}
 	
-	function get_cases($type = FALSE, $bhw = FALSE ,$offset = FALSE, $limit = FALSE)
+	function get_cases_limitless($type = FALSE, $bhw = FALSE)
+	{
+		$this->db->from('active_cases')
+		->join('master_list','active_cases.person_id = master_list.person_id')
+		->join('catchment_area','master_list.person_id = catchment_area.person_id');
+	
+		if ($bhw != FALSE)
+			$this->db->where('bhw_id', $bhw);
+	
+		if ($type != FALSE)
+			$this->db->where('status',$type);
+	
+		$query = $this->db->get();
+		return $query->result_array();
+		$query->free_result();
+	}
+	
+	function get_cases($type = FALSE, $bhw = FALSE ,$offset, $limit)
 	{
 		$this->db->from('active_cases')
 					->join('master_list','active_cases.person_id = master_list.person_id')
@@ -28,7 +45,7 @@ class Cases_model extends CI_Model
 		
 		if ($type != FALSE)
 			$this->db->where('status',$type);
-		if ($offset != FALSE && $limit != FALSE)
+		
 			$this->db->limit($offset,$limit);
 		
 		$query = $this->db->get();
