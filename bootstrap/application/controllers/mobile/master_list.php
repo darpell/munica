@@ -10,7 +10,7 @@ class Master_list extends CI_Controller
 	
 	function index()
 	{
-		$data['subjects'] = $this->model->get_households($this->session->userdata('TPusername'));
+		$data['subjects'] = $this->model->get_households_limitless($this->session->userdata('TPusername'));
 		
 		$last_visits = array();
 		
@@ -57,7 +57,7 @@ class Master_list extends CI_Controller
 	function view_household($household_id)
 	{
 		$data['hh'] = $this->model->get_household($household_id);
-		$data['household_persons'] = $this->model->get_people($household_id);
+		$data['household_persons'] = $this->model->get_people_limitless($household_id);
 		$data['hh_id'] = $household_id;
 		$this->load->view('mobile/master_list_view', $data);
 	}
