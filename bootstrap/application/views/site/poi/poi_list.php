@@ -9,7 +9,7 @@
 <!-- Search -->
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-				<h3 class="panel-title"> <span class="glyphicon glyphicon-search"></span> Search Case </h3>
+				<h3 class="panel-title"> <span class="glyphicon glyphicon-search"></span> Search Map Nodes </h3>
 			</div>
 			<div class="panel-body">
 				<?php 
