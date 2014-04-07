@@ -80,8 +80,8 @@
 	              <ul class="dropdown-menu">
                 	<li class="dropdown-header"> Tools </li>
               		<li><?= anchor(site_url('website/households/visits'),'Household visits')?></li>
-              		<li><?= anchor(site_url('website/larval_survey'),'Update Larval Nodes')?></li>
-              		<li><?= anchor(site_url('website/households/visits'),'Update POIs')?></li>
+              		<li><?= anchor(site_url('website/poi/get_source_pois'),'Update Source POIs')?></li>
+              		<li><?= anchor(site_url('website/poi/get_risk_pois'),'Update Risk POIs')?></li>
                 	<li class="divider"></li>
                 	<li class="dropdown-header"> Map Reports </li>
                 	<li><?= anchor(site_url('website/cases/view_map'),'Case Map')?></li>

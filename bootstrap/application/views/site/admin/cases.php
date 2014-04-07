@@ -58,11 +58,11 @@ var symp_r = <?= $symptoms['has_rashes'] ?>;
 										);
 					echo form_open('website/cases/search',$attributes); 
 				?>
-				<!-- First Name -->
+				<!-- Search Bar -->
 	        	<div class="form-group">
 		        	<input type="text" class="form-control" name="TPsearch-txt" id="TPsearch-txt" placeholder="Search" required autofocus/>
 	        	</div>
-	        	<!-- end of First Name -->
+	        	<!-- end of Search Bar -->
 	        	<div class="form-group"><center><input type="submit" value="Search" class="btn btn-default" /></center></div>
 	        	</form>
 			</div>

@@ -202,6 +202,21 @@ $config = array(
 									'rules'	=> 'required'
 								)
 							),
+			
+				'poi_update'	=> 
+						array(
+								array(
+										'field' => 'TPname-txt',
+										'label'	=> 'name',
+										'rules'	=> 'required'
+								),
+								array(
+										'field' => 'TPend-date',
+										'label'	=> 'end date',
+										'rules'	=> 'required'
+								)
+							),
+		
 				'ls_form'	=> array(
 								array(
 									'field' => 'TPcontainer-txt_r',
