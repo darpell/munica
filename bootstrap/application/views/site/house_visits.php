@@ -13,6 +13,18 @@ body { height:100% }
 
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3&sensor=true"></script>
 <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
+
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="<?= base_url('scripts/tablesorter/jquery.tablesorter.min.js') ?>"></script>
+<script type="text/javascript">
+$(document).ready(function() 
+	    { 
+	        $("#suggested").tablesorter( {sortList: [[0,0], [1,0]]} ); 
+	    } 
+	); 
+</script>
+
 <script src="<?= base_url('scripts/OverlappingMarkerSpiderfier.js') ?>"></script>
 <script src="<?= base_url('scripts/households/visits_map.js') ?>"></script>
 
@@ -21,6 +33,7 @@ var households = <?= json_encode($households); ?>;
 var last_visits = <?= json_encode($last_visits); ?>;
 var hh_img = [
 				'<?= base_url('images/house visited.png'); ?>',
+				'<?= base_url('images/house unvisited.png'); ?>',
 				'<?= base_url('images/house not visited.PNG'); ?>'
               ];
 </script>
@@ -66,7 +79,7 @@ var hh_img = [
 			</div>
 		<!-- end of Legend -->
 	
-		<!-- Household List -->
+		<!-- To Visit List -->
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h3 class="panel-title"> To Visit List </h3>
@@ -81,6 +94,42 @@ var hh_img = [
 							<li> <a> <?= $house['household_name'] . ' at ' . $house['house_no'] . ' ' . $house['street'] . ' Street'?></a> </li>
 							<?php } ?>
 						</ul>
+					</div>
+					<div class="col-md-4">
+								
+					</div>
+				</div>
+			</div>
+			<!-- end of To Visit List -->
+			
+		<!-- Household List -->
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title"> Suggested Order of Visit </h3>
+				</div>
+				<div class="panel-body">
+					<div>
+						<table id="suggested" class="table">
+							<thead>
+								<tr>
+									<th> Household Name </th> <th> Address </th> <th> Date of Last Visit </th>
+								</tr> 
+							</thead>
+							<tbody>
+								<?php foreach ($last_visits as $house) { ?>
+								<tr>
+									<td> <a href="<?= site_url('website/households/add_to_visit_list/' . $house['household_id']) ?>"><?= $house['household_name'] ?></a> </td> <td> <?= $house['house_no'] . ' ' . $house['street'] . ' Street'?> </td> <td> <?= $house['visit_date'] ?></td>
+								</tr>
+								<?php } ?>
+							</tbody>
+						</table>
+					
+						<!-- <ul class="nav nav-pills nav-stacked">
+							<!--  
+							
+							<li> <a>  . ' at ' .</a> </li>
+							
+						</ul> -->
 					</div>
 					<div class="col-md-4">
 								

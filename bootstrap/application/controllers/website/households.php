@@ -31,8 +31,17 @@ class Households extends CI_Controller
 	
 	function add_to_visit_list($hh_id)
 	{
-		$this->model->add_to_visit($hh_id);
-		redirect('website/households/visits');
+		$query = $this->db->get_where('to_visit', array('household_id' => $hh_id));
+		if ($query->num_rows() > 0)
+		{
+			$data['result'] = 'Household is already in To Visit List';
+			$this->load->view('site/success', $data);
+		}
+		else
+		{
+			$this->model->add_to_visit($hh_id);
+			redirect('website/households/visits');
+		}
 	}
 	
 	function filter_brgys()

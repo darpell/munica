@@ -24,7 +24,7 @@ function initialize()
 		var image;
 		
 		if (x < date)
-			image = hh_img[1];
+			image = hh_img[2];
 		else //if (x >= date && x < today )
 			image = hh_img[0];
 		
