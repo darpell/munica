@@ -11,6 +11,39 @@ class Households extends CI_Controller
 		$this->load->model('map_temp_model','map');
 	}
 	
+	function update_person($id)
+	{
+		if ($this->form_validation->run() == FALSE)
+		{			
+			$data['person'] = $this->model->get_person($id);
+			$this->load->view('site/admin/person_form', $data);
+		}
+		else
+		{
+			$input_data = array(
+							'person_first_name'		=>	$this->input->post('TPfirstname-txt'),
+							'person_last_name'		=>	$this->input->post('TPlastname-txt'),
+							'person_dob'			=>	$this->input->post('TPbirth-date'),
+							'person_sex'			=>	$this->input->post('TPgender-rd'),
+							'person_marital'		=>	$this->input->post('TPmarital-txt'),
+							'person_nationality'	=>	$this->input->post('TPnationality-txt'),
+							'person_blood_type'		=>	$this->input->post('TPblood-txt'),
+							'person_guardian'		=>	$this->input->post('TPguardian-txt'),
+							'person_contactno'		=>	$this->input->post('TPcontactno-txt'),
+							'person_landline'		=>	$this->input->post('TPlandline-txt'),
+							'person_email'			=>	$this->input->post('TPemail-txt'),
+							'person_fb'				=>	$this->input->post('TPfb-txt'),
+							'person_tw'				=>	$this->input->post('TPtwitter-txt'),
+							'person_ym'				=>	$this->input->post('TPym-txt')
+						);
+			
+			$data['result'] = "Updating Successful";
+			
+			$this->model->update_person($id, $input_data);
+			$this->load->view('site/success');
+		}
+	}
+	
 	function visits()
 	{
 		$data['households'] = $this->map->get_households($this->session->userdata('TPusername'));

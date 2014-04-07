@@ -29,11 +29,11 @@
 						{
 							//$this->masterlist->add_fever_day($household_persons[$ctr]['person_id']);
 					?>
-						<li> <a href="<?=site_url('website/households/view_person/' . $per) ?>"> <label style="color:RED;"> [Has fever] </label> <?php echo $name; ?> </a> </li>
+						<li> <a href="<?=site_url('website/households/update_person/' . $per) ?>"> <label style="color:RED;"> [Has fever] </label> <?php echo $name; ?> </a> </li>
 					<?php } ?>
 					
 					<?php } else { ?>
-						<li> <a href="<?=site_url('website/households/view_person/' . $per) ?>"> <label style="color:GREEN;"> </label> <?php echo $name; ?> </a> </li>
+						<li> <a href="<?=site_url('website/households/update_person/' . $per) ?>"> <label style="color:GREEN;"> </label> <?php echo $name; ?> </a> </li>
 					<?php } } ?>
 				</ul>
 				<?php echo $links; ?>

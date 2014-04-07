@@ -307,6 +307,12 @@ class Hh_model extends CI_Model
 		return $query->row_array();
 		$query->free_result();
 	}
+	
+	function update_person($id, $data)
+	{
+		$this->db->where('person_id', $id);
+		$this->db->update('master_list', $data);
+	}
 }
 
 
