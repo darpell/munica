@@ -182,11 +182,6 @@ $config = array(
 												'field' => 'hh_blood',
 												'label' => 'blood type',
 												'rules' => 'required'
-										),
-										array(
-												'field' => 'hh_contact',
-												'label' => 'contact number',
-												'rules' => 'required'
 										)
 						),
 		

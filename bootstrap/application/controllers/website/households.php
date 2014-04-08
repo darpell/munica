@@ -13,7 +13,7 @@ class Households extends CI_Controller
 	
 	function update_person($id)
 	{
-		if ($this->form_validation->run() == FALSE)
+		if ($this->form_validation->run('new_member') == FALSE)
 		{			
 			$data['person'] = $this->model->get_person($id);
 			$this->load->view('site/admin/person_form', $data);
@@ -21,13 +21,13 @@ class Households extends CI_Controller
 		else
 		{
 			$input_data = array(
-							'person_first_name'		=>	$this->input->post('TPfirstname-txt'),
-							'person_last_name'		=>	$this->input->post('TPlastname-txt'),
-							'person_dob'			=>	$this->input->post('TPbirth-date'),
-							'person_sex'			=>	$this->input->post('TPgender-rd'),
-							'person_marital'		=>	$this->input->post('TPmarital-txt'),
-							'person_nationality'	=>	$this->input->post('TPnationality-txt'),
-							'person_blood_type'		=>	$this->input->post('TPblood-txt'),
+							'person_first_name'		=>	$this->input->post('hh_fname'),
+							'person_last_name'		=>	$this->input->post('hh_lname'),
+							'person_dob'			=>	$this->input->post('hh_dob'),
+							'person_sex'			=>	$this->input->post('hh_gender'),
+							'person_marital'		=>	$this->input->post('hh_marital'),
+							'person_nationality'	=>	$this->input->post('hh_nationality'),
+							'person_blood_type'		=>	$this->input->post('hh_blood'),
 							'person_guardian'		=>	$this->input->post('TPguardian-txt'),
 							'person_contactno'		=>	$this->input->post('TPcontactno-txt'),
 							'person_landline'		=>	$this->input->post('TPlandline-txt'),
@@ -40,7 +40,7 @@ class Households extends CI_Controller
 			$data['result'] = "Updating Successful";
 			
 			$this->model->update_person($id, $input_data);
-			$this->load->view('site/success');
+			$this->load->view('site/success',$data);
 		}
 	}
 	

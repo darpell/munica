@@ -17,58 +17,58 @@
 							'id' 	=> 'TPperson_update',
 							'role'	=> 'form'
 						);
-	echo form_open('website/households/update/' . $person['person_id'], $attributes); ?>
+	echo form_open('website/households/update_person/' . $person['person_id'], $attributes); ?>
 	<div class="row">
         <div class="col-lg-6">
         	<!-- First Name -->
         	<div class="form-group">
-	        	<label for="TPfirstname-txt"> First name:  </label> <label class="text-danger"><?php echo form_error('TPfirstname-txt'); ?></label>
-	        	<input type="text" class="form-control" name="TPfirstname-txt" id="TPfirstname-txt" value="<?php echo $person['person_first_name']; ?>" placeholder="First name" required autofocus/>
+	        	<label for="hh_fname"> First name:  </label> <label class="text-danger"><?php echo form_error('hh_fname'); ?></label>
+	        	<input type="text" class="form-control" name="hh_fname" id="hh_fname" value="<?php echo $person['person_first_name']; ?>" placeholder="First name" required autofocus/>
         	</div>
         	<!-- end of First Name -->
         	
         	<!-- Last Name -->
         	<div class="form-group">
-	        	<label for="TPlastname-txt"> Last name: </label> <label class="text-danger"><?php echo form_error('TPlastname-txt'); ?></label>
-				<input type="text" class="form-control" name="TPlastname-txt" id="TPlastname-txt" value="<?php echo $person['person_last_name']; ?>" placeholder="Last name" required/>
+	        	<label for="hh_lname"> Last name: </label> <label class="text-danger"><?php echo form_error('hh_lname'); ?></label>
+				<input type="text" class="form-control" name="hh_lname" id="hh_lname" value="<?php echo $person['person_last_name']; ?>" placeholder="Last name" required/>
         	</div>
         	<!-- end of Last Name -->
         	
         	<!-- DOB -->
         	<div class="form-group">
-	        	<label for="TPbirth-date"> Date of Birth: </label> <label class="text-danger"><?php echo form_error('TPbirth-date'); ?></label>
-				<input type="date" class="form-control" name="TPbirth-date" id="TPbirth-date" value="<?php echo $person['person_dob']; ?>" required/>
+	        	<label for="hh_dob"> Date of Birth: </label> <label class="text-danger"><?php echo form_error('hh_dob'); ?></label>
+				<input type="date" class="form-control" name="hh_dob" id="hh_dob" value="<?php echo $person['person_dob']; ?>" required/>
         	</div>
         	<!-- end of DOB  -->
 			
 			<!-- Gender -->
 			<label> Gender: </label>
 		    <div class="radio">
-		        <label><input name="TPgender-rd" type="radio" value="M" /> Male </label>
+		        <label><input name="hh_gender" type="radio" value="M" /> Male </label>
 		   	</div>
 		   	<div class="radio">
-		   		<label><input name="TPgender-rd" type="radio" value="F" /> Female </label>
+		   		<label><input name="hh_gender" type="radio" value="F" /> Female </label>
 		   	</div>
 		   	<!-- end of Gender -->
 		   	
 		   	<!-- Marital -->
         	<div class="form-group">
-	        	<label for="TPmarital-txt"> Marital Status: </label> <label class="text-danger"><?php echo form_error('TPmarital-txt'); ?></label>
-				<input type="text" class="form-control" name="TPmarital-txt" id="TPmarital-txt" value="<?php echo $person['person_marital']; ?>" placeholder="Marital Status" required/>
+	        	<label for="hh_marital"> Marital Status: </label> <label class="text-danger"><?php echo form_error('hh_marital'); ?></label>
+				<input type="text" class="form-control" name="hh_marital" id="hh_marital" value="<?php echo $person['person_marital']; ?>" placeholder="Marital Status" required/>
         	</div>
         	<!-- end of Marital -->
         	
         	<!-- Nationality -->
         	<div class="form-group">
-	        	<label for="TPnationality-txt"> Nationality: </label> <label class="text-danger"><?php echo form_error('TPnationality-txt'); ?></label>
-				<input type="text" class="form-control" name="TPnationality-txt" id="TPnationality-txt" value="<?php echo $person['person_nationality']; ?>" placeholder="Nationality" required/>
+	        	<label for="hh_nationality"> Nationality: </label> <label class="text-danger"><?php echo form_error('hh_nationality'); ?></label>
+				<input type="text" class="form-control" name="hh_nationality" id="hh_nationality" value="<?php echo $person['person_nationality']; ?>" placeholder="Nationality" required/>
         	</div>
         	<!-- end of Nationality -->
         	
         	<!-- Blood Type -->
         	<div class="form-group">
-	        	<label for="TPblood-txt"> Blood Type: </label> <label class="text-danger"><?php echo form_error('TPblood-txt'); ?></label>
-				<input type="text" class="form-control" name="TPblood-txt" id="TPblood-txt" value="<?php echo $person['person_blood_type']; ?>" placeholder="Blood Type" required/>
+	        	<label for="hh_blood"> Blood Type: </label> <label class="text-danger"><?php echo form_error('hh_blood'); ?></label>
+				<input type="text" class="form-control" name="hh_blood" id="hh_blood" value="<?php echo $person['person_blood_type']; ?>" placeholder="Blood Type" required/>
         	</div>
         	<!-- end of Blood Type -->
 		   	
@@ -77,7 +77,7 @@
 			<!-- Guardian -->
         	<div class="form-group">
 	        	<label for="TPguardian-txt"> Guardian: </label> <label class="text-danger"><?php echo form_error('TPguardian-txt'); ?></label>
-				<input type="text" class="form-control" name="TPguardian-txt" id="TPguardian-txt" value="<?php echo $person['person_guardian']; ?>" placeholder="Guardian" required/>
+				<input type="text" class="form-control" name="TPguardian-txt" id="TPguardian-txt" value="<?php echo $person['person_guardian']; ?>" placeholder="Guardian"/>
         	</div>
         	<!-- end of Guardian -->
 			
