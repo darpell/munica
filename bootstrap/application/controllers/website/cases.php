@@ -320,9 +320,9 @@ class Cases extends CI_Controller
 		}
 		else
 		{
-			$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases($STATUS, $this->session->userdata('TPusername')));
-			$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS, $this->session->userdata('TPusername')),'M');
-			$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases($STATUS, $this->session->userdata('TPusername')),'F');
+			$data['distribution'] = $this->ac->check_gender_distribution($this->model->get_cases_limitless($STATUS, $this->session->userdata('TPusername')));
+			$data['male_age_dist'] = $this->ac->age_distribution($this->model->get_cases_limitless($STATUS, $this->session->userdata('TPusername')),'M');
+			$data['female_age_dist'] = $this->ac->age_distribution($this->model->get_cases_limitless($STATUS, $this->session->userdata('TPusername')),'F');
 			
 			$data['offices'] = $this->ac->check_sources('office', $STATUS, $this->session->userdata('TPusername'));
 			$data['schools'] = $this->ac->check_sources('school', $STATUS, $this->session->userdata('TPusername'));
