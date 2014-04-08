@@ -122,13 +122,33 @@ var symp_r = <?= $symptoms['has_rashes'] ?>;
 		<table class="table">
 			<thead>
 				<tr>
-					<th> Person Name </th> <th> Gender </th> <th> Fever Duration </th> <th> Suspected Source </th> <th> Contact Number </th>
+					<th> </th> <th> Person Name </th> <th> Age </th> <th> Gender </th> <th> Fever Duration </th> <th> Suspected Source </th> <th> Contact Number </th>
 				</tr>
 			<thead>
 			<tbody>
 				<?php foreach ($cases as $case) {?>
 				<tr>
+					<td>
+						<?php 
+							$bday = $case['person_dob'];
+							$today = new DateTime();//date('Y-m-d');
+							$diff = $today->diff(new DateTime($bday));
+							
+							if ($diff->y > -1 && $diff->y <= 15)
+							{ 
+						?>
+						<img src="<?= base_url('images/child.png') ?>"/>		
+						<?php } ?>
+					</td>	
 					<td> <a href="<?= site_url('website/cases/view_person/' . $case['imcase_no']) ?>"><?= $case['person_first_name'] . ' ' . $case['person_last_name'] ?> </a> </td> 
+					<td> 
+						<?php 
+							$bday = $case['person_dob'];
+							$today = new DateTime();//date('Y-m-d');
+							$diff = $today->diff(new DateTime($bday));
+							echo $diff->y;
+						?>
+					</td>
 					<td> <?= $case['person_sex'] ?> </td>
 					<td> <?= $case['days_fever'] ?> </td> 
 					<td> <?= $case['suspected_source'] ?> </td>

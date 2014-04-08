@@ -28,6 +28,9 @@ class Cases_model extends CI_Model
 	
 		if ($type != FALSE)
 			$this->db->where('status',$type);
+		
+		$this->db->order_by('days_fever');
+		$this->db->order_by('person_dob','desc');
 	
 		$query = $this->db->get();
 		return $query->result_array();
@@ -45,6 +48,10 @@ class Cases_model extends CI_Model
 		
 		if ($type != FALSE)
 			$this->db->where('status',$type);
+		
+		$this->db->order_by('days_fever','desc');
+		$this->db->order_by('person_dob','desc');
+		
 		
 			$this->db->limit($offset,$limit);
 		

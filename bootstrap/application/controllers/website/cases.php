@@ -82,7 +82,7 @@ class Cases extends CI_Controller
 		$STATUS = 'suspected';
 		
 		$config['base_url'] = site_url('website/cases/view_suspected');
-		$config['per_page'] = 5;
+		$config['per_page'] = 10;
 		$config['num_links'] = 3;
 		$config['uri_segment'] = 4;
 		if ($this->session->userdata('TPtype') != 'BHW')
@@ -154,7 +154,7 @@ class Cases extends CI_Controller
 			$config['total_rows'] = count($this->model->get_cases_limitless($STATUS));
 		else
 			$config['total_rows'] = count($this->model->get_cases_limitless($STATUS, $this->session->userdata('TPusername')));
-		$config['per_page'] = 5;
+		$config['per_page'] = 10;
 		$config['num_links'] = 3;
 		$config['uri_segment'] = 4;
 		
@@ -219,7 +219,7 @@ class Cases extends CI_Controller
 			$config['total_rows'] = count($this->model->get_cases_limitless($STATUS));
 		else
 			$config['total_rows'] = count($this->model->get_cases_limitless($STATUS, $this->session->userdata('TPusername')));
-		$config['per_page'] = 5;
+		$config['per_page'] = 10;
 		$config['num_links'] = 3;
 		$config['uri_segment'] = 4;
 		
@@ -284,7 +284,7 @@ class Cases extends CI_Controller
 			$config['total_rows'] = count($this->model->get_cases_limitless($STATUS));
 		else
 			$config['total_rows'] = count($this->model->get_cases_limitless($STATUS, $this->session->userdata('TPusername')));
-		$config['per_page'] = 5;
+		$config['per_page'] = 10;
 		$config['num_links'] = 3;
 		$config['uri_segment'] = 4;
 	
