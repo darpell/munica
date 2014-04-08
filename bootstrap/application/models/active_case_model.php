@@ -41,7 +41,8 @@ class Active_case_model extends CI_Model
 		if ($status != FALSE)
 			$this->db->where('status',$status);
 		
-		$this->db->order_by('imcase_no','desc');
+		$this->db->order_by('days_fever','desc');
+		$this->db->order_by('person_dob','desc');
 		
 		$query = $this->db->get();
 		return $query->result_array();

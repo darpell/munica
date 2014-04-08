@@ -217,7 +217,7 @@ class Hh_model extends CI_Model
 		->join('house_visits','catchment_area.household_id = house_visits.household_id')
 		->where('catchment_area.bhw_id', $bhw);
 	
-		$this->db->order_by('house_visits.visit_date','desc');
+		$this->db->order_by('household_address.household_name');
 		$this->db->group_by('catchment_area.household_id');
 	
 		$query = $this->db->get();
@@ -231,7 +231,7 @@ class Hh_model extends CI_Model
 					->join('household_address', 'household_address.household_id = catchment_area.household_id')
 					->join('house_visits','catchment_area.household_id = house_visits.household_id')
 					->where('catchment_area.bhw_id', $bhw)
-					->order_by('house_visits.visit_date','desc')
+					->order_by('household_address.household_name')
 					->group_by('catchment_area.household_id')
 					->limit($offset, $limit);
 		
