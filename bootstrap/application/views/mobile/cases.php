@@ -33,6 +33,12 @@
 					[Has Fever for <?php echo $cases[$ctr]['days_fever']; ?> days] </label> <br/>					
 					<?php echo $cases[$ctr]['person_first_name']; ?> <!-- First Name -->
 					<?php echo $cases[$ctr]['person_last_name']; ?> <!-- Last Name -->
+					<?php //http://stackoverflow.com/questions/11272691/php-data-difference-giving-fatal-error
+					$bday = $cases[$ctr]['person_dob']; 
+					$today = new DateTime();//date('Y-m-d');
+					$diff = $today->diff(new DateTime($bday));
+					echo ', ' . $diff->y . ' years old';
+				?> <!-- Age -->
 					<p class="ui-li-aside"> Last Visited On <strong>
 					<?php echo date('D, M d Y',strtotime($cases[$ctr]['last_updated_on'])); ?> <!-- Last Visited On -->
 					</strong></p>

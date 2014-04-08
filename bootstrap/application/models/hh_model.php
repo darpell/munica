@@ -30,32 +30,7 @@ class Hh_model extends CI_Model
 		return $query->result_array();
 			$query->free_result();
 	}
-	/*
-	function get_suggestion_list()
-	{
-		$query = $this->db->query('
-				
-				select t1.*
-				from house_visits t1
-				
-				inner join 
-				(
-					select max(visit_date) MaxVisitDate, household_id
-					from house_visits
-					group by household_id 
-				) t2
-				
-				on t1.household_id = t2.household_id 
-				and t1.visit_date = t2.MaxVisitDate
-				
-				order by t1.visit_date asc
-				
-				');
-		
-		return $query->result_array();
-			$query->free_result();
-	}
-	*/
+	
 	function mark_visit($hh_id)
 	{
 		$this->check_if_in_to_visit($hh_id);
