@@ -2006,7 +2006,7 @@ jQuery(document).ready(function(){
 		);
 		echo form_checkbox($cboxPoI);
 		echo "Points of Interest<br/>";
-		//*
+		/*
 		$cboxHouseholds = array(
 				'name'        => 'cboxHouseholds',
 				'id'          => 'cboxHouseholds',
