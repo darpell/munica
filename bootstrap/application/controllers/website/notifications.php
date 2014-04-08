@@ -20,6 +20,13 @@ class Notifications extends CI_Controller
 		
 		$this->index();
 	}
+	
+	function clear_all()
+	{
+		$this->model->clear_all($this->session->userdata('TPusername'));
+		$data['result'] = 'Successfully deleted all your notifications.';
+		$this->load->view('site/success', $data);
+	}
 }
 
 /* End of file notifications.php */

@@ -88,6 +88,11 @@ class Notif_model extends CI_Model
 			$this->addnotif($notif_input);
 		}
 	}
+	
+	function clear_all($user)
+	{
+		$this->db->delete('notifications', array('notif_user' => $user));
+	}
 }
 
 	

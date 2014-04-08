@@ -7,9 +7,19 @@
 <div class="container">
 <div class="panel panel-primary">
 	<div class="panel-heading">
-		<h3 class="panel-title"><span class="glyphicon glyphicon-exclamation-sign">&nbsp;</span> Notifications </h3>
+		<td> <h3 class="panel-title"><span class="glyphicon glyphicon-exclamation-sign">&nbsp;</span> Notifications </h3>
 	</div>
 	<div class="panel-body">
+		<div align="right">
+			<?php 
+			$attributes = array(
+									'id' 	=> 'TPclear_notifs',
+									'role'	=> 'form'
+								);
+			echo form_open('website/notifications/clear_all', $attributes); ?>
+				<input type="submit" class="btn btn-default" value="Clear All" /> 
+			</form>
+		</div>
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -49,6 +59,16 @@
 				<?php } ?>
 			</tbody>
 		</table>
+		<div align="right">
+			<?php 
+			$attributes = array(
+									'id' 	=> 'TPclear_notifs',
+									'role'	=> 'form'
+								);
+			echo form_open('website/notifications/clear_all',$attributes); ?>
+				<input type="submit" class="btn btn-default" value="Clear All" />
+			</form>
+		</div>
 	</div>
 </div>
 </div>
