@@ -206,7 +206,7 @@ class Hh_model extends CI_Model
 		
 		$brgy = $query->row_array();
 		
-		return $this->get_catchment_area($brgy);
+		return $this->get_catchment_area($brgy['barangay']);
 	}
 	
 	function get_households_limitless($bhw)
